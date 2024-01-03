@@ -1,0 +1,43 @@
+name: Check for console.log
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18" # Updated to Node.js version 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check for console.log
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          changes=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.sha }})
+          check=false
+          # Print all file names
+          echo "$changes" | while read -r file; do
+            echo "Changed file: $file"
+            # Check for console.log in the file
+            if grep -w "console.log" $file; then
+              echo "Found console.log in $file"
+              check=true
+              if [[ "$check" = true ]]; then
+                echo "Error: Console.log found. Failing the run."
+                exit 1
+              fi
+            fi
+          done
