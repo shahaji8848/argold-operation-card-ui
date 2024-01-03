@@ -49,8 +49,11 @@ a {
 .flied-height{
   line-height: 0.2 !important;
 }
-.card-listing-tabel th{
+.card-listing-head th{
   background-color: #bdc3c7 !important;
+  text-transform: capitalize;
+}
+.card-listing-body td{
   text-transform: capitalize;
 }
 @media (prefers-color-scheme: dark) {

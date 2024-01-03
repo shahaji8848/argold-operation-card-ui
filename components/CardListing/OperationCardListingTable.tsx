@@ -1,11 +1,12 @@
+import Link from 'next/link';
 import React from 'react';
 
 const OperationCardListingTable = () => {
   return (
     <div className="container-fuild mt-5">
-      <div className="px-4">
+      <div className="px-5">
         <table className="table table-bordered">
-          <thead className="card-listing-tabel">
+          <thead className="card-listing-head">
             <tr>
               <th>parent melting lot</th>
               <th>Melting lot</th>
@@ -20,9 +21,9 @@ const OperationCardListingTable = () => {
               <th>OC</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="card-listing-body">
             <tr>
-              <td>p92RC4217</td>
+              <td className="text-uppercase">p92rC4217</td>
               <td>RC003</td>
               <td>92.0</td>
               <td>rope chain</td>
@@ -33,11 +34,11 @@ const OperationCardListingTable = () => {
               <td>284.634</td>
               <td>284.631</td>
               <td>
-                <a href="">OP-Machine%20Deaprtment-0008</a>
+                <Link href="">OP-Machine%20Deaprtment-0008</Link>
               </td>
             </tr>
             <tr>
-              <td>p92RC4217</td>
+              <td className="text-uppercase">p92RC4217</td>
               <td>RC003</td>
               <td>92.0</td>
               <td>rope chain</td>
@@ -48,11 +49,11 @@ const OperationCardListingTable = () => {
               <td>284.634</td>
               <td>284.631</td>
               <td>
-                <a href="">OP-Machine%20Deaprtment-0008</a>
+              <Link href="">OP-Machine%20Deaprtment-0008</Link>
               </td>
             </tr>
             <tr>
-              <td>p92RC4217</td>
+              <td className="text-uppercase">p92RC4217</td>
               <td>RC003</td>
               <td>92.0</td>
               <td>rope chain</td>
@@ -63,11 +64,11 @@ const OperationCardListingTable = () => {
               <td>284.634</td>
               <td>284.631</td>
               <td>
-                <a href="">OP-Machine%20Deaprtment-0008</a>
+               <Link href="">OP-Machine%20Deaprtment-0008</Link>
               </td>
             </tr>
             <tr>
-              <td>p92RC4217</td>
+              <td className="text-uppercase">p92RC4217</td>
               <td>RC003</td>
               <td>92.0</td>
               <td>rope chain</td>
@@ -78,11 +79,11 @@ const OperationCardListingTable = () => {
               <td>284.634</td>
               <td>284.631</td>
               <td>
-                <a href="">OP-Machine%20Deaprtment-0008</a>
+               <Link href="">OP-Machine%20Deaprtment-0008</Link>
               </td>
             </tr>
             <tr>
-              <td>p92RC4217</td>
+              <td className="text-uppercase">p92RC4217</td>
               <td>RC003</td>
               <td>92.0</td>
               <td>rope chain</td>
@@ -93,11 +94,11 @@ const OperationCardListingTable = () => {
               <td>284.634</td>
               <td>284.631</td>
               <td>
-                <a href="">OP-Machine%20Deaprtment-0008</a>
+               <Link href="">OP-Machine%20Deaprtment-0008</Link>
               </td>
             </tr>
             <tr>
-              <td>p92RC4217</td>
+              <td className="text-uppercase">p92RC4217</td>
               <td>RC003</td>
               <td>92.0</td>
               <td>rope chain</td>
@@ -108,7 +109,7 @@ const OperationCardListingTable = () => {
               <td>284.634</td>
               <td>284.631</td>
               <td>
-                <a href="">OP-Machine%20Deaprtment-0008</a>
+               <Link href="">OP-Machine%20Deaprtment-0008</Link>
               </td>
             </tr>
           </tbody>
