@@ -1,8 +1,9 @@
+import Link from 'next/link';
 import React from 'react';
 
 const OperationCardSearchField = () => {
   return (
-    <div className="container mt-5 pt-5 ">
+    <div className="container">
       <div className="row mt-5 pt-5">
         <div className="col-md-3">
           <p className="text-capitalize fs-14 light-grey">
@@ -16,6 +17,12 @@ const OperationCardSearchField = () => {
           <button className="btn btn-primary btn-blue px-4 py-2 fs-14">
             Search
           </button>
+        </div>
+        <div className="mt-3">
+          <Link href="/operation-card-list"> Operation Card List Page</Link>
+        </div>
+        <div className="mt-3">
+          <Link href="/operation-card-detail"> Operation Card Detail Page</Link>
         </div>
       </div>
     </div>
