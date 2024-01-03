@@ -1,7 +1,7 @@
 import style from '../../../styles/melting-lot-data.module.css';
 const ProductData = () => {
   return (
-    <div className={`col-12 col-md-3 border rounded-3 mt-2 ${style.mg_x_5}`}>
+    <div className={`col-12 col-md-3 border rounded-3 mt-2 `}>
       <div className="p-2">
         <div className="d-flex justify-content-between align-items-center mt-2">
           <span className="fs-14 ">Product:</span>

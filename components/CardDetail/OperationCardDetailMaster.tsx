@@ -18,17 +18,18 @@ const OperationCardDetailMaster = () => {
         <OperationCardButton />
 
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <SelectKarigar />
           </div>
-          <div className="col-md-6"></div>
+          <div className="col-md-8">
+            <div className="row gap-5">
+              <MeltingLotData />
+              <ProductData />
+              <BalanceData />
+            </div>
+          </div>
         </div>
-        <div className="row">
-          <MeltingLotData />
-          <ProductData />
-          <BalanceData />
-        </div>
-        <div className="row">
+        <div className="row mt-3">
           <div className="col-md-6">
             <OperationCardReceiptItem />
           </div>

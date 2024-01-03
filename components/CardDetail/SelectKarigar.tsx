@@ -6,10 +6,10 @@ import styles from '../../styles/operationDetail.module.css';
 const SelectKarigar = () => {
   return (
     <div>
-      <div className="form-group row d-flex">
+      <div className="form-group row d-flex flex-column ">
         <label
           htmlFor="staticEmail"
-          className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
+          className={`${styles.labelFlex} col-sm-8 col-form-label dark-blue`}
         >
           Karigar:
         </label>
@@ -26,10 +26,10 @@ const SelectKarigar = () => {
         </div>
       </div>
 
-      <div className="form-group row d-flex mt-2">
+      <div className="form-group row d-flex mt-2 flex-column ">
         <label
           htmlFor="staticEmail"
-          className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
+          className={`${styles.labelFlex} col-sm-8 col-form-label dark-blue`}
         >
           Tounch Purity:
         </label>
@@ -43,10 +43,10 @@ const SelectKarigar = () => {
           />
         </div>
       </div>
-      <div className="form-group row d-flex mt-2">
+      <div className="form-group row d-flex mt-2 flex-column ">
         <label
           htmlFor="staticEmail"
-          className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
+          className={`${styles.labelFlex} col-sm-8 col-form-label dark-blue`}
         >
           Quantity:
         </label>
