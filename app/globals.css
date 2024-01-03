@@ -35,7 +35,79 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.thead-dark {
+  background-color:#bdc3c7 !important;
+}
+.font-weight-bold {
+  font-weight: 600 !important;
+}
+.table-text {
+  font-size: 13px !important;
+}
+.inputFields {
+  background-color: #ebebeb !important;
+  border: none !important;
+  font-size: 13px !important;
+  color: #4c5a7f !important;
+}
 
+.dark-blue {
+  color: #4c5a7f;
+  font-size: 13px !important;
+}
+.grey-bg {
+  background-color: #f1f1f1 !important;
+}
+.border-none {
+  border-radius: 0px !important;
+}
+.border-grey {
+  border: 1px solid #cccccc !important;
+}
+.dark-grey-bg {
+  background-color: #bdc3c7 !important;
+}
+.filter-btn {
+  background-color: #2490ef !important;
+  border: none !important;
+}
+.filed-height {
+  line-height: 0.2 !important;
+}
+.card-listing-head th {
+  background-color: #bdc3c7 !important;
+  text-transform: capitalize;
+  font-size: 13px !important;
+}
+.card-listing-body td {
+  text-transform: capitalize;
+  font-size: 13px !important;
+}
+.btn-blue {
+  background-color: #2490ef !important;
+  border: none !important;
+}
+.fs-13 {
+  font-size: 13px !important;
+}
+.fs-14 {
+  font-size: 14px !important;
+}
+.light-grey {
+  color: #636e69;
+}
+.btn-blueColor {
+  background-color: #2490ef !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  width:50% !important;
+}
+@media (max-width: 768px) {
+  .btn-blueColor {
+      width:100% !important;
+      margin-bottom: 6px;
+  }
+}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

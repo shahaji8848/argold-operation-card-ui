@@ -4,8 +4,11 @@
   }
 }
 @media screen and (min-width: 767px) {
+  .mg_s_5 {
+    margin-left: 16px !important;
+  }
   .mg_x_5 {
-    margin-right: 80px;
-    margin-left: 80px;
+    margin-right: 80px !important;
+    margin-left: 80px !important;
   }
 }
