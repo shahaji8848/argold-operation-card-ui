@@ -1,4 +1,3 @@
-import style from '../../../styles/melting-lot-data.module.css';
 const BalanceData = () => {
   return (
     <div className={`border rounded-3 col-12 col-md-3 mt-2 `}>

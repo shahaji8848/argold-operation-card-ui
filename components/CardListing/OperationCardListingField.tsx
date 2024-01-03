@@ -20,7 +20,7 @@ const OperationCardListingField = () => {
       <div className="row">
         {inputField.map((data: any, index: any) => {
           return (
-            <div className="col-md-3">
+            <div className="col-md-3" key={index}>
               <form>
                 <div className="mb-3">
                   <label className="form-label text-center w-100 dark-blue fw-bold text-capitalize fs-13">

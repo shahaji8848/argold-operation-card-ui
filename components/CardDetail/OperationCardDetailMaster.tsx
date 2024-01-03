@@ -1,7 +1,3 @@
-'use client';
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import React from 'react';
 import OperationCardReceiptItem from './OperationCardReceiptItem';
 import OperationCardIssueItem from './OperationCardIssueItem';
