@@ -39,8 +39,52 @@ a {
 .inputFields {
   background-color: #ebebeb !important;
   border: none !important;
+  font-size: 13px !important;
+  color: #4c5a7f !important;
 }
 
+.dark-blue {
+  color: #4c5a7f;
+  font-size: 13px !important;
+}
+.grey-bg {
+  background-color: #f1f1f1 !important;
+}
+.border-none {
+  border-radius: 0px !important;
+}
+.border-grey {
+  border: 1px solid #cccccc !important;
+}
+.dark-grey-bg{
+  background-color: #bdc3c7 !important;
+}
+.filter-btn{
+  background-color: #328db8 !important;
+  border: none !important;
+}
+.flied-height{
+  line-height: 0.2 !important;
+}
+.card-listing-head th{
+  background-color: #bdc3c7 !important;
+  text-transform: capitalize;
+}
+.card-listing-body td{
+  text-transform: capitalize;
+}
+.btn-blueColor {
+  background-color: #2490ef !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  width:50% !important;
+}
+@media (max-width: 768px) {
+  .btn-blueColor {
+      width:100% !important;
+      margin-bottom: 6px;
+  }
+}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

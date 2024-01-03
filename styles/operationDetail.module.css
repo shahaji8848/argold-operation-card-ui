@@ -1,6 +1,11 @@
 .labelFlex {
-    flex: 2
+    flex: 2;
+    font-size: 14px;
 }
 .inputFlex {
+    font-size: 14px;
     flex: 3
+}
+.submit_btn {
+    width:10%
 }

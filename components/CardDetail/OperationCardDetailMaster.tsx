@@ -6,11 +6,14 @@ import React from 'react';
 import OperationCardReceiptItem from './OperationCardReceiptItem';
 import OperationCardIssueItem from './OperationCardIssueItem';
 import SelectKarigar from './SelectKarigar';
+import OperationCardButton from './OperationCardButton';
 
 const OperationCardDetailMaster = () => {
   return (
     <div>
       <div className="container-fluid">
+        <OperationCardButton />
+
         <div className="row">
           <div className="col-md-6">
             <SelectKarigar />

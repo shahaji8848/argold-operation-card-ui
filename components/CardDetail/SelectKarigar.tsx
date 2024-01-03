@@ -9,13 +9,13 @@ const SelectKarigar = () => {
       <div className="form-group row d-flex">
         <label
           htmlFor="staticEmail"
-          className={`${styles.labelFlex} col-sm-2 col-form-label`}
+          className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
         >
           Karigar:
         </label>
         <div className={`col-sm-10 text-left ${styles.inputFlex}`}>
           <select
-            className="form-control inputFields"
+            className="form-control inputFields dark-blue"
             id="exampleFormControlSelect1"
           >
             <option selected>Select Karigar</option>
@@ -29,14 +29,14 @@ const SelectKarigar = () => {
       <div className="form-group row d-flex mt-2">
         <label
           htmlFor="staticEmail"
-          className={`${styles.labelFlex} col-sm-2 col-form-label`}
+          className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
         >
           Tounch Purity:
         </label>
         <div className={`col-sm-10 text-left ${styles.inputFlex}`}>
           <input
             type="text"
-            className="form-control inputFields"
+            className="form-control inputFields dark-blue"
             id="inputText"
             placeholder="Tounch Purity"
             value={'0.0'}
@@ -46,14 +46,14 @@ const SelectKarigar = () => {
       <div className="form-group row d-flex mt-2">
         <label
           htmlFor="staticEmail"
-          className={`${styles.labelFlex} col-sm-2 col-form-label`}
+          className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
         >
           Quantity:
         </label>
         <div className={`col-sm-10 text-left ${styles.inputFlex}`}>
           <input
             type="text"
-            className="form-control inputFields "
+            className="form-control inputFields dark-blue"
             id="inputText"
             placeholder="Tounch Purity"
             value={'0.0'}
