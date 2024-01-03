@@ -27,7 +27,32 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
+.dark-blue {
+  color: #4c5a7f;
+}
+.grey-bg {
+  background-color: #f1f1f1 !important;
+}
+.border-none {
+  border-radius: 0px !important;
+}
+.border-grey {
+  border: 1px solid #cccccc !important;
+}
+.dark-grey-bg{
+  background-color: #bdc3c7 !important;
+}
+.filter-btn{
+  background-color: #328db8 !important;
+  border: none !important;
+}
+.flied-height{
+  line-height: 0.2 !important;
+}
+.card-listing-tabel th{
+  background-color: #bdc3c7 !important;
+  text-transform: capitalize;
+}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
