@@ -1,7 +1,5 @@
 'use client';
 // In your JavaScript or TypeScript file
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Home() {
   return (

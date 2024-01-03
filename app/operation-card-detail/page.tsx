@@ -1,10 +1,11 @@
+import OperationCardDetailMaster from '@/components/CardDetail/OperationCardDetailMaster';
 import React from 'react';
 
 const Page = () => {
   return (
     <div>
       <div>
-        <h4 className="">Operation Card Detail</h4>
+        <OperationCardDetailMaster />
       </div>
     </div>
   );
