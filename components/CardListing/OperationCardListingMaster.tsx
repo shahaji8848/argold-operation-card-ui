@@ -9,7 +9,7 @@ import OperationCardListingTable from './OperationCardListingTable';
 
 const OperationCardListingMaster = () => {
   return (
-    <div className='container-fuild'>
+    <div className="container-fuild">
       <OperationCardListingField />
       <OperationCardListingTable />
     </div>

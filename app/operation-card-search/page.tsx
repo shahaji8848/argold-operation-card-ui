@@ -1,10 +1,10 @@
-import OperationCardSearchMaster from "@/components/OperationCardSearch/OperationCardSearchMaster";
+import OperationCardSearchMaster from '@/components/OperationCardSearch/OperationCardSearchMaster';
 
 const Page = () => {
   return (
-   <>
-  <OperationCardSearchMaster/>
-   </>
+    <>
+      <OperationCardSearchMaster />
+    </>
   );
 };
 

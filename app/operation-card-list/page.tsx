@@ -1,10 +1,10 @@
-import OperationCardListingMaster from "@/components/CardListing/OperationCardListingMaster";
+import OperationCardListingMaster from '@/components/CardListing/OperationCardListingMaster';
 
 const Page = () => {
   return (
-   <>
-   <OperationCardListingMaster/>
-   </>
+    <>
+      <OperationCardListingMaster />
+    </>
   );
 };
 
