@@ -3,33 +3,40 @@ import React from 'react';
 const OperationCardReceiptItem = () => {
   return (
     <>
+      <h5 className="m-2">Receipt Items</h5>
       <table className="table">
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">Item</th>
-            <th scope="col">In Wt</th>
-            <th scope="col">Gross Purity</th>
-            <th scope="col">Handle</th>
+        <thead>
+          <tr className="table-text">
+            {[
+              'item',
+              'In Wt',
+              'Gross Purity',
+              'Gross Wt',
+              'Fine Purity',
+              'Fine Weight',
+            ].map((val, i: any) => (
+              <th className="thead-dark" scope="col" key={i}>
+                {val}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+          <tr className="table-text">
+            <td>Chain</td>
+            <td>1093.65</td>
+            <td>100</td>
+            <td>1093.65</td>
+            <td>91.8</td>
+            <td>1003.971</td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
+          <tr className="table-text">
+            <td className="font-weight-bold">Total</td>
+            <td className="font-weight-bold">1093.65</td>
+            <td className="font-weight-bold">100</td>
+            <td className="font-weight-bold">1093.65</td>
+            <td className="font-weight-bold">91.8</td>
+            <td className="font-weight-bold">1003.971</td>
           </tr>
         </tbody>
       </table>
