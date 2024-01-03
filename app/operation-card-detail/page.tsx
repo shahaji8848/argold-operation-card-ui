@@ -3,7 +3,9 @@ import React from 'react';
 const Page = () => {
   return (
     <div>
-      <div>Operation Card Detail</div>
+      <div>
+        <h4 className="">Operation Card Detail</h4>
+      </div>
     </div>
   );
 };
