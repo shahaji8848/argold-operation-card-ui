@@ -1,16 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const Karigar = () => {
   return (
     <div>
-         <input
+      <input
         type="text"
         className="form-control"
         id="karigar"
         name="karigar"
+        placeholder="karigar"
       />
     </div>
-  )
-}
+  );
+};
 
-export default Karigar
+export default Karigar;

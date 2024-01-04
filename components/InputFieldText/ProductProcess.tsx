@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const ProductProcess = () => {
   return (
-    <div>ProductProcess</div>
-  )
-}
+    <div>
+      <input
+        type="text"
+        className="form-control"
+        id="product_process"
+        name="product_process"
+        placeholder="product process"
+      />
+    </div>
+  );
+};
 
-export default ProductProcess
+export default ProductProcess;

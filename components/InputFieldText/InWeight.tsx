@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const InWeight = () => {
   return (
-    <div>InWeight</div>
-  )
-}
+    <div>
+      <input
+        type="text"
+        className="form-control"
+        id="in_weight"
+        name="in_weight"
+        placeholder="in weight"
+      />
+    </div>
+  );
+};
 
-export default InWeight
+export default InWeight;

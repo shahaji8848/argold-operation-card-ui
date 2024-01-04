@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const Quantity = () => {
   return (
-    <div>Quantity</div>
-  )
-}
+    <div>
+      <input
+        type="text"
+        className="form-control"
+        id="quantity"
+        name="quantity"
+        placeholder="quantity"
+      />
+    </div>
+  );
+};
 
-export default Quantity
+export default Quantity;

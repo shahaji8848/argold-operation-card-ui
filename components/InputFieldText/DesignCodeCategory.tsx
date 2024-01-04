@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const DesignCodeCategory = () => {
   return (
-    <div>DesignCodeCategory</div>
-  )
-}
+    <div>
+      <input
+        type="text"
+        className="form-control"
+        id="design_code_category"
+        name="design_code_category"
+        placeholder="design code category"
+      />
+    </div>
+  );
+};
 
-export default DesignCodeCategory
+export default DesignCodeCategory;

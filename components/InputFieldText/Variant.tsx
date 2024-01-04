@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const Variant = () => {
   return (
-    <div>Variant</div>
-  )
-}
+    <div>
+      <input
+        type="text"
+        className="form-control"
+        id="variant"
+        name="variant"
+        placeholder="variant"
+      />
+    </div>
+  );
+};
 
-export default Variant
+export default Variant;

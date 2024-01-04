@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const OldOperationCard = () => {
   return (
-    <div>OldOperationCard</div>
-  )
-}
+    <div>
+      <input
+        type="text"
+        className="form-control"
+        id="old_operation_card"
+        name="old_operation_card"
+        placeholder="old operation card"
+      />
+    </div>
+  );
+};
 
-export default OldOperationCard
+export default OldOperationCard;

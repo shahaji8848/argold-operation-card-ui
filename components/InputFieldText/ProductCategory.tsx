@@ -6,8 +6,9 @@ const ProductCategory = () => {
       <input
         type="text"
         className="form-control"
-        id="set_product_category_readonly"
-        name="set_product_category_readonly"
+        id="product_category"
+        name="product_category"
+        placeholder="product category"
       />
     </div>
   );

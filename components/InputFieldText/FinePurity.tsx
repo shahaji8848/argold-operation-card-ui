@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const FinePurity = () => {
   return (
-    <div>FinePurity</div>
-  )
-}
+    <div>
+      <input
+        type="text"
+        className="form-control"
+        id="fine_purity"
+        name="fine_purity"
+        placeholder="fine purity"
+      />
+    </div>
+  );
+};
 
-export default FinePurity
+export default FinePurity;

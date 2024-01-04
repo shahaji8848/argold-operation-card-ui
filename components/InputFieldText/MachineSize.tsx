@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const MachineSize = () => {
   return (
-    <div>MachineSize</div>
-  )
-}
+    <div>
+      <input
+        type="text"
+        className="form-control"
+        id="machine_size"
+        name="machine_size"
+        placeholder="machine size"
+      />
+    </div>
+  );
+};
 
-export default MachineSize
+export default MachineSize;
