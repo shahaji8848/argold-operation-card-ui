@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../../styles/operationDetail.module.css';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const OperationCardButton = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <div>
       <div className="operationCardId mt-3">
@@ -17,8 +23,7 @@ const OperationCardButton = () => {
                   <button
                     type="button"
                     className="btn btn-blueColor"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
+                    onClick={handleShow}
                   >
                     {val}
                   </button>
@@ -35,7 +40,12 @@ const OperationCardButton = () => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-xl">
+        <div className="modal-dialog modal-xl"></div>
+      </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          {' '}
           <div className="modal-content p-3">
             <div className="d-flex justify-content-between ">
               <h6 className="modal-title " id="exampleModalLabel">
@@ -97,8 +107,16 @@ const OperationCardButton = () => {
               </button>
             </div>
           </div>
-        </div>
-      </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
