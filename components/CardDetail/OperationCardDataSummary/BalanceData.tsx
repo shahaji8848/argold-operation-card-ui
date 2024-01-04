@@ -1,6 +1,8 @@
 const BalanceData = () => {
   return (
-    <div className={`border rounded-3 col-12 col-md-3 mt-2 `}>
+    <div
+      className={`border rounded-3 col-12 col-xl-4 col-lg-4 col-md-4 col-md-4  mt-2 `}
+    >
       <div className="p-2">
         <div className="d-flex justify-content-between align-items-center mt-2">
           <span className="fs-14">Balance:</span>

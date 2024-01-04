@@ -9,14 +9,14 @@ const OperationCardButton = () => {
         <p className="mb-0 dark-blue">Add Weight: Issue</p>
       </div>
       <div className="row mb-5 mt-3">
-        <div className="col-md-9 col-12">
+        <div className="col-lg-9 col-md-10 col-12">
           <div className="row">
             {['Chain', 'Melting Wastage', 'Loss', 'Ghiss'].map(
               (val, i: any) => (
                 <div className="col-md-3 col-6" key={i}>
                   <button
                     type="button"
-                    className="btn btn-blueColor"
+                    className={`btn btn-blueColor ${styles.btn_tab}`}
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                   >
