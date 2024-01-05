@@ -36,7 +36,7 @@ a {
   text-decoration: none;
 }
 .thead-dark {
-  background-color:#bdc3c7 !important;
+  background-color: #bdc3c7 !important;
 }
 .font-weight-bold {
   font-weight: 600 !important;
@@ -50,7 +50,7 @@ a {
   font-size: 13px !important;
   color: #4c5a7f !important;
 }
-.bold{
+.bold {
   font-weight: bold !important;
 }
 .dark-blue {
@@ -84,10 +84,13 @@ a {
 .card-listing-body td {
   text-transform: capitalize;
   font-size: 13px !important;
+  
 }
 .btn-blue {
   background-color: #2490ef !important;
   border: none !important;
+  color: #fff !important;
+  font-size: 13px !important;
 }
 .fs-13 {
   font-size: 13px !important;
@@ -102,12 +105,12 @@ a {
   background-color: #2490ef !important;
   color: #fff !important;
   font-size: 13px !important;
-  width:50% !important;
+  width: 50% !important;
 }
 @media (max-width: 768px) {
   .btn-blueColor {
-      width:100% !important;
-      margin-bottom: 6px;
+    width: 100% !important;
+    margin-bottom: 6px;
   }
 }
 @media (prefers-color-scheme: dark) {

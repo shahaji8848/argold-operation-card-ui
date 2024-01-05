@@ -2,10 +2,12 @@ import React from 'react';
 import OperationCardReceiptItem from './OperationCardReceiptItem';
 import OperationCardReceiptButton from './OperationCardReceiptButton';
 
-const OperationCardReceiptMaster = () => {
+const OperationCardReceiptMaster = ({ operationCardProductDept }: any) => {
   return (
     <>
-      <OperationCardReceiptButton />
+      <OperationCardReceiptButton
+        operationCardProductDept={operationCardProductDept}
+      />
       <OperationCardReceiptItem />
     </>
   );

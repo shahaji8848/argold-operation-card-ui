@@ -2,10 +2,16 @@ import React from 'react';
 import OperationCardIssueButton from './OperationCardIssueButton';
 import OperationCardIssueItem from './OperationCardIssueItem';
 
-const OperationCardIssueMaster = () => {
+const OperationCardIssueMaster = ({ operationCardProductDept }: any) => {
+  console.log(
+    'operationCardProductDept from OperationCardIssueMaster',
+    operationCardProductDept
+  );
   return (
     <>
-      <OperationCardIssueButton />
+      <OperationCardIssueButton
+        operationCardProductDept={operationCardProductDept}
+      />
       <OperationCardIssueItem />
     </>
   );

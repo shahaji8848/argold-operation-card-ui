@@ -1,115 +1,115 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../../../styles/operationDetail.module.css';
+import Modal from 'react-bootstrap/Modal';
 
-const OperationCardReceiptButton = () => {
+const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
+  console.log(
+    operationCardProductDept,
+    'operationCardProductDept  from receipt'
+  );
+  const [show, setShow] = useState(false);
+  const [itemName, setItemName] = useState('');
+  const [getValues, setGetValues] = useState([]);
+  const handleClose = () => setShow(false);
+  const handleShow = (value: any) => {
+    setShow(true);
+    setItemName(value);
+    const operationCardValue = operationCardProductDept?.receipt_items.filter(
+      (issueVal: any) => issueVal.item === value
+    );
+    console.log(operationCardValue, 'operationCardValue');
+
+    const filterZeroFields = operationCardValue.map((item: any) =>
+      Object.entries(item)
+        .filter(([key, value]) => value === 0 && key !== 'docstatus')
+        .map(([key]) => key)
+    );
+    setGetValues(filterZeroFields[0]);
+  };
+
+  console.log('Keys with 1 value:', getValues);
   return (
-    <div>
-      {/* <div className="operationCardId mt-3">
-        <p className="mb-0 dark-blue">Operation Card: OP--Flatting-00014</p>
-        <p className="mb-0 dark-blue">Add Weight: Issue</p>
-      </div> */}
-
+    <>
       <div className="row py-3 ps-2 pe-4">
         <div className="col-md-12 p-0 m-0 ">
           <div className="row">
-            <div className="col-md-2 ">
-              <span className='bold'>Receipt :</span>
+            <div className="col-md-3 ">
+              <span className="bold">Receipt :</span>
             </div>
-            <div className="col-md-10 p-0 m-0">
+            <div className="col-md-9 p-0 m-0">
               <div className="row ">
-                {['Chain', 'Melting Wastage', 'Loss', 'Ghiss'].map(
-                  (val, i: any) => (
-                    <div className="col-md-3 col-6" key={i}>
-                      <button
-                        type="button"
-                        className={`btn btn-blueColor ${styles.btn_tab}`}
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                      >
-                        {val}
-                      </button>
-                    </div>
-                  )
-                )}
+                {operationCardProductDept?.receipt_items?.length > 0 &&
+                  operationCardProductDept?.receipt_items.map(
+                    (val: any, i: any) => (
+                      <div className="col-md-3 col-6" key={i}>
+                        <button
+                          type="button"
+                          className={`btn btn-blueColor ${styles.btn_tab}`}
+                          onClick={() => handleShow(val.item)}
+                        >
+                          {val?.item}
+                        </button>
+                      </div>
+                    )
+                  )}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div
-        className="modal fade"
-        id="exampleModal"
-        tabIndex={-1}
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-xl">
-          <div className="modal-content p-3">
-            <div className="d-flex justify-content-between ">
-              <h6 className="modal-title " id="exampleModalLabel">
-                Item: Chain
-              </h6>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group row d-flex mt-2">
-                    <label
-                      htmlFor="staticEmail"
-                      className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
-                    >
-                      Weight:
-                    </label>
-                    <div className={`col-sm-10 text-left ${styles.inputFlex}`}>
-                      <input
-                        type="text"
-                        className="form-control inputFields dark-blue"
-                        id="inputText"
-                        placeholder="Enter Weight"
-                      />
+      <Modal show={show} onHide={handleClose} size="lg">
+        <Modal.Header closeButton>
+          {' '}
+          <h6 className="">Item: {itemName}</h6>
+        </Modal.Header>
+        <Modal.Body>
+          {' '}
+          <div className="d-flex justify-content-between "></div>
+          <div className="modal-body">
+            <div className="row">
+              {getValues?.length > 0 &&
+                getValues?.map((val: any, i: any) => (
+                  <div className="col-md-6">
+                    <div className="form-group row d-flex mt-2">
+                      <label
+                        htmlFor="staticEmail"
+                        className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
+                      >
+                        Weight:
+                      </label>
+                      <div
+                        className={`col-sm-10 text-left ${styles.inputFlex}`}
+                      >
+                        <input
+                          type="text"
+                          className="form-control inputFields dark-blue"
+                          id={val}
+                          placeholder={val}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group row d-flex mt-2">
-                    <label
-                      htmlFor="staticEmail"
-                      className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
-                    >
-                      Machine Size:
-                    </label>
-                    <div className={`col-sm-10 text-left ${styles.inputFlex}`}>
-                      <input
-                        type="text"
-                        className="form-control inputFields dark-blue"
-                        id="inputText"
-                        placeholder="Enter Machine Size"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+                ))}
             </div>
+          </div>
+          {getValues?.length > 0 ? (
             <div className="d-flex justify-content-start">
               <button
                 type="button"
                 className={`btn btn-blueColor ${styles.submit_btn}`}
+                onClick={handleClose}
               >
                 Submit
               </button>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          ) : (
+            ''
+          )}
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 
-export default OperationCardReceiptButton;
+export default OperationCardReciptButton;

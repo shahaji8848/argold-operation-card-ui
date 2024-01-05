@@ -1,22 +1,46 @@
-import React from 'react';
-import OperationCardReceiptItem from './OperationCardTable/OperationCardReceipt/OperationCardReceiptItem';
-import OperationCardIssueItem from './OperationCardTable/OperationCardIssue/OperationCardIssueItem';
-import SelectKarigar from './OperationCardInputField/SelectKarigar';
-import OperationCardButton from './OperationCardTable/OperationCardReceipt/OperationCardReceiptButton';
+import OperationCardDataSummaryMaster from './OperationCardDataSummary/OperationCardDataSummaryMaster';
+import OperationCardTableMaster from './OperationCardTable/OperationCardTableMaster';
+import OperationCardInputField from './OperationCardInputField/OperationCardInputFieldMaster';
+import React, { useEffect, useState } from 'react';
+
 import MeltingLotData from './OperationCardDataSummary/MeltingLotData';
 import ProductData from './OperationCardDataSummary/ProductData';
 import BalanceData from './OperationCardDataSummary/BalanceData';
-import OperationCardDataSummaryMaster from './OperationCardDataSummary/OperationCardDataSummaryMaster';
-import OperationCardTableMaster from './OperationCardTable/OperationCardTableMaster';
-import OperationCardInputField from './OperationCardInputField/OperationCardInputField';
+import GETOperationCardProductProcessDepartmentData from '@/services/api/operation-card-detail-page/operation-card-product-process-data';
+import OperationCardReciptButton from './OperationCardTable/OperationCardReceipt/OperationCardReceiptButton';
+import OperationCardHeaderMaster from './OperationCardHeader/OperationCardHeaderMaster';
+import OperationCardInputFieldMaster from './OperationCardInputField/OperationCardInputFieldMaster';
 
 const OperationCardDetailMaster = () => {
+  const [operationCardProductDept, setOperationCardProductDept] = useState({});
+  const getOperationCardProcessDepartment = async () => {
+    const opeartionCardData =
+      await GETOperationCardProductProcessDepartmentData(
+        'Stamping-KDM-Office Outside-KDM-Office Outside'
+      );
+
+    if (
+      opeartionCardData?.status === 200 &&
+      Object.keys(opeartionCardData?.data?.data)?.length > 0
+    ) {
+      setOperationCardProductDept(opeartionCardData?.data?.data);
+    } else {
+      setOperationCardProductDept({});
+    }
+  };
+  useEffect(() => {
+    getOperationCardProcessDepartment();
+  }, []);
+  console.log(operationCardProductDept, 'operationCardProductDept');
   return (
     <div>
-      <div className='container-fuild'>
-<OperationCardDataSummaryMaster/>
-<OperationCardInputField/>
-<OperationCardTableMaster/>
+      <div className="container">
+        <OperationCardHeaderMaster/>
+        <OperationCardDataSummaryMaster />
+        <OperationCardInputFieldMaster />
+        <OperationCardTableMaster
+          operationCardProductDept={operationCardProductDept}
+        />
       </div>
       {/* <div className="container-fluid">
         <OperationCardButton />
