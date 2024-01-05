@@ -1,3 +1,4 @@
+'use client';
 import OperationCardDetailMaster from '@/components/CardDetail/OperationCardDetailMaster';
 
 const Page = () => {
