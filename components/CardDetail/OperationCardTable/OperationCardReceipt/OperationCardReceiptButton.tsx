@@ -85,7 +85,17 @@ const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
                           type="text"
                           className="form-control inputFields dark-blue"
                           id={val}
-                          placeholder={val}
+                          placeholder={
+                            val.charAt(0).toUpperCase() +
+                            val
+                              .slice(1)
+                              .split('_')
+                              .filter(
+                                (val: any) =>
+                                  val !== 'set' && val !== 'readonly'
+                              )
+                              .join(' ')
+                          }
                         />
                       </div>
                     </div>

@@ -66,35 +66,40 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
         <Modal.Body>
           {' '}
           <div className="d-flex justify-content-between "></div>
-          <div className="modal-body">
-            <div className="row">
-              {getValues?.length > 0 &&
-                getValues?.map((val: any, i: any) => (
-                  <div className="col-md-6">
-                    <div className="form-group row d-flex mt-2">
-                      <label
+          <div className="row">
+            {getValues?.length > 0 &&
+              getValues?.map((val: any, i: any) => (
+                <div className="col-md-6">
+                  {/* <label
                         htmlFor="staticEmail"
                         className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
                       >
                         Weight:
-                      </label>
-                      <div
-                        className={`col-sm-10 text-left ${styles.inputFlex}`}
-                      >
-                        <input
-                          type="text"
-                          className="form-control inputFields dark-blue"
-                          id={val}
-                          placeholder={val}
-                        />
-                      </div>
-                    </div>
+                      </label> */}
+                  <div
+                    className={`col-sm-10 text-left ${styles.inputFlex} mt-2`}
+                  >
+                    <input
+                      type="text"
+                      className="form-control inputFields dark-blue"
+                      id={val}
+                      placeholder={
+                        val.charAt(0).toUpperCase() +
+                        val
+                          .slice(1)
+                          .split('_')
+                          .filter(
+                            (val: any) => val !== 'set' && val !== 'readonly'
+                          )
+                          .join(' ')
+                      }
+                    />
                   </div>
-                ))}
-            </div>
+                </div>
+              ))}
           </div>
           {getValues?.length > 0 ? (
-            <div className="d-flex justify-content-start">
+            <div className="d-flex justify-content-start mt-3">
               <button
                 type="button"
                 className={`btn btn-blueColor ${styles.submit_btn}`}
