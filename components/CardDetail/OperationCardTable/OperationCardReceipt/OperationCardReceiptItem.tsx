@@ -3,8 +3,8 @@ import React from 'react';
 const OperationCardReceiptItem = () => {
   return (
     <>
-      <h5 className="mt-2 mb-2">Receipt Items</h5>
-      <div className="table-responsive">
+      {/* <h5 className="mt-2 mb-2">Receipt Items</h5> */}
+      <div className="table-responsive ">
         <table className="table">
           <thead>
             <tr className="table-text">

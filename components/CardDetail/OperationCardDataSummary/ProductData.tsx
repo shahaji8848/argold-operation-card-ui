@@ -1,9 +1,20 @@
 const ProductData = () => {
   return (
-    <div
-      className={`col-12 col-xl-4 col-lg-4  col-md-5 border rounded-3 mt-2 `}
-    >
-      <div className="p-2">
+    <div className={`row   border rounded-3 text-center px-2 py-4 `}>
+      <div className="col-md-4 p-0 m-0">
+        <div className="fs-14 bold">Ball Chain</div>
+        <div className="fs-14 ">Product</div>
+      </div>
+      <div className="col-md-4 p-0 m-0">
+        <div className="fs-14 bold">Test GPC</div>
+        <div className="fs-14 ">Process</div>
+      </div>
+      <div className="col-md-4 p-0 m-0">
+        <div className="fs-14 bold">Hallmark Out</div>
+        <div className="fs-14 ">Department</div>
+      </div>
+   
+      {/* <div className="p-2">
         <div className="d-flex justify-content-between align-items-center mt-2">
           <span className="fs-14 ">Product:</span>
           <span className="fs-14 ">Ball Chain</span>
@@ -29,7 +40,7 @@ const ProductData = () => {
           <span className="fs-14 ">Administrator</span>
         </div>
         <hr className="my-1" />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/operationDetail.module.css';
+import styles from '../../../styles/operationDetail.module.css';
 const SelectKarigar = () => {
   return (
     <div>

@@ -1,33 +1,42 @@
 import React from 'react';
-import styles from '../../styles/operationDetail.module.css';
+import styles from '../../../../styles/operationDetail.module.css';
 
-const OperationCardButton = () => {
+const OperationCardReceiptButton = () => {
   return (
     <div>
-      <div className="operationCardId mt-3">
+      {/* <div className="operationCardId mt-3">
         <p className="mb-0 dark-blue">Operation Card: OP--Flatting-00014</p>
         <p className="mb-0 dark-blue">Add Weight: Issue</p>
-      </div>
-      <div className="row mb-5 mt-3">
-        <div className="col-lg-9 col-md-10 col-12">
+      </div> */}
+
+      <div className="row py-3 ps-2 pe-4">
+        <div className="col-md-12 p-0 m-0 ">
           <div className="row">
-            {['Chain', 'Melting Wastage', 'Loss', 'Ghiss'].map(
-              (val, i: any) => (
-                <div className="col-md-3 col-6" key={i}>
-                  <button
-                    type="button"
-                    className={`btn btn-blueColor ${styles.btn_tab}`}
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  >
-                    {val}
-                  </button>
-                </div>
-              )
-            )}
+            <div className="col-md-2 ">
+              <span className='bold'>Receipt :</span>
+            </div>
+            <div className="col-md-10 p-0 m-0">
+              <div className="row ">
+                {['Chain', 'Melting Wastage', 'Loss', 'Ghiss'].map(
+                  (val, i: any) => (
+                    <div className="col-md-3 col-6" key={i}>
+                      <button
+                        type="button"
+                        className={`btn btn-blueColor ${styles.btn_tab}`}
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                      >
+                        {val}
+                      </button>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
       <div
         className="modal fade"
         id="exampleModal"
@@ -103,4 +112,4 @@ const OperationCardButton = () => {
   );
 };
 
-export default OperationCardButton;
+export default OperationCardReceiptButton;

@@ -1,16 +1,24 @@
 import React from 'react';
-import OperationCardReceiptItem from './OperationCardReceiptItem';
-import OperationCardIssueItem from './OperationCardIssueItem';
-import SelectKarigar from './SelectKarigar';
-import OperationCardButton from './OperationCardButton';
+import OperationCardReceiptItem from './OperationCardTable/OperationCardReceipt/OperationCardReceiptItem';
+import OperationCardIssueItem from './OperationCardTable/OperationCardIssue/OperationCardIssueItem';
+import SelectKarigar from './OperationCardInputField/SelectKarigar';
+import OperationCardButton from './OperationCardTable/OperationCardReceipt/OperationCardReceiptButton';
 import MeltingLotData from './OperationCardDataSummary/MeltingLotData';
 import ProductData from './OperationCardDataSummary/ProductData';
 import BalanceData from './OperationCardDataSummary/BalanceData';
+import OperationCardDataSummaryMaster from './OperationCardDataSummary/OperationCardDataSummaryMaster';
+import OperationCardTableMaster from './OperationCardTable/OperationCardTableMaster';
+import OperationCardInputField from './OperationCardInputField/OperationCardInputField';
 
 const OperationCardDetailMaster = () => {
   return (
     <div>
-      <div className="container-fluid">
+      <div className='container-fuild'>
+<OperationCardDataSummaryMaster/>
+<OperationCardInputField/>
+<OperationCardTableMaster/>
+      </div>
+      {/* <div className="container-fluid">
         <OperationCardButton />
 
         <div className="row">
@@ -33,7 +41,7 @@ const OperationCardDetailMaster = () => {
             <OperationCardIssueItem />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

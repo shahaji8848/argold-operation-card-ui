@@ -50,7 +50,9 @@ a {
   font-size: 13px !important;
   color: #4c5a7f !important;
 }
-
+.bold{
+  font-weight: bold !important;
+}
 .dark-blue {
   color: #4c5a7f;
   font-size: 13px !important;

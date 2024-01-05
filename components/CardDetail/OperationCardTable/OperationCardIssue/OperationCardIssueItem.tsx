@@ -3,7 +3,7 @@ import React from 'react';
 const OperationCardIssueItem = () => {
   return (
     <div>
-      <h5 className="mt-2 mb-2">Issue Items</h5>
+      {/* <h5 className="mt-2 mb-2">Issue Items</h5> */}
       <div className="table-responsive">
         <table className="table">
           <thead>
