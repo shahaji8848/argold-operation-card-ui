@@ -40,11 +40,11 @@ const OperationCardDetailMaster = () => {
           operationCardProductDept={operationCardProductDept}
         />
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-lg-4 col-md-3">
             <SelectKarigar />
           </div>
-          <div className="col-md-8">
-            <div className="row gap-5">
+          <div className="col-lg-8 col-md-9">
+            <div className="row gap-3">
               <MeltingLotData />
               <ProductData />
               <BalanceData />

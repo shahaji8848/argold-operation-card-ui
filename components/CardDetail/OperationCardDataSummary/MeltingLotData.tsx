@@ -1,6 +1,8 @@
 const MeltingLotData = () => {
   return (
-    <div className={`col-12 col-md-3 border rounded-3 mt-2 `}>
+    <div
+      className={`col-12 col-xl-3 col-lg-3 col-md-4  border rounded-3 mt-2 `}
+    >
       <div className="p-2">
         <div className="d-flex justify-content-between align-items-center mt-2">
           <span className="fs-14">Melting Lot:</span>
