@@ -34,9 +34,11 @@ const OperationCardDetailMaster = () => {
   console.log(operationCardProductDept, 'operationCardProductDept');
   return (
     <div>
-      <div className="container">
-        <OperationCardHeaderMaster/>
+      <div className="container-fuild">
+        <OperationCardHeaderMaster />
+
         <OperationCardDataSummaryMaster />
+
         <OperationCardInputFieldMaster />
         <OperationCardTableMaster
           operationCardProductDept={operationCardProductDept}

@@ -37,7 +37,7 @@ const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
               <span className="bold">Receipt :</span>
             </div>
             <div className="col-md-9 p-0 m-0">
-              <div className="row ">
+              <div className="d-flex justify-content-between ">
                 {operationCardProductDept?.receipt_items?.length > 0 &&
                   operationCardProductDept?.receipt_items.map(
                     (val: any, i: any) => (

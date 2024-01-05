@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../../../styles/operationDetail.module.css';
 const SelectKarigar = () => {
   return (
-    <div className={`row   border rounded-3 text-center px-4 py-4 mx-4 gap-3`}>
+    <div className={`row   text-center  py-4 mx-3 gap-3`}>
       <div className="col-md-2 p-0 m-0">
         <div className="fs-14 bold">Karigar</div>
         <div className="fs-14 ">

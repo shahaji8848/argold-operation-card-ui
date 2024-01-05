@@ -1,6 +1,6 @@
 const MeltingLotData = () => {
   return (
-    <div className={`row   border rounded-3 text-center px-2 py-4 `}>
+    <div className={`row    text-center px-2 py-4 `}>
       <div className="col-md-3 p-0 m-0">
         <div className="fs-14 bold ">BaC126</div>
         <div className="fs-14 ">Melting Lot</div>

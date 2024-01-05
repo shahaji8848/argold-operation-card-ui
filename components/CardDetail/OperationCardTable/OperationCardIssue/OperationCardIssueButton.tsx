@@ -38,7 +38,7 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
               <span className="bold">Issue :</span>
             </div>
             <div className="col-md-10 p-0 m-0">
-              <div className="row ">
+              <div className="d-flex justify-content-between" >
                 {operationCardProductDept?.issue_items?.length > 0 &&
                   operationCardProductDept?.issue_items.map(
                     (val: any, i: any) => (
