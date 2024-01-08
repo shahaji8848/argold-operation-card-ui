@@ -38,14 +38,14 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
               <span className="bold">Issue :</span>
             </div>
             <div className="col-md-9 ">
-              <div className="d-flex justify-content-between">
+              <div className="d-flex justify-content-end gap-2 row">
                 {operationCardProductDept?.issue_items?.length > 0 &&
                   operationCardProductDept?.issue_items.map(
                     (val: any, i: any) => (
                       <div className="col-md-3 col-6" key={i}>
                         <button
                           type="button"
-                          className={`btn btn-blueColor ${styles.btn_tab}`}
+                          className={`btn btn-blueColor btn-py ${styles.btn_tab}`}
                           onClick={() => handleShow(val.item)}
                         >
                           {val?.item}

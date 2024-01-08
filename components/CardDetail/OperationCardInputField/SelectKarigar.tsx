@@ -7,7 +7,7 @@ const SelectKarigar = () => {
         <div className="fs-14 bold text-start">Karigar</div>
         <div className="fs-14 ">
           <select
-            className="form-control  dark-blue"
+            className="form-control  dark-blue inputFields"
             id="exampleFormControlSelect1"
           >
             <option selected>Select Karigar</option>
@@ -22,7 +22,7 @@ const SelectKarigar = () => {
         <div className="fs-14 ">
           <input
             type="text"
-            className="form-control  dark-blue"
+            className="form-control  dark-blue inputFields"
             id="inputText"
             placeholder="Tounch Purity"
             value={'0.0'}
@@ -34,7 +34,7 @@ const SelectKarigar = () => {
         <div className="fs-14 ">
           <input
             type="text"
-            className="form-control  dark-blue"
+            className="form-control  dark-blue inputFields"
             id="inputText"
             placeholder="Tounch Purity"
             value={'0.0'}
@@ -46,7 +46,7 @@ const SelectKarigar = () => {
         <div className="fs-14 ">
           <input
             type="text"
-            className="form-control  dark-blue"
+            className="form-control  dark-blue inputFields"
             id="inputText"
             placeholder="Tounch Purity"
             value={'0.0'}
@@ -58,7 +58,7 @@ const SelectKarigar = () => {
         <div className="fs-14 ">
           <input
             type="text"
-            className="form-control  dark-blue"
+            className="form-control  dark-blue inputFields"
             id="inputText"
             placeholder="Tounch Purity"
             value={'0.0'}
@@ -70,7 +70,7 @@ const SelectKarigar = () => {
         <div className="fs-14 ">
           <input
             type="text"
-            className="form-control  dark-blue"
+            className="form-control  dark-blue inputFields"
             id="inputText"
             placeholder="Tounch Purity"
             value={'0.0'}
@@ -82,7 +82,7 @@ const SelectKarigar = () => {
         <div className="fs-14 ">
           <input
             type="text"
-            className="form-control  dark-blue"
+            className="form-control  dark-blue inputFields"
             id="inputText"
             placeholder="Tounch Purity"
             value={'0.0'}
