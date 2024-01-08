@@ -1,23 +1,25 @@
 const ProductData = ({ operationCardDetailData }: any) => {
   return (
-    <div className={`row    p-0 m-0 `}>
-      <div className="col-md-4 p-0 m-0 mob-reverse-content">
-        <div className="fs-14 bold mob-text-start">
-          {operationCardDetailData?.product}
+    <div className="me-2">
+      <div className={`row    border rounded-3 p-0 m-0 summary-height `}>
+        <div className="col-md-4 p-0 m-0 mob-reverse-content">
+          <div className="fs-14 bold mob-text-start">
+            {operationCardDetailData?.product}
+          </div>
+          <div className="fs-14 mob-px">Product</div>
         </div>
-        <div className="fs-14 mob-pr">Product</div>
-      </div>
-      <div className="col-md-4 p-0 m-0 mob-reverse-content">
-        <div className="fs-14 bold mob-text-start ">
-          {operationCardDetailData?.product_process}
+        <div className="col-md-4 p-0 m-0 mob-reverse-content">
+          <div className="fs-14 bold mob-text-start ">
+            {operationCardDetailData?.product_process}
+          </div>
+          <div className="fs-14 mob-px">Process</div>
         </div>
-        <div className="fs-14 mob-pr">Process</div>
-      </div>
-      <div className="col-md-4 p-0 m-0 mob-reverse-content">
-        <div className="fs-14 bold mob-text-start">
-          {operationCardDetailData?.operation_department}
+        <div className="col-md-4 p-0 m-0 mob-reverse-content">
+          <div className="fs-14 bold mob-text-start">
+            {operationCardDetailData?.operation_department}
+          </div>
+          <div className="fs-14 mob-px">Department</div>
         </div>
-        <div className="fs-14 mob-pr">Department</div>
       </div>
 
       {/* <div className="p-2">
