@@ -53,7 +53,9 @@ const OperationCardDetailMaster = () => {
     <div>
       <div className="container-fuild">
         <div className="spacing-pd">
-          <OperationCardHeaderMaster />
+          <OperationCardHeaderMaster
+            operationCardDetailData={operationCardDetailData}
+          />
 
           <OperationCardDataSummaryMaster
             operationCardDetailData={operationCardDetailData}
