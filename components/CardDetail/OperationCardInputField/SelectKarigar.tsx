@@ -2,9 +2,9 @@ import React from 'react';
 import styles from '../../../styles/operationDetail.module.css';
 const SelectKarigar = () => {
   return (
-    <div className={`row   text-center  py-4 mx-3 gap-3`}>
+    <div className={`row   text-center  py-2 mx-2 gap-3`}>
       <div className="col-md-2 p-0 m-0">
-        <div className="fs-14 bold">Karigar</div>
+        <div className="fs-14 bold text-start">Karigar</div>
         <div className="fs-14 ">
           <select
             className="form-control  dark-blue"
@@ -18,7 +18,7 @@ const SelectKarigar = () => {
         </div>
       </div>
       <div className="col-md-2 p-0 m-0">
-        <div className="fs-14 bold">Tounch Purity</div>
+        <div className="fs-14 bold text-start">Tounch Purity</div>
         <div className="fs-14 ">
           <input
             type="text"
@@ -30,7 +30,7 @@ const SelectKarigar = () => {
         </div>
       </div>
       <div className="col-md-2 p-0 m-0">
-        <div className="fs-14 bold">Quantity</div>
+        <div className="fs-14 bold text-start">Quantity</div>
         <div className="fs-14 ">
           <input
             type="text"
@@ -42,7 +42,7 @@ const SelectKarigar = () => {
         </div>
       </div>
       <div className="col-md-2 p-0 m-0">
-        <div className="fs-14 bold">Quantity</div>
+        <div className="fs-14 bold text-start">Quantity</div>
         <div className="fs-14 ">
           <input
             type="text"
@@ -54,7 +54,7 @@ const SelectKarigar = () => {
         </div>
       </div>
       <div className="col-md-2 p-0 m-0">
-        <div className="fs-14 bold">Quantity</div>
+        <div className="fs-14 bold text-start">Quantity</div>
         <div className="fs-14 ">
           <input
             type="text"
@@ -66,7 +66,7 @@ const SelectKarigar = () => {
         </div>
       </div>
       <div className="col-md-2 p-0 m-0">
-        <div className="fs-14 bold">Quantity</div>
+        <div className="fs-14 bold text-start">Quantity</div>
         <div className="fs-14 ">
           <input
             type="text"
@@ -78,7 +78,7 @@ const SelectKarigar = () => {
         </div>
       </div>
       <div className="col-md-2 p-0 m-0">
-        <div className="fs-14 bold">Quantity</div>
+        <div className="fs-14 bold text-start">Quantity</div>
         <div className="fs-14 ">
           <input
             type="text"

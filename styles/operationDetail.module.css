@@ -19,3 +19,11 @@
     width: 100% !important;
   }
 }
+
+
+@media only screen and (max-width: 600px) {
+  .btn_tab {
+    /* background-color: red !important; */
+    /* width: 50% !important; */
+  }
+}

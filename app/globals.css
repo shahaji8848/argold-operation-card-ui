@@ -107,6 +107,10 @@ a {
   font-size: 13px !important;
   width: 50% !important;
 }
+.btn-back{
+  padding-top: 0.3rem !important;
+  padding-bottom: 0.3rem !important;
+}
 @media (max-width: 768px) {
   .btn-blueColor {
     width: 100% !important;

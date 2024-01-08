@@ -30,13 +30,13 @@ const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
   console.log('Keys with 1 value:', getValues);
   return (
     <>
-      <div className="row py-3 ps-2 pe-4">
-        <div className="col-md-12 p-0 m-0 ">
+      <div className="row ">
+        <div className="col-md-12  ">
           <div className="row">
-            <div className="col-md-3 ">
+            <div className="col-xxl-2 col-xl-2  col-lg-3 col-md-3 ">
               <span className="bold">Receipt :</span>
             </div>
-            <div className="col-md-9 p-0 m-0">
+            <div className="col-xxl-10 col-xl-10 col-lg-9 col-md-9 ">
               <div className="d-flex justify-content-between ">
                 {operationCardProductDept?.receipt_items?.length > 0 &&
                   operationCardProductDept?.receipt_items.map(
@@ -70,13 +70,20 @@ const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
             <div className="row">
               {getValues?.length > 0 &&
                 getValues?.map((val: any, i: any) => (
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group row d-flex mt-2">
                       <label
                         htmlFor="staticEmail"
-                        className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
+                        className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
                       >
-                        Weight:
+                        {val.charAt(0).toUpperCase() +
+                          val
+                            .slice(1)
+                            .split('_')
+                            .filter(
+                              (val: any) => val !== 'set' && val !== 'readonly'
+                            )
+                            .join(' ')}
                       </label>
                       <div
                         className={`col-sm-10 text-left ${styles.inputFlex}`}

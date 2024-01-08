@@ -16,13 +16,13 @@ const OperationCardListingField = () => {
   ];
 
   return (
-    <div className="container mt-5 pt-3">
+    <div className="mt-2">
       <div className="row">
         {inputField.map((data: any, index: any) => {
           return (
             <div className="col-md-3" key={index}>
               <form>
-                <div className="mb-3">
+                <div className="">
                   <label className="form-label text-center w-100 dark-blue fw-bold text-capitalize fs-13">
                     {data}
                   </label>
@@ -37,7 +37,7 @@ const OperationCardListingField = () => {
         })}
       </div>
       {/* <div className="d-flex justify-content-end"> */}
-      <button className="btn btn-primary text-capitalize filter-btn fs-14">
+      <button className="btn btn-primary text-capitalize filter-btn fs-14 mt-2">
         Apply filter
       </button>
       {/* </div> */}

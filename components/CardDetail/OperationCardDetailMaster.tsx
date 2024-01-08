@@ -10,9 +10,11 @@ import GETOperationCardProductProcessDepartmentData from '@/services/api/operati
 import OperationCardReciptButton from './OperationCardTable/OperationCardReceipt/OperationCardReceiptButton';
 import OperationCardHeaderMaster from './OperationCardHeader/OperationCardHeaderMaster';
 import OperationCardInputFieldMaster from './OperationCardInputField/OperationCardInputFieldMaster';
+import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
 
 const OperationCardDetailMaster = () => {
   const [operationCardProductDept, setOperationCardProductDept] = useState({});
+  const [operationCardDetailData, setOperationCardDetailData] = useState({});
   const getOperationCardProcessDepartment = async () => {
     const opeartionCardData =
       await GETOperationCardProductProcessDepartmentData(
@@ -28,21 +30,40 @@ const OperationCardDetailMaster = () => {
       setOperationCardProductDept({});
     }
   };
+
+  const operationCardDetail = async () => {
+    const operationCardDetailVal =
+      await GETOperationCardDetail('OP--Stamping-00002');
+    console.log(operationCardDetailData, 'data');
+    if (
+      operationCardDetailVal?.status === 200 &&
+      Object.keys(operationCardDetailVal?.data?.data)?.length > 0
+    ) {
+      setOperationCardDetailData(operationCardDetailVal?.data?.data);
+    } else {
+      setOperationCardDetailData({});
+    }
+  };
   useEffect(() => {
     getOperationCardProcessDepartment();
+    operationCardDetail();
   }, []);
-  console.log(operationCardProductDept, 'operationCardProductDept');
+  console.log(operationCardDetailData, 'operationCardDetailData');
   return (
     <div>
       <div className="container-fuild">
-        <OperationCardHeaderMaster />
+        <div className="px-2">
+          <OperationCardHeaderMaster />
 
-        <OperationCardDataSummaryMaster />
+          <OperationCardDataSummaryMaster
+            operationCardDetailData={operationCardDetailData}
+          />
 
-        <OperationCardInputFieldMaster />
-        <OperationCardTableMaster
-          operationCardProductDept={operationCardProductDept}
-        />
+          <OperationCardInputFieldMaster />
+          <OperationCardTableMaster
+            operationCardProductDept={operationCardProductDept}
+          />
+        </div>
       </div>
       {/* <div className="container-fluid">
         <OperationCardButton />

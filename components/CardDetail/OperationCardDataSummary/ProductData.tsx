@@ -1,6 +1,6 @@
-const ProductData = () => {
+const ProductData = (operationCardDetailData: any) => {
   return (
-    <div className={`row    text-center px-2 py-4 `}>
+    <div className={`row    p-0 m-0 `}>
       <div className="col-md-4 p-0 m-0">
         <div className="fs-14 bold">Ball Chain</div>
         <div className="fs-14 ">Product</div>
@@ -13,7 +13,7 @@ const ProductData = () => {
         <div className="fs-14 bold">Hallmark Out</div>
         <div className="fs-14 ">Department</div>
       </div>
-   
+
       {/* <div className="p-2">
         <div className="d-flex justify-content-between align-items-center mt-2">
           <span className="fs-14 ">Product:</span>

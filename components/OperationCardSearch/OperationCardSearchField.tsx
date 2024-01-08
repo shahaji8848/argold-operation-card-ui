@@ -3,7 +3,7 @@ import React from 'react';
 
 const OperationCardSearchField = () => {
   return (
-    <div className="container">
+ 
       <div className="row mt-5 pt-5">
         <div className="col-md-3">
           <p className="text-capitalize fs-14 light-grey">
@@ -25,7 +25,7 @@ const OperationCardSearchField = () => {
           <Link href="/operation-card-detail"> Operation Card Detail Page</Link>
         </div>
       </div>
-    </div>
+  
   );
 };
 

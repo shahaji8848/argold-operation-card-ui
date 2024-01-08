@@ -8,7 +8,10 @@ const OperationCardReceiptMaster = ({ operationCardProductDept }: any) => {
       <OperationCardReceiptButton
         operationCardProductDept={operationCardProductDept}
       />
+      <div className='mt-2'>
       <OperationCardReceiptItem />
+      </div>
+ 
     </>
   );
 };

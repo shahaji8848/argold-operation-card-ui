@@ -5,8 +5,10 @@ import OperationCardListingTable from './OperationCardListingTable';
 const OperationCardListingMaster = () => {
   return (
     <div className="container-fuild">
-      <OperationCardListingField />
-      <OperationCardListingTable />
+      <div className="px-2">
+        <OperationCardListingField />
+        <OperationCardListingTable />
+      </div>
     </div>
   );
 };
