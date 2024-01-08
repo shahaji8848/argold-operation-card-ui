@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 const OperationCardListingField = ({
@@ -83,6 +84,9 @@ const OperationCardListingField = ({
       >
         Apply filter
       </button>
+      <Link href="" className="px-3 " style={{ fontSize: '14px' }}>
+        Clear Filter
+      </Link>
     </div>
   );
 };

@@ -11,6 +11,17 @@
   width: 100% !important;
   /* margin-right: 5px; */
 }
+.btn_wrapper_end {
+  display: flex !important;
+  justify-content: end !important;
+}
+
+@media only screen and (max-width: 1024px) {
+  .btn_wrapper {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+}
 /* responsive for tablet */
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
@@ -18,11 +29,25 @@
     /* background-color: red !important; */
     width: 100% !important;
   }
+  .fs-14 {
+    font-size: 10px !important;
+    color: red !important;
+  }
 }
 
 @media only screen and (max-width: 600px) {
   .btn_tab {
     /* background-color: red !important; */
     /* width: 50% !important; */
+  }
+  .btn_wrapper {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+  .mob_wrapper {
+    margin-top: 1rem !important;
+  }
+  .submit_btn {
+    width: 100% !important;
   }
 }
