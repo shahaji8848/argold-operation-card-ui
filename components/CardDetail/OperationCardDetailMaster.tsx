@@ -48,7 +48,6 @@ const OperationCardDetailMaster = () => {
     getOperationCardProcessDepartment();
     operationCardDetail();
   }, []);
-  console.log(operationCardDetailData, 'operationCardDetailData');
   return (
     <div>
       <div className="container-fuild">
@@ -68,30 +67,6 @@ const OperationCardDetailMaster = () => {
           />
         </div>
       </div>
-      {/* <div className="container-fluid">
-        <OperationCardButton />
-
-        <div className="row">
-          <div className="col-lg-4 col-md-3">
-            <SelectKarigar />
-          </div>
-          <div className="col-lg-8 col-md-9">
-            <div className="row gap-3">
-              <MeltingLotData />
-              <ProductData />
-              <BalanceData />
-            </div>
-          </div>
-        </div>
-        <div className="row mt-3">
-          <div className="col-md-6">
-            <OperationCardReceiptItem />
-          </div>
-          <div className="col-md-6">
-            <OperationCardIssueItem />
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };
