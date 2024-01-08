@@ -18,13 +18,17 @@ const MeltingLotData = ({ operationCardDetailData }: any) => {
       </div>
       <div className="col-md-3 p-0 m-0">
         <div className="fs-14 bold">
-          {operationCardDetailData?.product_purity?.toFixed(3)}
+          {operationCardDetailData?.product_purity === 0
+            ? '--'
+            : operationCardDetailData?.product_purity?.toFixed(3)}
         </div>
         <div className="fs-14 ">Purity</div>
       </div>
       <div className="col-md-3 p-0 m-0">
         <div className="fs-14 bold">
-          {operationCardDetailData?.accessories_purity?.toFixed(3)}
+          {operationCardDetailData?.accessories_purity === 0
+            ? '--'
+            : operationCardDetailData?.accessories_purity?.toFixed(3)}
         </div>
         <div className="fs-14 ">Accessories </div>
       </div>

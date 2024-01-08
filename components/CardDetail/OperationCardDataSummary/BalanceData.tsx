@@ -3,19 +3,25 @@ const BalanceData = ({ operationCardDetailData }: any) => {
     <div className={`row p-0 m-0`}>
       <div className="col-md-4 p-0 m-0">
         <div className="fs-14 bold">
-          {operationCardDetailData?.balance_weight?.toFixed(3)}
+          {operationCardDetailData?.balance_weight === 0
+            ? '--'
+            : operationCardDetailData?.balance_weight?.toFixed(3)}
         </div>
         <div className="fs-14 ">Balance</div>
       </div>
       <div className="col-md-4 p-0 m-0">
         <div className="fs-14 bold">
-          {operationCardDetailData?.balance_gross_weight?.toFixed(3)}
+          {operationCardDetailData?.balance_gross_weight === 0
+            ? '--'
+            : operationCardDetailData?.balance_gross_weight?.toFixed(3)}
         </div>
         <div className="fs-14 ">Gross Balance</div>
       </div>
       <div className="col-md-4 p-0 m-0">
         <div className="fs-14 bold">
-          {operationCardDetailData?.balance_fine_weight?.toFixed(3)}
+          {operationCardDetailData?.balance_fine_weight === 0
+            ? '--'
+            : operationCardDetailData?.balance_fine_weight?.toFixed(3)}
         </div>
         <div className="fs-14 ">Fine Balance</div>
       </div>

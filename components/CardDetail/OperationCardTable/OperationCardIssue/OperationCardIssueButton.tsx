@@ -74,30 +74,38 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
                     htmlFor="staticEmail"
                     className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
                   >
-                    {val.charAt(0).toUpperCase() +
-                      val
-                        .slice(1)
-                        .split('_')
-                        .filter(
-                          (val: any) => val !== 'set' && val !== 'readonly'
-                        )
-                        .join(' ')}
+                    {val
+                      .split('_')
+                      .filter(
+                        (val: any) =>
+                          val !== 'set' && val !== 'readonly' && val !== 'show'
+                      )
+                      .map((val: any, index: any) =>
+                        index === 0
+                          ? val.charAt(0).toUpperCase() + val.slice(1)
+                          : val
+                      )
+                      .join(' ')}
                   </label>
                   <div className={`col-sm-10 text-left ${styles.inputFlex} `}>
                     <input
                       type="text"
                       className="form-control inputFields dark-blue"
                       id={val}
-                      placeholder={
-                        val.charAt(0).toUpperCase() +
-                        val
-                          .slice(1)
-                          .split('_')
-                          .filter(
-                            (val: any) => val !== 'set' && val !== 'readonly'
-                          )
-                          .join(' ')
-                      }
+                      placeholder={val
+                        .split('_')
+                        .filter(
+                          (val: any) =>
+                            val !== 'set' &&
+                            val !== 'readonly' &&
+                            val !== 'show'
+                        )
+                        .map((val: any, index: any) =>
+                          index === 0
+                            ? val.charAt(0).toUpperCase() + val.slice(1)
+                            : val
+                        )
+                        .join(' ')}
                     />
                   </div>
                 </div>
