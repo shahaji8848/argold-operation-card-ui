@@ -2,7 +2,10 @@ import React from 'react';
 import OperationCardIssueButton from './OperationCardIssueButton';
 import OperationCardIssueItem from './OperationCardIssueItem';
 
-const OperationCardIssueMaster = ({ operationCardProductDept }: any) => {
+const OperationCardIssueMaster = ({
+  operationCardProductDept,
+  operationCardDetailData,
+}: any) => {
   console.log(
     'operationCardProductDept from OperationCardIssueMaster',
     operationCardProductDept
@@ -13,7 +16,9 @@ const OperationCardIssueMaster = ({ operationCardProductDept }: any) => {
         operationCardProductDept={operationCardProductDept}
       />
       <div className="mt-2">
-        <OperationCardIssueItem />
+        <OperationCardIssueItem
+          operationCardDetailData={operationCardDetailData}
+        />
       </div>
     </>
   );

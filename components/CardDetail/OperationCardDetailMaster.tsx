@@ -62,6 +62,7 @@ const OperationCardDetailMaster = () => {
           <OperationCardInputFieldMaster />
           <OperationCardTableMaster
             operationCardProductDept={operationCardProductDept}
+            operationCardDetailData={operationCardDetailData}
           />
         </div>
       </div>

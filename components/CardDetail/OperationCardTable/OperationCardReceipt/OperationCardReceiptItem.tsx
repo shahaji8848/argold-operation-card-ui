@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OperationCardReceiptItem = () => {
+const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
   return (
     <div className="table-responsive ">
       <table className="table table-bordered">
@@ -21,14 +21,18 @@ const OperationCardReceiptItem = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="table-text">
-            <td>Chain</td>
-            <td className="text-end">1093.65</td>
-            <td className="text-end">100</td>
-            <td className="text-end">1093.65</td>
-            <td className="text-end">91.8</td>
-            <td className="text-end">1003.971</td>
-          </tr>
+          {operationCardDetailData?.receipt_details?.map(
+            (data: any, i: any) => (
+              <tr className="table-text" key={i}>
+                <td>{data.item}</td>
+                <td className="text-end">{data.in_weight}</td>
+                <td className="text-end">{data.in_gross_purity}</td>
+                <td className="text-end">{data.in_gross_weight}</td>
+                <td className="text-end">{data.in_fine_purity}</td>
+                <td className="text-end">{data.in_fine_weight}</td>
+              </tr>
+            )
+          )}
           <tr className="table-text">
             <td className="font-weight-bold ">Total</td>
             <td className="font-weight-bold text-end">1093.65</td>

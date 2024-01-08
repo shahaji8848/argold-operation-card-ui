@@ -10,7 +10,7 @@ const MeltingLotData = ({ operationCardDetailData }: any) => {
       </div>
       <div className="col-md-3 p-0 m-0">
         <div className="fs-14 bold">
-          {/* {operationCardDetailData?.melting_lot.toFixed(3)} */}
+          {/* {operationCardDetailData?.parent_melting_lot} */}
         </div>
         <div className="fs-14 ">Parent lot</div>
       </div>

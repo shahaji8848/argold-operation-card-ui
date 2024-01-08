@@ -1,6 +1,7 @@
 import React from 'react';
 
-const OperationCardIssueItem = () => {
+const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
+  console.log(operationCardDetailData, 'operationCardDetailData');
   return (
     <div className="table-responsive ">
       <table className="table table-bordered">
@@ -22,42 +23,19 @@ const OperationCardIssueItem = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="table-text">
-            <td>Chain</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-          </tr>
-          <tr className="table-text">
-            <td>Melting Wastage</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-          </tr>
-          <tr className="table-text">
-            <td>Loss</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-          </tr>
-          <tr className="table-text">
-            <td>Ghiss</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-            <td className="text-end">0.0</td>
-          </tr>
+          {operationCardDetailData?.operation_card_issue_details?.map(
+            (data: any, i: any) => (
+              <tr className="table-text">
+                <td>{data.item}</td>
+                <td className="text-end">{data.in_weight}</td>
+                <td className="text-end">{data.in_gross_purity}</td>
+                <td className="text-end">{data.in_gross_weight}</td>
+                <td className="text-end">{data.in_fine_purity}</td>
+                <td className="text-end">{data.in_fine_weight}</td>
+                <td className="text-end">{data.item}</td>
+              </tr>
+            )
+          )}
           <tr className="table-text">
             <td className="font-weight-bold ">Total</td>
             <td className="font-weight-bold text-end">0.0</td>
