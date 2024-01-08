@@ -3,8 +3,8 @@ import SelectKarigar from './SelectKarigar';
 
 const OperationCardInputFieldMaster = () => {
   return (
-    <div className="row p-0 m-0 mt-2">
-      <div className="col-md-12 border  rounded-3 p-0 m-0">
+    <div className="d-flex  spacing-mt ">
+      <div className="col-md-12 border  rounded-3">
         <SelectKarigar />
       </div>
     </div>

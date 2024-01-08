@@ -35,7 +35,7 @@ const OperationCardDetailMaster = () => {
   return (
     <div>
       <div className="container-fuild">
-        <div className='px-2'>
+        <div className="spacing-pd">
           <OperationCardHeaderMaster />
 
           <OperationCardDataSummaryMaster />

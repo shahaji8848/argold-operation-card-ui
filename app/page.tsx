@@ -4,9 +4,11 @@ import OperationCardSearchMaster from '@/components/OperationCardSearch/Operatio
 const Home = () => {
   return (
     <div>
-      <div className="container">
-        <h4 className="mt-3">AR Gold Operation Card UI</h4>
-        <OperationCardSearchMaster />
+      <div className="container-fulid">
+        <div className="spacing-pd">
+          <h4 className="spacing-mt">AR Gold Operation Card UI</h4>
+          <OperationCardSearchMaster />
+        </div>
       </div>
     </div>
   );

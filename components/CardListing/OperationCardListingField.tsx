@@ -16,7 +16,7 @@ const OperationCardListingField = () => {
   ];
 
   return (
-    <div className="mt-2">
+    <div className="spacing-mt">
       <div className="row">
         {inputField.map((data: any, index: any) => {
           return (
