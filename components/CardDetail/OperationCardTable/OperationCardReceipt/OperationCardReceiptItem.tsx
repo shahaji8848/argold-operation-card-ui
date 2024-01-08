@@ -32,11 +32,21 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
               (data: any, i: any) => (
                 <tr className="table-text" key={i}>
                   <td>{data.item}</td>
-                  <td className="text-end">{data.in_weight}</td>
-                  <td className="text-end">{data.in_gross_purity}</td>
-                  <td className="text-end">{data.in_gross_weight}</td>
-                  <td className="text-end">{data.in_fine_purity}</td>
-                  <td className="text-end">{data.in_fine_weight}</td>
+                  <td className="text-end">
+                    {data?.in_weight === 0 ? '--' : data?.in_weight}
+                  </td>
+                  <td className="text-end">
+                    {data?.in_gross_purity === 0 ? '--' : data?.in_gross_purity}
+                  </td>
+                  <td className="text-end">
+                    {data?.in_gross_weight === 0 ? '--' : data?.in_gross_weight}
+                  </td>
+                  <td className="text-end">
+                    {data?.in_fine_purity === 0 ? '--' : data?.in_fine_purity}
+                  </td>
+                  <td className="text-end">
+                    {data?.in_fine_weight === 0 ? '--' : data?.in_fine_weight}
+                  </td>
                 </tr>
               )
             )}
