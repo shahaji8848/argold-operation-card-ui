@@ -2,12 +2,26 @@ import React from 'react';
 
 const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
   console.log(operationCardDetailData, 'operationCardDetailData');
+  const hasOPkey = (val: any) => {
+    return val.hasOwnProperty('old_operation_card');
+  };
   const CalculateTotal = (column: any) => {
     return operationCardDetailData?.receipt_details?.reduce(
-      (total: any, item: any) => total + item[column],
+      (total: any, item: any) => {
+        if (item.hasOwnProperty('old_operation_card')) {
+          return total + item[column];
+        } else {
+          if (column === 'old_operation_card') {
+            return 0 + 0;
+          } else {
+            return total + item[column];
+          }
+        }
+      },
       0
     );
   };
+
   return (
     <div className="table-responsive ">
       <table className="table table-bordered">
@@ -34,12 +48,24 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               (data: any, i: any) => (
                 <tr className="table-text" key={i}>
                   <td>{data.item}</td>
-                  <td className="text-end">{data?.in_weight}</td>
-                  <td className="text-end">{data?.in_gross_purity}</td>
-                  <td className="text-end">{data?.in_gross_weight}</td>
-                  <td className="text-end">{data?.in_fine_purity}</td>
-                  <td className="text-end">{data?.in_fine_weight}</td>
-                  <td className="text-end">{data?.old_operation_card}</td>
+                  <td className="text-end">
+                    {data?.in_weight === 0 ? '--' : data?.in_weight}
+                  </td>
+                  <td className="text-end">
+                    {data?.in_gross_purity === 0 ? '--' : data?.in_gross_purity}
+                  </td>
+                  <td className="text-end">
+                    {data?.in_gross_weight === 0 ? '--' : data?.in_gross_weight}
+                  </td>
+                  <td className="text-end">
+                    {data?.in_fine_purity === 0 ? '--' : data?.in_fine_purity}
+                  </td>
+                  <td className="text-end">
+                    {data?.in_fine_weight === 0 ? '--' : data?.in_fine_weight}
+                  </td>
+                  <td className="text-end">
+                    {hasOPkey(data) ? data?.old_operation_card : '--'}
+                  </td>
                 </tr>
               )
             )}
