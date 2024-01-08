@@ -81,7 +81,7 @@ const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
                             .slice(1)
                             .split('_')
                             .filter(
-                              (val: any) => val !== 'set' && val !== 'readonly'
+                              (val: any) => val !== 'Set' && val !== 'readonly'
                             )
                             .join(' ')}
                       </label>

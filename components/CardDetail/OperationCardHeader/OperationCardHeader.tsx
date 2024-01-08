@@ -1,10 +1,11 @@
 import React from 'react';
 
-const OperationCardHeader = () => {
+const OperationCardHeader = ({ operationCardDetailData }: any) => {
   return (
     <div className="d-flex justify-content-between spacing-mt p-0 ">
       <p className="mb-0 m-0 p-0">
-        Operation Card: <span className="bold">OP--Flatting-00014</span>{' '}
+        Operation Card:{' '}
+        <span className="bold">{operationCardDetailData.name}</span>
       </p>
       <button className="btn btn-secondary fs-13 px-4 px-1 btn-py">Back</button>
     </div>
