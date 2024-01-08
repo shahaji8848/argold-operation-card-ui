@@ -84,7 +84,6 @@ a {
 .card-listing-body td {
   text-transform: capitalize;
   font-size: 13px !important;
-  
 }
 .btn-blue {
   background-color: #2490ef !important;
@@ -107,9 +106,16 @@ a {
   font-size: 13px !important;
   width: 50% !important;
 }
-.btn-back{
+.btn-back {
   padding-top: 0.3rem !important;
   padding-bottom: 0.3rem !important;
+}
+.spacing-pd {
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
+.spacing-mt {
+  margin-top: 1rem !important;
 }
 @media (max-width: 768px) {
   .btn-blueColor {

@@ -5,8 +5,8 @@ import BalanceData from './BalanceData';
 
 const OperationCardDataSummaryMaster = ({ operationCardDetailData }: any) => {
   return (
-    <div className="row ">
-      <div className="col-md-12 mt-2">
+    <div className="row spacing-mt">
+      <div className="col-md-12 ">
         <div className=" gap-4 d-flex justify-content-between">
           <div className="col-md-3 border rounded-3 text-center px-2 py-2">
             <ProductData operationCardDetailData={operationCardDetailData} />

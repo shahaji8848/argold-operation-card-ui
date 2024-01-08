@@ -5,7 +5,7 @@ import OperationCardIssueMaster from './OperationCardIssue/OperationCardIssueMas
 const OperationCardTableMaster = ({ operationCardProductDept }: any) => {
   console.log('operationCardProductDept from master', operationCardProductDept);
   return (
-    <div className="row  mt-2">
+    <div className="row spacing-mt">
       <div className="col-md-5">
         <OperationCardReceiptMaster
           operationCardProductDept={operationCardProductDept}
