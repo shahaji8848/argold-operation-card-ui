@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const OperationCardListingField = () => {
@@ -36,11 +37,15 @@ const OperationCardListingField = () => {
           );
         })}
       </div>
-      {/* <div className="d-flex justify-content-end"> */}
-      <button className="btn btn-primary text-capitalize filter-btn btn-py fs-13 mt-2">
-        Apply filter
-      </button>
-      {/* </div> */}
+      <div className="d-flex justify-content-start align-items-center ">
+        <button className="btn btn-primary text-capitalize filter-btn btn-py fs-13 mt-2">
+          Apply Filter
+        </button>
+
+        <Link href="" className="px-3 " style={{ fontSize: '14px' }}>
+          Clear Filter
+        </Link>
+      </div>
     </div>
   );
 };

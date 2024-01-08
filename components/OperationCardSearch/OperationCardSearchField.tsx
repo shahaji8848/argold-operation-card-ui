@@ -32,7 +32,7 @@ const OperationCardSearchField = () => {
           onKeyDown={handleKeyDown}
         />
       </div>
-      <div className="col-md-3">
+      <div className="col-md-3 mob-mt">
         <button
           className="btn btn-primary btn-blue px-4 py-2 fs-14"
           onClick={redirectToListPage}

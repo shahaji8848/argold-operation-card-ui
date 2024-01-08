@@ -38,9 +38,9 @@ const OperationCardDetailMaster = () => {
               alt="Picture of the author"
             />
             <h3 className="">Operation Card Not Found...</h3>
-            <button type="button" className="btn btn-link">
+            <a type="button" className="btn btn-link" href="/">
               Go To Home Page
-            </button>
+            </a>
           </div>
         </div>
       )}
