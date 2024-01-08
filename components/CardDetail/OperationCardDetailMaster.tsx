@@ -1,13 +1,7 @@
 import OperationCardDataSummaryMaster from './OperationCardDataSummary/OperationCardDataSummaryMaster';
 import OperationCardTableMaster from './OperationCardTable/OperationCardTableMaster';
-import OperationCardInputField from './OperationCardInputField/OperationCardInputFieldMaster';
 import React, { useEffect, useState } from 'react';
-
-import MeltingLotData from './OperationCardDataSummary/MeltingLotData';
-import ProductData from './OperationCardDataSummary/ProductData';
-import BalanceData from './OperationCardDataSummary/BalanceData';
 import GETOperationCardProductProcessDepartmentData from '@/services/api/operation-card-detail-page/operation-card-product-process-data';
-import OperationCardReciptButton from './OperationCardTable/OperationCardReceipt/OperationCardReceiptButton';
 import OperationCardHeaderMaster from './OperationCardHeader/OperationCardHeaderMaster';
 import OperationCardInputFieldMaster from './OperationCardInputField/OperationCardInputFieldMaster';
 import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
@@ -45,8 +39,8 @@ const OperationCardDetailMaster = () => {
     }
   };
   useEffect(() => {
-    getOperationCardProcessDepartment();
     operationCardDetail();
+    getOperationCardProcessDepartment();
   }, []);
   console.log(operationCardDetailData, 'operationCardDetailData');
   return (
