@@ -117,6 +117,11 @@ a {
 .spacing-mt {
   margin-top: 1rem !important;
 }
+.d-flex {
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 4;
+}
 @media (max-width: 768px) {
   .btn-blueColor {
     width: 100% !important;
@@ -126,5 +131,17 @@ a {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .mob-fs-14 {
+    font-size: 14px;
+  }
+  .mob-fs-13 {
+    font-size: 13px;
+  }
+  .d-block {
+    display: block !important;
   }
 }
