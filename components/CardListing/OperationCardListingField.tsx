@@ -1,18 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const OperationCardListingField = () => {
+const OperationCardListingField = ({
+  filtersData,
+  handleInputChange,
+  handleApplyFilters,
+  handleKeyDownEnter,
+}: any) => {
   const inputField = [
-    'parent melting lot',
-    'process',
-    'gross balance',
-    'melting lot',
-    'department',
-    'fine balance',
-    'purity',
-    'karigar',
-    'operation card',
-    'product',
-    'balance',
+    {
+      name: 'parent_melting_lot',
+      label: 'parent melting lot',
+    },
+    {
+      name: 'melting_lot',
+      label: 'melting lot',
+    },
+    {
+      name: 'operation_department',
+      label: 'process',
+    },
+    {
+      name: 'balance_gross_weight',
+      label: 'gross balance',
+    },
+    {
+      name: 'product_process_department',
+      label: 'department',
+    },
+    {
+      name: 'balance_fine_weight',
+      label: 'fine balance',
+    },
+    {
+      name: 'product_purity',
+      label: 'purity',
+    },
+    {
+      name: 'karigar',
+      label: 'karigar',
+    },
+    {
+      name: 'name',
+      label: 'operation card',
+    },
+    {
+      name: 'product',
+      label: 'product',
+    },
+    {
+      name: 'balance_weight',
+      label: 'balance',
+    },
   ];
 
   return (
@@ -24,11 +62,14 @@ const OperationCardListingField = () => {
               <form>
                 <div className="">
                   <label className="form-label text-center w-100 dark-blue fw-bold text-capitalize fs-13">
-                    {data}
+                    {data?.label}
                   </label>
                   <input
                     type="text"
-                    className="form-control grey-bg border-none border-grey filed-height fs-13"
+                    className="form-control grey-bg border-none border-grey filed-height fs-13 rounded-3"
+                    value={filtersData[data?.name]}
+                    onChange={(e) => handleInputChange(e, data.name)}
+                    onKeyDown={handleKeyDownEnter}
                   />
                 </div>
               </form>
@@ -36,11 +77,12 @@ const OperationCardListingField = () => {
           );
         })}
       </div>
-      {/* <div className="d-flex justify-content-end"> */}
-      <button className="btn btn-primary text-capitalize filter-btn btn-py fs-13 mt-2">
+      <button
+        className="btn btn-primary text-capitalize filter-btn btn-py fs-13 mt-2"
+        onClick={handleApplyFilters}
+      >
         Apply filter
       </button>
-      {/* </div> */}
     </div>
   );
 };
