@@ -1,6 +1,9 @@
-import React from 'react';
-
+import { useRouter } from 'next/navigation';
 const OperationCardHeader = ({ operationCardDetailData }: any) => {
+  const router = useRouter();
+  const redirectToHomepage = () => {
+    router.push('/');
+  };
   return (
     <div className="row spacing-mt p-0 ">
       <div className="col-md-10">
@@ -10,7 +13,10 @@ const OperationCardHeader = ({ operationCardDetailData }: any) => {
         </p>
       </div>
       <div className="col-md-2 text-end">
-        <button className="btn btn-secondary fs-13 px-4 px-1 btn-py ">
+        <button
+          className="btn btn-secondary fs-13 px-4 px-1 btn-py "
+          onClick={redirectToHomepage}
+        >
           Back
         </button>
       </div>
