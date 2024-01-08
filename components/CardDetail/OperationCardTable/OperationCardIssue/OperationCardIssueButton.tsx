@@ -38,7 +38,7 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
               <span className="bold">Issue :</span>
             </div>
             <div className="col-md-10 p-0 m-0">
-              <div className="d-flex justify-content-between" >
+              <div className="d-flex justify-content-between">
                 {operationCardProductDept?.issue_items?.length > 0 &&
                   operationCardProductDept?.issue_items.map(
                     (val: any, i: any) => (
@@ -58,7 +58,7 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
           </div>
         </div>
       </div>
-      <Modal show={show} onHide={handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           {' '}
           <h6 className="">Item: {itemName}</h6>
@@ -69,16 +69,21 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
           <div className="row">
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => (
-                <div className="col-md-6">
-                  {/* <label
-                        htmlFor="staticEmail"
-                        className={`${styles.labelFlex} col-sm-2 col-form-label dark-blue`}
-                      >
-                        Weight:
-                      </label> */}
-                  <div
-                    className={`col-sm-10 text-left ${styles.inputFlex} mt-2`}
+                <div className="col-md-4 ">
+                  <label
+                    htmlFor="staticEmail"
+                    className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
                   >
+                    {val.charAt(0).toUpperCase() +
+                      val
+                        .slice(1)
+                        .split('_')
+                        .filter(
+                          (val: any) => val !== 'set' && val !== 'readonly'
+                        )
+                        .join(' ')}
+                  </label>
+                  <div className={`col-sm-10 text-left ${styles.inputFlex} `}>
                     <input
                       type="text"
                       className="form-control inputFields dark-blue"

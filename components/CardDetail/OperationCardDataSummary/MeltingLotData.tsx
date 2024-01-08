@@ -6,15 +6,15 @@ const MeltingLotData = () => {
         <div className="fs-14 ">Melting Lot</div>
       </div>
       <div className="col-md-3 p-0 m-0">
-        <div className="fs-14 bold">92.0</div>
+        <div className="fs-14 bold">{(92.0).toFixed(3)}</div>
         <div className="fs-14 ">Product lot</div>
       </div>
       <div className="col-md-3 p-0 m-0">
-        <div className="fs-14 bold">92.0</div>
+        <div className="fs-14 bold">{(92.0).toFixed(3)}</div>
         <div className="fs-14 ">Purity</div>
       </div>
       <div className="col-md-3 p-0 m-0">
-        <div className="fs-14 bold">91.85</div>
+        <div className="fs-14 bold">{(91.85).toFixed(3)}</div>
         <div className="fs-14 ">Accessories </div>
       </div>
     </div>
