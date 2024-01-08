@@ -1,16 +1,20 @@
-const ProductData = (operationCardDetailData: any) => {
+const ProductData = ({ operationCardDetailData }: any) => {
   return (
     <div className={`row    p-0 m-0 `}>
       <div className="col-md-4 p-0 m-0">
-        <div className="fs-14 bold">Ball Chain</div>
+        <div className="fs-14 bold">{operationCardDetailData?.product}</div>
         <div className="fs-14 ">Product</div>
       </div>
       <div className="col-md-4 p-0 m-0">
-        <div className="fs-14 bold">Test GPC</div>
+        <div className="fs-14 bold">
+          {operationCardDetailData?.product_process}
+        </div>
         <div className="fs-14 ">Process</div>
       </div>
       <div className="col-md-4 p-0 m-0">
-        <div className="fs-14 bold">Hallmark Out</div>
+        <div className="fs-14 bold">
+          {operationCardDetailData?.operation_department}
+        </div>
         <div className="fs-14 ">Department</div>
       </div>
 

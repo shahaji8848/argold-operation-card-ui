@@ -1,20 +1,29 @@
 const MeltingLotData = ({ operationCardDetailData }: any) => {
+  console.log(operationCardDetailData, 'operationCardDetailData ');
   return (
     <div className={`row  p-0 m-0 `}>
       <div className="col-md-3 p-0 m-0">
-        <div className="fs-14 bold ">BaC126</div>
+        <div className="fs-14 bold ">
+          {operationCardDetailData?.melting_lot}
+        </div>
         <div className="fs-14 ">Melting Lot</div>
       </div>
       <div className="col-md-3 p-0 m-0">
-        <div className="fs-14 bold">{(92.0).toFixed(3)}</div>
-        <div className="fs-14 ">Product lot</div>
+        <div className="fs-14 bold">
+          {/* {operationCardDetailData?.melting_lot.toFixed(3)} */}
+        </div>
+        <div className="fs-14 ">Parent lot</div>
       </div>
       <div className="col-md-3 p-0 m-0">
-        <div className="fs-14 bold">{(92.0).toFixed(3)}</div>
+        <div className="fs-14 bold">
+          {operationCardDetailData?.product_purity?.toFixed(3)}
+        </div>
         <div className="fs-14 ">Purity</div>
       </div>
       <div className="col-md-3 p-0 m-0">
-        <div className="fs-14 bold">{(91.85).toFixed(3)}</div>
+        <div className="fs-14 bold">
+          {operationCardDetailData?.accessories_purity?.toFixed(3)}
+        </div>
         <div className="fs-14 ">Accessories </div>
       </div>
     </div>
