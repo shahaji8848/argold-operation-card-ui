@@ -37,7 +37,7 @@ const OperationCardListingField = () => {
         })}
       </div>
       {/* <div className="d-flex justify-content-end"> */}
-      <button className="btn btn-primary text-capitalize filter-btn fs-14 mt-2">
+      <button className="btn btn-primary text-capitalize filter-btn btn-py fs-13 mt-2">
         Apply filter
       </button>
       {/* </div> */}
