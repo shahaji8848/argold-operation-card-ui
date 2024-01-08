@@ -1,6 +1,6 @@
 const BalanceData = () => {
   return (
-    <div className={`row   text-center px-2 py-4`}>
+    <div className={`row p-0 m-0`}>
       <div className="col-md-4 p-0 m-0">
         <div className="fs-14 bold">0.2</div>
         <div className="fs-14 ">Balance</div>

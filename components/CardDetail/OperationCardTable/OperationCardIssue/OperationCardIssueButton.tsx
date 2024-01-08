@@ -31,14 +31,14 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
         <p className="mb-0 dark-blue">Operation Card: OP--Flatting-00014</p>
         <p className="mb-0 dark-blue">Add Weight: Issue</p>
       </div> */}
-      <div className="row py-3 ps-2 pe-4">
-        <div className="col-md-12 p-0 m-0 ">
+      <div className="row ">
+        <div className="col-md-12  ">
           <div className="row">
-            <div className="col-md-2 ">
+            <div className="col-md-3">
               <span className="bold">Issue :</span>
             </div>
-            <div className="col-md-10 p-0 m-0">
-              <div className="d-flex justify-content-between" >
+            <div className="col-md-9 ">
+              <div className="d-flex justify-content-between">
                 {operationCardProductDept?.issue_items?.length > 0 &&
                   operationCardProductDept?.issue_items.map(
                     (val: any, i: any) => (

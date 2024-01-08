@@ -12,7 +12,9 @@ const OperationCardIssueMaster = ({ operationCardProductDept }: any) => {
       <OperationCardIssueButton
         operationCardProductDept={operationCardProductDept}
       />
-      <OperationCardIssueItem />
+      <div className="mt-2">
+        <OperationCardIssueItem />
+      </div>
     </>
   );
 };

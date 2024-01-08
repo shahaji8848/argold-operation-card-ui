@@ -5,19 +5,17 @@ import BalanceData from './BalanceData';
 
 const OperationCardDataSummaryMaster = () => {
   return (
-    <div className="container">
-      <div className="row ">
-        <div className="col-md-12 my-4">
-          <div className=" gap-4 d-flex justify-content-between">
-            <div className="col-md-3 border rounded-3 ">
-              <ProductData />
-            </div>
-            <div className="col-md-4 border rounded-3">
-              <MeltingLotData />
-            </div>
-            <div className="col-md-3 border rounded-3">
-              <BalanceData />
-            </div>
+    <div className="row ">
+      <div className="col-md-12 mt-2">
+        <div className=" gap-4 d-flex justify-content-between">
+          <div className="col-md-3 border rounded-3 text-center px-2 py-2">
+            <ProductData />
+          </div>
+          <div className="col-md-4 border rounded-3 text-center px-2 py-2">
+            <MeltingLotData />
+          </div>
+          <div className="col-md-3 border rounded-3 text-center px-2 py-2">
+            <BalanceData />
           </div>
         </div>
       </div>

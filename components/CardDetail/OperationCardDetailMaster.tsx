@@ -35,14 +35,16 @@ const OperationCardDetailMaster = () => {
   return (
     <div>
       <div className="container-fuild">
-        <OperationCardHeaderMaster />
+        <div className='px-2'>
+          <OperationCardHeaderMaster />
 
-        <OperationCardDataSummaryMaster />
+          <OperationCardDataSummaryMaster />
 
-        <OperationCardInputFieldMaster />
-        <OperationCardTableMaster
-          operationCardProductDept={operationCardProductDept}
-        />
+          <OperationCardInputFieldMaster />
+          <OperationCardTableMaster
+            operationCardProductDept={operationCardProductDept}
+          />
+        </div>
       </div>
       {/* <div className="container-fluid">
         <OperationCardButton />

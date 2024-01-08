@@ -30,13 +30,13 @@ const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
   console.log('Keys with 1 value:', getValues);
   return (
     <>
-      <div className="row py-3 ps-2 pe-4">
-        <div className="col-md-12 p-0 m-0 ">
+      <div className="row ">
+        <div className="col-md-12  ">
           <div className="row">
-            <div className="col-md-3 ">
+            <div className="col-xxl-2 col-xl-2  col-lg-3 col-md-3 ">
               <span className="bold">Receipt :</span>
             </div>
-            <div className="col-md-9 p-0 m-0">
+            <div className="col-xxl-10 col-xl-10 col-lg-9 col-md-9 ">
               <div className="d-flex justify-content-between ">
                 {operationCardProductDept?.receipt_items?.length > 0 &&
                   operationCardProductDept?.receipt_items.map(

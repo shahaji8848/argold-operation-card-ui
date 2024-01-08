@@ -5,18 +5,16 @@ import OperationCardIssueMaster from './OperationCardIssue/OperationCardIssueMas
 const OperationCardTableMaster = ({ operationCardProductDept }: any) => {
   console.log('operationCardProductDept from master', operationCardProductDept);
   return (
-    <div className="container">
-      <div className="row  mt-3">
-        <div className="col-md-5">
-          <OperationCardReceiptMaster
-            operationCardProductDept={operationCardProductDept}
-          />
-        </div>
-        <div className="col-md-7">
-          <OperationCardIssueMaster
-            operationCardProductDept={operationCardProductDept}
-          />
-        </div>
+    <div className="row  mt-2">
+      <div className="col-md-5">
+        <OperationCardReceiptMaster
+          operationCardProductDept={operationCardProductDept}
+        />
+      </div>
+      <div className="col-md-7">
+        <OperationCardIssueMaster
+          operationCardProductDept={operationCardProductDept}
+        />
       </div>
     </div>
   );
