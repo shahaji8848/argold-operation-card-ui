@@ -12,7 +12,7 @@ const OperationCardSearchField = () => {
       <div className="col-md-6">
         <input type="text" className="form-control border-grey w-100 " />
       </div>
-      <div className="col-md-3">
+      <div className="col-md-3 mob-mt">
         <button className="btn btn-primary btn-blue px-4 py-2 fs-14 ">
           Search
         </button>

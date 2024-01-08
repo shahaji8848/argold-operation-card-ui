@@ -42,7 +42,7 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
                 {operationCardProductDept?.issue_items?.length > 0 &&
                   operationCardProductDept?.issue_items.map(
                     (val: any, i: any) => (
-                      <div className="col-md-3 col-6" key={i}>
+                      <div className="col-md-3 col-6 btn_wrapper" key={i}>
                         <button
                           type="button"
                           className={`btn btn-blueColor btn-py ${styles.btn_tab}`}

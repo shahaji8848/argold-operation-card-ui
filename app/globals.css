@@ -144,4 +144,18 @@ a {
   .d-block {
     display: block !important;
   }
+  .mob-mt {
+    margin-top: 1rem !important;
+  }
+  .mob-reverse-content {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: start;
+  }
+  .mob-pr {
+    padding-right: 10px !important;
+  }
+  .mob-text-start {
+    text-align: start;
+  }
 }

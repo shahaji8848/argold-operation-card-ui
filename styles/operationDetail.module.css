@@ -11,6 +11,13 @@
   width: 100% !important;
   /* margin-right: 5px; */
 }
+
+@media only screen and (max-width: 1024px) {
+  .btn_wrapper {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+}
 /* responsive for tablet */
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
@@ -24,5 +31,9 @@
   .btn_tab {
     /* background-color: red !important; */
     /* width: 50% !important; */
+  }
+  .btn_wrapper {
+    padding: 0px !important;
+    margin: 0px !important;
   }
 }
