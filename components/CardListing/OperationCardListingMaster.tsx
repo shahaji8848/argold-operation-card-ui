@@ -2,8 +2,13 @@ import React from 'react';
 import OperationCardListingField from './OperationCardListingField';
 import OperationCardListingTable from './OperationCardListingTable';
 import useOperationCardList from '@/hooks/operation-card-list-hook/operation-card-list-hook';
+import { useRouter } from 'next/navigation';
 
 const OperationCardListingMaster = () => {
+  const router = useRouter();
+  const redirectToHomepage = () => {
+    router.push('/');
+  };
   const {
     listData,
     filtersData,
@@ -19,7 +24,7 @@ const OperationCardListingMaster = () => {
         <div className="col-md-2 text-end">
           <button
             className="btn btn-secondary fs-13 px-4 px-1 btn-py "
-            // onClick={redirectToHomepage}
+            onClick={redirectToHomepage}
           >
             Back
           </button>
