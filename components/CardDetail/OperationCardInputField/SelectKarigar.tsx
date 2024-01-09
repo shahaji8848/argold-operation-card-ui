@@ -4,6 +4,7 @@ import { dataVal } from '../../../app/DataSet/operationCardProcessDept';
 const SelectKarigar = ({
   operationCardProductDept,
   operationCardDetailData,
+  operationCardKarigar,
 }: any) => {
   const operationCardFields = Object.entries(dataVal[0])
     .filter(([key, value]) => key.includes('show') && value === 1)
@@ -18,10 +19,9 @@ const SelectKarigar = ({
             className="form-control  dark-blue inputFields"
             id="exampleFormControlSelect1"
           >
-            <option selected>Select Karigar</option>
-            <option>Select Karigar1</option>
-            <option>Select Karigar2</option>
-            <option>Select Karigar3</option>
+            {operationCardKarigar.map((karigar_item: any, index: any) => {
+              return <option key={index}>{karigar_item.name}</option>;
+            })}
           </select>
         </div>
       </div>

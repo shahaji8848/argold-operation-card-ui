@@ -6,8 +6,11 @@ import OperationCardInputFieldMaster from './OperationCardInputField/OperationCa
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Image from 'next/image';
 const OperationCardDetailMaster = () => {
-  const { operationCardDetailData, operationCardProductDept } =
-    useOperationDetailCard();
+  const {
+    operationCardDetailData,
+    operationCardProductDept,
+    operationCardKarigar,
+  } = useOperationDetailCard();
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -24,6 +27,7 @@ const OperationCardDetailMaster = () => {
             <OperationCardInputFieldMaster
               operationCardProductDept={operationCardProductDept}
               operationCardDetailData={operationCardDetailData}
+              operationCardKarigar={operationCardKarigar}
             />
             <OperationCardTableMaster
               operationCardProductDept={operationCardProductDept}

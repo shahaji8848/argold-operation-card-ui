@@ -6,7 +6,9 @@ const Home = () => {
     <div>
       <div className="container-fulid">
         <div className="spacing-pd">
-          <h4 className="spacing-mt">AR Gold Operation Card UI</h4>
+          <h4 className="spacing-mt search-heading">
+            AR Gold Operation Card UI
+          </h4>
           <OperationCardSearchMaster />
         </div>
       </div>

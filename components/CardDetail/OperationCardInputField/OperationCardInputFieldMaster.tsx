@@ -4,6 +4,7 @@ import SelectKarigar from './SelectKarigar';
 const OperationCardInputFieldMaster = ({
   operationCardProductDept,
   operationCardDetailData,
+  operationCardKarigar,
 }: any) => {
   return (
     <div className="d-flex  spacing-mt ">
@@ -11,6 +12,7 @@ const OperationCardInputFieldMaster = ({
         <SelectKarigar
           operationCardProductDept={operationCardProductDept}
           operationCardDetailData={operationCardDetailData}
+          operationCardKarigar={operationCardKarigar}
         />
       </div>
     </div>

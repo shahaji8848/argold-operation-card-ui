@@ -8,7 +8,7 @@
   width: 10% !important;
 }
 .btn_tab {
-  width: 100% !important;
+  /* width: 100% !important; */
   /* margin-right: 5px; */
 }
 .btn_wrapper_end {
@@ -41,13 +41,22 @@
     /* width: 50% !important; */
   }
   .btn_wrapper {
+    display: flex !important;
     padding: 0px !important;
     margin: 0px !important;
+    /* border: 2px solid green !important;
+    background-color: green !important; */
+  }
+  .btn_wrapper_end {
+    display: flex !important;
   }
   .mob_wrapper {
     margin-top: 1rem !important;
   }
   .submit_btn {
     width: 100% !important;
+  }
+  .btn_wrapper_mob {
+    text-align: start !important;
   }
 }

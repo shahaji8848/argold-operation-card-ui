@@ -78,15 +78,18 @@ const OperationCardListingField = ({
           );
         })}
       </div>
-      <button
-        className="btn btn-primary text-capitalize filter-btn btn-py fs-13 mt-2"
-        onClick={handleApplyFilters}
-      >
-        Apply filter
-      </button>
-      <Link href="" className="px-3 " style={{ fontSize: '14px' }}>
-        Clear Filter
-      </Link>
+
+      <div className="filter-wrapper">
+        <button
+          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2"
+          onClick={handleApplyFilters}
+        >
+          Apply filter
+        </button>
+        <Link href="" className="px-3 py-0 my-0 fs-14">
+          Clear Filter
+        </Link>
+      </div>
     </div>
   );
 };

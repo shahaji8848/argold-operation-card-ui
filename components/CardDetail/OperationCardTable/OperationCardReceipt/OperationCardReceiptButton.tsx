@@ -41,25 +41,31 @@ const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
   return (
     <>
       <div className="row">
-        <div className="col-xxl-2 col-xl-2  col-lg-3 col-md-3 ">
+        <div className="col-xxl-2 col-xl-3  col-lg-3 col-md-3 ">
           <span className="bold">Receipt :</span>
         </div>
-        <div className="col-xxl-10 col-xl-10 col-lg-9 col-md-9 ">
+        <div className="col-xxl-10 col-xl-9 col-lg-9 col-md-9 ">
           <div className="row btn_wrapper_end">
-            {operationCardProductDept?.receipt_items?.length > 0 &&
-              operationCardProductDept?.receipt_items.map(
-                (val: any, i: any) => (
-                  <div className="col-md-3 col-6 btn_wrapper" key={i}>
+            <div className={`col-md-12 text-end ${styles.btn_wrapper_mob}`}>
+              {operationCardProductDept?.receipt_items?.length > 0 &&
+                operationCardProductDept?.receipt_items.map(
+                  (val: any, i: any) => (
+                    // <div
+                    //   className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-2  btn_wrapper"
+                    //   key={i}
+                    // >
                     <button
                       type="button"
-                      className={`btn btn-blueColor btn-py ${styles.btn_tab}`}
+                      className={`btn btn-blue btn-py  mt-1 px-3 ms-2 `}
                       onClick={() => handleShow(val.item)}
+                      key={i}
                     >
                       {val?.item}
                     </button>
-                  </div>
-                )
-              )}
+                    // </div>
+                  )
+                )}
+            </div>
           </div>
         </div>
       </div>
