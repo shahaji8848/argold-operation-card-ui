@@ -6,6 +6,8 @@ const useOperationCardList = () => {
   const searchParams = useSearchParams();
   const [listData, setListData] = useState<any>([]);
 
+  const [filtersClear, setFiltersClear] = useState(0);
+
   const [filtersData, setFiltersData] = useState<any>({
     name: '',
     parent_melting_lot: '',
@@ -43,6 +45,27 @@ const useOperationCardList = () => {
   const handleApplyFilters = () => {
     getOperationCardListFromAPI();
   };
+
+  const handleClearFilters = async () => {
+    await setFiltersData({
+      name: '',
+      parent_melting_lot: '',
+      melting_lot: '',
+      product_purity: '',
+      product: '',
+      operation_department: '',
+      product_process_department: '',
+      machine_size: '',
+      design: '',
+      line_number: '',
+      karigar: '',
+      balance_weight: '',
+      balance_gross_weight: '',
+      balance_fine_weight: '',
+    });
+
+    setFiltersClear(1);
+  };
   const getOperationCardListFromAPI = async () => {
     const getList: any = await GETOperationCardListData(
       searchParams.get('search'),
@@ -58,11 +81,18 @@ const useOperationCardList = () => {
   useEffect(() => {
     getOperationCardListFromAPI();
   }, []);
+
+  useEffect(() => {
+    if (filtersClear === 1) {
+      getOperationCardListFromAPI();
+    }
+  }, [filtersClear]);
   return {
     listData,
     filtersData,
     handleInputChange,
     handleApplyFilters,
+    handleClearFilters,
     handleKeyDownEnter,
   };
 };
