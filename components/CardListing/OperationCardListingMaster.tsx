@@ -9,6 +9,7 @@ const OperationCardListingMaster = () => {
     filtersData,
     handleInputChange,
     handleApplyFilters,
+    handleClearFilters,
     handleKeyDownEnter,
   } = useOperationCardList();
   return (
@@ -18,6 +19,7 @@ const OperationCardListingMaster = () => {
           filtersData={filtersData}
           handleInputChange={handleInputChange}
           handleApplyFilters={handleApplyFilters}
+          handleClearFilters={handleClearFilters}
           handleKeyDownEnter={handleKeyDownEnter}
         />
         <div className="spacing-mt">
