@@ -14,6 +14,17 @@ const OperationCardListingMaster = () => {
   } = useOperationCardList();
   return (
     <div className="container-fuild">
+      <div className="row spacing-pd mt-3">
+        <div className="col-md-10"></div>
+        <div className="col-md-2 text-end">
+          <button
+            className="btn btn-secondary fs-13 px-4 px-1 btn-py "
+            // onClick={redirectToHomepage}
+          >
+            Back
+          </button>
+        </div>
+      </div>
       <div className="spacing-pd">
         <OperationCardListingField
           filtersData={filtersData}

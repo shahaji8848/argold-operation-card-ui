@@ -26,6 +26,7 @@ const OperationCardSearchField = () => {
       <div className="col-md-6">
         <input
           type="text"
+          style={{ boxShadow: 'none !important' }}
           className="form-control border-grey w-100 "
           value={searchField}
           onChange={(e: any) => setSearchField(e.target.value)}
@@ -39,12 +40,6 @@ const OperationCardSearchField = () => {
         >
           Search
         </button>
-      </div>
-      <div className="spacing-mt">
-        <Link href="/operation-card-list"> Operation Card List Page</Link>
-      </div>
-      <div className="spacing-mt">
-        <Link href="/operation-card-detail"> Operation Card Detail Page</Link>
       </div>
     </div>
   );
