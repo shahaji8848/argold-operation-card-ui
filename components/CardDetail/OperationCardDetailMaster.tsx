@@ -21,7 +21,10 @@ const OperationCardDetailMaster = () => {
               operationCardDetailData={operationCardDetailData}
             />
 
-            <OperationCardInputFieldMaster />
+            <OperationCardInputFieldMaster
+              operationCardProductDept={operationCardProductDept}
+              operationCardDetailData={operationCardDetailData}
+            />
             <OperationCardTableMaster
               operationCardProductDept={operationCardProductDept}
               operationCardDetailData={operationCardDetailData}

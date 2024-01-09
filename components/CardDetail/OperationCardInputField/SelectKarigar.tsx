@@ -1,6 +1,14 @@
 import React from 'react';
 import styles from '../../../styles/operationDetail.module.css';
-const SelectKarigar = () => {
+import { dataVal } from '../../../app/DataSet/operationCardProcessDept';
+const SelectKarigar = ({
+  operationCardProductDept,
+  operationCardDetailData,
+}: any) => {
+  const operationCardFields = Object.entries(dataVal[0])
+    .filter(([key, value]) => key.includes('show') && value === 1)
+    .map(([key, value]) => key.replace('show_', ''));
+  console.log(operationCardFields, 'operationCardFields');
   return (
     <div className={`row   text-center  py-2 mx-2 gap-3`}>
       <div className="col-md-2 p-0 m-0">
