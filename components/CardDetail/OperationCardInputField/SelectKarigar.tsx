@@ -9,7 +9,7 @@ const SelectKarigar = ({
   const [operationCardFieldVal, setOperationCardFieldVal] = useState([
     operationCardDetailData,
   ]);
-  const operationCardFields: any = Object.entries(dataVal[0])
+  const operationCardFields: any = Object?.entries(operationCardProductDept)
     .filter(([key, value]) => key.includes('show') && value === 1)
     .map(([key, value]) => key.replace('show_', ''));
 
@@ -43,8 +43,8 @@ const SelectKarigar = ({
         </div>
       </div>
       {operationCardFieldValue.length > 0 &&
-        operationCardFieldValue.map(([key, values]: any) => (
-          <div className="col-md-2 p-0 m-0">
+        operationCardFieldValue.map(([key, values]: any, index: number) => (
+          <div className="col-md-2 p-0 m-0" key={index}>
             <div className="fs-14 bold text-start">
               {key
                 .split('_')

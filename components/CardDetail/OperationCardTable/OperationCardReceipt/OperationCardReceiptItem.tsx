@@ -2,10 +2,9 @@ import React from 'react';
 
 const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
   const CalculateTotal = (column: any) => {
-    return operationCardDetailData?.receipt_details?.reduce(
-      (total: any, item: any) => total + item[column],
-      0
-    );
+    return operationCardDetailData?.receipt_details
+      ?.reduce((total: any, item: any) => total + item[column], 0)
+      .toFixed(3);
   };
   return (
     <div className="table-responsive ">
@@ -33,19 +32,27 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
                 <tr className="table-text" key={i}>
                   <td>{data.item}</td>
                   <td className="text-end">
-                    {data?.in_weight === 0 ? '--' : data?.in_weight}
+                    {data?.in_weight === 0 ? '--' : data?.in_weight.toFixed(3)}
                   </td>
                   <td className="text-end">
-                    {data?.in_gross_purity === 0 ? '--' : data?.in_gross_purity}
+                    {data?.in_gross_purity === 0
+                      ? '--'
+                      : data?.in_gross_purity.toFixed(3)}
                   </td>
                   <td className="text-end">
-                    {data?.in_gross_weight === 0 ? '--' : data?.in_gross_weight}
+                    {data?.in_gross_weight === 0
+                      ? '--'
+                      : data?.in_gross_weight.toFixed(3)}
                   </td>
                   <td className="text-end">
-                    {data?.in_fine_purity === 0 ? '--' : data?.in_fine_purity}
+                    {data?.in_fine_purity === 0
+                      ? '--'
+                      : data?.in_fine_purity.toFixed(3)}
                   </td>
                   <td className="text-end">
-                    {data?.in_fine_weight === 0 ? '--' : data?.in_fine_weight}
+                    {data?.in_fine_weight === 0
+                      ? '--'
+                      : data?.in_fine_weight.toFixed(3)}
                   </td>
                 </tr>
               )
