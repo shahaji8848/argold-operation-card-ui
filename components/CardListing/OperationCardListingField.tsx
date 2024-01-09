@@ -60,15 +60,15 @@ const OperationCardListingField = ({
       <div className="row">
         {inputField.map((data: any, index: any) => {
           return (
-            <div className="col-md-3" key={index}>
+            <div className="col-md-3 mb-2" key={index}>
               <form>
                 <div className="">
-                  <label className="form-label text-center w-100 dark-blue fw-bold text-capitalize fs-13">
+                  <label className=" w-100 dark-blue fw-bold text-capitalize fs-13">
                     {data?.label}
                   </label>
                   <input
                     type="text"
-                    className="form-control grey-bg border-none border-grey filed-height fs-13 rounded-3"
+                    className="form-control inputFields fs-13 rounded-2"
                     value={filtersData[data?.name]}
                     onChange={(e) => handleInputChange(e, data.name)}
                     onKeyDown={handleKeyDownEnter}
