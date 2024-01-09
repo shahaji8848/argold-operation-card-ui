@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../../../styles/operationDetail.module.css';
-const SelectKarigar = () => {
+const SelectKarigar = ({ operationCardKarigar }: any) => {
+  console.log(' operationCardKarigar', operationCardKarigar);
   return (
     <div className={`row   text-center  py-2 mx-2 gap-3`}>
       <div className="col-md-2 p-0 m-0">
@@ -10,10 +11,13 @@ const SelectKarigar = () => {
             className="form-control  dark-blue inputFields"
             id="exampleFormControlSelect1"
           >
-            <option selected>Select Karigar</option>
+            {operationCardKarigar.map((karigar_item: any, index: any) => {
+              return <option key={index}>{karigar_item.name}</option>;
+            })}
+            {/* <option selected>Select Karigar</option>
             <option>Select Karigar1</option>
             <option>Select Karigar2</option>
-            <option>Select Karigar3</option>
+            <option>Select Karigar3</option> */}
           </select>
         </div>
       </div>

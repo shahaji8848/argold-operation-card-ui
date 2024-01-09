@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
 import { useSearchParams } from 'next/navigation';
 import GETOperationCardProductProcessDepartmentData from '@/services/api/operation-card-detail-page/operation-card-product-process-data';
+import GETOperationCardDetailKarigar from '@/services/api/operation-card-detail-page/operation-card-detail-karigar';
 const useOperationDetailCard = () => {
   const [operationCardProductDept, setOperationCardProductDept] = useState({});
   const [operationCardDetailData, setOperationCardDetailData] = useState<any>(
     {}
   );
+
+  const [operationCardKarigar, setOperationCardKarigar] = useState<any>([]);
+
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -46,9 +50,24 @@ const useOperationDetailCard = () => {
       getOperationCardProcessDepartment();
     }
   }, [operationCardDetailData]);
+
+  const getOperationCardDetailKarigar = async () => {
+    const getKarigarData = await GETOperationCardDetailKarigar();
+    if (getKarigarData?.status === 200) {
+      setOperationCardKarigar(getKarigarData?.data?.data);
+    } else {
+      setOperationCardKarigar([]);
+    }
+  };
+
+  useEffect(() => {
+    getOperationCardDetailKarigar();
+  }, []);
+
   return {
     operationCardProductDept,
     operationCardDetailData,
+    operationCardKarigar,
   };
 };
 
