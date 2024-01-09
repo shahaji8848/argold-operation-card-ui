@@ -33,23 +33,31 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
       </div> */}
 
       <div className={`row ${styles.mob_wrapper} `}>
-        <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-3">
+        <div className="col-xxl-1 col-xl-2 col-lg-2 col-md-3">
           <span className="bold">Issue :</span>
         </div>
-        <div className="col-xxl-10 col-xl-10 col-lg-10 col-md-9 ">
+        <div className="col-xxl-11 col-xl-10 col-lg-10 col-md-9 ">
           <div className=" row btn_wrapper_end">
-            {operationCardProductDept?.issue_items?.length > 0 &&
-              operationCardProductDept?.issue_items.map((val: any, i: any) => (
-                <div className="col-md-3 col-6 btn_wrapper" key={i}>
-                  <button
-                    type="button"
-                    className={`btn btn-blueColor btn-py ${styles.btn_tab}`}
-                    onClick={() => handleShow(val.item)}
-                  >
-                    {val?.item}
-                  </button>
-                </div>
-              ))}
+            <div className={`col-md-12 text-end ${styles.btn_wrapper_mob}`}>
+              {operationCardProductDept?.issue_items?.length > 0 &&
+                operationCardProductDept?.issue_items.map(
+                  (val: any, i: any) => (
+                    // <div
+                    //   className="col-xxl-2 col-xl-4 col-lg-4 col-md-6 col-sm-2  btn_wrapper"
+                    //   key={i}
+                    // >
+                    <button
+                      type="button"
+                      className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
+                      onClick={() => handleShow(val.item)}
+                      key={i}
+                    >
+                      {val?.item}
+                    </button>
+                    // </div>
+                  )
+                )}
+            </div>
           </div>
         </div>
       </div>
