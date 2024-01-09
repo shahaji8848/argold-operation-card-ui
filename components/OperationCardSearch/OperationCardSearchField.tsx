@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 const OperationCardSearchField = () => {
+  const focusRef = useRef<any>(null);
   const router = useRouter();
   const [searchField, setSearchField] = useState<string>('');
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -16,6 +17,10 @@ const OperationCardSearchField = () => {
       router.push(`/operation-card-list?search=${searchField}`);
     }
   };
+
+  useEffect(() => {
+    focusRef.current.focus();
+  }, []);
   return (
     <div className="row mt-5 pt-5">
       <div className="col-md-3">
@@ -26,6 +31,7 @@ const OperationCardSearchField = () => {
       <div className="col-md-6">
         <input
           type="text"
+          ref={focusRef}
           style={{ boxShadow: 'none !important' }}
           className="form-control border-grey w-100 "
           value={searchField}
