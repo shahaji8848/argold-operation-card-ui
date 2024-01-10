@@ -3,35 +3,67 @@ import styles from '../../../../styles/operationDetail.module.css';
 import Modal from 'react-bootstrap/Modal';
 
 const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
-  console.log(operationCardProductDept, 'operationCardProductDeptsdds');
   const [show, setShow] = useState(false);
   const [itemName, setItemName] = useState('');
-  const [getValues, setGetValues] = useState([]);
+  const [getValues, setGetValues] = useState<any>([]);
   const handleClose = () => setShow(false);
   const handleShow = (value: any) => {
     setShow(true);
     setItemName(value);
-    const operationCardValue = operationCardProductDept?.issue_items.filter(
+    const operationCardValue = operationCardProductDept?.issue_items?.filter(
       (issueVal: any) => issueVal.item === value
     );
-    console.log(operationCardValue, 'operationCardValue');
 
-    const filterZeroFields = operationCardValue.map((item: any) =>
-      Object.entries(item)
-        .filter(([key, value]) => value === 0 && key !== 'docstatus')
-        .map(([key]) => key)
+    const showKeys = Object.keys(operationCardValue[0]).filter((key) =>
+      key.startsWith('show')
     );
-    setGetValues(filterZeroFields[0]);
+    const setKeys = Object.keys(operationCardValue[0]).filter((key) =>
+      key.startsWith('set')
+    );
+
+    const resultArray = groupByKeyWords(showKeys, setKeys);
+
+    function groupByKeyWords(showKeys: any, setKeys: any) {
+      const groupedKeys: any = {};
+
+      showKeys.concat(setKeys).forEach((key: any) => {
+        const keyword = key.substring(key.indexOf('_') + 1);
+
+        if (!groupedKeys[keyword]) {
+          groupedKeys[keyword] = {};
+        }
+
+        groupedKeys[keyword][key] = operationCardValue[0][key]; // Access value correctly
+      });
+
+      return Object.values(groupedKeys);
+    }
+    console.log('keys 2', resultArray);
+
+    let showKeysArray: string[] = [];
+
+    resultArray.forEach((obj: any) => {
+      const showKeys = Object.keys(obj).filter(
+        (key) => key.startsWith('show') && obj[key] === 1
+      );
+      showKeysArray.push(...showKeys);
+    });
+
+    console.log(showKeysArray);
+
+    setGetValues(showKeysArray);
+    // const filterZeroFields = operationCardValue.map((item: any) =>
+    //   Object.entries(item)
+    //     .filter(([key, value]) => value === 0 && key !== 'docstatus')
+    //     .map(([key]) => key)
+    // );
+    // console.log('arr zero fields', filterZeroFields);
   };
 
-  console.log('Keys with 0 value:', getValues.length);
+  // console.log('Keys with 0 value:', getValues.length);
+
   return (
     <div>
-      {/* <div className="operationCardId mt-3">
-        <p className="mb-0 dark-blue">Operation Card: OP--Flatting-00014</p>
-        <p className="mb-0 dark-blue">Add Weight: Issue</p>
-      </div> */}
-
       <div className={`row ${styles.mob_wrapper} `}>
         <div className="col-xxl-1 col-xl-2 col-lg-2 col-md-3">
           <span className="bold">Issue :</span>
@@ -73,7 +105,7 @@ const OperationCardIssueButton = ({ operationCardProductDept }: any) => {
           <div className="row">
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => (
-                <div className="col-md-4 ">
+                <div className="col-md-4 " key={i}>
                   <label
                     htmlFor="staticEmail"
                     className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}

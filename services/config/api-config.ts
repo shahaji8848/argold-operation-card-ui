@@ -1,11 +1,16 @@
 import axios from 'axios';
 
 export const CONSTANTS = {
-  API_BASE_URL: 'https://erp.ar-gold.in',
+  API_BASE_URL: 'https://staging1-arg-manufacturing.8848digitalerp.com/',
+  // API_BASE_URL: 'https://erp.ar-gold.in',
   STANDARD_API_PATH: '/api/resource',
 };
 
-const TOKEN = 'token adf3e7caf953f16:bc1c3e88ad9f41d';
+// live site token
+// const TOKEN = 'token adf3e7caf953f16:bc1c3e88ad9f41d';
+
+// staging site token
+const TOKEN = 'token adf3e7caf953f16:b9df520620fca99';
 
 export const callGetAPI = async (url: string) => {
   let response: any;
