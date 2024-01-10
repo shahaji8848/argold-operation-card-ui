@@ -42,17 +42,11 @@ const useOperationDetailCard = () => {
       setOperationCardProductDept({});
     }
   };
-  useEffect(() => {
-    operationCardDetail();
-  }, []);
-  useEffect(() => {
-    if (Object.keys(operationCardDetailData).length > 0) {
-      getOperationCardProcessDepartment();
-    }
-  }, [operationCardDetailData]);
 
   const getOperationCardDetailKarigar = async () => {
-    const getKarigarData = await GETOperationCardDetailKarigar();
+    const getKarigarData = await GETOperationCardDetailKarigar(
+      operationCardDetailData?.product
+    );
     if (getKarigarData?.status === 200) {
       setOperationCardKarigar(getKarigarData?.data?.data);
     } else {
@@ -61,8 +55,18 @@ const useOperationDetailCard = () => {
   };
 
   useEffect(() => {
-    getOperationCardDetailKarigar();
+    operationCardDetail();
   }, []);
+  useEffect(() => {
+    if (Object.keys(operationCardDetailData).length > 0) {
+      getOperationCardProcessDepartment();
+      getOperationCardDetailKarigar();
+    }
+  }, [operationCardDetailData]);
+
+  // useEffect(() => {
+  //   getOperationCardDetailKarigar();
+  // }, []);
 
   return {
     operationCardProductDept,

@@ -87,7 +87,10 @@ const OperationCardListingTable = ({ data }: any) => {
                       : '--'}
                   </td>
                   <td>
-                    <Link href={`/operation-card-detail?name=${rowData?.name}`}>
+                    <Link
+                      href={`/operation-card-detail?name=${rowData?.name}`}
+                      target="_blank"
+                    >
                       {rowData?.name && rowData?.name !== null
                         ? rowData?.name
                         : '--'}
