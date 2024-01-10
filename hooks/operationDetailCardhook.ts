@@ -44,9 +44,10 @@ const useOperationDetailCard = () => {
   };
 
   const getOperationCardDetailKarigar = async () => {
-    const getKarigarData = await GETOperationCardDetailKarigar(
-      operationCardDetailData?.product
-    );
+    const getKarigarData = await GETOperationCardDetailKarigar();
+    // const getKarigarData = await GETOperationCardDetailKarigar(
+    //   operationCardDetailData?.product
+    // );
     if (getKarigarData?.status === 200) {
       setOperationCardKarigar(getKarigarData?.data?.data);
     } else {
