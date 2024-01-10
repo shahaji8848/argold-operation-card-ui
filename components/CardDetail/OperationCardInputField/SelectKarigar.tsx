@@ -1,6 +1,6 @@
 import React, { use, useState } from 'react';
 import styles from '../../../styles/operationDetail.module.css';
-import { dataVal } from '../../../app/DataSet/operationCardProcessDept';
+import { dataVal } from '../../../app/dataSet/operationCardProcessDept';
 const SelectKarigar = ({
   operationCardProductDept,
   operationCardDetailData,

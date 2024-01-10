@@ -11,7 +11,9 @@ const OperationCardSearchField = () => {
     }
   };
   const redirectToListPage = () => {
-    if (searchField.includes('OP') || searchField.includes('op')) {
+    if (searchField === '') {
+      router.push('');
+    } else if (searchField.includes('OP') || searchField.includes('op')) {
       router.push(`/operation-card-detail?name=${searchField}`);
     } else {
       router.push(`/operation-card-list?search=${searchField}`);
