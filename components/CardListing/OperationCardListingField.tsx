@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
+import inputField from '../../app/dataSet/operationCardListingField';
 
 const OperationCardListingField = ({
   filtersData,
@@ -8,53 +9,6 @@ const OperationCardListingField = ({
   handleClearFilters,
   handleKeyDownEnter,
 }: any) => {
-  const inputField = [
-    {
-      name: 'parent_melting_lot',
-      label: 'parent melting lot',
-    },
-    {
-      name: 'melting_lot',
-      label: 'melting lot',
-    },
-    {
-      name: 'operation_department',
-      label: 'process',
-    },
-    {
-      name: 'balance_gross_weight',
-      label: 'gross balance',
-    },
-    {
-      name: 'product_process_department',
-      label: 'department',
-    },
-    {
-      name: 'balance_fine_weight',
-      label: 'fine balance',
-    },
-    {
-      name: 'product_purity',
-      label: 'purity',
-    },
-    {
-      name: 'karigar',
-      label: 'karigar',
-    },
-    {
-      name: 'name',
-      label: 'operation card',
-    },
-    {
-      name: 'product',
-      label: 'product',
-    },
-    {
-      name: 'balance_weight',
-      label: 'balance',
-    },
-  ];
-
   return (
     <div className="spacing-mt">
       <div className="row">
