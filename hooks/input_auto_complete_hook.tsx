@@ -33,15 +33,28 @@ const useInputAutoComplete = () => {
     setShowSuggestionsAutoComplete(false);
   };
 
-  // this filter the data and show the suggestion
   const showSuggestionsAutoCompleteHandlerAutoComplete = () => {
-    const filtered: any = optionvalue.filter((suggestion: any) =>
-      suggestion.toLowerCase().includes(inputValueAutoComplete.toLowerCase())
-    );
+    const trimmedInput = inputValueAutoComplete.trim().toLowerCase();
 
-    setFilteredSuggestionsAutoComplete(filtered);
-    setShowSuggestionsAutoComplete(true);
+    if (trimmedInput === '' || !trimmedInput || trimmedInput.length === 0) {
+      // If input is empty, contains only whitespace, or doesn't exist, show all suggestions
+      setFilteredSuggestionsAutoComplete(optionvalue);
+      setShowSuggestionsAutoComplete(true);
+    } else {
+      const filtered: any = optionvalue.filter((suggestion: any) =>
+        // suggestion.toLowerCase().includes(trimmedInput)
+        suggestion.toLowerCase().startsWith(trimmedInput)
+      );
+
+      // setFilteredSuggestionsAutoComplete(filtered);
+      // Always show all suggestions if there is no match
+      setFilteredSuggestionsAutoComplete(
+        filtered.length > 0 ? filtered : [' Not Found ']
+      );
+      setShowSuggestionsAutoComplete(true);
+    }
   };
+
   //passing all the data and function
   return {
     setOptionValue,
