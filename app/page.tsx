@@ -4,7 +4,7 @@ import OperationCardSearchMaster from '@/components/OperationCardSearch/Operatio
 const Home = () => {
   return (
     <div>
-      <div className="container-fulid">
+      <div className="container">
         <div className="spacing-pd">
           <OperationCardSearchMaster />
         </div>
