@@ -6,14 +6,11 @@ const OperationCardIssueMaster = ({
   operationCardProductDept,
   operationCardDetailData,
 }: any) => {
-  console.log(
-    'operationCardProductDept from OperationCardIssueMaster',
-    operationCardProductDept
-  );
   return (
     <>
       <OperationCardIssueButton
         operationCardProductDept={operationCardProductDept}
+        operationCardDetailData={operationCardDetailData}
       />
       <div className="mt-2">
         <OperationCardIssueItem

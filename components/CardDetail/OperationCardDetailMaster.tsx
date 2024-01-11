@@ -11,7 +11,6 @@ const OperationCardDetailMaster = () => {
     operationCardProductDept,
     operationCardKarigar,
   } = useOperationDetailCard();
-  console.log('operationCardKarigard', operationCardKarigar);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (

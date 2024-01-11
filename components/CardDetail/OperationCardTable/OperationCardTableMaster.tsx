@@ -6,7 +6,6 @@ const OperationCardTableMaster = ({
   operationCardProductDept,
   operationCardDetailData,
 }: any) => {
-  console.log('operationCardProductDept from master', operationCardProductDept);
   return (
     <div className="row spacing-mt">
       <div className="col-md-5">

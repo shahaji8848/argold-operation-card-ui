@@ -80,7 +80,7 @@ const OperationCardListingTable = ({ data }: any) => {
                       ? rowData?.balance_gross_weight
                       : '--'}
                   </td>
-                  <td>
+                  <td className="text-end">
                     {rowData?.balance_fine_weight &&
                     rowData?.balance_fine_weight !== 0
                       ? rowData?.balance_fine_weight
