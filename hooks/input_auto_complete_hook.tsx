@@ -39,17 +39,20 @@ const useInputAutoComplete = () => {
     if (trimmedInput === '' || !trimmedInput || trimmedInput.length === 0) {
       // If input is empty, contains only whitespace, or doesn't exist, show all suggestions
       setFilteredSuggestionsAutoComplete(optionvalue);
+      setShowSuggestionsAutoComplete(true);
     } else {
       const filtered: any = optionvalue.filter((suggestion: any) =>
-        suggestion.toLowerCase().includes(trimmedInput)
+        // suggestion.toLowerCase().includes(trimmedInput)
+        suggestion.toLowerCase().startsWith(trimmedInput)
       );
 
+      // setFilteredSuggestionsAutoComplete(filtered);
       // Always show all suggestions if there is no match
       setFilteredSuggestionsAutoComplete(
-        filtered.length > 0 && filtered !== '' ? filtered : optionvalue
+        filtered.length > 0 ? filtered : [' Not Found ']
       );
+      setShowSuggestionsAutoComplete(true);
     }
-    setShowSuggestionsAutoComplete(true);
   };
 
   //passing all the data and function

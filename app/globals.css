@@ -161,10 +161,49 @@ a {
   /* margin-right: 10px; */
   /* padding-right: 20px !important; */
 }
+/* Track */
+.card_body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
+}
+/* Handle */
+.card_body::-webkit-scrollbar-thumb {
+  background: #b4b4b4;
+}
+
+/* Handle on hover */
+.card_body::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.fileredValue-hover:hover {
+  background-color: rgb(233, 232, 232) !important;
+}
 
 .form-control:focus {
   box-shadow: none !important;
 }
+
 @media (max-width: 768px) {
   .btn-blueColor {
     width: 100% !important;

@@ -70,7 +70,7 @@ const SelectKarigar = ({
       <div className="col-md-2 p-0 m-0">
         <div className="fs-14 bold text-start">Karigar</div>
         <div className="fs-14 ">
-          <div className="position-relative">
+          <div className="position-relative ">
             <input
               type="text"
               id={field}
@@ -112,22 +112,30 @@ const SelectKarigar = ({
             {showSuggestionsAutoComplete &&
               filteredSuggestionsAutoComplete.length > 0 && (
                 <div
-                  className="position-absolute w-100"
+                  className="position-absolute w-100 scrollbar "
                   style={{
                     border: '1px solid #ccc',
-                    maxHeight: '100px',
+                    height: '150px',
                     overflowY: 'auto',
                     background: 'white',
+                    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
+                    zIndex: '4',
                   }}
                 >
-                  {filteredSuggestionsAutoComplete.map((suggestion, index) => (
+                  {filteredSuggestionsAutoComplete?.map((suggestion, index) => (
                     <div
                       key={index}
                       onClick={() => {
                         handleSuggestionClickAutoComplete(suggestion);
                         // handleInputChange(field.fieldname, suggestion);
                       }}
-                      style={{ cursor: 'pointer', padding: '5px' }}
+                      style={{
+                        cursor: 'pointer',
+                        padding: '7px',
+                        fontWeight: 'bold',
+                      }}
+                      className="fileredValue-hover force-overflow"
+                      id="style-2"
                     >
                       {suggestion}
                     </div>
