@@ -52,13 +52,18 @@ const SelectKarigar = ({
     }
   );
   console.log('fieldData', fieldData);
+
   useEffect(() => {
     const fieldData = operationCardKarigar.map(
       (karigar_item: any) => karigar_item?.name
     );
     setOptionValue(fieldData);
     setField(fieldData);
-  }, [operationCardKarigar]);
+  }, [operationCardKarigar, setOptionValue]);
+
+  useEffect(() => {
+    showSuggestionsAutoCompleteHandlerAutoComplete();
+  }, [inputValueAutoComplete]);
 
   return (
     <div className={`row   text-center  py-2 mx-2 gap-3`}>
@@ -82,8 +87,9 @@ const SelectKarigar = ({
               autoComplete="off"
               onChange={(e) => {
                 setInputValueAutoComplete(e.target.value);
-                // setinputValueAutoCompleteData(e.target.value);
                 showSuggestionsAutoCompleteHandlerAutoComplete();
+                console.log('Input value:', e.target.value);
+
                 // setField(e.target.value);
                 // handleInputChange(field.fieldname, e.target.value);
               }}
