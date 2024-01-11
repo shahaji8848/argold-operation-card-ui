@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from 'react';
 import styles from '../../../styles/operationDetail.module.css';
-import { dataVal } from '../../../app/dataSet/operationCardProcessDept';
+import { dataVal } from '../../../DataSet/operationCardProcessDept';
 import useInputAutoComplete from '@/hooks/input_auto_complete_hook';
 
 const SelectKarigar = ({

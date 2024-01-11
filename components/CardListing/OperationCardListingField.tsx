@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
-import inputField from '../../app/dataSet/operationCardListingField';
+import inputField from '../../DataSet/operationCardListingField';
 
 const OperationCardListingField = ({
   filtersData,
