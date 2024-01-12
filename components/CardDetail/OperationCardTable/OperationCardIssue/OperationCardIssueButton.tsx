@@ -1,18 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../../../../styles/operationDetail.module.css';
 import Modal from 'react-bootstrap/Modal';
+import AutoCompleteField from './AutoCompleteField';
 
 const OperationCardIssueButton = ({
   operationCardProductDept,
   operationCardDetailData,
+  operationCardKarigar,
+
+  operationCardThickness,
+  operationCardVariant,
+  operationCardMachineSize,
+  operationCardDesignCodeCategory,
 }: any) => {
+  const checkArray = [
+    'machine_size',
+    'machine_category',
+    'design_code_category',
+    'variant',
+    'karigar',
+    'next_karigar',
+    'thickness',
+    'next_product_process',
+    'next_design',
+  ];
+
+  console.log(
+    'fields',
+    operationCardKarigar,
+
+    operationCardThickness,
+    operationCardVariant,
+    operationCardMachineSize,
+    operationCardDesignCodeCategory
+  );
+
   const [show, setShow] = useState(false);
   const [itemName, setItemName] = useState('');
   const [getValues, setGetValues] = useState<any>([]);
 
   const [modalFieldValuesState, setModalFieldValuesState] = useState<any>({});
   const handleSubmit = () => {
-    console.log('keys modal fields', modalFieldValuesState);
+    console.log('list keys modal fields', modalFieldValuesState);
   };
   const handleClose = () => setShow(false);
   const handleModalFieldsChange = (e: any) => {
@@ -144,12 +173,86 @@ const OperationCardIssueButton = ({
           <div className="row">
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
+                let propToPass: any;
+                let funcData: any;
                 const setKey: any = `set_${val.label
                   .toLowerCase()
                   .replace(' ', '_')}`;
+
+                const handleField = (val: any) => {
+                  const propMappings: any = {
+                    machine_size: operationCardMachineSize,
+                    thickness: operationCardThickness,
+                    variant: operationCardVariant,
+                    karigar: operationCardKarigar,
+                    design_code_category: operationCardDesignCodeCategory,
+                  };
+                  propToPass = propMappings[val];
+                  return propToPass;
+                };
+                funcData = handleField(val?.label);
                 return (
                   <div className="col-md-4 " key={i}>
-                    <label
+                    {checkArray?.includes(val?.label) ? (
+                      <>
+                        <label
+                          htmlFor="staticEmail"
+                          className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
+                        >
+                          {val?.label
+                            ?.split('_')
+                            ?.filter(
+                              (val: any) =>
+                                val !== 'set' &&
+                                val !== 'readonly' &&
+                                val !== 'show'
+                            )
+                            ?.map((val: any, index: any) =>
+                              index === 0
+                                ? val.charAt(0).toUpperCase() + val.slice(1)
+                                : val
+                            )
+                            .join(' ')}
+                        </label>
+                        <AutoCompleteField list={funcData} label={val?.label} />
+                      </>
+                    ) : (
+                      <>
+                        <label
+                          htmlFor="staticEmail"
+                          className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
+                        >
+                          {val?.label
+                            ?.split('_')
+                            ?.filter(
+                              (val: any) =>
+                                val !== 'set' &&
+                                val !== 'readonly' &&
+                                val !== 'show'
+                            )
+                            ?.map((val: any, index: any) =>
+                              index === 0
+                                ? val.charAt(0).toUpperCase() + val.slice(1)
+                                : val
+                            )
+                            .join(' ')}
+                        </label>
+                        <div
+                          className={`col-sm-10 text-left ${styles.inputFlex} `}
+                        >
+                          <input
+                            type="text"
+                            className="form-control inputFields dark-blue"
+                            name={val?.label}
+                            id={val?.label}
+                            disabled={val[setKey] === 0}
+                            value={modalFieldValuesState[val?.label]}
+                            onChange={handleModalFieldsChange}
+                          />
+                        </div>
+                      </>
+                    )}
+                    {/* <label
                       htmlFor="staticEmail"
                       className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
                     >
@@ -178,7 +281,7 @@ const OperationCardIssueButton = ({
                         value={modalFieldValuesState[val?.label]}
                         onChange={handleModalFieldsChange}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 );
               })}
@@ -190,7 +293,7 @@ const OperationCardIssueButton = ({
                 className={`btn btn-blueColor ${styles.submit_btn}`}
                 onClick={handleSubmit}
               >
-                Submit
+                Save
               </button>
             </div>
           ) : (

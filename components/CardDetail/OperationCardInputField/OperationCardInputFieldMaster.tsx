@@ -5,6 +5,10 @@ const OperationCardInputFieldMaster = ({
   operationCardProductDept,
   operationCardDetailData,
   operationCardKarigar,
+  operationCardThickness,
+  operationCardVariant,
+  operationCardMachineSize,
+  operationCardDesignCodeCategory,
 }: any) => {
   return (
     <div className="d-flex  spacing-mt ">

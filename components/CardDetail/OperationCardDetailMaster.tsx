@@ -10,7 +10,13 @@ const OperationCardDetailMaster = () => {
     operationCardDetailData,
     operationCardProductDept,
     operationCardKarigar,
+
+    operationCardThickness,
+    operationCardVariant,
+    operationCardMachineSize,
+    operationCardDesignCodeCategory,
   } = useOperationDetailCard();
+  console.log('karigar', operationCardKarigar);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -31,7 +37,12 @@ const OperationCardDetailMaster = () => {
             />
             <OperationCardTableMaster
               operationCardProductDept={operationCardProductDept}
+              operationCardKarigar={operationCardKarigar}
               operationCardDetailData={operationCardDetailData}
+              operationCardThickness={operationCardThickness}
+              operationCardVariant={operationCardVariant}
+              operationCardMachineSize={operationCardMachineSize}
+              operationCardDesignCodeCategory={operationCardDesignCodeCategory}
             />
           </div>
         </div>

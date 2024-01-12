@@ -5,6 +5,11 @@ import OperationCardIssueMaster from './OperationCardIssue/OperationCardIssueMas
 const OperationCardTableMaster = ({
   operationCardProductDept,
   operationCardDetailData,
+  operationCardKarigar,
+  operationCardThickness,
+  operationCardVariant,
+  operationCardMachineSize,
+  operationCardDesignCodeCategory,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -18,6 +23,11 @@ const OperationCardTableMaster = ({
         <OperationCardIssueMaster
           operationCardProductDept={operationCardProductDept}
           operationCardDetailData={operationCardDetailData}
+          operationCardKarigar={operationCardKarigar}
+          operationCardThickness={operationCardThickness}
+          operationCardVariant={operationCardVariant}
+          operationCardMachineSize={operationCardMachineSize}
+          operationCardDesignCodeCategory={operationCardDesignCodeCategory}
         />
       </div>
     </div>

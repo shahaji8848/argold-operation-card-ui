@@ -1,6 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
-import styles from '../../../styles/operationDetail.module.css';
-import { dataVal } from '../../../DataSet/operationCardProcessDept';
+import React, { useEffect, useState } from 'react';
 import useInputAutoComplete from '@/hooks/input_auto_complete_hook';
 
 const SelectKarigar = ({
@@ -19,16 +17,6 @@ const SelectKarigar = ({
     operationCardDetailData
   ).filter(([key, value]) => operationCardFields.includes(key));
 
-  // function extractMatchingValues(obj: any, keys: any) {
-  //   console.log(keys, 'keys');
-  //   return Object.entries(obj).filter(([key]) => keys.includes(key));
-  // }
-
-  // const matchingValues = extractMatchingValues(
-  //   operationCardDetailData,
-  //   operationCardFields
-  // )
-
   const {
     setOptionValue,
     inputValueAutoComplete,
@@ -43,8 +31,6 @@ const SelectKarigar = ({
   console.log(operationCardFieldValue, 'operationCardFieldValue');
 
   const [field, setField] = useState('');
-
-  console.log('operationCardKarigar', operationCardKarigar);
 
   const fieldData: any = operationCardKarigar.map(
     (karigar_item: any, index: any) => {
@@ -89,25 +75,10 @@ const SelectKarigar = ({
                 setInputValueAutoComplete(e.target.value);
                 showSuggestionsAutoCompleteHandlerAutoComplete();
                 console.log('Input value:', e.target.value);
-
-                // setField(e.target.value);
-                // handleInputChange(field.fieldname, e.target.value);
               }}
               onFocus={showSuggestionsAutoCompleteHandlerAutoComplete}
               ref={inputRef}
-              // required={mandatory === 1 ? true : false}
             />
-            {/* {
-              // missingFields &&
-              // missingFields.length > 0 &&
-              // missingFields.includes(field.fieldname) &&
-              // mandatory &&
-              !field ? (
-                <div className="invalid-feedback">
-                  {'This field is required.'}
-                </div>
-              ) : null
-            } */}
 
             {showSuggestionsAutoComplete &&
               filteredSuggestionsAutoComplete.length > 0 && (

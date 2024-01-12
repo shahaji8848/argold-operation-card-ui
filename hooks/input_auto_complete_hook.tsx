@@ -31,6 +31,7 @@ const useInputAutoComplete = () => {
   const handleSuggestionClickAutoComplete = (suggestion: string) => {
     setInputValueAutoComplete(suggestion);
     setShowSuggestionsAutoComplete(false);
+    console.log('list', suggestion);
   };
 
   const showSuggestionsAutoCompleteHandlerAutoComplete = () => {
