@@ -7,10 +7,10 @@ import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Image from 'next/image';
 const OperationCardDetailMaster = () => {
   const {
+    search,
     operationCardDetailData,
     operationCardProductDept,
     operationCardKarigar,
-
     operationCardThickness,
     operationCardVariant,
     operationCardMachineSize,
@@ -36,6 +36,7 @@ const OperationCardDetailMaster = () => {
               operationCardKarigar={operationCardKarigar}
             />
             <OperationCardTableMaster
+              search={search}
               operationCardProductDept={operationCardProductDept}
               operationCardKarigar={operationCardKarigar}
               operationCardDetailData={operationCardDetailData}

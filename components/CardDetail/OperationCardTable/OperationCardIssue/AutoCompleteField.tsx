@@ -1,33 +1,25 @@
 import useInputAutoComplete from '@/hooks/input_auto_complete_hook';
 import React, { useEffect, useState } from 'react';
 
-const AutoCompleteField = ({ list, label }: any) => {
+const AutoCompleteField = ({
+  listOfDropdownObjs,
+  label,
+  handleDropDownValuesChange,
+  modalDropdownFieldsProp,
+}: any) => {
   const [field, setField] = useState('');
   const {
     setOptionValue,
+    setFilteredSuggestionsAutoComplete,
     inputValueAutoComplete,
     setInputValueAutoComplete,
-    showSuggestionsAutoCompleteHandlerAutoComplete,
+    showFilteredValuesHandler,
     inputRef,
     showSuggestionsAutoComplete,
+    setShowSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
-  } = useInputAutoComplete();
-
-  useEffect(() => {
-    console.log('fields list', list);
-    if (list?.length === 0) {
-    } else {
-      const fieldData = list?.map((karigar_item: any) => karigar_item?.value);
-      console.log('fields list data', fieldData);
-      setOptionValue(fieldData);
-      setField(fieldData);
-    }
-  }, [list, setOptionValue]);
-
-  useEffect(() => {
-    showSuggestionsAutoCompleteHandlerAutoComplete();
-  }, [inputValueAutoComplete]);
+  } = useInputAutoComplete(listOfDropdownObjs);
   return (
     <div>
       <div>
@@ -35,16 +27,15 @@ const AutoCompleteField = ({ list, label }: any) => {
           <div className="position-relative ">
             <input
               type="text"
-              id={field}
+              // id={field}
               value={inputValueAutoComplete}
-              className={`form-control w-100 ${!field ? 'is-invalid' : ''}`}
+              className={`form-control w-100 `}
               autoComplete="off"
               onChange={(e) => {
                 setInputValueAutoComplete(e.target.value);
-                showSuggestionsAutoCompleteHandlerAutoComplete();
-                console.log('Input value:', e.target.value);
+                handleDropDownValuesChange(label, e.target.value);
               }}
-              onFocus={showSuggestionsAutoCompleteHandlerAutoComplete}
+              onFocus={showFilteredValuesHandler}
               ref={inputRef}
             />
 
@@ -61,23 +52,26 @@ const AutoCompleteField = ({ list, label }: any) => {
                     zIndex: '4',
                   }}
                 >
-                  {filteredSuggestionsAutoComplete?.map((suggestion, index) => (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        handleSuggestionClickAutoComplete(suggestion);
-                      }}
-                      style={{
-                        cursor: 'pointer',
-                        padding: '7px',
-                        fontWeight: 'bold',
-                      }}
-                      className="fileredValue-hover force-overflow"
-                      id="style-2"
-                    >
-                      {suggestion}
-                    </div>
-                  ))}
+                  {filteredSuggestionsAutoComplete?.map(
+                    (suggestion: any, index: number) => (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          handleSuggestionClickAutoComplete(suggestion);
+                          handleDropDownValuesChange(label, suggestion);
+                        }}
+                        style={{
+                          cursor: 'pointer',
+                          padding: '7px',
+                          fontWeight: 'bold',
+                        }}
+                        className="fileredValue-hover force-overflow"
+                        id="style-2"
+                      >
+                        {suggestion?.value}
+                      </div>
+                    )
+                  )}
                 </div>
               )}
           </div>

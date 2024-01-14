@@ -7,7 +7,7 @@ const GETOperationCardDetailProcessVariant = async (product?: any) => {
   const filters: any = [['product', '=', `${product}`]];
   const url = `${CONSTANTS.API_BASE_URL}${
     CONSTANTS.STANDARD_API_PATH
-  }/Machine Size?fields=${JSON.stringify(fields)}&filters=${JSON.stringify(
+  }/variant?fields=${JSON.stringify(fields)}&filters=${JSON.stringify(
     filters
   )}&limit=None`;
 

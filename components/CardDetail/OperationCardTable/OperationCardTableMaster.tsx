@@ -3,6 +3,7 @@ import OperationCardReceiptMaster from './OperationCardReceipt/OperationCardRece
 import OperationCardIssueMaster from './OperationCardIssue/OperationCardIssueMaster';
 
 const OperationCardTableMaster = ({
+  search,
   operationCardProductDept,
   operationCardDetailData,
   operationCardKarigar,
@@ -11,6 +12,7 @@ const OperationCardTableMaster = ({
   operationCardMachineSize,
   operationCardDesignCodeCategory,
 }: any) => {
+  console.log('modal machine size', operationCardMachineSize);
   return (
     <div className="row spacing-mt">
       <div className="col-md-5">
@@ -21,6 +23,7 @@ const OperationCardTableMaster = ({
       </div>
       <div className="col-md-7">
         <OperationCardIssueMaster
+          search={search}
           operationCardProductDept={operationCardProductDept}
           operationCardDetailData={operationCardDetailData}
           operationCardKarigar={operationCardKarigar}

@@ -6,6 +6,7 @@ const SelectKarigar = ({
   operationCardDetailData,
   operationCardKarigar,
 }: any) => {
+  console.log('karigar list', operationCardKarigar);
   const [operationCardFieldVal, setOperationCardFieldVal] = useState([
     operationCardDetailData,
   ]);
@@ -21,35 +22,12 @@ const SelectKarigar = ({
     setOptionValue,
     inputValueAutoComplete,
     setInputValueAutoComplete,
-    showSuggestionsAutoCompleteHandlerAutoComplete,
+    showFilteredValuesHandler,
     inputRef,
     showSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
-  } = useInputAutoComplete();
-
-  console.log(operationCardFieldValue, 'operationCardFieldValue');
-
-  const [field, setField] = useState('');
-
-  const fieldData: any = operationCardKarigar.map(
-    (karigar_item: any, index: any) => {
-      return karigar_item?.name;
-    }
-  );
-  console.log('fieldData', fieldData);
-
-  useEffect(() => {
-    const fieldData = operationCardKarigar.map(
-      (karigar_item: any) => karigar_item?.name
-    );
-    setOptionValue(fieldData);
-    setField(fieldData);
-  }, [operationCardKarigar, setOptionValue]);
-
-  useEffect(() => {
-    showSuggestionsAutoCompleteHandlerAutoComplete();
-  }, [inputValueAutoComplete]);
+  } = useInputAutoComplete(operationCardKarigar);
 
   return (
     <div className={`row   text-center  py-2 mx-2 gap-3`}>
@@ -59,24 +37,13 @@ const SelectKarigar = ({
           <div className="position-relative ">
             <input
               type="text"
-              id={field}
-              // value={field}
               value={inputValueAutoComplete}
-              // className={`form-control w-100`}
-              className={`form-control w-100 ${
-                // missingFields &&
-                // missingFields.length > 0 &&
-                // missingFields.includes(field.fieldname) &&
-                // mandatory &&
-                !field ? 'is-invalid' : ''
-              }`}
+              className={`form-control w-100`}
               autoComplete="off"
               onChange={(e) => {
                 setInputValueAutoComplete(e.target.value);
-                showSuggestionsAutoCompleteHandlerAutoComplete();
-                console.log('Input value:', e.target.value);
               }}
-              onFocus={showSuggestionsAutoCompleteHandlerAutoComplete}
+              onFocus={showFilteredValuesHandler}
               ref={inputRef}
             />
 
@@ -93,24 +60,25 @@ const SelectKarigar = ({
                     zIndex: '4',
                   }}
                 >
-                  {filteredSuggestionsAutoComplete?.map((suggestion, index) => (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        handleSuggestionClickAutoComplete(suggestion);
-                        // handleInputChange(field.fieldname, suggestion);
-                      }}
-                      style={{
-                        cursor: 'pointer',
-                        padding: '7px',
-                        fontWeight: 'bold',
-                      }}
-                      className="fileredValue-hover force-overflow"
-                      id="style-2"
-                    >
-                      {suggestion}
-                    </div>
-                  ))}
+                  {filteredSuggestionsAutoComplete?.map(
+                    (suggestion: any, index: number) => (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          handleSuggestionClickAutoComplete(suggestion);
+                        }}
+                        style={{
+                          cursor: 'pointer',
+                          padding: '7px',
+                          fontWeight: 'bold',
+                        }}
+                        className="fileredValue-hover force-overflow"
+                        id="style-2"
+                      >
+                        {suggestion?.value}
+                      </div>
+                    )
+                  )}
                 </div>
               )}
           </div>
@@ -134,15 +102,16 @@ const SelectKarigar = ({
                 type="text"
                 className="form-control dark-blue operationCardinputFields"
                 id="inputText"
-                placeholder={key
-                  .split('_')
-                  .map((val: any, index: any) => {
-                    return index === 0
-                      ? val.charAt(0).toUpperCase() + val.slice(1)
-                      : val;
-                  })
-                  .join(' ')}
-                value={values}
+                // placeholder={key
+                //   .split('_')
+                //   .map((val: any, index: any) => {
+                //     return index === 0
+                //       ? val.charAt(0).toUpperCase() + val.slice(1)
+                //       : val;
+                //   })
+
+                //   .join(' ')}
+                value={values.toFixed(3)}
               />
             </div>
           </div>

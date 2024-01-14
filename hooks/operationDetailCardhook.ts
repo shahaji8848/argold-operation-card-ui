@@ -103,11 +103,16 @@ const useOperationDetailCard = () => {
     }
   };
   const getOperationCardDetailMachineSizeAPICall = async () => {
-    const getKarigarData = await GETOperationCardDetailMachineSize(
+    const getMachineSizeData = await GETOperationCardDetailMachineSize(
       operationCardDetailData?.product
     );
-    if (getKarigarData?.status === 200) {
-      setOperationCardMachineSize(getKarigarData?.data?.data);
+    if (getMachineSizeData?.status === 200) {
+      setOperationCardMachineSize(
+        getMachineSizeData?.data?.data?.map((machine_size_data: any) => ({
+          name: machine_size_data?.name,
+          value: machine_size_data?.name1,
+        }))
+      );
     } else {
       setOperationCardKarigar([]);
     }
@@ -133,8 +138,8 @@ const useOperationDetailCard = () => {
       getOperationCardProcessDepartment();
       getOperationCardDetailKarigar();
       getOperationCardDetailThicknessAPICall();
+      getOperationCardDetailMachineSizeAPICall();
       // getOperationCardDetailVariantAPICall();
-      // getOperationCardDetailMachineSizeAPICall();
       // getOperationCardDetailDesignCodeCategoryAPICall();
     }
   }, [operationCardDetailData]);
@@ -144,6 +149,7 @@ const useOperationDetailCard = () => {
   // }, []);
 
   return {
+    search,
     operationCardProductDept,
     operationCardDetailData,
     operationCardKarigar,

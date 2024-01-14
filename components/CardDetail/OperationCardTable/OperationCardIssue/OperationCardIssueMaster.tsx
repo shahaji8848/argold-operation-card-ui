@@ -3,6 +3,7 @@ import OperationCardIssueButton from './OperationCardIssueButton';
 import OperationCardIssueItem from './OperationCardIssueItem';
 
 const OperationCardIssueMaster = ({
+  search,
   operationCardProductDept,
   operationCardDetailData,
   operationCardKarigar,
@@ -14,6 +15,7 @@ const OperationCardIssueMaster = ({
   return (
     <>
       <OperationCardIssueButton
+        search={search}
         operationCardProductDept={operationCardProductDept}
         operationCardDetailData={operationCardDetailData}
         operationCardKarigar={operationCardKarigar}

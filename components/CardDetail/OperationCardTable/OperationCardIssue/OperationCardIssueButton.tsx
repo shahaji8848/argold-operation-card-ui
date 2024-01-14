@@ -2,46 +2,69 @@ import React, { useEffect, useState } from 'react';
 import styles from '../../../../styles/operationDetail.module.css';
 import Modal from 'react-bootstrap/Modal';
 import AutoCompleteField from './AutoCompleteField';
+import POSTModalData from '@/services/api/operation-card-detail-page/modal-save';
 
 const OperationCardIssueButton = ({
+  search,
   operationCardProductDept,
   operationCardDetailData,
   operationCardKarigar,
-
   operationCardThickness,
   operationCardVariant,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
 }: any) => {
   const checkArray = [
-    'machine_size',
-    'machine_category',
-    'design_code_category',
-    'variant',
     'karigar',
     'next_karigar',
+    'machine_size',
+    'variant',
+    'next_process',
+    'concept',
     'thickness',
+    'machine_category',
     'next_product_process',
+    'design_code_category',
+    'next_product_process_department',
+    'next_product_category',
+    'product',
+    'product_category',
     'next_design',
+    'next_design_code_type',
   ];
-
-  console.log(
-    'fields',
-    operationCardKarigar,
-
-    operationCardThickness,
-    operationCardVariant,
-    operationCardMachineSize,
-    operationCardDesignCodeCategory
-  );
 
   const [show, setShow] = useState(false);
   const [itemName, setItemName] = useState('');
+
+  // Below State is to iterate over an array of objs to display fields inside the modal.
   const [getValues, setGetValues] = useState<any>([]);
 
+  // Below State is to set the value of input fields inside the modal. These values are coming from OC Detail API.
   const [modalFieldValuesState, setModalFieldValuesState] = useState<any>({});
+
+  // Below State is to create an object of dropdown values
+  const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
+
+  const handleDropDownValuesChange = (
+    labelValue: string,
+    selectedValue: any
+  ) => {
+    // console.log('k', labelValue, selectedValue);
+    setModalDropdownFields({
+      ...modalDropdownFields,
+      [labelValue]: selectedValue?.name,
+    });
+  };
+
   const handleSubmit = () => {
-    console.log('list keys modal fields', modalFieldValuesState);
+    console.log('modal list keys data fields', modalFieldValuesState);
+    console.log('modal list keys dropdown fields', modalDropdownFields);
+    const mergedObjs = {
+      ...modalFieldValuesState,
+      ...modalDropdownFields,
+      item: itemName,
+    };
+    const callAPI = POSTModalData(search, mergedObjs);
   };
   const handleClose = () => setShow(false);
   const handleModalFieldsChange = (e: any) => {
@@ -82,7 +105,6 @@ const OperationCardIssueButton = ({
 
       return Object.values(groupedKeys);
     }
-    console.log('keys 2', resultArray);
 
     let filterArray: any[];
 
@@ -109,7 +131,8 @@ const OperationCardIssueButton = ({
       });
       return updatedObj;
     });
-    console.log('keys after filtered', filterArray);
+
+    console.log('modal filterArray', filterArray);
 
     setGetValues(filterArray);
 
@@ -118,22 +141,38 @@ const OperationCardIssueButton = ({
         (issueVal: any) => issueVal.item === value
       );
 
-    console.log('keys og', getOperationCardDetailDataValue);
-
-    let output_obj: any = {};
+    let alteredObjToCreateDataFields: any = {};
+    let alteredObjToCreateDropDownFields: any = {};
 
     filterArray.forEach((item: any) => {
       const label = item?.label;
 
-      if (getOperationCardDetailDataValue[0]?.hasOwnProperty(label)) {
-        output_obj[label] = getOperationCardDetailDataValue[0][label];
+      if (
+        getOperationCardDetailDataValue[0]?.hasOwnProperty(label) &&
+        checkArray?.includes(label) === false
+      ) {
+        alteredObjToCreateDataFields[label] =
+          getOperationCardDetailDataValue[0][label];
       }
     });
 
-    console.log('keys in og obj', output_obj);
+    filterArray.forEach((item: any) => {
+      const label = item?.label;
 
-    setModalFieldValuesState(output_obj);
+      if (checkArray?.includes(label)) {
+        alteredObjToCreateDropDownFields[label] = '';
+      }
+    });
+
+    setModalFieldValuesState(alteredObjToCreateDataFields);
+    console.log(
+      'modal modalDropdownFieldsProp',
+      alteredObjToCreateDropDownFields
+    );
+    setModalDropdownFields(alteredObjToCreateDropDownFields);
   };
+
+  console.log('modal design', operationCardDesignCodeCategory);
 
   return (
     <div>
@@ -214,7 +253,14 @@ const OperationCardIssueButton = ({
                             )
                             .join(' ')}
                         </label>
-                        <AutoCompleteField list={funcData} label={val?.label} />
+                        <AutoCompleteField
+                          listOfDropdownObjs={funcData}
+                          modalDropdownFieldsProp={modalDropdownFields}
+                          handleDropDownValuesChange={
+                            handleDropDownValuesChange
+                          }
+                          label={val?.label}
+                        />
                       </>
                     ) : (
                       <>
@@ -252,36 +298,6 @@ const OperationCardIssueButton = ({
                         </div>
                       </>
                     )}
-                    {/* <label
-                      htmlFor="staticEmail"
-                      className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
-                    >
-                      {val?.label
-                        ?.split('_')
-                        ?.filter(
-                          (val: any) =>
-                            val !== 'set' &&
-                            val !== 'readonly' &&
-                            val !== 'show'
-                        )
-                        ?.map((val: any, index: any) =>
-                          index === 0
-                            ? val.charAt(0).toUpperCase() + val.slice(1)
-                            : val
-                        )
-                        .join(' ')}
-                    </label>
-                    <div className={`col-sm-10 text-left ${styles.inputFlex} `}>
-                      <input
-                        type="text"
-                        className="form-control inputFields dark-blue"
-                        name={val?.label}
-                        id={val?.label}
-                        disabled={val[setKey] === 0}
-                        value={modalFieldValuesState[val?.label]}
-                        onChange={handleModalFieldsChange}
-                      />
-                    </div> */}
                   </div>
                 );
               })}
