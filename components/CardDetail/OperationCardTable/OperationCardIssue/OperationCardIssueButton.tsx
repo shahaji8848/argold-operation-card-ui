@@ -3,12 +3,18 @@ import styles from '../../../../styles/operationDetail.module.css';
 import Modal from 'react-bootstrap/Modal';
 import AutoCompleteField from './AutoCompleteField';
 import POSTModalData from '@/services/api/operation-card-detail-page/modal-save';
+import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
+import { Toast, ToastContainer } from 'react-bootstrap';
 
 const OperationCardIssueButton = ({
   search,
+  operationCardDetail,
+  getOperationCardDetailNextKarigarFunc,
   operationCardProductDept,
   operationCardDetailData,
   operationCardKarigar,
+  operationCardNextKarigar,
+  operationCardConcept,
   operationCardThickness,
   operationCardVariant,
   operationCardMachineSize,
@@ -34,6 +40,9 @@ const OperationCardIssueButton = ({
   ];
 
   const [show, setShow] = useState(false);
+  const [showToastErr, setShowToastErr] = useState<boolean>(false);
+
+  const [errMessage, setErrMessage] = useState<any>('');
   const [itemName, setItemName] = useState('');
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
@@ -56,7 +65,7 @@ const OperationCardIssueButton = ({
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('modal list keys data fields', modalFieldValuesState);
     console.log('modal list keys dropdown fields', modalDropdownFields);
     const mergedObjs = {
@@ -64,7 +73,24 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    const callAPI = POSTModalData(search, mergedObjs);
+    const callSaveAPI: any = await POSTModalData(search, mergedObjs);
+    console.log('api', callSaveAPI);
+    if (callSaveAPI?.status === 200) {
+      operationCardDetail();
+      handleClose();
+    } else {
+      handleClose();
+      const parsedObject = JSON.parse(
+        callSaveAPI?.response?.data?._server_messages
+      );
+
+      // Access the "message" property
+      const messageValue = parsedObject[0]
+        ? JSON.parse(parsedObject[0]).message
+        : null;
+      setErrMessage(messageValue);
+      setShowToastErr(true);
+    }
   };
   const handleClose = () => setShow(false);
   const handleModalFieldsChange = (e: any) => {
@@ -141,23 +167,31 @@ const OperationCardIssueButton = ({
         (issueVal: any) => issueVal.item === value
       );
 
+    getOperationCardDetailNextKarigarFunc(
+      getOperationCardDetailDataValue[0]?.next_product_process_department
+    );
+
     let alteredObjToCreateDataFields: any = {};
     let alteredObjToCreateDropDownFields: any = {};
 
+    // filterArray.forEach((item: any) => {
+    //   const label = item?.label;
+
+    //   if (
+    //     getOperationCardDetailDataValue[0]?.hasOwnProperty(label) &&
+    //     checkArray?.includes(label) === false
+    //   ) {
+    //     alteredObjToCreateDataFields[label] =
+    //       getOperationCardDetailDataValue[0][label];
+    //   }
+    // });
+
     filterArray.forEach((item: any) => {
       const label = item?.label;
 
-      if (
-        getOperationCardDetailDataValue[0]?.hasOwnProperty(label) &&
-        checkArray?.includes(label) === false
-      ) {
-        alteredObjToCreateDataFields[label] =
-          getOperationCardDetailDataValue[0][label];
+      if (!checkArray?.includes(label)) {
+        alteredObjToCreateDataFields[label] = '';
       }
-    });
-
-    filterArray.forEach((item: any) => {
-      const label = item?.label;
 
       if (checkArray?.includes(label)) {
         alteredObjToCreateDropDownFields[label] = '';
@@ -165,10 +199,7 @@ const OperationCardIssueButton = ({
     });
 
     setModalFieldValuesState(alteredObjToCreateDataFields);
-    console.log(
-      'modal modalDropdownFieldsProp',
-      alteredObjToCreateDropDownFields
-    );
+
     setModalDropdownFields(alteredObjToCreateDropDownFields);
   };
 
@@ -224,6 +255,8 @@ const OperationCardIssueButton = ({
                     thickness: operationCardThickness,
                     variant: operationCardVariant,
                     karigar: operationCardKarigar,
+                    concept: operationCardConcept,
+                    next_karigar: operationCardNextKarigar,
                     design_code_category: operationCardDesignCodeCategory,
                   };
                   propToPass = propMappings[val];
@@ -317,6 +350,18 @@ const OperationCardIssueButton = ({
           )}
         </Modal.Body>
       </Modal>
+
+      <ToastContainer position="bottom-end">
+        <Toast
+          onClose={() => setShowToastErr(false)}
+          show={showToastErr}
+          delay={5000}
+          autohide
+          bg="danger"
+        >
+          <Toast.Body className="text-white">{errMessage}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </div>
   );
 };

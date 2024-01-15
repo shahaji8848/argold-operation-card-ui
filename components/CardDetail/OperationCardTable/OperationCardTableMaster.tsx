@@ -4,10 +4,14 @@ import OperationCardIssueMaster from './OperationCardIssue/OperationCardIssueMas
 
 const OperationCardTableMaster = ({
   search,
+  operationCardDetail,
+  getOperationCardDetailNextKarigarFunc,
   operationCardProductDept,
   operationCardDetailData,
   operationCardKarigar,
+  operationCardNextKarigar,
   operationCardThickness,
+  operationCardConcept,
   operationCardVariant,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
@@ -24,9 +28,15 @@ const OperationCardTableMaster = ({
       <div className="col-md-7">
         <OperationCardIssueMaster
           search={search}
+          getOperationCardDetailNextKarigarFunc={
+            getOperationCardDetailNextKarigarFunc
+          }
+          operationCardDetail={operationCardDetail}
           operationCardProductDept={operationCardProductDept}
           operationCardDetailData={operationCardDetailData}
           operationCardKarigar={operationCardKarigar}
+          operationCardNextKarigar={operationCardNextKarigar}
+          operationCardConcept={operationCardConcept}
           operationCardThickness={operationCardThickness}
           operationCardVariant={operationCardVariant}
           operationCardMachineSize={operationCardMachineSize}

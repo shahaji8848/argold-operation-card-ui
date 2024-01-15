@@ -8,11 +8,15 @@ import Image from 'next/image';
 const OperationCardDetailMaster = () => {
   const {
     search,
+    operationCardDetail,
+    getOperationCardDetailNextKarigarFunc,
     operationCardDetailData,
     operationCardProductDept,
     operationCardKarigar,
+    operationCardNextKarigar,
     operationCardThickness,
     operationCardVariant,
+    operationCardConcept,
     operationCardMachineSize,
     operationCardDesignCodeCategory,
   } = useOperationDetailCard();
@@ -37,10 +41,16 @@ const OperationCardDetailMaster = () => {
             />
             <OperationCardTableMaster
               search={search}
+              operationCardDetail={operationCardDetail}
+              getOperationCardDetailNextKarigarFunc={
+                getOperationCardDetailNextKarigarFunc
+              }
               operationCardProductDept={operationCardProductDept}
               operationCardKarigar={operationCardKarigar}
+              operationCardNextKarigar={operationCardNextKarigar}
               operationCardDetailData={operationCardDetailData}
               operationCardThickness={operationCardThickness}
+              operationCardConcept={operationCardConcept}
               operationCardVariant={operationCardVariant}
               operationCardMachineSize={operationCardMachineSize}
               operationCardDesignCodeCategory={operationCardDesignCodeCategory}

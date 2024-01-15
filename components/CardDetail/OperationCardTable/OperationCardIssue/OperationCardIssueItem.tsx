@@ -1,9 +1,10 @@
+import Link from 'next/link';
 import React from 'react';
 
 const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
   console.log(operationCardDetailData, 'operationCardDetailData');
   const hasOPkey = (val: any) => {
-    return val.hasOwnProperty('old_operation_card');
+    return val.hasOwnProperty('operation_card');
   };
   const CalculateTotal = (column: any) => {
     return operationCardDetailData?.receipt_details
@@ -71,7 +72,16 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                       : data?.in_fine_weight.toFixed(3)}
                   </td>
                   <td className="text-end">
-                    {hasOPkey(data) ? data?.old_operation_card : '--'}
+                    {hasOPkey(data) ? (
+                      <Link
+                        href={`/operation-card-detail?name=${data?.operation_card}`}
+                        target="_blank"
+                      >
+                        {data?.operation_card}
+                      </Link>
+                    ) : (
+                      '--'
+                    )}
                   </td>
                 </tr>
               )

@@ -3,8 +3,8 @@ import axios from 'axios';
 export const CONSTANTS = {
   API_BASE_URL: 'https://staging1-arg-manufacturing.8848digitalerp.com/',
   // API_BASE_URL: 'https://erp.ar-gold.in',
-  STANDARD_API_PATH: '/api/resource',
-  CUSTOM_API_PATH: '/api/method',
+  STANDARD_API_PATH: 'api/resource',
+  CUSTOM_API_PATH: 'api/method',
 };
 
 // live site token
@@ -63,7 +63,7 @@ export const callFormDataPOSTAPI = async (url: string, body: any) => {
       if (err.code === 'ECONNABORTED') {
         response = 'Request timed out';
       } else if (err.code === 'ERR_BAD_REQUEST') {
-        response = 'Bad Request';
+        response = err;
       } else if (err.code === 'ERR_INVALID_URL') {
         response = 'Invalid URL';
       } else {
