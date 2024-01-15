@@ -50,6 +50,17 @@ a {
   font-size: 13px !important;
   color: #4c5a7f !important;
 }
+.fileredValue-hover.selected {
+  background-color: #c9c7c7 !important;
+}
+#container {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.scrollbar {
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+}
 .inputFields {
   border: 1px solid #cfd6dd !important;
   font-size: 13px !important;

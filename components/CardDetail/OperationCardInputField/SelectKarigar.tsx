@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useInputAutoComplete from '@/hooks/input_auto_complete_hook';
+import KarigarFieldDataset from '../../../DataSet/KarigarFieldDataset';
 
 const SelectKarigar = ({
   operationCardProductDept,
@@ -27,6 +28,9 @@ const SelectKarigar = ({
     showSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
+    selectedOption,
+
+    setSelectedOption,
   } = useInputAutoComplete(operationCardKarigar);
 
   return (
@@ -38,7 +42,7 @@ const SelectKarigar = ({
             <input
               type="text"
               value={inputValueAutoComplete}
-              className={`form-control w-100`}
+              className={`form-control fs-14 w-100`}
               autoComplete="off"
               onChange={(e) => {
                 setInputValueAutoComplete(e.target.value);
@@ -56,6 +60,7 @@ const SelectKarigar = ({
                     height: '150px',
                     overflowY: 'auto',
                     background: 'white',
+
                     boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
                     zIndex: '4',
                   }}
@@ -67,15 +72,21 @@ const SelectKarigar = ({
                         onClick={() => {
                           handleSuggestionClickAutoComplete(suggestion);
                         }}
+                        className={`fileredValue-hover force-overflow  text-start ${
+                          index === selectedOption
+                            ? 'selected force-overflow'
+                            : ''
+                        }`}
                         style={{
                           cursor: 'pointer',
                           padding: '7px',
                           fontWeight: 'bold',
                         }}
-                        className="fileredValue-hover force-overflow"
-                        id="style-2"
+                        // className="fileredValue-hover force-overflow"
+                        id="suggestion"
                       >
-                        {suggestion?.value}
+                        {/* {suggestion?.value} */}
+                        {suggestion}
                       </div>
                     )
                   )}

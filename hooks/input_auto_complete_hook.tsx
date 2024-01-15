@@ -31,10 +31,36 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
 
   useEffect(() => {
     console.log('modal listOfDropdownValues', listOfDropdownValues);
-    if (listOfDropdownValues !== undefined) {
-      setOptionValue([...listOfDropdownValues]);
-      setFilteredSuggestionsAutoComplete([...listOfDropdownValues]);
-    }
+    // if (listOfDropdownValues !== undefined) {
+    const data = [
+      'Factory',
+      'MC-Kdm',
+      'Bappy Nawabi',
+      'Babu',
+      'Dipu',
+      'Sajan',
+      'Dharam',
+      'Hollow Bapi',
+      'Golu',
+      'Ashish',
+      'Bhim',
+      'Ganesh',
+      'Bullet',
+      'MC-Rajat',
+      '-Tushar',
+      '-Aftab',
+      '-Raju',
+      'Bapan',
+      'Laxmikant',
+      'Prashanto',
+    ].map((ele) => {
+      return ele;
+    });
+    setOptionValue(data);
+    setFilteredSuggestionsAutoComplete(data);
+    // setOptionValue([...listOfDropdownValues]);
+    // setFilteredSuggestionsAutoComplete([...listOfDropdownValues]);
+    // }
   }, []);
 
   useEffect(() => {
@@ -42,7 +68,8 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
   }, [inputValueAutoComplete]);
 
   const handleSuggestionClickAutoComplete = (suggestion: any) => {
-    setInputValueAutoComplete(suggestion?.value);
+    // setInputValueAutoComplete(suggestion?.value);
+    setInputValueAutoComplete(suggestion);
     setShowSuggestionsAutoComplete(false);
     console.log('k list', suggestion);
   };
@@ -52,6 +79,40 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
     { name: 'MC-50', value: '50' },
     { name: 'MC-60', value: '60' },
   ];
+  const [selectedOption, setSelectedOption] = useState(0);
+
+  const handleKeyDown = (e: any) => {
+    switch (e.key) {
+      case 'ArrowUp':
+        setSelectedOption((prev) =>
+          prev >= 0 ? prev - 1 : filteredSuggestionsAutoComplete.length - 1
+        );
+        break;
+      case 'ArrowDown':
+        setSelectedOption((prev) =>
+          prev <= filteredSuggestionsAutoComplete.length - 1 ? prev + 1 : 0
+        );
+        break;
+      case 'Enter':
+        handleSuggestionClickAutoComplete(
+          filteredSuggestionsAutoComplete[selectedOption]
+        );
+        console.log(
+          'Selected Option:',
+          filteredSuggestionsAutoComplete[selectedOption]
+        );
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedOption]);
 
   const showFilteredValuesHandler = () => {
     console.log('modal input value', inputValueAutoComplete);
@@ -61,13 +122,15 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
 
     if (trimmedInput === '' || !trimmedInput || trimmedInput.length === 0) {
       // If input is empty, contains only whitespace, or doesn't exist, show all suggestions
+
       setFilteredSuggestionsAutoComplete(optionvalue);
+      console.log('optionvalue', optionvalue);
       setShowSuggestionsAutoComplete(true);
+      // setSelectedOption(optionvalue);
     } else {
       const filtered: any = optionvalue.filter(
-        (suggestion: any) =>
-          // suggestion.toLowerCase().includes(trimmedInput)
-          suggestion?.value?.toLowerCase().startsWith(trimmedInput)
+        (suggestion: any) => suggestion.toLowerCase().startsWith(trimmedInput)
+        // suggestion?.value?.toLowerCase().startsWith(trimmedInput)
       );
 
       // setFilteredSuggestionsAutoComplete(filtered);
@@ -75,6 +138,8 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
       setFilteredSuggestionsAutoComplete(
         filtered.length > 0 ? filtered : [' Not Found ']
       );
+
+      // setSelectedOption(filtered);
       setShowSuggestionsAutoComplete(true);
     }
     console.log('modal', optionvalue);
@@ -92,6 +157,8 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
     showSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
+    selectedOption,
+    setSelectedOption,
   };
 };
 
