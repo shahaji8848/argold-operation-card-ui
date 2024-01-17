@@ -60,35 +60,41 @@ const GETOperationCardFromMeltingLot = async (filtersData: string) => {
   return getAPIResponse;
 };
 
-const GETOperationCardListData = async (name: any, filters: any) => {
-  console.log('filters', filters);
-  let response: any;
-  let filterArray = Object.entries(filters)
-    .filter(([key, value]) => value !== '')
-    .map(([key, value]) => [key, '=', value]);
+// const GETOperationCardListData = async (name: any, filters: any) => {
+//   console.log('filters', filters);
+//   let response: any;
+//   let filterArray = Object.entries(filters)
+//     .filter(([key, value]) => value !== '')
+//     .map(([key, value]) => [key, '=', value]);
 
-  if (filterArray?.length !== 0) {
-    const filtersDynamicData: any = [
-      ...filterArray,
-      ['parent_melting_lot', '=', `${name}`],
-    ];
-    response = await GETOperationCardFromParentLot(filtersDynamicData);
-    if (response?.status === 200 && response?.data?.data?.length === 0) {
-      const filtersDynamicData: any = [
-        ...filterArray,
-        ['melting_lot', '=', `${name}`],
-      ];
-      response = await GETOperationCardFromMeltingLot(filtersDynamicData);
-    }
-  } else {
-    const filtersDynamicData: any = [['parent_melting_lot', '=', `${name}`]];
-    response = await GETOperationCardFromParentLot(filtersDynamicData);
-    if (response?.status === 200 && response?.data?.data?.length === 0) {
-      const filtersDynamicData: any = [['melting_lot', '=', `${name}`]];
-      response = await GETOperationCardFromMeltingLot(filtersDynamicData);
-    }
-  }
-  return response;
+//   if (filterArray?.length !== 0) {
+//     const filtersDynamicData: any = [
+//       ...filterArray,
+//       ['parent_melting_lot', '=', `${name}`],
+//     ];
+//     response = await GETOperationCardFromParentLot(filtersDynamicData);
+//     if (response?.status === 200 && response?.data?.data?.length === 0) {
+//       const filtersDynamicData: any = [
+//         ...filterArray,
+//         ['melting_lot', '=', `${name}`],
+//       ];
+//       response = await GETOperationCardFromMeltingLot(filtersDynamicData);
+//     }
+//   } else {
+//     const filtersDynamicData: any = [['parent_melting_lot', '=', `${name}`]];
+//     response = await GETOperationCardFromParentLot(filtersDynamicData);
+//     if (response?.status === 200 && response?.data?.data?.length === 0) {
+//       const filtersDynamicData: any = [['melting_lot', '=', `${name}`]];
+//       response = await GETOperationCardFromMeltingLot(filtersDynamicData);
+//     }
+//   }
+//   return response;
+// };
+
+const GETOperationCardListData = async (name: any, filters: any) => {
+  const url = `${CONSTANTS.API_BASE_URL}${CONSTANTS.CUSTOM_API_PATH}/custom_app.api.operation_card.search_operation_card_details?search=${name}`;
+  const getResponse: any = await callGetAPI(url);
+  return getResponse;
 };
 
 export default GETOperationCardListData;

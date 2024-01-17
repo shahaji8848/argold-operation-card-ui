@@ -71,8 +71,8 @@ const useOperationCardList = () => {
       searchParams.get('search'),
       filtersData
     );
-    if (getList?.status === 200 && getList?.data?.data?.length > 0) {
-      setListData([...getList?.data?.data]);
+    if (getList?.status === 200 && getList?.data?.message?.length > 0) {
+      setListData([...getList?.data?.message]);
     } else {
       setListData([]);
     }

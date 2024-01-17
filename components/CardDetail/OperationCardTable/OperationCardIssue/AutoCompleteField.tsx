@@ -19,6 +19,7 @@ const AutoCompleteField = ({
     setShowSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
+    dropdownsHideAfterLosingFocus,
   } = useInputAutoComplete(listOfDropdownObjs);
   return (
     <div>
@@ -37,6 +38,7 @@ const AutoCompleteField = ({
                 showFilteredValuesHandler();
               }}
               onFocus={showFilteredValuesHandler}
+              onBlur={dropdownsHideAfterLosingFocus}
               ref={inputRef}
             />
 

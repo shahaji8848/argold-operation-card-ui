@@ -63,12 +63,6 @@ const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
                           </button>
                         )}
                       </>
-                      // <div
-                      //   className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-2  btn_wrapper"
-                      //   key={i}
-                      // >
-
-                      // </div>
                     );
                   }
                 )}
