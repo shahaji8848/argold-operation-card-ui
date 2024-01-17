@@ -10,6 +10,8 @@ const OperationCardDetailMaster = () => {
     search,
     operationCardDetail,
     getOperationCardDetailNextKarigarFunc,
+    getOperationCardDetailNextProductProcessAPICallFunc,
+    getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
     operationCardDetailData,
     operationCardProductDept,
     operationCardKarigar,
@@ -19,8 +21,9 @@ const OperationCardDetailMaster = () => {
     operationCardConcept,
     operationCardMachineSize,
     operationCardDesignCodeCategory,
+    operationCardNextProductProcess,
+    operationCardNextProductProcessDepartment,
   } = useOperationDetailCard();
-  console.log('karigar', operationCardKarigar);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -45,6 +48,12 @@ const OperationCardDetailMaster = () => {
               getOperationCardDetailNextKarigarFunc={
                 getOperationCardDetailNextKarigarFunc
               }
+              getOperationCardDetailNextProductProcessAPICallFunc={
+                getOperationCardDetailNextProductProcessAPICallFunc
+              }
+              getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
+                getOperationCardDetailNextProductProcessDepartmentAPICallFunc
+              }
               operationCardProductDept={operationCardProductDept}
               operationCardKarigar={operationCardKarigar}
               operationCardNextKarigar={operationCardNextKarigar}
@@ -54,6 +63,10 @@ const OperationCardDetailMaster = () => {
               operationCardVariant={operationCardVariant}
               operationCardMachineSize={operationCardMachineSize}
               operationCardDesignCodeCategory={operationCardDesignCodeCategory}
+              operationCardNextProductProcess={operationCardNextProductProcess}
+              operationCardNextProductProcessDepartment={
+                operationCardNextProductProcessDepartment
+              }
             />
           </div>
         </div>

@@ -10,6 +10,8 @@ const OperationCardIssueButton = ({
   search,
   operationCardDetail,
   getOperationCardDetailNextKarigarFunc,
+  getOperationCardDetailNextProductProcessAPICallFunc,
+  getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
   operationCardProductDept,
   operationCardDetailData,
   operationCardKarigar,
@@ -19,6 +21,8 @@ const OperationCardIssueButton = ({
   operationCardVariant,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
+  operationCardNextProductProcess,
+  operationCardNextProductProcessDepartment,
 }: any) => {
   const checkArray = [
     'karigar',
@@ -160,6 +164,16 @@ const OperationCardIssueButton = ({
 
     console.log('modal filterArray', filterArray);
 
+    const index = filterArray?.findIndex(
+      (obj: any) => obj.label === 'in_weight'
+    );
+
+    // If 'in_weight' is found, move it to the front of the array
+    if (index !== -1) {
+      const inWeightObject = filterArray?.splice(index, 1)[0];
+      filterArray?.unshift(inWeightObject);
+    }
+
     setGetValues(filterArray);
 
     const getOperationCardDetailDataValue =
@@ -170,6 +184,9 @@ const OperationCardIssueButton = ({
     getOperationCardDetailNextKarigarFunc(
       getOperationCardDetailDataValue[0]?.next_product_process_department
     );
+    getOperationCardDetailNextProductProcessAPICallFunc();
+
+    getOperationCardDetailNextProductProcessDepartmentAPICallFunc();
 
     let alteredObjToCreateDataFields: any = {};
     let alteredObjToCreateDropDownFields: any = {};
@@ -258,6 +275,9 @@ const OperationCardIssueButton = ({
                     concept: operationCardConcept,
                     next_karigar: operationCardNextKarigar,
                     design_code_category: operationCardDesignCodeCategory,
+                    next_product_process: operationCardNextProductProcess,
+                    next_product_process_department:
+                      operationCardNextProductProcessDepartment,
                   };
                   propToPass = propMappings[val];
                   return propToPass;

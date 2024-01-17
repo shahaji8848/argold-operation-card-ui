@@ -9,6 +9,8 @@ import GETOperationCardDetailMachineSize from '@/services/api/operation-card-det
 import GETProductProcessDesignCodeCategory from '@/services/api/operation-card-detail-page/operation-card-detail-design-code-category';
 import GETOperationCardDetailNextKarigar from '@/services/api/operation-card-detail-page/operation-card-detail-next-karigar';
 import GETOperationCardDetailProcessConcept from '@/services/api/operation-card-detail-page/operation-card-detail-concept';
+import GETOperationCardDetailNextProductProcess from '@/services/api/operation-card-detail-page/operation-card-next-product-process';
+import GETOperationCardDetailNextProductProcessDepartment from '@/services/api/operation-card-detail-page/operation-card-next-product-process-dept';
 const useOperationDetailCard = () => {
   const [operationCardProductDept, setOperationCardProductDept] = useState({});
   const [operationCardDetailData, setOperationCardDetailData] = useState<any>(
@@ -27,13 +29,29 @@ const useOperationDetailCard = () => {
   );
   const [operationCardDesignCodeCategory, setOperationCardDesignCodeCategory] =
     useState<any>([]);
+  const [operationCardNextProductProcess, setOperationCardNextProductProcess] =
+    useState<any>([]);
+  const [
+    operationCardNextProductProcessDepartment,
+    setOperationCardNextProductProcessDepartment,
+  ] = useState<any>([]);
+  const [operationCardProductCategory, setOperationCardProductCategory] =
+    useState<any>([]);
+  const [
+    operationCardNextProductCategory,
+    setOperationCardNextProductCategory,
+  ] = useState<any>([]);
+  const [operationCardNextDesign, setOperationCardNextDesign] = useState<any>(
+    []
+  );
+  const [operationCardNextDesignCodeType, setOperationCardNextDesignCodeType] =
+    useState<any>([]);
 
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
   const operationCardDetail = async () => {
     const operationCardDetailVal = await GETOperationCardDetail(search);
-    console.log(operationCardDetailData, 'data');
     if (
       operationCardDetailVal?.status === 200 &&
       Object.keys(operationCardDetailVal?.data?.data)?.length > 0
@@ -166,7 +184,42 @@ const useOperationDetailCard = () => {
     }
   };
 
-  GETProductProcessDesignCodeCategory;
+  const getOperationCardDetailNextProductProcessAPICallFunc = async () => {
+    const getNextProductProcess =
+      await GETOperationCardDetailNextProductProcess(
+        operationCardDetailData?.product
+      );
+    if (getNextProductProcess?.status === 200) {
+      setOperationCardNextProductProcess(
+        getNextProductProcess?.data?.data?.map((machine_size_data: any) => ({
+          name: machine_size_data?.name,
+          value: machine_size_data?.title,
+        }))
+      );
+    } else {
+      setOperationCardNextProductProcess([]);
+    }
+  };
+
+  const getOperationCardDetailNextProductProcessDepartmentAPICallFunc =
+    async () => {
+      const getNextProductProcessDepartment =
+        await GETOperationCardDetailNextProductProcessDepartment(
+          operationCardDetailData?.product_process
+        );
+      if (getNextProductProcessDepartment?.status === 200) {
+        setOperationCardNextProductProcessDepartment(
+          getNextProductProcessDepartment?.data?.data?.map(
+            (machine_size_data: any) => ({
+              name: machine_size_data?.name,
+              value: machine_size_data?.title,
+            })
+          )
+        );
+      } else {
+        setOperationCardNextProductProcessDepartment([]);
+      }
+    };
 
   useEffect(() => {
     operationCardDetail();
@@ -200,6 +253,14 @@ const useOperationDetailCard = () => {
     operationCardVariant,
     operationCardMachineSize,
     operationCardDesignCodeCategory,
+    operationCardNextProductProcess,
+    operationCardNextProductProcessDepartment,
+    operationCardProductCategory,
+    operationCardNextProductCategory,
+    operationCardNextDesign,
+    operationCardNextDesignCodeType,
+    getOperationCardDetailNextProductProcessAPICallFunc,
+    getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
   };
 };
 

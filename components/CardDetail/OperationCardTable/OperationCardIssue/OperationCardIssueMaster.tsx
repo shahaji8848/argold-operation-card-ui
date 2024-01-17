@@ -5,6 +5,8 @@ import OperationCardIssueItem from './OperationCardIssueItem';
 const OperationCardIssueMaster = ({
   search,
   getOperationCardDetailNextKarigarFunc,
+  getOperationCardDetailNextProductProcessAPICallFunc,
+  getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
   operationCardDetail,
   operationCardProductDept,
   operationCardDetailData,
@@ -15,6 +17,8 @@ const OperationCardIssueMaster = ({
   operationCardVariant,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
+  operationCardNextProductProcess,
+  operationCardNextProductProcessDepartment,
 }: any) => {
   return (
     <>
@@ -23,6 +27,12 @@ const OperationCardIssueMaster = ({
         operationCardDetail={operationCardDetail}
         getOperationCardDetailNextKarigarFunc={
           getOperationCardDetailNextKarigarFunc
+        }
+        getOperationCardDetailNextProductProcessAPICallFunc={
+          getOperationCardDetailNextProductProcessAPICallFunc
+        }
+        getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
+          getOperationCardDetailNextProductProcessDepartmentAPICallFunc
         }
         operationCardProductDept={operationCardProductDept}
         operationCardDetailData={operationCardDetailData}
@@ -33,6 +43,10 @@ const OperationCardIssueMaster = ({
         operationCardVariant={operationCardVariant}
         operationCardMachineSize={operationCardMachineSize}
         operationCardDesignCodeCategory={operationCardDesignCodeCategory}
+        operationCardNextProductProcess={operationCardNextProductProcess}
+        operationCardNextProductProcessDepartment={
+          operationCardNextProductProcessDepartment
+        }
       />
       <div className="mt-2">
         <OperationCardIssueItem
