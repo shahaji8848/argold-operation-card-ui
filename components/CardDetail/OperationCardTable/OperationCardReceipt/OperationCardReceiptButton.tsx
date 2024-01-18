@@ -49,21 +49,28 @@ const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
             <div className={`col-md-12 text-end ${styles.btn_wrapper_mob}`}>
               {operationCardProductDept?.receipt_items?.length > 0 &&
                 operationCardProductDept?.receipt_items.map(
-                  (val: any, i: any) => (
-                    // <div
-                    //   className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-2  btn_wrapper"
-                    //   key={i}
-                    // >
-                    <button
-                      type="button"
-                      className={`btn btn-blue btn-py  mt-1 px-3 ms-2 `}
-                      onClick={() => handleShow(val.item)}
-                      key={i}
-                    >
-                      {val?.item}
-                    </button>
-                    // </div>
-                  )
+                  (val: any, i: any) => {
+                    return (
+                      <>
+                        {val?.item !== 'Chain' && (
+                          <button
+                            type="button"
+                            className={`btn btn-blue btn-py  mt-1 px-3 ms-2 `}
+                            onClick={() => handleShow(val.item)}
+                            key={i}
+                          >
+                            {val?.item}
+                          </button>
+                        )}
+                      </>
+                      // <div
+                      //   className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-2  btn_wrapper"
+                      //   key={i}
+                      // >
+
+                      // </div>
+                    );
+                  }
                 )}
             </div>
           </div>
@@ -82,7 +89,7 @@ const OperationCardReciptButton = ({ operationCardProductDept }: any) => {
             <div className="row">
               {getValues?.length > 0 &&
                 getValues?.map((val: any, i: any) => (
-                  <div className="col-md-4">
+                  <div className="col-md-4" key={i}>
                     <div className="form-group row d-flex mt-2">
                       <label
                         htmlFor="staticEmail"

@@ -1,9 +1,10 @@
+import Link from 'next/link';
 import React from 'react';
 
 const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
   console.log(operationCardDetailData, 'operationCardDetailData');
   const hasOPkey = (val: any) => {
-    return val.hasOwnProperty('old_operation_card');
+    return val.hasOwnProperty('operation_card');
   };
   const CalculateTotal = (column: any) => {
     return operationCardDetailData?.receipt_details
@@ -11,10 +12,15 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
         if (item.hasOwnProperty('old_operation_card')) {
           return total + item[column];
         } else {
-          if (column === 'old_operation_card') {
-            return 0 + 0;
+          if (column === 'old_operation_card' || column === 'karigar') {
+            return 0;
           } else {
-            return total + item[column];
+            console.log('item column', item[column]);
+            if (item[column] === undefined) {
+              return 0;
+            } else {
+              return total + item[column];
+            }
           }
         }
       }, 0)
@@ -53,34 +59,60 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                 <tr className="table-text" key={i}>
                   <td>{data.item}</td>
                   <td className="text-end">
-                    {data?.in_weight === 0 ? '--' : data?.in_weight.toFixed(3)}
+                    {data?.in_weight === 0 ? '--' : data?.in_weight?.toFixed(3)}
                   </td>
                   <td className="text-end">
                     {data?.in_gross_purity === 0
                       ? '--'
-                      : data?.in_gross_purity.toFixed(3)}
+                      : data?.in_gross_purity?.toFixed(3)}
                   </td>
                   <td className="text-end">
                     {data?.in_gross_weight === 0
                       ? '--'
-                      : data?.in_gross_weight.toFixed(3)}
+                      : data?.in_gross_weight?.toFixed(3)}
                   </td>
                   <td className="text-end">
                     {data?.in_fine_purity === 0
                       ? '--'
-                      : data?.in_fine_purity.toFixed(3)}
+                      : data?.in_fine_purity?.toFixed(3)}
                   </td>
                   <td className="text-end">
                     {data?.in_fine_weight === 0
                       ? '--'
-                      : data?.in_fine_weight.toFixed(3)}
+                      : data?.in_fine_weight?.toFixed(3)}
                   </td>
-                  <td className="text-end"></td>
-                  <td className="text-end"></td>
-                  <td className="text-end"></td>
-                  <td className="text-end"></td>
                   <td className="text-end">
-                    {hasOPkey(data) ? data?.old_operation_card : '--'}
+                    {data?.tounch_no === 0 ? '--' : data?.tounch_no?.toFixed(3)}
+                  </td>
+                  <td className="text-end">
+                    {' '}
+                    {data?.fire_tounch_no === 0
+                      ? '--'
+                      : data?.fire_tounch_no?.toFixed(3)}
+                  </td>
+                  <td className="text-end">
+                    {' '}
+                    {data?.machine_size === 0
+                      ? '--'
+                      : data?.machine_size?.toFixed(3)}
+                  </td>
+                  <td className="text-end">
+                    {' '}
+                    {data?.line_number === 0
+                      ? '--'
+                      : data?.line_number?.toFixed(3)}
+                  </td>
+                  <td className="text-end">
+                    {hasOPkey(data) ? (
+                      <Link
+                        href={`/operation-card-detail?name=${data?.operation_card}`}
+                        target="_blank"
+                      >
+                        {data?.operation_card}
+                      </Link>
+                    ) : (
+                      '--'
+                    )}
                   </td>
                 </tr>
               )
@@ -93,7 +125,11 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'in_gross_weight',
               'in_fine_purity',
               'in_fine_weight',
-
+              'tounch_no',
+              'fire_tounch_no',
+              'machine_size',
+              'line_number',
+              'karigar',
               'old_operation_card',
             ].map((data: any, i: any) => (
               <td className="font-weight-bold text-end" key={i}>

@@ -34,6 +34,7 @@ const AutoCompleteField = ({
               onChange={(e) => {
                 setInputValueAutoComplete(e.target.value);
                 handleDropDownValuesChange(label, e.target.value);
+                showFilteredValuesHandler();
               }}
               onFocus={showFilteredValuesHandler}
               ref={inputRef}

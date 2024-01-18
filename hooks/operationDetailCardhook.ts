@@ -7,6 +7,10 @@ import GETOperationCardDetailProcessThickness from '@/services/api/operation-car
 import GETOperationCardDetailProcessVariant from '@/services/api/operation-card-detail-page/operation-card-detail-variant';
 import GETOperationCardDetailMachineSize from '@/services/api/operation-card-detail-page/operation-card-detail-machine-size copy';
 import GETProductProcessDesignCodeCategory from '@/services/api/operation-card-detail-page/operation-card-detail-design-code-category';
+import GETOperationCardDetailNextKarigar from '@/services/api/operation-card-detail-page/operation-card-detail-next-karigar';
+import GETOperationCardDetailProcessConcept from '@/services/api/operation-card-detail-page/operation-card-detail-concept';
+import GETOperationCardDetailNextProductProcess from '@/services/api/operation-card-detail-page/operation-card-next-product-process';
+import GETOperationCardDetailNextProductProcessDepartment from '@/services/api/operation-card-detail-page/operation-card-next-product-process-dept';
 const useOperationDetailCard = () => {
   const [operationCardProductDept, setOperationCardProductDept] = useState({});
   const [operationCardDetailData, setOperationCardDetailData] = useState<any>(
@@ -14,12 +18,33 @@ const useOperationDetailCard = () => {
   );
 
   const [operationCardKarigar, setOperationCardKarigar] = useState<any>([]);
+  const [operationCardNextKarigar, setOperationCardNextKarigar] = useState<any>(
+    []
+  );
   const [operationCardThickness, setOperationCardThickness] = useState<any>([]);
   const [operationCardVariant, setOperationCardVariant] = useState<any>([]);
+  const [operationCardConcept, setOperationCardConcept] = useState<any>([]);
   const [operationCardMachineSize, setOperationCardMachineSize] = useState<any>(
     []
   );
   const [operationCardDesignCodeCategory, setOperationCardDesignCodeCategory] =
+    useState<any>([]);
+  const [operationCardNextProductProcess, setOperationCardNextProductProcess] =
+    useState<any>([]);
+  const [
+    operationCardNextProductProcessDepartment,
+    setOperationCardNextProductProcessDepartment,
+  ] = useState<any>([]);
+  const [operationCardProductCategory, setOperationCardProductCategory] =
+    useState<any>([]);
+  const [
+    operationCardNextProductCategory,
+    setOperationCardNextProductCategory,
+  ] = useState<any>([]);
+  const [operationCardNextDesign, setOperationCardNextDesign] = useState<any>(
+    []
+  );
+  const [operationCardNextDesignCodeType, setOperationCardNextDesignCodeType] =
     useState<any>([]);
 
   const searchParams = useSearchParams();
@@ -27,7 +52,6 @@ const useOperationDetailCard = () => {
 
   const operationCardDetail = async () => {
     const operationCardDetailVal = await GETOperationCardDetail(search);
-    console.log(operationCardDetailData, 'data');
     if (
       operationCardDetailVal?.status === 200 &&
       Object.keys(operationCardDetailVal?.data?.data)?.length > 0
@@ -57,7 +81,7 @@ const useOperationDetailCard = () => {
   const getOperationCardDetailKarigar = async () => {
     // const getKarigarData = await GETOperationCardDetailKarigar();
     const getKarigarData = await GETOperationCardDetailKarigar(
-      operationCardDetailData?.product
+      operationCardDetailData?.product_process_department
     );
     if (getKarigarData?.status === 200) {
       setOperationCardKarigar(
@@ -68,6 +92,24 @@ const useOperationDetailCard = () => {
       );
     } else {
       setOperationCardKarigar([]);
+    }
+  };
+
+  const getOperationCardDetailNextKarigarFunc = async (
+    next_product_process_department_value: string
+  ) => {
+    const getNextKarigarData = await GETOperationCardDetailNextKarigar(
+      next_product_process_department_value
+    );
+    if (getNextKarigarData?.status === 200) {
+      setOperationCardNextKarigar(
+        getNextKarigarData?.data?.data?.map((karigar_obj: any) => ({
+          name: karigar_obj?.name,
+          value: karigar_obj?.karigar,
+        }))
+      );
+    } else {
+      setOperationCardNextKarigar([]);
     }
   };
   const getOperationCardDetailThicknessAPICall = async () => {
@@ -82,7 +124,7 @@ const useOperationDetailCard = () => {
         }))
       );
     } else {
-      setOperationCardKarigar([]);
+      setOperationCardThickness([]);
     }
   };
 
@@ -97,9 +139,23 @@ const useOperationDetailCard = () => {
           value: variant_data?.title,
         }))
       );
-      setOperationCardVariant(getVariantData?.data?.data);
     } else {
-      setOperationCardKarigar([]);
+      setOperationCardVariant([]);
+    }
+  };
+  const getOperationCardDetailConceptAPIFunc = async () => {
+    const getConceptData = await GETOperationCardDetailProcessConcept(
+      operationCardDetailData?.product
+    );
+    if (getConceptData?.status === 200) {
+      setOperationCardConcept(
+        getConceptData?.data?.data?.map((concept_data: any) => ({
+          name: concept_data?.name,
+          value: concept_data?.name,
+        }))
+      );
+    } else {
+      setOperationCardConcept([]);
     }
   };
   const getOperationCardDetailMachineSizeAPICall = async () => {
@@ -114,7 +170,7 @@ const useOperationDetailCard = () => {
         }))
       );
     } else {
-      setOperationCardKarigar([]);
+      setOperationCardMachineSize([]);
     }
   };
   const getOperationCardDetailDesignCodeCategoryAPICall = async () => {
@@ -128,7 +184,42 @@ const useOperationDetailCard = () => {
     }
   };
 
-  GETProductProcessDesignCodeCategory;
+  const getOperationCardDetailNextProductProcessAPICallFunc = async () => {
+    const getNextProductProcess =
+      await GETOperationCardDetailNextProductProcess(
+        operationCardDetailData?.product
+      );
+    if (getNextProductProcess?.status === 200) {
+      setOperationCardNextProductProcess(
+        getNextProductProcess?.data?.data?.map((machine_size_data: any) => ({
+          name: machine_size_data?.name,
+          value: machine_size_data?.title,
+        }))
+      );
+    } else {
+      setOperationCardNextProductProcess([]);
+    }
+  };
+
+  const getOperationCardDetailNextProductProcessDepartmentAPICallFunc =
+    async () => {
+      const getNextProductProcessDepartment =
+        await GETOperationCardDetailNextProductProcessDepartment(
+          operationCardDetailData?.product_process
+        );
+      if (getNextProductProcessDepartment?.status === 200) {
+        setOperationCardNextProductProcessDepartment(
+          getNextProductProcessDepartment?.data?.data?.map(
+            (machine_size_data: any) => ({
+              name: machine_size_data?.name,
+              value: machine_size_data?.title,
+            })
+          )
+        );
+      } else {
+        setOperationCardNextProductProcessDepartment([]);
+      }
+    };
 
   useEffect(() => {
     operationCardDetail();
@@ -139,7 +230,8 @@ const useOperationDetailCard = () => {
       getOperationCardDetailKarigar();
       getOperationCardDetailThicknessAPICall();
       getOperationCardDetailMachineSizeAPICall();
-      // getOperationCardDetailVariantAPICall();
+      getOperationCardDetailVariantAPICall();
+      getOperationCardDetailConceptAPIFunc();
       // getOperationCardDetailDesignCodeCategoryAPICall();
     }
   }, [operationCardDetailData]);
@@ -150,13 +242,25 @@ const useOperationDetailCard = () => {
 
   return {
     search,
+    operationCardDetail,
+    getOperationCardDetailNextKarigarFunc,
     operationCardProductDept,
     operationCardDetailData,
     operationCardKarigar,
+    operationCardNextKarigar,
     operationCardThickness,
+    operationCardConcept,
     operationCardVariant,
     operationCardMachineSize,
     operationCardDesignCodeCategory,
+    operationCardNextProductProcess,
+    operationCardNextProductProcessDepartment,
+    operationCardProductCategory,
+    operationCardNextProductCategory,
+    operationCardNextDesign,
+    operationCardNextDesignCodeType,
+    getOperationCardDetailNextProductProcessAPICallFunc,
+    getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
   };
 };
 

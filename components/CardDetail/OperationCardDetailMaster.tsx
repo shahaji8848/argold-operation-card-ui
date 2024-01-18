@@ -8,15 +8,22 @@ import Image from 'next/image';
 const OperationCardDetailMaster = () => {
   const {
     search,
+    operationCardDetail,
+    getOperationCardDetailNextKarigarFunc,
+    getOperationCardDetailNextProductProcessAPICallFunc,
+    getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
     operationCardDetailData,
     operationCardProductDept,
     operationCardKarigar,
+    operationCardNextKarigar,
     operationCardThickness,
     operationCardVariant,
+    operationCardConcept,
     operationCardMachineSize,
     operationCardDesignCodeCategory,
+    operationCardNextProductProcess,
+    operationCardNextProductProcessDepartment,
   } = useOperationDetailCard();
-  console.log('karigar', operationCardKarigar);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -37,13 +44,29 @@ const OperationCardDetailMaster = () => {
             />
             <OperationCardTableMaster
               search={search}
+              operationCardDetail={operationCardDetail}
+              getOperationCardDetailNextKarigarFunc={
+                getOperationCardDetailNextKarigarFunc
+              }
+              getOperationCardDetailNextProductProcessAPICallFunc={
+                getOperationCardDetailNextProductProcessAPICallFunc
+              }
+              getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
+                getOperationCardDetailNextProductProcessDepartmentAPICallFunc
+              }
               operationCardProductDept={operationCardProductDept}
               operationCardKarigar={operationCardKarigar}
+              operationCardNextKarigar={operationCardNextKarigar}
               operationCardDetailData={operationCardDetailData}
               operationCardThickness={operationCardThickness}
+              operationCardConcept={operationCardConcept}
               operationCardVariant={operationCardVariant}
               operationCardMachineSize={operationCardMachineSize}
               operationCardDesignCodeCategory={operationCardDesignCodeCategory}
+              operationCardNextProductProcess={operationCardNextProductProcess}
+              operationCardNextProductProcessDepartment={
+                operationCardNextProductProcessDepartment
+              }
             />
           </div>
         </div>

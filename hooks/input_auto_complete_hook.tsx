@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 const useInputAutoComplete = (listOfDropdownValues?: any) => {
+  console.log('karigar list hook', listOfDropdownValues);
   const [optionvalue, setOptionValue] = useState<any>([]);
 
   const [inputValueAutoComplete, setInputValueAutoComplete] =
@@ -62,18 +63,23 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
     // setFilteredSuggestionsAutoComplete([...listOfDropdownValues]);
     // }
   }, []);
+    if (listOfDropdownValues !== undefined) {
+      setOptionValue([...listOfDropdownValues]);
+      setFilteredSuggestionsAutoComplete([...listOfDropdownValues]);
+    }
+  }, [listOfDropdownValues]);
 
-  useEffect(() => {
-    showFilteredValuesHandler();
-  }, [inputValueAutoComplete]);
+  // useEffect(() => {
+  //   showFilteredValuesHandler();
+  // }, [inputValueAutoComplete]);
 
   const handleSuggestionClickAutoComplete = (suggestion: any) => {
     // setInputValueAutoComplete(suggestion?.value);
     setInputValueAutoComplete(suggestion);
     setShowSuggestionsAutoComplete(false);
-    console.log('k list', suggestion);
   };
 
+<<<<<<< HEAD
   const arr = [
     { name: 'MC-40', value: '40' },
     { name: 'MC-50', value: '50' },
@@ -124,8 +130,9 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
     });
   }
 
+=======
+>>>>>>> 41fc24d3cc5f32f1f4be80a105b4ff3511febfd2
   const showFilteredValuesHandler = () => {
-    console.log('modal input value', inputValueAutoComplete);
     const trimmedInput = inputValueAutoComplete?.trim().toLowerCase();
 
     // filteredSuggestionsAutoComplete

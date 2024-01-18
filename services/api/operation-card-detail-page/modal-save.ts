@@ -7,6 +7,7 @@ const POSTModalData = async (operation_card_number: string, data: any) => {
   formData.append('doc_name', operation_card_number);
   formData.append('data_dict', JSON.stringify(data));
   const getAPIResponse: any = await callFormDataPOSTAPI(url, formData);
+  console.log('next karigar api res', getAPIResponse);
   return getAPIResponse;
 };
 

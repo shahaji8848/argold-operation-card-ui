@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useInputAutoComplete from '@/hooks/input_auto_complete_hook';
 import KarigarFieldDataset from '../../../DataSet/KarigarFieldDataset';
+import useKarigarList from '@/hooks/karigar-list-hook';
 
 const SelectKarigar = ({
   operationCardProductDept,
@@ -21,6 +22,7 @@ const SelectKarigar = ({
 
   const {
     setOptionValue,
+    setCheck,
     inputValueAutoComplete,
     setInputValueAutoComplete,
     showFilteredValuesHandler,
@@ -28,10 +30,14 @@ const SelectKarigar = ({
     showSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
+<<<<<<< HEAD
     selectedOption,
 
     setSelectedOption,
   } = useInputAutoComplete(operationCardKarigar);
+=======
+  } = useKarigarList(operationCardKarigar);
+>>>>>>> 41fc24d3cc5f32f1f4be80a105b4ff3511febfd2
 
   return (
     <div className={`row   text-center  py-2 mx-2 gap-3`}>
@@ -46,8 +52,11 @@ const SelectKarigar = ({
               autoComplete="off"
               onChange={(e) => {
                 setInputValueAutoComplete(e.target.value);
+                showFilteredValuesHandler();
               }}
-              onFocus={showFilteredValuesHandler}
+              onFocus={() => {
+                showFilteredValuesHandler();
+              }}
               ref={inputRef}
             />
 
@@ -112,15 +121,6 @@ const SelectKarigar = ({
                 type="text"
                 className="form-control dark-blue operationCardinputFields"
                 id="inputText"
-                // placeholder={key
-                //   .split('_')
-                //   .map((val: any, index: any) => {
-                //     return index === 0
-                //       ? val.charAt(0).toUpperCase() + val.slice(1)
-                //       : val;
-                //   })
-
-                //   .join(' ')}
                 value={values.toFixed(3)}
               />
             </div>
