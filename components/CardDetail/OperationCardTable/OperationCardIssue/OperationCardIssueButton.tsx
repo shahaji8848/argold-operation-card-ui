@@ -191,18 +191,6 @@ const OperationCardIssueButton = ({
     let alteredObjToCreateDataFields: any = {};
     let alteredObjToCreateDropDownFields: any = {};
 
-    // filterArray.forEach((item: any) => {
-    //   const label = item?.label;
-
-    //   if (
-    //     getOperationCardDetailDataValue[0]?.hasOwnProperty(label) &&
-    //     checkArray?.includes(label) === false
-    //   ) {
-    //     alteredObjToCreateDataFields[label] =
-    //       getOperationCardDetailDataValue[0][label];
-    //   }
-    // });
-
     filterArray.forEach((item: any) => {
       const label = item?.label;
 
