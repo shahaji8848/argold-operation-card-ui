@@ -47,6 +47,10 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
     setShowSuggestionsAutoComplete(false);
   };
 
+  const handleFocusRemove = () => {
+    setShowSuggestionsAutoComplete(false);
+  };
+
   const showFilteredValuesHandler = () => {
     const trimmedInput = inputValueAutoComplete?.trim().toLowerCase();
 
@@ -85,6 +89,7 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
     showSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
+    handleFocusRemove,
   };
 };
 
