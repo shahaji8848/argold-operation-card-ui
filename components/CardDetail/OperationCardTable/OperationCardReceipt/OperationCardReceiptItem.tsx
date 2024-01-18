@@ -12,7 +12,7 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
         <thead>
           <tr className="table-text">
             {[
-              'item',
+              'Item',
               'In Wt',
               'Gross Purity',
               'Gross Wt',

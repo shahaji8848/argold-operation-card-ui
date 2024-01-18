@@ -112,7 +112,17 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedOption]);
+  });
+
+  const selectedOptionElement = document.getElementById(
+    `suggestion-${selectedOption}`
+  );
+  if (selectedOptionElement) {
+    selectedOptionElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
+  }
 
   const showFilteredValuesHandler = () => {
     console.log('modal input value', inputValueAutoComplete);

@@ -82,8 +82,7 @@ const SelectKarigar = ({
                           padding: '7px',
                           fontWeight: 'bold',
                         }}
-                        // className="fileredValue-hover force-overflow"
-                        id="suggestion"
+                        id={`suggestion-${index}`}
                       >
                         {/* {suggestion?.value} */}
                         {suggestion}

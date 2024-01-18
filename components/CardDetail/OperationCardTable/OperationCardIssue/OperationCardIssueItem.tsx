@@ -27,12 +27,17 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
         <thead>
           <tr className="table-text">
             {[
-              'item',
+              'Item',
               'In Wt',
               'Gross Purity',
               'Gross Wt',
               'Fine Purity',
               'Fine Weight',
+              'Touch No',
+              'Fire Touch No ',
+              'Machine Size',
+              'Line Number',
+              'Karigar',
               'OP',
             ].map((val, i: any) => (
               <th className="thead-dark text-center" scope="col" key={i}>
@@ -70,6 +75,10 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                       ? '--'
                       : data?.in_fine_weight.toFixed(3)}
                   </td>
+                  <td className="text-end"></td>
+                  <td className="text-end"></td>
+                  <td className="text-end"></td>
+                  <td className="text-end"></td>
                   <td className="text-end">
                     {hasOPkey(data) ? data?.old_operation_card : '--'}
                   </td>
@@ -84,6 +93,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'in_gross_weight',
               'in_fine_purity',
               'in_fine_weight',
+
               'old_operation_card',
             ].map((data: any, i: any) => (
               <td className="font-weight-bold text-end" key={i}>
