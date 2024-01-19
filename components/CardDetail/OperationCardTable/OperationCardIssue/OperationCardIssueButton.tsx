@@ -22,7 +22,12 @@ const OperationCardIssueButton = ({
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextProductProcess,
+  operationCardNextDesign,
   operationCardNextProductProcessDepartment,
+  getOperationCardDetailDesignCodeCategoryAPICall,
+  getOperationCardDetailDesignAPICall,
+  getOperationCardDetailDesignCodeTypeAPICall,
+  operationCardNextDesignCodeType,
 }: any) => {
   const checkArray = [
     'karigar',
@@ -62,7 +67,7 @@ const OperationCardIssueButton = ({
     labelValue: string,
     selectedValue: any
   ) => {
-    // console.log('k', labelValue, selectedValue);
+    console.log('dropdown values', labelValue, selectedValue);
     setModalDropdownFields({
       ...modalDropdownFields,
       [labelValue]: selectedValue?.name,
@@ -188,6 +193,12 @@ const OperationCardIssueButton = ({
 
     getOperationCardDetailNextProductProcessDepartmentAPICallFunc();
 
+    getOperationCardDetailDesignCodeCategoryAPICall();
+
+    getOperationCardDetailDesignAPICall();
+
+    getOperationCardDetailDesignCodeTypeAPICall();
+
     let alteredObjToCreateDataFields: any = {};
     let alteredObjToCreateDropDownFields: any = {};
 
@@ -262,6 +273,8 @@ const OperationCardIssueButton = ({
                     karigar: operationCardKarigar,
                     concept: operationCardConcept,
                     next_karigar: operationCardNextKarigar,
+                    next_design: operationCardNextDesign,
+                    next_design_code_type: operationCardNextDesignCodeType,
                     design_code_category: operationCardDesignCodeCategory,
                     next_product_process: operationCardNextProductProcess,
                     next_product_process_department:

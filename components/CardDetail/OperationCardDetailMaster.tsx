@@ -21,12 +21,15 @@ const OperationCardDetailMaster = () => {
     operationCardVariant,
     operationCardConcept,
     operationCardMachineSize,
+    operationCardNextDesign,
     operationCardDesignCodeCategory,
     operationCardNextProductProcess,
     operationCardNextProductProcessDepartment,
+    getOperationCardDetailDesignCodeCategoryAPICall,
+    getOperationCardDetailDesignAPICall,
+    getOperationCardDetailDesignCodeTypeAPICall,
+    operationCardNextDesignCodeType,
   } = useOperationDetailCard();
-
-  console.log('operationCardDetailData', operationCardDetailData);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -57,6 +60,7 @@ const OperationCardDetailMaster = () => {
               getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
                 getOperationCardDetailNextProductProcessDepartmentAPICallFunc
               }
+              operationCardNextDesign={operationCardNextDesign}
               operationCardProductDept={operationCardProductDept}
               operationCardKarigar={operationCardKarigar}
               operationCardNextKarigar={operationCardNextKarigar}
@@ -70,6 +74,16 @@ const OperationCardDetailMaster = () => {
               operationCardNextProductProcessDepartment={
                 operationCardNextProductProcessDepartment
               }
+              getOperationCardDetailDesignCodeCategoryAPICall={
+                getOperationCardDetailDesignCodeCategoryAPICall
+              }
+              getOperationCardDetailDesignAPICall={
+                getOperationCardDetailDesignAPICall
+              }
+              getOperationCardDetailDesignCodeTypeAPICall={
+                getOperationCardDetailDesignCodeTypeAPICall
+              }
+              operationCardNextDesignCodeType={operationCardNextDesignCodeType}
             />
             <OperationCardCreationDetail
               operationCardDetailData={operationCardDetailData}

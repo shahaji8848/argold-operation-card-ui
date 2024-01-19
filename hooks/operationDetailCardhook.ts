@@ -11,6 +11,8 @@ import GETOperationCardDetailNextKarigar from '@/services/api/operation-card-det
 import GETOperationCardDetailProcessConcept from '@/services/api/operation-card-detail-page/operation-card-detail-concept';
 import GETOperationCardDetailNextProductProcess from '@/services/api/operation-card-detail-page/operation-card-next-product-process';
 import GETOperationCardDetailNextProductProcessDepartment from '@/services/api/operation-card-detail-page/operation-card-next-product-process-dept';
+import GETProductProcessDesign from '@/services/api/operation-card-detail-page/operation-card-detail-design';
+import GETProductProcessDesignCodeType from '@/services/api/operation-card-detail-page/operation-card-detail-design-code-type';
 const useOperationDetailCard = () => {
   const [operationCardProductDept, setOperationCardProductDept] = useState({});
   const [operationCardDetailData, setOperationCardDetailData] = useState<any>(
@@ -174,13 +176,50 @@ const useOperationDetailCard = () => {
     }
   };
   const getOperationCardDetailDesignCodeCategoryAPICall = async () => {
-    const getKarigarData = await GETProductProcessDesignCodeCategory(
+    const getDesignCodeCategory = await GETProductProcessDesignCodeCategory(
       operationCardDetailData?.product
     );
-    if (getKarigarData?.status === 200) {
-      setOperationCardDesignCodeCategory(getKarigarData?.data?.data);
+    if (getDesignCodeCategory?.status === 200) {
+      setOperationCardDesignCodeCategory(
+        getDesignCodeCategory?.data?.data?.map(
+          (design_code_category_data: any) => ({
+            name: design_code_category_data?.name,
+            value: design_code_category_data?.title,
+          })
+        )
+      );
     } else {
-      setOperationCardKarigar([]);
+      setOperationCardDesignCodeCategory([]);
+    }
+  };
+  const getOperationCardDetailDesignAPICall = async () => {
+    const getDesign = await GETProductProcessDesign(
+      operationCardDetailData?.product
+    );
+    if (getDesign?.status === 200) {
+      setOperationCardNextDesign(
+        getDesign?.data?.data?.map((design: any) => ({
+          name: design?.name,
+          value: design?.name1,
+        }))
+      );
+    } else {
+      setOperationCardNextDesign([]);
+    }
+  };
+  const getOperationCardDetailDesignCodeTypeAPICall = async () => {
+    const getDesignCodeType = await GETProductProcessDesignCodeType(
+      operationCardDetailData?.product
+    );
+    if (getDesignCodeType?.status === 200) {
+      setOperationCardNextDesignCodeType(
+        getDesignCodeType?.data?.data?.map((design: any) => ({
+          name: design?.name,
+          value: design?.title,
+        }))
+      );
+    } else {
+      setOperationCardNextDesignCodeType([]);
     }
   };
 
@@ -232,7 +271,6 @@ const useOperationDetailCard = () => {
       getOperationCardDetailMachineSizeAPICall();
       getOperationCardDetailVariantAPICall();
       getOperationCardDetailConceptAPIFunc();
-      // getOperationCardDetailDesignCodeCategoryAPICall();
     }
   }, [operationCardDetailData]);
 
@@ -261,6 +299,9 @@ const useOperationDetailCard = () => {
     operationCardNextDesignCodeType,
     getOperationCardDetailNextProductProcessAPICallFunc,
     getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
+    getOperationCardDetailDesignCodeCategoryAPICall,
+    getOperationCardDetailDesignAPICall,
+    getOperationCardDetailDesignCodeTypeAPICall,
   };
 };
 

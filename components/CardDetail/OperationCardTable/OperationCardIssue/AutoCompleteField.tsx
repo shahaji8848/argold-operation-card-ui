@@ -38,7 +38,7 @@ const AutoCompleteField = ({
                 showFilteredValuesHandler();
               }}
               onFocus={showFilteredValuesHandler}
-              onBlur={handleFocusRemove}
+              // onBlur={handleFocusRemove}
               ref={inputRef}
             />
 

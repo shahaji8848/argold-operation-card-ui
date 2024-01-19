@@ -17,8 +17,13 @@ const OperationCardIssueMaster = ({
   operationCardVariant,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
+  operationCardNextDesign,
   operationCardNextProductProcess,
   operationCardNextProductProcessDepartment,
+  getOperationCardDetailDesignCodeCategoryAPICall,
+  getOperationCardDetailDesignAPICall,
+  getOperationCardDetailDesignCodeTypeAPICall,
+  operationCardNextDesignCodeType,
 }: any) => {
   return (
     <>
@@ -42,11 +47,22 @@ const OperationCardIssueMaster = ({
         operationCardThickness={operationCardThickness}
         operationCardVariant={operationCardVariant}
         operationCardMachineSize={operationCardMachineSize}
+        operationCardNextDesign={operationCardNextDesign}
         operationCardDesignCodeCategory={operationCardDesignCodeCategory}
         operationCardNextProductProcess={operationCardNextProductProcess}
         operationCardNextProductProcessDepartment={
           operationCardNextProductProcessDepartment
         }
+        getOperationCardDetailDesignCodeCategoryAPICall={
+          getOperationCardDetailDesignCodeCategoryAPICall
+        }
+        getOperationCardDetailDesignAPICall={
+          getOperationCardDetailDesignAPICall
+        }
+        getOperationCardDetailDesignCodeTypeAPICall={
+          getOperationCardDetailDesignCodeTypeAPICall
+        }
+        operationCardNextDesignCodeType={operationCardNextDesignCodeType}
       />
       <div className="mt-2">
         <OperationCardIssueItem

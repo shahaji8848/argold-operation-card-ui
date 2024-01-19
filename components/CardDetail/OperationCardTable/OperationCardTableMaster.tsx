@@ -17,10 +17,14 @@ const OperationCardTableMaster = ({
   operationCardVariant,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
+  operationCardNextDesign,
   operationCardNextProductProcess,
   operationCardNextProductProcessDepartment,
+  getOperationCardDetailDesignCodeCategoryAPICall,
+  getOperationCardDetailDesignAPICall,
+  getOperationCardDetailDesignCodeTypeAPICall,
+  operationCardNextDesignCodeType,
 }: any) => {
-  console.log('modal machine size', operationCardMachineSize);
   return (
     <div className="row spacing-mt">
       <div className="col-xxl-5 col-xl-4 col-md-5">
@@ -63,6 +67,7 @@ const OperationCardTableMaster = ({
           getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
             getOperationCardDetailNextProductProcessDepartmentAPICallFunc
           }
+          operationCardNextDesign={operationCardNextDesign}
           operationCardDetail={operationCardDetail}
           operationCardProductDept={operationCardProductDept}
           operationCardDetailData={operationCardDetailData}
@@ -77,6 +82,16 @@ const OperationCardTableMaster = ({
           operationCardNextProductProcessDepartment={
             operationCardNextProductProcessDepartment
           }
+          getOperationCardDetailDesignCodeCategoryAPICall={
+            getOperationCardDetailDesignCodeCategoryAPICall
+          }
+          getOperationCardDetailDesignAPICall={
+            getOperationCardDetailDesignAPICall
+          }
+          getOperationCardDetailDesignCodeTypeAPICall={
+            getOperationCardDetailDesignCodeTypeAPICall
+          }
+          operationCardNextDesignCodeType={operationCardNextDesignCodeType}
         />
       </div>
     </div>
