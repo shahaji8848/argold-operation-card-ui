@@ -82,25 +82,19 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                       : data?.in_fine_weight?.toFixed(3)}
                   </td>
                   <td className="text-end">
-                    {data?.tounch_no === 0 ? '--' : data?.tounch_no?.toFixed(3)}
+                    {data?.tounch_no === 0 ? '--' : data?.tounch_no}
                   </td>
                   <td className="text-end">
                     {' '}
-                    {data?.fire_tounch_no === 0
-                      ? '--'
-                      : data?.fire_tounch_no?.toFixed(3)}
+                    {data?.fire_tounch_no === 0 ? '--' : data?.fire_tounch_no}
                   </td>
                   <td className="text-end">
                     {' '}
-                    {data?.machine_size === 0
-                      ? '--'
-                      : data?.machine_size?.toFixed(3)}
+                    {data?.machine_size === 0 ? '--' : data?.machine_size}
                   </td>
                   <td className="text-end">
                     {' '}
-                    {data?.line_number === 0
-                      ? '--'
-                      : data?.line_number?.toFixed(3)}
+                    {data?.line_number === 0 ? '--' : data?.line_number}
                   </td>
                   <td className="text-end">
                     {hasOPkey(data) ? (

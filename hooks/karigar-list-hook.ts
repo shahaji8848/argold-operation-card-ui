@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useKarigarList = (listOfDropdownValues?: any) => {
+const useKarigarList = (
+  listOfDropdownValues: any,
+  operationCardDetailDataKarigar: any
+) => {
   console.log('karigar list hook', listOfDropdownValues);
   const [optionvalue, setOptionValue] = useState<any>([]);
 
   const [check, setCheck] = useState(0);
-  const [inputValueAutoComplete, setInputValueAutoComplete] =
-    useState<string>('');
+  const [inputValueAutoComplete, setInputValueAutoComplete] = useState<string>(
+    operationCardDetailDataKarigar
+  );
   const [filteredSuggestionsAutoComplete, setFilteredSuggestionsAutoComplete] =
     useState<any>([]);
   const [showSuggestionsAutoComplete, setShowSuggestionsAutoComplete] =
@@ -43,7 +47,6 @@ const useKarigarList = (listOfDropdownValues?: any) => {
   const handleSuggestionClickAutoComplete = (suggestion: any) => {
     setInputValueAutoComplete(suggestion?.value);
     setShowSuggestionsAutoComplete(false);
-    console.log('k list', suggestion);
   };
 
   const showFilteredValuesHandler = () => {

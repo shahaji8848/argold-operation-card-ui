@@ -7,7 +7,6 @@ const SelectKarigar = ({
   operationCardDetailData,
   operationCardKarigar,
 }: any) => {
-  console.log('karigar list', operationCardKarigar);
   const [operationCardFieldVal, setOperationCardFieldVal] = useState([
     operationCardDetailData,
   ]);
@@ -19,6 +18,7 @@ const SelectKarigar = ({
     operationCardDetailData
   ).filter(([key, value]) => operationCardFields.includes(key));
 
+  const operationCardDetailDataKarigar = operationCardDetailData?.karigar ?? '';
   const {
     setOptionValue,
     setCheck,
@@ -29,9 +29,7 @@ const SelectKarigar = ({
     showSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
-  } = useKarigarList(operationCardKarigar);
-
-  console.log('operationCardFieldValue', operationCardFieldValue);
+  } = useKarigarList(operationCardKarigar, operationCardDetailDataKarigar);
 
   return (
     <div className={`row   text-center  py-2 mx-2 gap-3`}>

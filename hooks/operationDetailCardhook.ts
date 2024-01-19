@@ -14,6 +14,10 @@ import GETOperationCardDetailNextProductProcessDepartment from '@/services/api/o
 import GETProductProcessDesign from '@/services/api/operation-card-detail-page/operation-card-detail-design';
 import GETProductProcessDesignCodeType from '@/services/api/operation-card-detail-page/operation-card-detail-design-code-type';
 const useOperationDetailCard = () => {
+  const [operationCardSave, setOperationCardSave] = useState({
+    karigar: '',
+    quantity: '',
+  });
   const [operationCardProductDept, setOperationCardProductDept] = useState({});
   const [operationCardDetailData, setOperationCardDetailData] = useState<any>(
     {}

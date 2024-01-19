@@ -44,8 +44,8 @@ const OperationCardDetailMaster = () => {
             />
 
             <OperationCardInputFieldMaster
-              operationCardProductDept={operationCardProductDept}
               operationCardDetailData={operationCardDetailData}
+              operationCardProductDept={operationCardProductDept}
               operationCardKarigar={operationCardKarigar}
             />
             <OperationCardTableMaster
