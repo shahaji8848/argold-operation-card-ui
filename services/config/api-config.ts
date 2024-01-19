@@ -54,7 +54,6 @@ export const callFormDataPOSTAPI = async (url: string, body: any) => {
   await axios
     .post(`${url}`, body, {
       ...API_CONFIG,
-      timeout: 5000,
     })
     .then((res: any) => {
       response = res;

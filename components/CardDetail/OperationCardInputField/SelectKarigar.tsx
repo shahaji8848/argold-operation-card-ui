@@ -31,6 +31,8 @@ const SelectKarigar = ({
     handleSuggestionClickAutoComplete,
   } = useKarigarList(operationCardKarigar);
 
+  console.log('operationCardFieldValue', operationCardFieldValue);
+
   return (
     <div className={`row   text-center  py-2 mx-2 gap-3`}>
       <div className="col-md-2 p-0 m-0">
@@ -107,7 +109,7 @@ const SelectKarigar = ({
                 type="text"
                 className="form-control dark-blue operationCardinputFields"
                 id="inputText"
-                value={values.toFixed(3)}
+                value={values}
               />
             </div>
           </div>

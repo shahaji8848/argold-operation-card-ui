@@ -68,10 +68,17 @@ const OperationCardIssueButton = ({
     selectedValue: any
   ) => {
     console.log('dropdown values', labelValue, selectedValue);
-    setModalDropdownFields({
-      ...modalDropdownFields,
-      [labelValue]: selectedValue?.name,
-    });
+    if (labelValue === 'next_karigar' || labelValue === 'karigar') {
+      setModalDropdownFields({
+        ...modalDropdownFields,
+        [labelValue]: selectedValue?.value,
+      });
+    } else {
+      setModalDropdownFields({
+        ...modalDropdownFields,
+        [labelValue]: selectedValue?.name,
+      });
+    }
   };
 
   const handleSubmit = async () => {
