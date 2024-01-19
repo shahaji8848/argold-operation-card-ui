@@ -1,10 +1,18 @@
+import Link from 'next/link';
 import React from 'react';
 
 const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
   const CalculateTotal = (column: any) => {
-    return operationCardDetailData?.receipt_details
-      ?.reduce((total: any, item: any) => total + item[column], 0)
-      .toFixed(3);
+    if (column !== 'reference') {
+      return operationCardDetailData?.receipt_details
+        ?.reduce((total: any, item: any) => total + item[column], 0)
+        .toFixed(3);
+    } else {
+      return '--';
+    }
+  };
+  const hasOPkey = (val: any) => {
+    return val.hasOwnProperty('reference');
   };
   return (
     <div className="table-responsive ">
@@ -18,6 +26,7 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
               'Gross Wt',
               'Fine Purity',
               'Fine Weight',
+              'OP',
             ].map((val, i: any) => (
               <th className="thead-dark text-center" scope="col" key={i}>
                 {val}
@@ -54,6 +63,18 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
                       ? '--'
                       : data?.in_fine_weight.toFixed(3)}
                   </td>
+                  <td className="text-end">
+                    {hasOPkey(data) ? (
+                      <Link
+                        href={`/operation-card-detail?name=${data?.reference}`}
+                        target="_blank"
+                      >
+                        {data?.reference?.split('-').pop()}
+                      </Link>
+                    ) : (
+                      '--'
+                    )}
+                  </td>
                 </tr>
               )
             )}
@@ -65,6 +86,7 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
               'in_gross_weight',
               'in_fine_purity',
               'in_fine_weight',
+              'reference',
             ].map((data: any, i: any) => (
               <td className="font-weight-bold text-end" key={i}>
                 {CalculateTotal(data)}
