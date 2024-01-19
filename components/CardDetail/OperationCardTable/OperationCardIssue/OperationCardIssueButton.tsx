@@ -28,6 +28,9 @@ const OperationCardIssueButton = ({
   getOperationCardDetailDesignAPICall,
   getOperationCardDetailDesignCodeTypeAPICall,
   operationCardNextDesignCodeType,
+  operationCardProductCategory,
+  operationCardNextProductCategory,
+  getOperationCardDetailNextProductCategoryAPICallFunc,
 }: any) => {
   const checkArray = [
     'karigar',
@@ -192,6 +195,10 @@ const OperationCardIssueButton = ({
       operationCardDetailData?.operation_card_issue_details?.filter(
         (issueVal: any) => issueVal.item === value
       );
+    console.log(
+      'getOperationCardDetailDataValue',
+      getOperationCardDetailDataValue
+    );
 
     getOperationCardDetailNextKarigarFunc(
       getOperationCardDetailDataValue[0]?.next_product_process_department
@@ -205,6 +212,8 @@ const OperationCardIssueButton = ({
     getOperationCardDetailDesignAPICall();
 
     getOperationCardDetailDesignCodeTypeAPICall();
+
+    getOperationCardDetailNextProductCategoryAPICallFunc();
 
     let alteredObjToCreateDataFields: any = {};
     let alteredObjToCreateDropDownFields: any = {};
@@ -286,6 +295,7 @@ const OperationCardIssueButton = ({
                     next_product_process: operationCardNextProductProcess,
                     next_product_process_department:
                       operationCardNextProductProcessDepartment,
+                    next_product_category: operationCardNextProductCategory,
                   };
                   propToPass = propMappings[val];
                   return propToPass;

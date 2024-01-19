@@ -6,9 +6,12 @@ import OperationCardInputFieldMaster from './OperationCardInputField/OperationCa
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Image from 'next/image';
 import OperationCardCreationDetail from './OperationCardCreationDetail/OperationCardCreationDetail';
+import { Toast, ToastContainer } from 'react-bootstrap';
 const OperationCardDetailMaster = () => {
   const {
     search,
+    handleHeaderSave,
+    handleOperationCardSave,
     operationCardDetail,
     getOperationCardDetailNextKarigarFunc,
     getOperationCardDetailNextProductProcessAPICallFunc,
@@ -22,6 +25,7 @@ const OperationCardDetailMaster = () => {
     operationCardConcept,
     operationCardMachineSize,
     operationCardNextDesign,
+    operationCardNextProductCategory,
     operationCardDesignCodeCategory,
     operationCardNextProductProcess,
     operationCardNextProductProcessDepartment,
@@ -29,6 +33,9 @@ const OperationCardDetailMaster = () => {
     getOperationCardDetailDesignAPICall,
     getOperationCardDetailDesignCodeTypeAPICall,
     operationCardNextDesignCodeType,
+    operationCardKarigarQuantitySettings,
+    operationCardProductCategory,
+    getOperationCardDetailNextProductCategoryAPICallFunc,
   } = useOperationDetailCard();
   return (
     <div>
@@ -37,6 +44,7 @@ const OperationCardDetailMaster = () => {
           <div className="spacing-pd">
             <OperationCardHeaderMaster
               operationCardDetailData={operationCardDetailData}
+              handleOperationCardSave={handleOperationCardSave}
             />
 
             <OperationCardDataSummaryMaster
@@ -47,6 +55,10 @@ const OperationCardDetailMaster = () => {
               operationCardDetailData={operationCardDetailData}
               operationCardProductDept={operationCardProductDept}
               operationCardKarigar={operationCardKarigar}
+              operationCardKarigarQuantitySettings={
+                operationCardKarigarQuantitySettings
+              }
+              handleHeaderSave={handleHeaderSave}
             />
             <OperationCardTableMaster
               search={search}
@@ -84,11 +96,29 @@ const OperationCardDetailMaster = () => {
                 getOperationCardDetailDesignCodeTypeAPICall
               }
               operationCardNextDesignCodeType={operationCardNextDesignCodeType}
+              operationCardProductCategory={operationCardProductCategory}
+              getOperationCardDetailNextProductCategoryAPICallFunc={
+                getOperationCardDetailNextProductCategoryAPICallFunc
+              }
+              operationCardNextProductCategory={
+                operationCardNextProductCategory
+              }
             />
             <OperationCardCreationDetail
               operationCardDetailData={operationCardDetailData}
             />
           </div>
+          {/* <ToastContainer position="bottom-end">
+        <Toast
+          onClose={() => setShowToastErr(false)}
+          show={showToastErr}
+          delay={5000}
+          autohide
+          bg="danger"
+        >
+          <Toast.Body className="text-white">{errMessage}</Toast.Body>
+        </Toast>
+      </ToastContainer> */}
         </div>
       ) : (
         <div className="OpertaionCardcontainer">

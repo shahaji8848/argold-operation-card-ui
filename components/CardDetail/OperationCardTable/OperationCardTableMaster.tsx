@@ -19,11 +19,14 @@ const OperationCardTableMaster = ({
   operationCardDesignCodeCategory,
   operationCardNextDesign,
   operationCardNextProductProcess,
+  operationCardNextProductCategory,
   operationCardNextProductProcessDepartment,
   getOperationCardDetailDesignCodeCategoryAPICall,
   getOperationCardDetailDesignAPICall,
   getOperationCardDetailDesignCodeTypeAPICall,
   operationCardNextDesignCodeType,
+  operationCardProductCategory,
+  getOperationCardDetailNextProductCategoryAPICallFunc,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -92,6 +95,11 @@ const OperationCardTableMaster = ({
             getOperationCardDetailDesignCodeTypeAPICall
           }
           operationCardNextDesignCodeType={operationCardNextDesignCodeType}
+          operationCardProductCategory={operationCardProductCategory}
+          getOperationCardDetailNextProductCategoryAPICallFunc={
+            getOperationCardDetailNextProductCategoryAPICallFunc
+          }
+          operationCardNextProductCategory={operationCardNextProductCategory}
         />
       </div>
     </div>

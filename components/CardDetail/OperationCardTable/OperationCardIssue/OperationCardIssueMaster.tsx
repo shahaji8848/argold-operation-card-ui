@@ -24,6 +24,9 @@ const OperationCardIssueMaster = ({
   getOperationCardDetailDesignAPICall,
   getOperationCardDetailDesignCodeTypeAPICall,
   operationCardNextDesignCodeType,
+  operationCardProductCategory,
+  operationCardNextProductCategory,
+  getOperationCardDetailNextProductCategoryAPICallFunc,
 }: any) => {
   return (
     <>
@@ -63,6 +66,11 @@ const OperationCardIssueMaster = ({
           getOperationCardDetailDesignCodeTypeAPICall
         }
         operationCardNextDesignCodeType={operationCardNextDesignCodeType}
+        operationCardProductCategory={operationCardProductCategory}
+        getOperationCardDetailNextProductCategoryAPICallFunc={
+          getOperationCardDetailNextProductCategoryAPICallFunc
+        }
+        operationCardNextProductCategory={operationCardNextProductCategory}
       />
       <div className="mt-2">
         <OperationCardIssueItem

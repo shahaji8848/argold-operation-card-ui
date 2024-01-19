@@ -1,10 +1,16 @@
 import React from 'react';
 import OperationCardHeader from './OperationCardHeader';
 
-const OperationCardHeaderMaster = ({ operationCardDetailData }: any) => {
+const OperationCardHeaderMaster = ({
+  operationCardDetailData,
+  handleOperationCardSave,
+}: any) => {
   return (
     <>
-      <OperationCardHeader operationCardDetailData={operationCardDetailData} />
+      <OperationCardHeader
+        operationCardDetailData={operationCardDetailData}
+        handleOperationCardSave={handleOperationCardSave}
+      />
     </>
   );
 };
