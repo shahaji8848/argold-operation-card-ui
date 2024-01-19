@@ -100,7 +100,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                         href={`/operation-card-detail?name=${data?.operation_card}`}
                         target="_blank"
                       >
-                        {data?.operation_card}
+                        {data?.operation_card?.split('-').pop()}
                       </Link>
                     ) : (
                       '--'
