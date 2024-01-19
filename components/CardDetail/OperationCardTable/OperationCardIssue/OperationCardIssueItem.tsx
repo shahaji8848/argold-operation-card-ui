@@ -85,17 +85,15 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                     {data?.tounch_no === 0 ? '--' : data?.tounch_no}
                   </td>
                   <td className="text-end">
-                    {' '}
                     {data?.fire_tounch_no === 0 ? '--' : data?.fire_tounch_no}
                   </td>
                   <td className="text-end">
-                    {' '}
                     {data?.machine_size === 0 ? '--' : data?.machine_size}
                   </td>
                   <td className="text-end">
-                    {' '}
                     {data?.line_number === 0 ? '--' : data?.line_number}
                   </td>
+                  <td className="text-end">{data?.karigar ?? '--'}</td>
                   <td className="text-end">
                     {hasOPkey(data) ? (
                       <Link
