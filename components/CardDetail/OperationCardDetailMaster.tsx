@@ -5,6 +5,9 @@ import OperationCardHeaderMaster from './OperationCardHeader/OperationCardHeader
 import OperationCardInputFieldMaster from './OperationCardInputField/OperationCardInputFieldMaster';
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Image from 'next/image';
+import OperationCardCreationDetail from './OperationCardCreationDetail/OperationCardCreationDetail';
+import MasterOperationCardCreationDetail from './OperationCardCreationDetail/MasterOperationCardCreationDetail';
+import OperationCardInput from './OperationCardInput/OperationCardInput';
 const OperationCardDetailMaster = () => {
   const {
     search,
@@ -24,6 +27,8 @@ const OperationCardDetailMaster = () => {
     operationCardNextProductProcess,
     operationCardNextProductProcessDepartment,
   } = useOperationDetailCard();
+
+  console.log('operationCardDetailData', operationCardDetailData);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -37,6 +42,7 @@ const OperationCardDetailMaster = () => {
               operationCardDetailData={operationCardDetailData}
             />
 
+            {/* <OperationCardInput /> */}
             <OperationCardInputFieldMaster
               operationCardProductDept={operationCardProductDept}
               operationCardDetailData={operationCardDetailData}
@@ -67,6 +73,9 @@ const OperationCardDetailMaster = () => {
               operationCardNextProductProcessDepartment={
                 operationCardNextProductProcessDepartment
               }
+            />
+            <MasterOperationCardCreationDetail
+              operationCardDetailData={operationCardDetailData}
             />
           </div>
         </div>

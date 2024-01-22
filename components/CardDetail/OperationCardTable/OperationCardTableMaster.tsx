@@ -29,7 +29,6 @@ const OperationCardTableMaster = ({
           operationCardDetailData={operationCardDetailData}
         />
       </div>
-
       <div className="col-xxl-7 col-xl-8 col-md-7">
         <OperationCardIssueMaster
           search={search}

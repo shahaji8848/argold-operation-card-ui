@@ -280,4 +280,22 @@ a {
   .header-heading-mob {
     font-size: 13px;
   }
+  .btn-header-mob {
+    margin-top: 10px !important;
+  }
+  .header-content-mob {
+    display: flex !important;
+    justify-content: start !important;
+  }
+  .input-balc-mob {
+    margin-left: 13px !important;
+    /* border: 2px solid red !important; */
+    text-align: start !important;
+  }
+  .hr-mob {
+    display: none;
+  }
+  /* .balance-mob {
+    margin-left: -80px !important;
+  } */
 }

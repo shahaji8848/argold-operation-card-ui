@@ -2,7 +2,9 @@ const MeltingLotData = ({ operationCardDetailData }: any) => {
   console.log(operationCardDetailData, 'operationCardDetailData ');
   return (
     <div className="me-2">
-      <div className={`row  border rounded-3   p-0 m-0 summary-height`}>
+      <div className="row align-items-baseline border py-2 rounded-3 p-0 m-0 summary-height">
+        {/* <div className="col-md-12">
+          <div className={`row    align-items-baseline`}> */}
         <div className="col-md-3 p-0 m-0 mob-reverse-content">
           <div className="fs-14 bold mob-text-start">
             {operationCardDetailData?.melting_lot}
@@ -35,6 +37,8 @@ const MeltingLotData = ({ operationCardDetailData }: any) => {
         </div>
       </div>
     </div>
+    //   </div>
+    // </div>
 
     // <div
     //   className={`col-12  col-md-3  border rounded-3 mt-2 `}

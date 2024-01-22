@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import useInputAutoComplete from '@/hooks/input_auto_complete_hook';
-import KarigarFieldDataset from '../../../DataSet/KarigarFieldDataset';
 import useKarigarList from '@/hooks/karigar-list-hook';
 
 const SelectKarigar = ({
@@ -30,14 +29,7 @@ const SelectKarigar = ({
     showSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
-<<<<<<< HEAD
-    selectedOption,
-
-    setSelectedOption,
-  } = useInputAutoComplete(operationCardKarigar);
-=======
   } = useKarigarList(operationCardKarigar);
->>>>>>> 41fc24d3cc5f32f1f4be80a105b4ff3511febfd2
 
   return (
     <div className={`row   text-center  py-2 mx-2 gap-3`}>
@@ -48,7 +40,7 @@ const SelectKarigar = ({
             <input
               type="text"
               value={inputValueAutoComplete}
-              className={`form-control fs-14 w-100`}
+              className={`form-control w-100`}
               autoComplete="off"
               onChange={(e) => {
                 setInputValueAutoComplete(e.target.value);
@@ -69,7 +61,6 @@ const SelectKarigar = ({
                     height: '150px',
                     overflowY: 'auto',
                     background: 'white',
-
                     boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
                     zIndex: '4',
                   }}
@@ -81,20 +72,15 @@ const SelectKarigar = ({
                         onClick={() => {
                           handleSuggestionClickAutoComplete(suggestion);
                         }}
-                        className={`fileredValue-hover force-overflow  text-start ${
-                          index === selectedOption
-                            ? 'selected force-overflow'
-                            : ''
-                        }`}
                         style={{
                           cursor: 'pointer',
                           padding: '7px',
                           fontWeight: 'bold',
                         }}
-                        id={`suggestion-${index}`}
+                        className="fileredValue-hover force-overflow"
+                        id="style-2"
                       >
-                        {/* {suggestion?.value} */}
-                        {suggestion}
+                        {suggestion?.value}
                       </div>
                     )
                   )}

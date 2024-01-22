@@ -1,16 +1,21 @@
 const BalanceData = ({ operationCardDetailData }: any) => {
   return (
-    <div className={`row  border rounded-3 p-0 m-0 summary-height`}>
-      <div className="col-md-4 p-0 m-0 mob-reverse-content">
-        <div
-          className="fs-14 bold mob-text-start
+    <div className="row align-items-baseline border py-2 rounded-3 p-0 m-0 summary-height">
+      {/* <div className="col-md-12">
+        <div className={`row    align-items-baseline`}> */}
+      <div className="col-md-4 p-0 m-0 mob-reverse-content input-balc-mob">
+        <div className="row">
+          <div
+            className="fs-14 bold mob-text-start col-md-12
 "
-        >
-          {operationCardDetailData?.balance_weight === 0
-            ? '--'
-            : operationCardDetailData?.balance_weight?.toFixed(3)}
+          >
+            {operationCardDetailData?.balance_weight === 0
+              ? '--'
+              : operationCardDetailData?.balance_weight?.toFixed(3)}
+          </div>
         </div>
-        <div className="fs-14 mob-px">Balance</div>
+
+        <div className="fs-14 mob-px ">Balance</div>
       </div>
       <div className="col-md-4 p-0 m-0 mob-reverse-content">
         <div
@@ -33,6 +38,19 @@ const BalanceData = ({ operationCardDetailData }: any) => {
             : operationCardDetailData?.balance_fine_weight?.toFixed(3)}
         </div>
         <div className="fs-14 mob-px">Fine Balance</div>
+      </div>
+      <div className="mx-2 mb-2 hr-mob">
+        <hr className="p-0 m-0" />
+      </div>
+
+      <div className="row ">
+        {/* <div className="col-xxl-1 col-xl-1 col-lg-1 col-md-1"></div> */}
+        <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 ms-xxl-5 ms-xl-4 ms-lg-3 ms-md-2">
+          <div className="">
+            <input type="text" className="w-100 " />
+          </div>
+          <div></div>
+        </div>
       </div>
     </div>
 
