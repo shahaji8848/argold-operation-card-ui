@@ -159,8 +159,15 @@ a {
   justify-content: space-between !important;
   gap: 4;
 }
+.input_fields:focus {
+  outline: none;
+  border: 1px solid gray;
+}
+.input_fields {
+  border: 1px solid gray;
+}
 .summary-height {
-  height: 100px;
+  height: 140px;
   display: flex;
   align-items: center;
 }

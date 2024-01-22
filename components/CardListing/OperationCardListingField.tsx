@@ -7,6 +7,7 @@ const OperationCardListingField = ({
   handleInputChange,
   handleApplyFilters,
   handleClearFilters,
+  URLForFiltersHandler,
   handleKeyDownEnter,
 }: any) => {
   return (

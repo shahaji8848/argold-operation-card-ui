@@ -45,7 +45,7 @@ const OperationCardIssueButton = ({
     'design_code_category',
     'next_product_process_department',
     'next_product_category',
-    'gpc_product',
+    'product',
     'product_category',
     'next_design',
     'next_design_code_type',
@@ -195,6 +195,25 @@ const OperationCardIssueButton = ({
       operationCardDetailData?.operation_card_issue_details?.filter(
         (issueVal: any) => issueVal.item === value
       );
+    console.log(
+      'getOperationCardDetailDataValue',
+      getOperationCardDetailDataValue
+    );
+
+    getOperationCardDetailNextKarigarFunc(
+      getOperationCardDetailDataValue[0]?.next_product_process_department
+    );
+    getOperationCardDetailNextProductProcessAPICallFunc();
+
+    getOperationCardDetailNextProductProcessDepartmentAPICallFunc();
+
+    getOperationCardDetailDesignCodeCategoryAPICall();
+
+    getOperationCardDetailDesignAPICall();
+
+    getOperationCardDetailDesignCodeTypeAPICall();
+
+    getOperationCardDetailNextProductCategoryAPICallFunc();
 
     let alteredObjToCreateDataFields: any = {};
     let alteredObjToCreateDropDownFields: any = {};
@@ -215,6 +234,9 @@ const OperationCardIssueButton = ({
 
     setModalDropdownFields(alteredObjToCreateDropDownFields);
   };
+
+  console.log('modal design', operationCardDesignCodeCategory);
+
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>

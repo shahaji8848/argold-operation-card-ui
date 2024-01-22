@@ -19,6 +19,7 @@ const AutoCompleteField = ({
     setShowSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
+    handleFocusRemove,
   } = useInputAutoComplete(listOfDropdownObjs);
   return (
     <div>
@@ -32,11 +33,11 @@ const AutoCompleteField = ({
               className={`form-control w-100 `}
               autoComplete="off"
               onChange={(e) => {
-                setInputValueAutoComplete(e.target.value);
                 handleDropDownValuesChange(label, e.target.value);
-                showFilteredValuesHandler();
+                showFilteredValuesHandler(e.target.value);
               }}
-              onFocus={showFilteredValuesHandler}
+              onFocus={() => showFilteredValuesHandler('')}
+              // onBlur={handleFocusRemove}
               ref={inputRef}
             />
 

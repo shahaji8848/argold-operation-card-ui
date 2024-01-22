@@ -1,8 +1,10 @@
 import GETOperationCardListData from '@/services/api/operation-card-list-page/operation-card-list-api';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
+// import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 const useOperationCardList = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [listData, setListData] = useState<any>([]);
 
@@ -35,16 +37,48 @@ const useOperationCardList = () => {
     }));
   };
 
+  const constructUrl = (filtersData: any) => {
+    // console.log('url debugging filtersData', filtersData);
+    // console.log('url debugging searchparams', searchParams);
+    const urlParams = new URLSearchParams({
+      search: `${searchParams.get('search')}`,
+    });
+
+    Object.entries(filtersData).forEach(([key, value]: any) => {
+      if (value !== '') {
+        urlParams.append(key, value);
+      }
+    });
+
+    return `${window.location.pathname}?${urlParams.toString()}`;
+  };
+
+  const URLForFiltersHandler = () => {
+    const getconstructedUrl: any = constructUrl(filtersData);
+    router.push(`${getconstructedUrl}`);
+  };
+
   const handleKeyDownEnter = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      handleApplyFilters();
+      URLForFiltersHandler();
     }
   };
 
   const handleApplyFilters = () => {
-    getOperationCardListFromAPI();
+    URLForFiltersHandler();
   };
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+
+    // Get the search parameters
+    const searchParams = url.searchParams;
+
+    // Convert the search parameters to a string
+    const searchParamsString = searchParams.toString();
+    getOperationCardListFromAPI(searchParamsString);
+  }, [searchParams]);
 
   const handleClearFilters = async () => {
     await setFiltersData({
@@ -66,25 +100,29 @@ const useOperationCardList = () => {
 
     setFiltersClear(1);
   };
-  const getOperationCardListFromAPI = async () => {
-    const getList: any = await GETOperationCardListData(
-      searchParams.get('search'),
-      filtersData
-    );
-    if (getList?.status === 200 && getList?.data?.data?.length > 0) {
-      setListData([...getList?.data?.data]);
+  const getOperationCardListFromAPI = async (url: string) => {
+    const getList: any = await GETOperationCardListData(url);
+    if (getList?.status === 200 && getList?.data?.message?.length > 0) {
+      setListData([...getList?.data?.message]);
     } else {
       setListData([]);
     }
+    setFiltersClear(0);
   };
 
   useEffect(() => {
-    getOperationCardListFromAPI();
-  }, []);
-
-  useEffect(() => {
     if (filtersClear === 1) {
-      getOperationCardListFromAPI();
+      // getOperationCardListFromAPI();
+
+      const url: any = new URL(window.location.href);
+
+      // Keep only the 'search' parameter
+      const searchValue = url.searchParams.get('search');
+      url.search = new URLSearchParams({ search: searchValue }).toString();
+
+      const clearedALlParamsFromURL = url.toString();
+
+      router.push(`${clearedALlParamsFromURL}`);
     }
   }, [filtersClear]);
   return {
@@ -94,6 +132,7 @@ const useOperationCardList = () => {
     handleApplyFilters,
     handleClearFilters,
     handleKeyDownEnter,
+    URLForFiltersHandler,
   };
 };
 

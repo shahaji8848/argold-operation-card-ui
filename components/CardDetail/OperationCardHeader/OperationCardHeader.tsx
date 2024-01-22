@@ -1,6 +1,9 @@
 import { useRouter } from 'next/navigation';
 import OperationCardInputField from './OperationCardInputField';
-const OperationCardHeader = ({ operationCardDetailData }: any) => {
+const OperationCardHeader = ({
+  operationCardDetailData,
+  handleOperationCardSave,
+}: any) => {
   const router = useRouter();
   const redirectToHomepage = () => {
     router.push('/');
@@ -29,7 +32,7 @@ const OperationCardHeader = ({ operationCardDetailData }: any) => {
             </button>
             <button
               className="btn btn-blue  px-4 ms-2 px-1 btn-py "
-              onClick={redirectToHomepage}
+              onClick={handleOperationCardSave}
             >
               Save
             </button>

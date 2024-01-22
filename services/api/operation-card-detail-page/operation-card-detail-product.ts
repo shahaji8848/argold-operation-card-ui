@@ -1,19 +1,22 @@
 import { CONSTANTS, callGetAPI } from '@/services/config/api-config';
 
-const GETOperationCardDetailNextProductProcess = async (
-  product?: any,
-  sequence?: any
+const GETOperationCardDetailKarigar = async (
+  product_process_department_value?: any
 ) => {
   // const url = `${CONSTANTS.API_BASE_URL}${CONSTANTS.STANDARD_API_PATH}/Karigar`;
-  const fields: any = ['name', 'product', 'title', 'sequence'];
+  const fields: any = [
+    'name',
+    'karigar',
+    'product',
+    'product_process_department',
+  ];
 
   const filters: any = [
-    ['product', '=', `${product}`],
-    ['sequence', '=', `${sequence}`],
+    ['is_chain', '=', `${product_process_department_value}`],
   ];
   const url = `${CONSTANTS.API_BASE_URL}${
     CONSTANTS.STANDARD_API_PATH
-  }/Product Process?fields=${JSON.stringify(fields)}&filters=${JSON.stringify(
+  }/Product?fields=${JSON.stringify(fields)}&filters=${JSON.stringify(
     filters
   )}&limit=None`;
 
@@ -21,4 +24,4 @@ const GETOperationCardDetailNextProductProcess = async (
   return getResponse;
 };
 
-export default GETOperationCardDetailNextProductProcess;
+export default GETOperationCardDetailKarigar;

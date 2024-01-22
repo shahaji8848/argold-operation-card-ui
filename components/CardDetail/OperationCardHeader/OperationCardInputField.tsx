@@ -13,7 +13,6 @@ const OperationCardInputField = () => {
     if (inputValue.trim() !== '') {
       try {
         const calculatedResult = eval(inputValue);
-        console.log(calculatedResult, 'calculatedResult');
         setResult(calculatedResult);
       } catch (error) {
         setResult(null);
@@ -26,7 +25,12 @@ const OperationCardInputField = () => {
   return (
     <div>
       <span>{result !== null && <> {result} = </>}</span>
-      <input type="text" value={input} onChange={handleInputChange} />
+      <input
+        className=" px-2 rounded-2 input_fields"
+        type="text"
+        value={input}
+        onChange={handleInputChange}
+      />
     </div>
   );
 };

@@ -8,22 +8,30 @@ const OperationCardCreationDetail = ({ operationCardDetailData }: any) => {
         <div className="col-xxl-6 col-xl-7 col-lg-9 col-md-12 p-0">
           <div className="row">
             <div className="col-md-6 p-0 ">
-              <span>Created on: </span>
-              <span>{operationCardDetailData.creation}</span>
+              <span style={{ fontSize: '14px' }}>Created on: </span>
+              <span style={{ fontSize: '14px' }}>
+                {operationCardDetailData.creation}
+              </span>
             </div>
             <div className="col-md-6 p-0">
-              <span>Modified on: </span>
-              <span>{operationCardDetailData.modified}</span>
+              <span style={{ fontSize: '14px' }}>Modified on: </span>
+              <span style={{ fontSize: '14px' }}>
+                {operationCardDetailData.modified}
+              </span>
             </div>
           </div>
           <div className="row">
             <div className="col-md-6 p-0">
-              <span>Created by: </span>
-              <span>{operationCardDetailData.owner}</span>
+              <span style={{ fontSize: '14px' }}>Created by: </span>
+              <span style={{ fontSize: '14px' }}>
+                {operationCardDetailData.owner}
+              </span>
             </div>
             <div className="col-md-6 p-0">
-              <span>Modified by: </span>
-              <span>{operationCardDetailData.modified_by}</span>
+              <span style={{ fontSize: '14px' }}>Modified by: </span>
+              <span style={{ fontSize: '14px' }}>
+                {operationCardDetailData.modified_by}
+              </span>
             </div>
           </div>
         </div>
