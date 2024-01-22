@@ -307,15 +307,10 @@ const useOperationDetailCard = () => {
     operationCardDetail();
   }, []);
   useEffect(() => {
-    console.log(
-      ' operationCardDetailData?.next_product_process_department',
-      operationCardDetailData
-    );
     if (Object.keys(operationCardDetailData).length > 0) {
       getOperationCardProcessDepartment();
       getOperationCardDetailKarigar(
-        operationCardDetailData?.operation_card_issue_details[0]
-          ?.next_product_process_department ?? ''
+        operationCardDetailData?.product_process_department ?? ''
       );
       getOperationCardDetailThicknessAPICall();
       getOperationCardDetailMachineSizeAPICall();

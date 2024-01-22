@@ -33,7 +33,7 @@ const SelectKarigar = ({
     handleSuggestionClickAutoComplete,
   } = useKarigarList(operationCardKarigar, operationCardDetailDataKarigar);
 
-  console.log('operationCardFieldValue', operationCardFieldValue);
+  console.log('operationCardKarigar', operationCardKarigar);
   return (
     <div className={`row text-center  py-2 mx-2 gap-3`}>
       <div className="col-md-2 p-0 m-0">
@@ -46,14 +46,18 @@ const SelectKarigar = ({
               className={`form-control w-100`}
               autoComplete="off"
               onChange={(e) => {
-                setInputValueAutoComplete(e.target.value);
-                showFilteredValuesHandler();
+                showFilteredValuesHandler(e.target.value);
                 handleHeaderSave('karigar', e.target.value);
               }}
               onFocus={() => {
                 showFilteredValuesHandler();
               }}
               ref={inputRef}
+              readOnly={
+                operationCardKarigarQuantitySettings?.set_karigar !== 1
+                  ? true
+                  : false
+              }
             />
 
             {operationCardKarigarQuantitySettings?.set_karigar === 1 ? (

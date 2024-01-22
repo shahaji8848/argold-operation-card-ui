@@ -49,12 +49,11 @@ const useKarigarList = (
     setShowSuggestionsAutoComplete(false);
   };
 
-  const showFilteredValuesHandler = () => {
+  const showFilteredValuesHandler = (user_input_value?: any) => {
     console.log('modal input value', inputValueAutoComplete);
-    const trimmedInput = inputValueAutoComplete?.trim().toLowerCase();
+    const trimmedInput = user_input_value?.trim().toLowerCase();
 
-    console.log('karigar filtered', trimmedInput);
-    // filteredSuggestionsAutoComplete
+    setInputValueAutoComplete(user_input_value);
 
     // if (check !== 0) {
     if (trimmedInput === '' || !trimmedInput || trimmedInput.length === 0) {
@@ -71,7 +70,9 @@ const useKarigarList = (
       // setFilteredSuggestionsAutoComplete(filtered);
       // Always show all suggestions if there is no match
       setFilteredSuggestionsAutoComplete(
-        filtered.length > 0 ? filtered : [' Not Found ']
+        filtered.length > 0
+          ? filtered
+          : [{ name: 'Not Found', value: 'Not Found' }]
       );
       setShowSuggestionsAutoComplete(true);
     }
