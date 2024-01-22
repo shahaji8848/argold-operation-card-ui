@@ -47,12 +47,15 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
     setShowSuggestionsAutoComplete(false);
   };
 
-  const dropdownsHideAfterLosingFocus = () => {
+  const handleFocusRemove = () => {
     setShowSuggestionsAutoComplete(false);
   };
 
-  const showFilteredValuesHandler = () => {
-    const trimmedInput = inputValueAutoComplete?.trim().toLowerCase();
+  const showFilteredValuesHandler = (user_input_value: string) => {
+    // console.log('url debugging user_input_value', user_input_value);
+    const trimmedInput = user_input_value?.trim().toLowerCase();
+
+    setInputValueAutoComplete(user_input_value);
 
     // filteredSuggestionsAutoComplete
 
@@ -70,7 +73,9 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
       // setFilteredSuggestionsAutoComplete(filtered);
       // Always show all suggestions if there is no match
       setFilteredSuggestionsAutoComplete(
-        filtered.length > 0 ? filtered : [' Not Found ']
+        filtered.length > 0
+          ? filtered
+          : [{ name: 'Not Found', value: 'Not Found' }]
       );
       setShowSuggestionsAutoComplete(true);
     }
@@ -89,7 +94,7 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
     showSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
-    dropdownsHideAfterLosingFocus,
+    handleFocusRemove,
   };
 };
 

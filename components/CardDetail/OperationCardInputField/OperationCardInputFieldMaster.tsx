@@ -5,10 +5,8 @@ const OperationCardInputFieldMaster = ({
   operationCardProductDept,
   operationCardDetailData,
   operationCardKarigar,
-  operationCardThickness,
-  operationCardVariant,
-  operationCardMachineSize,
-  operationCardDesignCodeCategory,
+  operationCardKarigarQuantitySettings,
+  handleHeaderSave,
 }: any) => {
   return (
     <div className="d-flex  spacing-mt ">
@@ -17,6 +15,10 @@ const OperationCardInputFieldMaster = ({
           operationCardProductDept={operationCardProductDept}
           operationCardDetailData={operationCardDetailData}
           operationCardKarigar={operationCardKarigar}
+          operationCardKarigarQuantitySettings={
+            operationCardKarigarQuantitySettings
+          }
+          handleHeaderSave={handleHeaderSave}
         />
       </div>
     </div>

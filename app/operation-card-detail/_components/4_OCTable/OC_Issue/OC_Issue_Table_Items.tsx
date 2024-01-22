@@ -18,30 +18,25 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
       </td>
     );
   };
-
-  const InValidColumnsForSummation = [
-    'old_operation_card',
-    'next_karigar',
-    'tounch_no',
-    'fire_tounch_no',
-    'machine_size',
-    'line_number',
-  ];
   const CalculateTotal = (column: any) => {
-    if (InValidColumnsForSummation?.includes(`${column}`)) {
-      return '--';
-    } else {
-      return operationCardDetailData?.receipt_details
-        ?.reduce((total: any, item: any) => {
-          console.log('item column', item[column]);
-          if (item[column] === undefined) {
+    return operationCardDetailData?.receipt_details
+      ?.reduce((total: any, item: any) => {
+        if (item.hasOwnProperty('old_operation_card')) {
+          return total + item[column];
+        } else {
+          if (column === 'old_operation_card' || column === 'karigar') {
             return 0;
           } else {
-            return total + item[column];
+            console.log('item column', item[column]);
+            if (item[column] === undefined) {
+              return 0;
+            } else {
+              return total + item[column];
+            }
           }
-        }, 0)
-        .toFixed(3);
-    }
+        }
+      }, 0)
+      .toFixed(3);
   };
 
   return (
@@ -60,7 +55,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'Fire Touch No ',
               'Machine Size',
               'Line Number',
-              'Next Karigar',
+              'Karigar',
               'OP',
             ].map((val, i: any) => (
               <th className="thead-dark text-center" scope="col" key={i}>
@@ -110,7 +105,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                   <td className="text-end">
                     {data?.line_number === 0 ? '--' : data?.line_number}
                   </td>
-                  <td className="text-end">{data?.next_karigar ?? '--'}</td>
+                  <td className="text-end">{data?.karigar ?? '--'}</td>
                   <td className="text-end">
                     {hasOPkey(data) ? (
                       <Link
@@ -138,7 +133,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'fire_tounch_no',
               'machine_size',
               'line_number',
-              'next_karigar',
+              'karigar',
               'old_operation_card',
             ].map((data: any, i: any) => (
               <td className="font-weight-bold text-end" key={i}>

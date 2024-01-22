@@ -39,7 +39,7 @@ const OperationCardDetailMaster = () => {
   } = useOperationDetailCard();
   return (
     <div>
-      {Object.keys(operationCardDetailData).length > 0 ? (
+      {/* {Object.keys(operationCardDetailData).length > 0 ? (
         <div className="container-fluid">
           <div className="spacing-pd">
             <OperationCardHeaderMaster
@@ -108,6 +108,7 @@ const OperationCardDetailMaster = () => {
               operationCardDetailData={operationCardDetailData}
             />
           </div>
+          
         </div>
       ) : (
         <div className="OpertaionCardcontainer">
@@ -124,7 +125,7 @@ const OperationCardDetailMaster = () => {
             </a>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

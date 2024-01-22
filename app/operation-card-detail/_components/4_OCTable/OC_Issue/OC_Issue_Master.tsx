@@ -1,8 +1,8 @@
 import React from 'react';
-import OperationCardReceiptItem from './OperationCardReceiptItem';
-import OperationCardReceiptButton from './OperationCardReceiptButton';
+import OperationCardIssueButton from './OC_Issue_Button';
+import OperationCardIssueItem from './OC_Issue_Table_Items';
 
-const OperationCardReceiptMaster = ({
+const OperationCardIssueMaster = ({
   search,
   getOperationCardDetailNextKarigarFunc,
   getOperationCardDetailNextProductProcessAPICallFunc,
@@ -17,13 +17,20 @@ const OperationCardReceiptMaster = ({
   operationCardVariant,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
+  operationCardNextDesign,
   operationCardNextProductProcess,
   operationCardNextProductProcessDepartment,
+  getOperationCardDetailDesignCodeCategoryAPICall,
+  getOperationCardDetailDesignAPICall,
+  getOperationCardDetailDesignCodeTypeAPICall,
+  operationCardNextDesignCodeType,
+  operationCardProductCategory,
+  operationCardNextProductCategory,
+  getOperationCardDetailNextProductCategoryAPICallFunc,
 }: any) => {
   return (
     <>
-      <OperationCardReceiptButton
-        operationCardProductDept={operationCardProductDept}
+      <OperationCardIssueButton
         search={search}
         operationCardDetail={operationCardDetail}
         getOperationCardDetailNextKarigarFunc={
@@ -35,6 +42,7 @@ const OperationCardReceiptMaster = ({
         getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
           getOperationCardDetailNextProductProcessDepartmentAPICallFunc
         }
+        operationCardProductDept={operationCardProductDept}
         operationCardDetailData={operationCardDetailData}
         operationCardKarigar={operationCardKarigar}
         operationCardConcept={operationCardConcept}
@@ -42,14 +50,30 @@ const OperationCardReceiptMaster = ({
         operationCardThickness={operationCardThickness}
         operationCardVariant={operationCardVariant}
         operationCardMachineSize={operationCardMachineSize}
+        operationCardNextDesign={operationCardNextDesign}
         operationCardDesignCodeCategory={operationCardDesignCodeCategory}
         operationCardNextProductProcess={operationCardNextProductProcess}
         operationCardNextProductProcessDepartment={
           operationCardNextProductProcessDepartment
         }
+        getOperationCardDetailDesignCodeCategoryAPICall={
+          getOperationCardDetailDesignCodeCategoryAPICall
+        }
+        getOperationCardDetailDesignAPICall={
+          getOperationCardDetailDesignAPICall
+        }
+        getOperationCardDetailDesignCodeTypeAPICall={
+          getOperationCardDetailDesignCodeTypeAPICall
+        }
+        operationCardNextDesignCodeType={operationCardNextDesignCodeType}
+        operationCardProductCategory={operationCardProductCategory}
+        getOperationCardDetailNextProductCategoryAPICallFunc={
+          getOperationCardDetailNextProductCategoryAPICallFunc
+        }
+        operationCardNextProductCategory={operationCardNextProductCategory}
       />
       <div className="mt-2">
-        <OperationCardReceiptItem
+        <OperationCardIssueItem
           operationCardDetailData={operationCardDetailData}
         />
       </div>
@@ -57,4 +81,4 @@ const OperationCardReceiptMaster = ({
   );
 };
 
-export default OperationCardReceiptMaster;
+export default OperationCardIssueMaster;

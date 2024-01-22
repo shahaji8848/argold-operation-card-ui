@@ -1,6 +1,6 @@
 import React from 'react';
-import OperationCardReceiptMaster from './OperationCardReceipt/OperationCardReceiptMaster';
-import OperationCardIssueMaster from './OperationCardIssue/OperationCardIssueMaster';
+import OperationCardReceiptMaster from './OC_Receipt/OC_Receipt_Master';
+import OperationCardIssueMaster from './OC_Issue/OC_Issue_Master';
 
 const OperationCardTableMaster = ({
   search,

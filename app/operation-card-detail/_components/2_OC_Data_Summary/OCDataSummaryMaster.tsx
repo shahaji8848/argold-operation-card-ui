@@ -1,7 +1,7 @@
 import React from 'react';
-import ProductData from './ProductData';
-import MeltingLotData from './MeltingLotData';
-import BalanceData from './BalanceData';
+import ProductData from './OCProductData';
+import MeltingLotData from './OCMeltingData';
+import BalanceData from './OCBalanceData';
 
 const OperationCardDataSummaryMaster = ({ operationCardDetailData }: any) => {
   return (

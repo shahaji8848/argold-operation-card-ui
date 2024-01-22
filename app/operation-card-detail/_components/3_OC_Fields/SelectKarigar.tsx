@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useInputAutoComplete from '@/hooks/input_auto_complete_hook';
 import useKarigarList from '@/hooks/karigar-list-hook';
 
-const SelectKarigar = ({
+const OCFieldsData = ({
   operationCardProductDept,
   operationCardDetailData,
   operationCardKarigar,
@@ -153,4 +153,4 @@ const SelectKarigar = ({
   );
 };
 
-export default SelectKarigar;
+export default OCFieldsData;

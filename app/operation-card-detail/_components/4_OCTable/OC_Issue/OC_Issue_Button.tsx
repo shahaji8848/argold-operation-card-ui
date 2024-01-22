@@ -199,10 +199,6 @@ const OperationCardIssueButton = ({
       'getOperationCardDetailDataValue',
       getOperationCardDetailDataValue
     );
-    console.log(
-      'getOperationCardDetailDataValue[0]?.next_product_process_department',
-      getOperationCardDetailDataValue[0]?.next_product_process_department
-    );
 
     getOperationCardDetailNextKarigarFunc(
       getOperationCardDetailDataValue[0]?.next_product_process_department
