@@ -87,11 +87,14 @@ const SelectKarigar = ({
                               cursor: 'pointer',
                               padding: '7px',
                               fontWeight: 'bold',
+                              textAlign: 'left',
                             }}
                             className="fileredValue-hover force-overflow"
                             id="style-2"
                           >
-                            {suggestion?.value}
+                            <p style={{ padding: '0px', margin: '0px' }}>
+                              {suggestion?.value}
+                            </p>
                           </div>
                         )
                       )}
