@@ -20,6 +20,7 @@ const OperationCardDetailMaster = () => {
     operationCardProductDept,
     operationCardKarigar,
     operationCardNextKarigar,
+    operationCardProduct,
     operationCardThickness,
     operationCardVariant,
     operationCardConcept,
@@ -36,6 +37,7 @@ const OperationCardDetailMaster = () => {
     operationCardKarigarQuantitySettings,
     operationCardProductCategory,
     getOperationCardDetailNextProductCategoryAPICallFunc,
+    getOperationCardDetailProductAPICallFunc,
   } = useOperationDetailCard();
   return (
     <div>
@@ -103,6 +105,7 @@ const OperationCardDetailMaster = () => {
               operationCardNextProductCategory={
                 operationCardNextProductCategory
               }
+              operationCardProduct={operationCardProduct}
             />
             <OperationCardCreationDetail
               operationCardDetailData={operationCardDetailData}

@@ -53,6 +53,7 @@ const OperationCardReceiptMaster = ({
           operationCardDetailData={operationCardDetailData}
         />
       </div>
+      <div></div>
     </>
   );
 };

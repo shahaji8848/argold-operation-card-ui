@@ -62,11 +62,24 @@ const BalanceData = ({ operationCardDetailData }: any) => {
           <div className="col-md-12 ms-xxl-4">
             <div className="row">
               <div className="col-3">
-                <span className="">
-                  Diff (
-                  {`${operationCardDetailData?.total_wastage_issue_percentage}`}
-                  )
-                </span>
+                {operationCardDetailData?.hasOwnProperty(
+                  'total_wastage_issue_percentage'
+                ) &&
+                operationCardDetailData?.total_wastage_issue_percentage !== 0 &&
+                operationCardDetailData?.total_wastage_issue_percentage !==
+                  '' &&
+                operationCardDetailData?.total_wastage_issue_percentage !==
+                  null &&
+                operationCardDetailData?.total_wastage_issue_percentage !==
+                  undefined ? (
+                  <span className="">
+                    Diff (
+                    {`${operationCardDetailData?.total_wastage_issue_percentage}`}
+                    )
+                  </span>
+                ) : (
+                  <span className="">Difference</span>
+                )}
               </div>
               <div className=" col-4 text-start">
                 <input

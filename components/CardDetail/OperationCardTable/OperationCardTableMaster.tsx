@@ -27,6 +27,7 @@ const OperationCardTableMaster = ({
   operationCardNextDesignCodeType,
   operationCardProductCategory,
   getOperationCardDetailNextProductCategoryAPICallFunc,
+  operationCardProduct,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -100,6 +101,7 @@ const OperationCardTableMaster = ({
             getOperationCardDetailNextProductCategoryAPICallFunc
           }
           operationCardNextProductCategory={operationCardNextProductCategory}
+          operationCardProduct={operationCardProduct}
         />
       </div>
     </div>

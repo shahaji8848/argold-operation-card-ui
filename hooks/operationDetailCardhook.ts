@@ -15,6 +15,7 @@ import GETProductProcessDesign from '@/services/api/operation-card-detail-page/o
 import GETProductProcessDesignCodeType from '@/services/api/operation-card-detail-page/operation-card-detail-design-code-type';
 import POSTOperationCardSave from '@/services/api/operation-card-detail-page/operation-card-save';
 import GETProductProcessProductCategory from '@/services/api/operation-card-detail-page/operation-card-detail-product-category';
+import GETOperationCardDetailProductData from '@/services/api/operation-card-detail-page/operation-card-detail-product';
 const useOperationDetailCard = () => {
   const [
     operationCardKarigarQuantitySettings,
@@ -47,6 +48,7 @@ const useOperationDetailCard = () => {
   ] = useState<any>([]);
   const [operationCardProductCategory, setOperationCardProductCategory] =
     useState<any>([]);
+  const [operationCardProduct, setOperationCardProduct] = useState<any>([]);
   const [
     operationCardNextProductCategory,
     setOperationCardNextProductCategory,
@@ -279,6 +281,21 @@ const useOperationDetailCard = () => {
         setOperationCardNextProductProcessDepartment([]);
       }
     };
+
+  const getOperationCardDetailProductAPICallFunc = async () => {
+    const getProductDropDown = await GETOperationCardDetailProductData();
+    if (getProductDropDown?.status === 200) {
+      setOperationCardProduct(
+        getProductDropDown?.data?.data?.map((product_data: any) => ({
+          name: product_data?.name,
+          value: product_data?.title,
+        }))
+      );
+    } else {
+      setOperationCardProduct([]);
+    }
+  };
+
   const getOperationCardDetailNextProductCategoryAPICallFunc = async () => {
     const getNextProductCategory = await GETProductProcessProductCategory(
       operationCardDetailData?.product
@@ -328,6 +345,8 @@ const useOperationDetailCard = () => {
 
       getOperationCardDetailDesignAPICall();
 
+      getOperationCardDetailProductAPICallFunc();
+
       getOperationCardDetailDesignCodeTypeAPICall();
 
       getOperationCardDetailNextProductCategoryAPICallFunc();
@@ -352,6 +371,7 @@ const useOperationDetailCard = () => {
     operationCardConcept,
     operationCardVariant,
     operationCardMachineSize,
+    operationCardProduct,
     operationCardDesignCodeCategory,
     operationCardNextProductProcess,
     operationCardNextProductProcessDepartment,
@@ -366,6 +386,7 @@ const useOperationDetailCard = () => {
     getOperationCardDetailDesignCodeTypeAPICall,
     getOperationCardDetailNextProductCategoryAPICallFunc,
     operationCardKarigarQuantitySettings,
+    getOperationCardDetailProductAPICallFunc,
   };
 };
 

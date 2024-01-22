@@ -24,13 +24,10 @@ const OperationCardIssueButton = ({
   operationCardNextProductProcess,
   operationCardNextDesign,
   operationCardNextProductProcessDepartment,
-  getOperationCardDetailDesignCodeCategoryAPICall,
-  getOperationCardDetailDesignAPICall,
-  getOperationCardDetailDesignCodeTypeAPICall,
   operationCardNextDesignCodeType,
   operationCardProductCategory,
   operationCardNextProductCategory,
-  getOperationCardDetailNextProductCategoryAPICallFunc,
+  operationCardProduct,
 }: any) => {
   const checkArray = [
     'karigar',
@@ -274,6 +271,7 @@ const OperationCardIssueButton = ({
                     next_product_process_department:
                       operationCardNextProductProcessDepartment,
                     next_product_category: operationCardNextProductCategory,
+                    gpc_product: operationCardProduct,
                   };
                   propToPass = propMappings[val];
                   return propToPass;

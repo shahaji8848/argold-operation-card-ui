@@ -27,6 +27,7 @@ const OperationCardIssueMaster = ({
   operationCardProductCategory,
   operationCardNextProductCategory,
   getOperationCardDetailNextProductCategoryAPICallFunc,
+  operationCardProduct,
 }: any) => {
   return (
     <>
@@ -53,6 +54,7 @@ const OperationCardIssueMaster = ({
         operationCardNextDesign={operationCardNextDesign}
         operationCardDesignCodeCategory={operationCardDesignCodeCategory}
         operationCardNextProductProcess={operationCardNextProductProcess}
+        operationCardProduct={operationCardProduct}
         operationCardNextProductProcessDepartment={
           operationCardNextProductProcessDepartment
         }
