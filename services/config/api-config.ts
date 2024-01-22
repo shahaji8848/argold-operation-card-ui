@@ -8,7 +8,7 @@ export const CONSTANTS = {
 };
 
 // live site token
-const TOKEN = 'token adf3e7caf953f16:bc1c3e88ad9f41d';
+const TOKEN = 'token afe9525ad466b21:673767b3a7e1fc4';
 
 // staging site token
 // const TOKEN = 'token adf3e7caf953f16:b9df520620fca99';
