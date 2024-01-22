@@ -50,6 +50,17 @@ a {
   font-size: 13px !important;
   color: #4c5a7f !important;
 }
+.fileredValue-hover.selected {
+  background-color: #c9c7c7 !important;
+}
+#container {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.scrollbar {
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+}
 .inputFields {
   border: 1px solid #cfd6dd !important;
   font-size: 13px !important;
@@ -156,7 +167,7 @@ a {
   border: 1px solid gray;
 }
 .summary-height {
-  height: 100px;
+  height: 140px;
   display: flex;
   align-items: center;
 }
@@ -276,4 +287,22 @@ a {
   .header-heading-mob {
     font-size: 13px;
   }
+  .btn-header-mob {
+    margin-top: 10px !important;
+  }
+  .header-content-mob {
+    display: flex !important;
+    justify-content: start !important;
+  }
+  .input-balc-mob {
+    margin-left: 13px !important;
+    /* border: 2px solid red !important; */
+    text-align: start !important;
+  }
+  .hr-mob {
+    display: none;
+  }
+  /* .balance-mob {
+    margin-left: -80px !important;
+  } */
 }

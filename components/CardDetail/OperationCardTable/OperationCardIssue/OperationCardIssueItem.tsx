@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
-  console.log(operationCardDetailData, 'operationCardDetailData');
+  console.log(operationCardDetailData, 'operationCardDetailData from issue');
   const hasOPkey = (val: any) => {
     return val.hasOwnProperty('operation_card');
   };
@@ -31,7 +31,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
     if (InValidColumnsForSummation?.includes(`${column}`)) {
       return '--';
     } else {
-      return operationCardDetailData?.receipt_details
+      return operationCardDetailData?.operation_card_issue_details
         ?.reduce((total: any, item: any) => {
           console.log('item column', item[column]);
           if (item[column] === undefined) {
@@ -99,10 +99,14 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                       : data?.in_fine_weight?.toFixed(3)}
                   </td>
                   <td className="text-end">
-                    {data?.tounch_no === 0 ? '--' : data?.tounch_no}
+                    {data?.in_weight === 0 || data?.tounch_no === 0
+                      ? '--'
+                      : data?.tounch_no}
                   </td>
                   <td className="text-end">
-                    {data?.fire_tounch_no === 0 ? '--' : data?.fire_tounch_no}
+                    {data?.in_weight === 0 || data?.fire_tounch_no === 0
+                      ? '--'
+                      : data?.fire_tounch_no}
                   </td>
                   <td className="text-end">
                     {data?.machine_size === 0 ? '--' : data?.machine_size}
