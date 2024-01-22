@@ -33,11 +33,7 @@ const SelectKarigar = ({
     handleSuggestionClickAutoComplete,
   } = useKarigarList(operationCardKarigar, operationCardDetailDataKarigar);
 
-  console.log(
-    'operationCardKarigarQuantitySettings',
-    operationCardKarigarQuantitySettings
-  );
-
+  console.log('operationCardFieldValue', operationCardFieldValue);
   return (
     <div className={`row text-center  py-2 mx-2 gap-3`}>
       <div className="col-md-2 p-0 m-0">
@@ -102,7 +98,60 @@ const SelectKarigar = ({
           </div>
         </div>
       </div>
+      <div className="col-md-2 p-0 m-0">
+        <div className="fs-14 bold text-start">Quantity</div>
+        <div className="fs-14 ">
+          <input
+            type="text"
+            className="form-control dark-blue operationCardinputFields"
+            id="inputText"
+            value={operationCardDetailData?.quantity}
+            readOnly={
+              operationCardKarigarQuantitySettings?.set_quantity !== 1
+                ? true
+                : false
+            }
+            onChange={(e: any) => handleHeaderSave('quantity', e.target.value)}
+          />
+        </div>
+      </div>
+
       {operationCardFieldValue.length > 0 &&
+        operationCardFieldValue.map(([key, values]: any, index: number) => {
+          return (
+            <>
+              {key !== 'karigar' && key !== 'quantity' ? (
+                <div className="col-md-2 p-0 m-0" key={index}>
+                  <div>
+                    {' '}
+                    <div className="fs-14 bold text-start">
+                      {key
+                        .split('_')
+                        .map((val: any, index: any) => {
+                          return index === 0
+                            ? val.charAt(0).toUpperCase() + val.slice(1)
+                            : val;
+                        })
+                        .join(' ')}
+                    </div>
+                    <div className="fs-14 ">
+                      <input
+                        type="text"
+                        className="form-control dark-blue operationCardinputFields"
+                        id="inputText"
+                        value={values}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <></>
+              )}
+            </>
+          );
+        })}
+
+      {/* {operationCardFieldValue.length > 0 &&
         operationCardFieldValue.map(([key, values]: any, index: number) => {
           return (
             <div className="col-md-2 p-0 m-0" key={index}>
@@ -148,7 +197,7 @@ const SelectKarigar = ({
               ) : null}
             </div>
           );
-        })}
+        })} */}
     </div>
   );
 };

@@ -68,10 +68,7 @@ const BalanceData = ({ operationCardDetailData }: any) => {
                   )
                 </span>
               </div>
-              <div
-                className=" col-4 text-start"
-                style={{ marginLeft: '-32px' }}
-              >
+              <div className=" col-4 text-start">
                 <input
                   type="text"
                   name="weight"
@@ -82,7 +79,7 @@ const BalanceData = ({ operationCardDetailData }: any) => {
                   onChange={(e: any) => setWeightInput(e.target.value)}
                 />
               </div>
-              <div className=" col-3" style={{ marginLeft: '-42px' }}>
+              <div className=" col-3">
                 {/* <span className="px-3">{'='}</span> */}
                 <span>{Number(calculation).toFixed(3)}</span>
               </div>
