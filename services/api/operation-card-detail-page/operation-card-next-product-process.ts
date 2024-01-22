@@ -1,10 +1,16 @@
 import { CONSTANTS, callGetAPI } from '@/services/config/api-config';
 
-const GETOperationCardDetailNextProductProcess = async (product?: any) => {
+const GETOperationCardDetailNextProductProcess = async (
+  product?: any,
+  sequence?: any
+) => {
   // const url = `${CONSTANTS.API_BASE_URL}${CONSTANTS.STANDARD_API_PATH}/Karigar`;
   const fields: any = ['name', 'product', 'title', 'sequence'];
 
-  const filters: any = [['product', '=', `${product}`]];
+  const filters: any = [
+    ['product', '=', `${product}`],
+    ['sequence', '=', `${sequence}`],
+  ];
   const url = `${CONSTANTS.API_BASE_URL}${
     CONSTANTS.STANDARD_API_PATH
   }/Product Process?fields=${JSON.stringify(fields)}&filters=${JSON.stringify(

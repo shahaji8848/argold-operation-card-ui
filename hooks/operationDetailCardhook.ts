@@ -245,13 +245,14 @@ const useOperationDetailCard = () => {
   const getOperationCardDetailNextProductProcessAPICallFunc = async () => {
     const getNextProductProcess =
       await GETOperationCardDetailNextProductProcess(
-        operationCardDetailData?.product
+        operationCardDetailData?.product,
+        operationCardDetailData?.process_sequence + 1
       );
     if (getNextProductProcess?.status === 200) {
       setOperationCardNextProductProcess(
-        getNextProductProcess?.data?.data?.map((machine_size_data: any) => ({
-          name: machine_size_data?.name,
-          value: machine_size_data?.title,
+        getNextProductProcess?.data?.data?.map((nextProductProcess: any) => ({
+          name: nextProductProcess?.name,
+          value: nextProductProcess?.title,
         }))
       );
     } else {
@@ -312,10 +313,6 @@ const useOperationDetailCard = () => {
     );
     if (Object.keys(operationCardDetailData).length > 0) {
       getOperationCardProcessDepartment();
-      // getOperationCardDetailNextKarigarFunc(
-      //   operationCardDetailData?.operation_card_issue_details[0]
-      //     ?.next_product_process_department ?? ''
-      // );
       getOperationCardDetailKarigar(
         operationCardDetailData?.operation_card_issue_details[0]
           ?.next_product_process_department ?? ''
@@ -324,6 +321,21 @@ const useOperationDetailCard = () => {
       getOperationCardDetailMachineSizeAPICall();
       getOperationCardDetailVariantAPICall();
       getOperationCardDetailConceptAPIFunc();
+
+      getOperationCardDetailNextKarigarFunc(
+        operationCardDetailData?.next_product_process_department
+      );
+      getOperationCardDetailNextProductProcessAPICallFunc();
+
+      getOperationCardDetailNextProductProcessDepartmentAPICallFunc();
+
+      getOperationCardDetailDesignCodeCategoryAPICall();
+
+      getOperationCardDetailDesignAPICall();
+
+      getOperationCardDetailDesignCodeTypeAPICall();
+
+      getOperationCardDetailNextProductCategoryAPICallFunc();
     }
   }, [operationCardDetailData]);
 

@@ -1,7 +1,9 @@
 const ProductData = ({ operationCardDetailData }: any) => {
   return (
     <div className="me-2">
-      <div className={`row    border rounded-3 p-0 m-0 summary-height `}>
+      <div
+        className={`row align-items-baseline border py-2 rounded-3 p-0 m-0 summary-height`}
+      >
         <div className="col-md-4 p-0 m-0 mob-reverse-content">
           <div className="fs-14 bold mob-text-start">
             {operationCardDetailData?.product}
