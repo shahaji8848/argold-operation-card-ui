@@ -24,6 +24,7 @@ const ProductData = ({ operationCardDetailData }: any) => {
             <Link
               href={`${CONSTANTS.API_BASE_URL}app/product-process-department/${operationCardDetailData?.product_process_department}`}
               target="_blank"
+              style={{ textDecoration: 'none' }}
             >
               {operationCardDetailData?.operation_department}
             </Link>
