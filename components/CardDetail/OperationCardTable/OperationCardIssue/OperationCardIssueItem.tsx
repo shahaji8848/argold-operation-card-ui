@@ -27,20 +27,59 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
     'machine_size',
     'line_number',
   ];
-  const CalculateTotal = (column: any) => {
+  // const CalculateTotal = (column: any) => {
+  // if (InValidColumnsForSummation?.includes(`${column}`)) {
+  //   return '--';
+  //   } else {
+  //     return operationCardDetailData?.operation_card_issue_details
+  //       ?.reduce((total: any, item: any) => {
+  //         console.log('item column', item[column]);
+  //         if (item[column] === undefined) {
+  //           return 0;
+  //         } else {
+  //           return total + item[column];
+  //         }
+  //       }, 0)
+  //       .toFixed(3);
+  //   }
+  // };
+
+  const CalculateTotal = (column: string, data: any[]) => {
     if (InValidColumnsForSummation?.includes(`${column}`)) {
       return '--';
     } else {
-      return operationCardDetailData?.operation_card_issue_details
-        ?.reduce((total: any, item: any) => {
-          console.log('item column', item[column]);
-          if (item[column] === undefined) {
-            return 0;
-          } else {
-            return total + item[column];
-          }
-        }, 0)
-        .toFixed(3);
+      if (column === 'in_gross_purity') {
+        const totalInWeight = data.reduce(
+          (total: any, item: any) => total + item['in_weight'],
+          0
+        );
+        const totalInGrossWeight = data.reduce(
+          (total: any, item: any) => total + item['in_gross_weight'],
+          0
+        );
+        return ((totalInGrossWeight / totalInWeight) * 100).toFixed(3);
+      } else if (column === 'in_fine_purity') {
+        const totalGrossWeight = data.reduce(
+          (total: any, item: any) => total + item['in_gross_weight'],
+          0
+        );
+        const totalFineWeight = data.reduce(
+          (total: any, item: any) => total + item['in_fine_weight'],
+          0
+        );
+        return ((totalFineWeight / totalGrossWeight) * 100).toFixed(3);
+      } else {
+        return operationCardDetailData?.operation_card_issue_details
+          ?.reduce((total: any, item: any) => {
+            console.log('item column', item[column]);
+            if (item[column] === undefined) {
+              return 0;
+            } else {
+              return total + item[column];
+            }
+          }, 0)
+          .toFixed(3);
+      }
     }
   };
 
@@ -146,7 +185,11 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'old_operation_card',
             ].map((data: any, i: any) => (
               <td className="font-weight-bold text-end" key={i}>
-                {CalculateTotal(data)}
+                {/* {CalculateTotal(data)} */}
+                {CalculateTotal(
+                  data,
+                  operationCardDetailData?.receipt_details || []
+                )}
               </td>
             ))}
           </tr>

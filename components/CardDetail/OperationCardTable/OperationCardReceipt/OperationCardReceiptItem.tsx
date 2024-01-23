@@ -2,15 +2,46 @@ import Link from 'next/link';
 import React from 'react';
 
 const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
-  const CalculateTotal = (column: any) => {
-    if (column !== 'reference') {
-      return operationCardDetailData?.receipt_details
-        ?.reduce((total: any, item: any) => total + item[column], 0)
+  // const CalculateTotal = (column: any) => {
+  //   if (column !== 'reference') {
+  //     return operationCardDetailData?.receipt_details
+  //       ?.reduce((total: any, item: any) => total + item[column], 0)
+  //       .toFixed(3);
+  //   } else {
+  //     return '--';
+  //   }
+  // };
+
+  const CalculateTotal = (column: string, data: any[]) => {
+    if (column === 'in_gross_purity') {
+      const totalInWeight = data.reduce(
+        (total: any, item: any) => total + item['in_weight'],
+        0
+      );
+      const totalInGrossWeight = data.reduce(
+        (total: any, item: any) => total + item['in_gross_weight'],
+        0
+      );
+      return ((totalInGrossWeight / totalInWeight) * 100).toFixed(3);
+    } else if (column === 'in_fine_purity') {
+      const totalGrossWeight = data.reduce(
+        (total: any, item: any) => total + item['in_gross_weight'],
+        0
+      );
+      const totalFineWeight = data.reduce(
+        (total: any, item: any) => total + item['in_fine_weight'],
+        0
+      );
+      return ((totalFineWeight / totalGrossWeight) * 100).toFixed(3);
+    } else if (column !== 'reference') {
+      return data
+        .reduce((total: any, item: any) => total + item[column], 0)
         .toFixed(3);
     } else {
       return '--';
     }
   };
+
   const hasOPkey = (val: any) => {
     return val.hasOwnProperty('reference');
   };
@@ -89,7 +120,11 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
               'reference',
             ].map((data: any, i: any) => (
               <td className="font-weight-bold text-end" key={i}>
-                {CalculateTotal(data)}
+                {/* {CalculateTotal(data)} */}
+                {CalculateTotal(
+                  data,
+                  operationCardDetailData?.receipt_details || []
+                )}
               </td>
             ))}
           </tr>
