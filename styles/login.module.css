@@ -1,0 +1,27 @@
+.login_wrapper {
+  /* border: 1px solid black !important; */
+  border-radius: 5px;
+  margin: 100px auto 50px auto;
+  max-width: 500px;
+  width: 95%;
+  padding: 25px;
+}
+.form_group {
+  margin-bottom: 1rem;
+}
+.form_control {
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+.password_position {
+  position: relative !important;
+}
+.password_icon {
+  position: absolute;
+  background-color: #fff;
+  border: none;
+  top: 7px;
+  right: 10px;
+}

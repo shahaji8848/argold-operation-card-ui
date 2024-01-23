@@ -107,6 +107,7 @@ a {
   color: #fff !important;
   font-size: 13px !important;
 }
+
 .btn-grey {
   background-color: #6c757d !important;
   border: none !important;
@@ -221,7 +222,9 @@ a {
 .form-control:focus {
   box-shadow: none !important;
 }
-
+.fs-14 {
+  font-size: 14px !important;
+}
 @media (max-width: 768px) {
   .btn-blueColor {
     width: 100% !important;

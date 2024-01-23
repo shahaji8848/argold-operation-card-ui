@@ -30,7 +30,7 @@ const ProductData = ({ operationCardDetailData }: any) => {
           </div>
           <div className="fs-14 mob-px">Department</div>
         </div>
-        <div className="col-md-4 mt-1">
+        <div className="col-md-4 mt-1 mob-reverse-content p-0 m-0">
           <span className="fs-14 mob-px bold p-0 m-0 ">
             {operationCardDetailData?.next_product_process_department === 0 ||
             operationCardDetailData?.next_product_process_department === '' ||
