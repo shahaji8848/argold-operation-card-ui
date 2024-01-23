@@ -36,7 +36,7 @@ const Login = () => {
                 <div className={` ${style.password_position}`}>
                   <input
                     type={passwordHidden ? 'password' : 'text'}
-                    placeholder="Enter password"
+                    placeholder="Enter Password"
                     className={`form-control `}
                     required
                   />
