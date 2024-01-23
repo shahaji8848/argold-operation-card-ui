@@ -41,7 +41,7 @@ const Login = () => {
                     required
                   />
                   <button
-                    className={`${style.password_icon}`}
+                    className={`${style.password_icon} `}
                     onClick={(e: React.MouseEvent) => handlePassword(e)}
                   >
                     {passwordHidden ? (
@@ -57,7 +57,7 @@ const Login = () => {
                 <button
                   type="submit"
                   // onClick={handelSubmit}
-                  className="btn btn-primary w-50 text-uppercase"
+                  className="btn btn-primary w-50 text-uppercase btn-blue py-2 fs-14"
                 >
                   Log In
                 </button>
