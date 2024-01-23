@@ -1,9 +1,14 @@
 import React from 'react';
 import OperationCardReceiptItem from './OperationCardReceiptItem';
 import OperationCardReceiptButton from './OperationCardReceiptButton';
+import OCIssueReferenceTable from './OC-Issue-Reference-Table/OCIssueReferenceTableItem';
+import { DummyTable } from '../../../../DataSet/dummy';
+import OCGoldAccessoryTableItem from './OC-Gold-Accessory-Table/OCGoldAccessoryTableItem';
 
 const OperationCardReceiptMaster = ({
   search,
+  goldAccessoryTable,
+  issueReference,
   getOperationCardDetailNextKarigarFunc,
   getOperationCardDetailNextProductProcessAPICallFunc,
   getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
@@ -20,6 +25,7 @@ const OperationCardReceiptMaster = ({
   operationCardNextProductProcess,
   operationCardNextProductProcessDepartment,
 }: any) => {
+  console.log('getIssueReferenceData getIssueReferenceData', issueReference);
   return (
     <>
       <OperationCardReceiptButton
@@ -53,7 +59,17 @@ const OperationCardReceiptMaster = ({
           operationCardDetailData={operationCardDetailData}
         />
       </div>
-      <div className="mt-2"></div>
+      {goldAccessoryTable?.length > 0 && (
+        <div className="mt-2">
+          <OCGoldAccessoryTableItem goldAccessoryTable={goldAccessoryTable} />
+        </div>
+      )}
+
+      {issueReference?.length > 0 && (
+        <div className="mt-2">
+          <OCIssueReferenceTable issueReferenceTable={issueReference} />
+        </div>
+      )}
     </>
   );
 };

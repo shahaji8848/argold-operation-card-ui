@@ -28,6 +28,8 @@ const OperationCardTableMaster = ({
   operationCardProductCategory,
   getOperationCardDetailNextProductCategoryAPICallFunc,
   operationCardProduct,
+  goldAccessoryTable,
+  issueReference,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -57,6 +59,8 @@ const OperationCardTableMaster = ({
           operationCardNextProductProcessDepartment={
             operationCardNextProductProcessDepartment
           }
+          goldAccessoryTable={goldAccessoryTable}
+          issueReference={issueReference}
         />
       </div>
       <div className="col-xxl-7 col-xl-8 col-md-7">

@@ -11,6 +11,8 @@ const OperationCardDetailMaster = () => {
   const {
     search,
     handleHeaderSave,
+    goldAccessoryTable,
+    issueReference,
     handleOperationCardSave,
     operationCardDetail,
     getOperationCardDetailNextKarigarFunc,
@@ -106,6 +108,8 @@ const OperationCardDetailMaster = () => {
                 operationCardNextProductCategory
               }
               operationCardProduct={operationCardProduct}
+              goldAccessoryTable={goldAccessoryTable}
+              issueReference={issueReference}
             />
             <OperationCardCreationDetail
               operationCardDetailData={operationCardDetailData}

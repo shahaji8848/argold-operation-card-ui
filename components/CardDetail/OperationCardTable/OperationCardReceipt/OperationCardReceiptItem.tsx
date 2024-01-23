@@ -2,16 +2,6 @@ import Link from 'next/link';
 import React from 'react';
 
 const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
-  // const CalculateTotal = (column: any) => {
-  //   if (column !== 'reference') {
-  //     return operationCardDetailData?.receipt_details
-  //       ?.reduce((total: any, item: any) => total + item[column], 0)
-  //       .toFixed(3);
-  //   } else {
-  //     return '--';
-  //   }
-  // };
-
   const CalculateTotal = (column: string, data: any[]) => {
     if (column === 'in_gross_purity') {
       const totalInWeight = data.reduce(

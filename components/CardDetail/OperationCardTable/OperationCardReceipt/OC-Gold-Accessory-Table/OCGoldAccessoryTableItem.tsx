@@ -1,10 +1,12 @@
-import Link from 'next/link';
-import React from 'react';
-
-const OCGoldAccessoryTableItem = () => {
+const OCGoldAccessoryTableItem = ({ goldAccessoryTable }: any) => {
+  console.log('goldAccessoryTable component', goldAccessoryTable);
   return (
     <div>
-      {' '}
+      <div className="row">
+        <div className="col-12 ">
+          <span className="bold">Gold Accessory :</span>
+        </div>
+      </div>
       <div className="table-responsive ">
         <table className="table table-bordered">
           <thead>
@@ -16,7 +18,6 @@ const OCGoldAccessoryTableItem = () => {
                 'Gross Wt',
                 'Fine Purity',
                 'Fine Weight',
-                'OP',
               ].map((val, i: any) => (
                 <th className="thead-dark text-center" scope="col" key={i}>
                   {val}
@@ -25,49 +26,49 @@ const OCGoldAccessoryTableItem = () => {
             </tr>
           </thead>
           <tbody>
-            {/* {operationCardDetailData?.receipt_details?.length > 0 &&
-          operationCardDetailData?.receipt_details?.map(
-            (data: any, i: any) => (
-              <tr className="table-text" key={i}>
-                <td>{data.item}</td>
-                <td className="text-end">
-                  {data?.in_weight === 0 ? '--' : data?.in_weight.toFixed(3)}
-                </td>
-                <td className="text-end">
-                  {data?.in_gross_purity === 0
-                    ? '--'
-                    : data?.in_gross_purity.toFixed(3)}
-                </td>
-                <td className="text-end">
-                  {data?.in_gross_weight === 0
-                    ? '--'
-                    : data?.in_gross_weight.toFixed(3)}
-                </td>
-                <td className="text-end">
-                  {data?.in_fine_purity === 0
-                    ? '--'
-                    : data?.in_fine_purity.toFixed(3)}
-                </td>
-                <td className="text-end">
-                  {data?.in_fine_weight === 0
-                    ? '--'
-                    : data?.in_fine_weight.toFixed(3)}
-                </td>
-                <td className="text-end">
-                  {hasOPkey(data) ? (
-                    <Link
-                      href={`/operation-card-detail?name=${data?.reference}`}
-                      target="_blank"
-                    >
-                      {data?.reference?.split('-').pop()}
-                    </Link>
-                  ) : (
-                    '--'
-                  )}
-                </td>
-              </tr>
-            )
-          )} */}
+            {goldAccessoryTable?.length > 0 &&
+              goldAccessoryTable?.map((data: any, i: any) => (
+                <tr className="table-text" key={i}>
+                  <td>{data.item}</td>
+                  <td className="text-end">
+                    {data?.in_weight === 0 ? '--' : data?.in_weight.toFixed(3)}
+                  </td>
+                  {/* <td className="text-end">
+                    {data?.in_gross_purity === 0
+                      ? '--'
+                      : data?.in_gross_purity.toFixed(3)}
+                  </td> */}
+                  <td className="text-end">
+                    {data?.in_gross_purity === 0
+                      ? '--'
+                      : Number(
+                          (data?.in_gross_weight / data?.in_weight) * 100
+                        ).toFixed(3)}
+                  </td>
+                  <td className="text-end">
+                    {data?.in_gross_weight === 0
+                      ? '--'
+                      : data?.in_gross_weight.toFixed(3)}
+                  </td>
+                  {/* <td className="text-end">
+                    {data?.in_fine_purity === 0
+                      ? '--'
+                      : data?.in_fine_purity.toFixed(3)}
+                  </td> */}
+                  <td className="text-end">
+                    {data?.in_fine_purity === 0
+                      ? '--'
+                      : Number(
+                          (data?.in_fine_weight / data?.in_gross_weight) * 100
+                        ).toFixed(3)}
+                  </td>
+                  <td className="text-end">
+                    {data?.in_fine_weight === 0
+                      ? '--'
+                      : data?.in_fine_weight.toFixed(3)}
+                  </td>
+                </tr>
+              ))}
             {/* <tr className="table-text">
           <td className="font-weight-bold ">Total</td>
           {[

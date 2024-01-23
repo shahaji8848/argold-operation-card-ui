@@ -1,3 +1,6 @@
+import { CONSTANTS } from '@/services/config/api-config';
+import Link from 'next/link';
+
 const ProductData = ({ operationCardDetailData }: any) => {
   return (
     <div className="me-2">
@@ -18,7 +21,12 @@ const ProductData = ({ operationCardDetailData }: any) => {
         </div>
         <div className="col-md-4 p-0 m-0 mob-reverse-content">
           <div className="fs-14 bold mob-text-start">
-            {operationCardDetailData?.operation_department}
+            <Link
+              href={`${CONSTANTS.API_BASE_URL}app/product-process-department/${operationCardDetailData?.product_process_department}`}
+              target="_blank"
+            >
+              {operationCardDetailData?.operation_department}
+            </Link>
           </div>
           <div className="fs-14 mob-px">Department</div>
         </div>

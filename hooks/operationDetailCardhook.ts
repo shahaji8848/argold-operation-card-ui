@@ -16,6 +16,7 @@ import GETProductProcessDesignCodeType from '@/services/api/operation-card-detai
 import POSTOperationCardSave from '@/services/api/operation-card-detail-page/operation-card-save';
 import GETProductProcessProductCategory from '@/services/api/operation-card-detail-page/operation-card-detail-product-category';
 import GETOperationCardDetailProductData from '@/services/api/operation-card-detail-page/operation-card-detail-product';
+import { OCIssueReferenceAPI } from '@/services/api/operation-card-issue-references/oc-issue-references-api';
 const useOperationDetailCard = () => {
   const [
     operationCardKarigarQuantitySettings,
@@ -59,6 +60,9 @@ const useOperationDetailCard = () => {
   const [operationCardNextDesignCodeType, setOperationCardNextDesignCodeType] =
     useState<any>([]);
 
+  const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
+  const [issueReference, setIssueReference] = useState<any>([]);
+
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -100,6 +104,83 @@ const useOperationDetailCard = () => {
       });
     } else {
       setOperationCardProductDept({});
+    }
+  };
+
+  const createGoldAccessoryTable = () => {
+    const receiptSummationItems: any = {};
+    const issueSummationItems: any = {};
+    operationCardDetailData?.receipt_details
+      ?.filter(
+        (receipt_data: any) => receipt_data?.item_type === 'Gold Accessory'
+      )
+      ?.forEach((element: any) => {
+        const key = element.item.toLowerCase(); // Convert the item to lowercase for case-insensitive grouping
+        if (!receiptSummationItems[key]) {
+          // If the key doesn't exist, create a new entry
+          receiptSummationItems[key] = { ...element };
+        } else {
+          // If the key already exists, update the values by summing them
+          receiptSummationItems[key].in_weight += element.in_weight;
+          receiptSummationItems[key].in_gross_purity += element.in_gross_purity;
+          receiptSummationItems[key].in_gross_weight += element.in_gross_weight;
+          receiptSummationItems[key].in_fine_purity += element.in_fine_purity;
+          receiptSummationItems[key].in_fine_weight += element.in_fine_weight;
+        }
+      });
+    operationCardDetailData?.operation_card_issue_details
+      ?.filter((issue_data: any) => issue_data?.item_type === 'Gold Accessory')
+      ?.forEach((element: any) => {
+        const key = element.item.toLowerCase(); // Convert the item to lowercase for case-insensitive grouping
+        if (!issueSummationItems[key]) {
+          // If the key doesn't exist, create a new entry
+          issueSummationItems[key] = { ...element };
+        } else {
+          // If the key already exists, update the values by summing them
+          issueSummationItems[key].in_weight += element.in_weight;
+          issueSummationItems[key].in_gross_purity += element.in_gross_purity;
+          issueSummationItems[key].in_gross_weight += element.in_gross_weight;
+          issueSummationItems[key].in_fine_purity += element.in_fine_purity;
+          issueSummationItems[key].in_fine_weight += element.in_fine_weight;
+        }
+      });
+
+    const merged_array = Object.keys(receiptSummationItems).map((itemKey) => {
+      const receiptItem = receiptSummationItems[itemKey];
+      const issueItem = issueSummationItems[itemKey];
+
+      return {
+        item: receiptItem?.item,
+        in_weight:
+          (receiptItem ? receiptItem.in_weight : 0) -
+          (issueItem ? issueItem.in_weight : 0),
+        in_gross_purity:
+          (receiptItem ? receiptItem.in_gross_purity : 0) -
+          (issueItem ? issueItem.in_gross_purity : 0),
+        in_gross_weight:
+          (receiptItem ? receiptItem.in_gross_weight : 0) -
+          (issueItem ? issueItem.in_gross_weight : 0),
+        in_fine_purity:
+          (receiptItem ? receiptItem.in_fine_purity : 0) -
+          (issueItem ? issueItem.in_fine_purity : 0),
+        in_fine_weight:
+          (receiptItem ? receiptItem.in_fine_weight : 0) -
+          (issueItem ? issueItem.in_fine_weight : 0),
+      };
+    });
+    setGoldAccessoryTable([...merged_array]);
+  };
+
+  const getIssueReferenceAPICallFunc = async () => {
+    const getIssueReferenceData = await OCIssueReferenceAPI(search);
+    console.log('getIssueReferenceData component', getIssueReferenceData);
+    if (
+      getIssueReferenceData?.status === 200 &&
+      getIssueReferenceData?.data?.message?.length > 0
+    ) {
+      setIssueReference([...getIssueReferenceData?.data?.message]);
+    } else {
+      setIssueReference([]);
     }
   };
 
@@ -350,6 +431,10 @@ const useOperationDetailCard = () => {
       getOperationCardDetailDesignCodeTypeAPICall();
 
       getOperationCardDetailNextProductCategoryAPICallFunc();
+
+      createGoldAccessoryTable();
+
+      getIssueReferenceAPICallFunc();
     }
   }, [operationCardDetailData]);
 
@@ -360,6 +445,8 @@ const useOperationDetailCard = () => {
   return {
     search,
     handleHeaderSave,
+    goldAccessoryTable,
+    issueReference,
     handleOperationCardSave,
     operationCardDetail,
     getOperationCardDetailNextKarigarFunc,
