@@ -14,11 +14,15 @@ const OperationCardListingTable = ({ data }: any) => {
               'product',
               'process',
               'department',
+              'Machine Size',
+              'Design',
+              'Line Number',
               'karigar',
               'balance',
               'gross balance',
               'fine balance',
               'OC',
+              'Created On',
             ].map((val: any, index: any) => (
               <th className="thead-dark text-center" scope="col" key={index}>
                 {val}
@@ -63,7 +67,9 @@ const OperationCardListingTable = ({ data }: any) => {
                       ? rowData?.operation_department
                       : '--'}
                   </td>
-
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   <td className="text-end">
                     {rowData?.karigar && rowData?.karigar !== null
                       ? rowData?.karigar
@@ -92,10 +98,11 @@ const OperationCardListingTable = ({ data }: any) => {
                       target="_blank"
                     >
                       {rowData?.name && rowData?.name !== null
-                        ? rowData?.name
+                        ? rowData?.name?.split('-').pop()
                         : '--'}
                     </Link>
                   </td>
+                  <td></td>
                 </tr>
               );
             })}
