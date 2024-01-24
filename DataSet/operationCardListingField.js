@@ -11,10 +11,10 @@ const inputField = [
     name: 'name',
     label: 'operation card',
   },
-  {
-    name: 'search',
-    label: 'search',
-  },
+  // {
+  //   name: 'search',
+  //   label: 'search',
+  // },
   {
     name: 'product',
     label: 'product',
@@ -43,6 +43,10 @@ const inputField = [
     name: 'karigar',
     label: 'karigar',
   },
+  // {
+  //   name: 'quantity',
+  //   label: 'quantity',
+  // },
   // {
   //   name: 'name',
   //   label: 'operation card',

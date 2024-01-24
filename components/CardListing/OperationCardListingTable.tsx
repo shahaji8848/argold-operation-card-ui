@@ -21,19 +21,34 @@ const OperationCardListingTable = ({ data }: any) => {
   //     }
   //   };
 
-  const CalculateTotal = (data: any[]) => {
+  // const CalculateTotal = (data: any[]) => {
+  //   if (!data || data.length === 0) {
+  //     return '--';
+  //   }
+
+  //   const totalBalanceWeight = data
+  //     .map((rowData: any) => rowData?.balance_weight)
+  //     .reduce((total: any, balanceWeight: any) => {
+  //       const numericValue = parseFloat(balanceWeight) || 0; // Convert to number or default to 0
+  //       return total + numericValue;
+  //     }, 0);
+
+  //   return totalBalanceWeight.toFixed(3);
+  // };
+
+  const CalculateTotal = (data: any[], column: string) => {
     if (!data || data.length === 0) {
       return '--';
     }
 
-    const totalBalanceWeight = data
-      .map((rowData: any) => rowData?.balance_weight)
-      .reduce((total: any, balanceWeight: any) => {
-        const numericValue = parseFloat(balanceWeight) || 0; // Convert to number or default to 0
-        return total + numericValue;
+    const total = data
+      .map((rowData: any) => rowData?.[column])
+      .reduce((acc: any, value: any) => {
+        const numericValue = parseFloat(value) || 0;
+        return acc + numericValue;
       }, 0);
 
-    return totalBalanceWeight.toFixed(3);
+    return total.toFixed(3);
   };
 
   return (
@@ -51,6 +66,7 @@ const OperationCardListingTable = ({ data }: any) => {
               'Machine Size',
               'Line Number',
               'Design',
+              'quantity',
               'karigar',
               'balance',
               'gross balance',
@@ -116,7 +132,12 @@ const OperationCardListingTable = ({ data }: any) => {
                       ? rowData?.design
                       : '--'}
                   </td>
-
+                  <td>
+                    {rowData?.quantity &&
+                    rowData?.quantity !== Number(0).toFixed(3)
+                      ? rowData?.quantity
+                      : '--'}
+                  </td>
                   <td className="">
                     {rowData?.karigar && rowData?.karigar !== null
                       ? rowData?.karigar
@@ -124,19 +145,19 @@ const OperationCardListingTable = ({ data }: any) => {
                   </td>
                   <td className="text-end">
                     {rowData?.balance_weight && rowData?.balance_weight !== 0
-                      ? rowData?.balance_weight
+                      ? rowData?.balance_weight.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {rowData?.balance_gross_weight &&
                     rowData?.balance_gross_weight !== 0
-                      ? rowData?.balance_gross_weight
+                      ? rowData?.balance_gross_weight.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {rowData?.balance_fine_weight &&
                     rowData?.balance_fine_weight !== 0
-                      ? rowData?.balance_fine_weight
+                      ? rowData?.balance_fine_weight.toFixed(3)
                       : '--'}
                   </td>
                   <td>
@@ -151,7 +172,7 @@ const OperationCardListingTable = ({ data }: any) => {
                   </td>
                   <td>
                     {rowData?.creation && rowData?.creation !== null
-                      ? rowData?.creation
+                      ? rowData?.creation.replace(/:[0-9]{2}\.[0-9]+$/, '')
                       : '--'}
                   </td>
                 </tr>
@@ -167,8 +188,18 @@ const OperationCardListingTable = ({ data }: any) => {
             <td></td>
             <td></td>
             <td></td>
-            <td>Total</td>
-            <td>{CalculateTotal(data)}</td>
+            <td></td>
+            <td className="bold">Total</td>
+            <td className="bold text-end">
+              {CalculateTotal(data, 'balance_weight')}
+            </td>
+            <td className="bold text-end">
+              {CalculateTotal(data, 'balance_gross_weight')}
+            </td>
+            <td className="bold text-end">
+              {CalculateTotal(data, 'balance_fine_weight')}
+            </td>
+            <td></td>
           </tr>
         </tbody>
       </table>

@@ -14,6 +14,9 @@ const useOperationCardList = () => {
 
   const [filtersClear, setFiltersClear] = useState(0);
 
+  // const urlParams = new URLSearchParams(window.location.search);
+  // const searchUrl = urlParams.get('search') || '';
+  // const router = useRouter()
   const [filtersData, setFiltersData] = useState<any>({
     name: '',
     parent_melting_lot: '',
@@ -42,8 +45,8 @@ const useOperationCardList = () => {
   };
 
   const constructUrl = (filtersData: any) => {
-    // console.log('url debugging filtersData', filtersData);
-    // console.log('url debugging searchparams', searchParams);
+    console.log('url debugging filtersData', filtersData);
+    console.log('url debugging searchparams', searchParams);
     const urlParams = new URLSearchParams({
       search: `${searchParams.get('search')}`,
     });
@@ -81,7 +84,15 @@ const useOperationCardList = () => {
 
     // Convert the search parameters to a string
     const searchParamsString = searchParams.toString();
+
     getOperationCardListFromAPI(searchParamsString);
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const searchUrl = urlParams.get('search');
+    // const searchedValue = searchParamsString.split('=').pop();
+
+    // setFiltersData({
+    //   search: searchUrl,
+    // });
   }, [searchParams]);
 
   const handleClearFilters = async () => {
@@ -100,6 +111,7 @@ const useOperationCardList = () => {
       balance_weight: '',
       balance_gross_weight: '',
       balance_fine_weight: '',
+      // search: '',
     });
 
     setFiltersClear(1);
@@ -129,6 +141,7 @@ const useOperationCardList = () => {
       router.push(`${clearedALlParamsFromURL}`);
     }
   }, [filtersClear]);
+
   return {
     listData,
     filtersData,
@@ -137,6 +150,7 @@ const useOperationCardList = () => {
     handleClearFilters,
     handleKeyDownEnter,
     URLForFiltersHandler,
+    constructUrl,
   };
 };
 

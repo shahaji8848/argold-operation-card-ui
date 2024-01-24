@@ -17,7 +17,9 @@ const OperationCardListingMaster = () => {
     handleClearFilters,
     handleKeyDownEnter,
     URLForFiltersHandler,
+    constructUrl,
   } = useOperationCardList();
+
   return (
     <div className="container-fuild">
       <div className="row spacing-pd mt-3">
@@ -39,6 +41,7 @@ const OperationCardListingMaster = () => {
           handleClearFilters={handleClearFilters}
           handleKeyDownEnter={handleKeyDownEnter}
           URLForFiltersHandler={URLForFiltersHandler}
+          constructUrl={constructUrl}
         />
         <div className="spacing-mt">
           <OperationCardListingTable data={listData} />
