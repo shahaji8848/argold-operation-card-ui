@@ -116,7 +116,7 @@ const OperationCardListingTable = ({ data }: any) => {
                     </Link>
                   </td>
                   <td>
-                    {rowData?.created_on && rowData?.creation !== null
+                    {rowData?.creation && rowData?.creation !== null
                       ? rowData?.creation
                       : '--'}
                   </td>
