@@ -17,7 +17,10 @@ import POSTOperationCardSave from '@/services/api/operation-card-detail-page/ope
 import GETProductProcessProductCategory from '@/services/api/operation-card-detail-page/operation-card-detail-product-category';
 import GETOperationCardDetailProductData from '@/services/api/operation-card-detail-page/operation-card-detail-product';
 import { OCIssueReferenceAPI } from '@/services/api/operation-card-issue-references/oc-issue-references-api';
+import { useSelector } from 'react-redux';
+import { get_access_token } from '@/store/slice/login-slice';
 const useOperationDetailCard = () => {
+  const { token } = useSelector(get_access_token);
   const [
     operationCardKarigarQuantitySettings,
     setOperationCardKarigarQuantitySettings,
@@ -74,7 +77,7 @@ const useOperationDetailCard = () => {
   };
 
   const operationCardDetail = async () => {
-    const operationCardDetailVal = await GETOperationCardDetail(search);
+    const operationCardDetailVal = await GETOperationCardDetail(search, token);
     if (
       operationCardDetailVal?.status === 200 &&
       Object.keys(operationCardDetailVal?.data?.data)?.length > 0
@@ -88,7 +91,8 @@ const useOperationDetailCard = () => {
   const getOperationCardProcessDepartment = async () => {
     const operationCardData =
       await GETOperationCardProductProcessDepartmentData(
-        operationCardDetailData?.product_process_department
+        operationCardDetailData?.product_process_department,
+        token
       );
 
     if (
@@ -171,7 +175,7 @@ const useOperationDetailCard = () => {
   };
 
   const getIssueReferenceAPICallFunc = async () => {
-    const getIssueReferenceData = await OCIssueReferenceAPI(search);
+    const getIssueReferenceData = await OCIssueReferenceAPI(search, token);
     console.log('getIssueReferenceData component', getIssueReferenceData);
     if (
       getIssueReferenceData?.status === 200 &&
@@ -185,7 +189,10 @@ const useOperationDetailCard = () => {
 
   const getOperationCardDetailKarigar = async (next_ppd_data: any) => {
     // const getKarigarData = await GETOperationCardDetailKarigar();
-    const getKarigarData = await GETOperationCardDetailKarigar(next_ppd_data);
+    const getKarigarData = await GETOperationCardDetailKarigar(
+      next_ppd_data,
+      token
+    );
     if (getKarigarData?.status === 200) {
       setOperationCardKarigar(
         getKarigarData?.data?.data?.map((karigar_obj: any) => ({
@@ -202,7 +209,8 @@ const useOperationDetailCard = () => {
     next_product_process_department_value: string
   ) => {
     const getNextKarigarData = await GETOperationCardDetailNextKarigar(
-      next_product_process_department_value
+      next_product_process_department_value,
+      token
     );
     if (getNextKarigarData?.status === 200) {
       setOperationCardNextKarigar(
@@ -217,7 +225,8 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailThicknessAPICall = async () => {
     const getThickness = await GETOperationCardDetailProcessThickness(
-      operationCardDetailData?.product
+      operationCardDetailData?.product,
+      token
     );
     if (getThickness?.status === 200) {
       setOperationCardThickness(
@@ -233,7 +242,8 @@ const useOperationDetailCard = () => {
 
   const getOperationCardDetailVariantAPICall = async () => {
     const getVariantData = await GETOperationCardDetailProcessVariant(
-      operationCardDetailData?.product
+      operationCardDetailData?.product,
+      token
     );
     if (getVariantData?.status === 200) {
       setOperationCardVariant(
@@ -248,7 +258,8 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailConceptAPIFunc = async () => {
     const getConceptData = await GETOperationCardDetailProcessConcept(
-      operationCardDetailData?.product
+      operationCardDetailData?.product,
+      token
     );
     if (getConceptData?.status === 200) {
       setOperationCardConcept(
@@ -263,7 +274,8 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailMachineSizeAPICall = async () => {
     const getMachineSizeData = await GETOperationCardDetailMachineSize(
-      operationCardDetailData?.product
+      operationCardDetailData?.product,
+      token
     );
     if (getMachineSizeData?.status === 200) {
       setOperationCardMachineSize(
@@ -278,7 +290,8 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailDesignCodeCategoryAPICall = async () => {
     const getDesignCodeCategory = await GETProductProcessDesignCodeCategory(
-      operationCardDetailData?.product
+      operationCardDetailData?.product,
+      token
     );
     if (getDesignCodeCategory?.status === 200) {
       setOperationCardDesignCodeCategory(
@@ -295,7 +308,8 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailDesignAPICall = async () => {
     const getDesign = await GETProductProcessDesign(
-      operationCardDetailData?.product
+      operationCardDetailData?.product,
+      token
     );
     if (getDesign?.status === 200) {
       setOperationCardNextDesign(
@@ -310,7 +324,8 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailDesignCodeTypeAPICall = async () => {
     const getDesignCodeType = await GETProductProcessDesignCodeType(
-      operationCardDetailData?.product
+      operationCardDetailData?.product,
+      token
     );
     if (getDesignCodeType?.status === 200) {
       setOperationCardNextDesignCodeType(
@@ -328,7 +343,8 @@ const useOperationDetailCard = () => {
     const getNextProductProcess =
       await GETOperationCardDetailNextProductProcess(
         operationCardDetailData?.product,
-        operationCardDetailData?.process_sequence + 1
+        operationCardDetailData?.process_sequence + 1,
+        token
       );
     if (getNextProductProcess?.status === 200) {
       setOperationCardNextProductProcess(
@@ -346,7 +362,8 @@ const useOperationDetailCard = () => {
     async () => {
       const getNextProductProcessDepartment =
         await GETOperationCardDetailNextProductProcessDepartment(
-          operationCardDetailData?.product_process
+          operationCardDetailData?.product_process,
+          token
         );
       if (getNextProductProcessDepartment?.status === 200) {
         setOperationCardNextProductProcessDepartment(
@@ -363,7 +380,7 @@ const useOperationDetailCard = () => {
     };
 
   const getOperationCardDetailProductAPICallFunc = async () => {
-    const getProductDropDown = await GETOperationCardDetailProductData();
+    const getProductDropDown = await GETOperationCardDetailProductData(token);
     if (getProductDropDown?.status === 200) {
       setOperationCardProduct(
         getProductDropDown?.data?.data?.map((product_data: any) => ({
@@ -378,7 +395,8 @@ const useOperationDetailCard = () => {
 
   const getOperationCardDetailNextProductCategoryAPICallFunc = async () => {
     const getNextProductCategory = await GETProductProcessProductCategory(
-      operationCardDetailData?.product
+      operationCardDetailData?.product,
+      token
     );
     if (getNextProductCategory?.status === 200) {
       setOperationCardNextProductCategory(
@@ -397,7 +415,7 @@ const useOperationDetailCard = () => {
       Object.entries(headerSave).filter(([key, value]) => value !== '')
     );
 
-    const saveOP = await POSTOperationCardSave(search, filteredData);
+    const saveOP = await POSTOperationCardSave(search, filteredData, token);
   };
 
   useEffect(() => {

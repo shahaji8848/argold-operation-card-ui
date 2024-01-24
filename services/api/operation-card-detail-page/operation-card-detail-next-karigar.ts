@@ -1,7 +1,8 @@
 import { CONSTANTS, callGetAPI } from '@/services/config/api-config';
 
 const GETOperationCardDetailNextKarigar = async (
-  product_process_department_value?: any
+  product_process_department_value: any,
+  token: any
 ) => {
   console.log('value', product_process_department_value);
   const fields: any = [
@@ -20,7 +21,7 @@ const GETOperationCardDetailNextKarigar = async (
     fields
   )}&filters=${JSON.stringify(filters)}&limit=None`;
 
-  const getResponse: any = await callGetAPI(url);
+  const getResponse: any = await callGetAPI(url, token);
   console.log('next karigar api res', getResponse);
   return getResponse;
 };

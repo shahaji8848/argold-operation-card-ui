@@ -13,12 +13,12 @@ const TOKEN = 'token afe9525ad466b21:673767b3a7e1fc4';
 // staging site token
 // const TOKEN = 'token adf3e7caf953f16:b9df520620fca99';
 
-export const callGetAPI = async (url: string) => {
+export const callGetAPI = async (url: string, token: any) => {
   let response: any;
   const API_CONFIG = {
     headers: {
       Accept: 'application/json',
-      Authorization: TOKEN,
+      Authorization: token,
     },
   };
   await axios
@@ -43,12 +43,16 @@ export const callGetAPI = async (url: string) => {
 
   return response;
 };
-export const callFormDataPOSTAPI = async (url: string, body: any) => {
+export const callFormDataPOSTAPI = async (
+  url: string,
+  body: any,
+  token: any
+) => {
   let response: any;
   const API_CONFIG = {
     headers: {
       'Content-Type': 'multipart/form-data',
-      Authorization: TOKEN,
+      Authorization: token,
     },
   };
   await axios

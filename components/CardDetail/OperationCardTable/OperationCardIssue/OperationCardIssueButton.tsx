@@ -5,6 +5,8 @@ import AutoCompleteField from './AutoCompleteField';
 import POSTModalData from '@/services/api/operation-card-detail-page/modal-save';
 import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
 import { Toast, ToastContainer } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { get_access_token } from '@/store/slice/login-slice';
 
 const OperationCardIssueButton = ({
   search,
@@ -29,6 +31,8 @@ const OperationCardIssueButton = ({
   operationCardNextProductCategory,
   operationCardProduct,
 }: any) => {
+  const { token } = useSelector(get_access_token);
+
   const checkArray = [
     'karigar',
     'next_karigar',
@@ -89,7 +93,7 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    const callSaveAPI: any = await POSTModalData(search, mergedObjs);
+    const callSaveAPI: any = await POSTModalData(search, mergedObjs, token);
     console.log('api', callSaveAPI);
     if (callSaveAPI?.status === 200) {
       operationCardDetail();

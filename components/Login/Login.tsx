@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from '../../styles/login.module.css';
 import { GETLoginAPI } from '@/services/api/auth/login-api';
 import { useDispatch } from 'react-redux';
@@ -11,6 +11,8 @@ const Login = () => {
     pwd: '',
   });
   const [passwordHidden, setPasswordHidden] = useState(true);
+
+  const [showErr, setShowErr] = useState(false);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -36,10 +38,18 @@ const Login = () => {
       userLoginAPI?.status === 200 &&
       userLoginAPI?.data?.message?.msg === 'success'
     ) {
-      // dispatch(storeToken(userLoginAPI?.data?.message?.data?.access_token));
+      dispatch(storeToken(userLoginAPI?.data?.message?.data?.access_token));
       router.push('/');
+    } else {
+      setShowErr(true);
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowErr(false);
+    }, 3000);
+  }, [showErr]);
 
   return (
     <div
@@ -49,7 +59,7 @@ const Login = () => {
         <div className="col-md-12">
           <div className="bg-white-2 h-100 p-5">
             <div className="text-center mb-2 mt-2">
-              <h5 className="bold">User Log In</h5>
+              <h5 className="bold"> Log In</h5>
             </div>
 
             <form onSubmit={handelSubmit}>
@@ -63,9 +73,6 @@ const Login = () => {
                   value={initialValues.usr}
                   onChange={handleOnChange}
                   required
-                  onKeyDown={(e: React.KeyboardEvent) =>
-                    e.key === 'Enter' && e.preventDefault()
-                  }
                 />
               </div>
 
@@ -80,10 +87,15 @@ const Login = () => {
                     value={initialValues.pwd}
                     onChange={handleOnChange}
                     required
-                    onKeyDown={(e: React.KeyboardEvent) =>
-                      e.key === 'Enter' && e.preventDefault()
-                    }
+                    onKeyDown={(e: React.KeyboardEvent) => {
+                      e.key === 'Enter' && handelSubmit(e);
+                    }}
                   />
+                  <div className="mt-2">
+                    <p style={{ color: '#f00' }}>
+                      {showErr && 'Password is Incorrect'}
+                    </p>
+                  </div>
                   <button
                     className={`${style.password_icon} `}
                     onClick={(e: React.MouseEvent) => handlePassword(e)}

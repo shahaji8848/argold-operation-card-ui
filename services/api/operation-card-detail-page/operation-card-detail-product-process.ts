@@ -1,6 +1,6 @@
 import { CONSTANTS, callGetAPI } from '@/services/config/api-config';
 
-const GETOperationCardProductProcess = async (product?: any) => {
+const GETOperationCardProductProcess = async (product: any, token: any) => {
   // const url = `${CONSTANTS.API_BASE_URL}${CONSTANTS.STANDARD_API_PATH}/Karigar`;
   const fields: any = ['title', 'product', 'sequence'];
 
@@ -11,7 +11,7 @@ const GETOperationCardProductProcess = async (product?: any) => {
     filters
   )}&limit=None`;
 
-  const getResponse: any = await callGetAPI(url);
+  const getResponse: any = await callGetAPI(url, token);
   return getResponse;
 };
 

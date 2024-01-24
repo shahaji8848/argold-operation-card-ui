@@ -1,6 +1,6 @@
 import { CONSTANTS, callGetAPI } from '@/services/config/api-config';
 
-const GETOperationCardDetailProductData = async () => {
+const GETOperationCardDetailProductData = async (token: any) => {
   const fields: any = ['name', 'title'];
 
   const filters: any = [['is_chain', '=', 1]];
@@ -10,7 +10,7 @@ const GETOperationCardDetailProductData = async () => {
     filters
   )}&limit=None`;
 
-  const getResponse: any = await callGetAPI(url);
+  const getResponse: any = await callGetAPI(url, token);
   return getResponse;
 };
 

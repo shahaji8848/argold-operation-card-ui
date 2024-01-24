@@ -1,9 +1,13 @@
 import GETOperationCardListData from '@/services/api/operation-card-list-page/operation-card-list-api';
+import { get_access_token } from '@/store/slice/login-slice';
 import { useSearchParams, useRouter } from 'next/navigation';
 // import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const useOperationCardList = () => {
+  const { token } = useSelector(get_access_token);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const [listData, setListData] = useState<any>([]);
@@ -101,7 +105,7 @@ const useOperationCardList = () => {
     setFiltersClear(1);
   };
   const getOperationCardListFromAPI = async (url: string) => {
-    const getList: any = await GETOperationCardListData(url);
+    const getList: any = await GETOperationCardListData(url, token);
     if (getList?.status === 200 && getList?.data?.message?.length > 0) {
       setListData([...getList?.data?.message]);
     } else {
