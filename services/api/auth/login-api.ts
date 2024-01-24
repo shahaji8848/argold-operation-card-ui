@@ -11,7 +11,7 @@ export const GETLoginAPI = async (values: UserCredentials) => {
 
   await axios
     .get(
-      `${CONSTANTS.API_BASE_URL}/api/method/argold_bom.sdk.api?version=v1&method=get_access_token&entity=access_token&usr=${values.usr}&pwd=${values.pwd}`
+      `${CONSTANTS.API_BASE_URL}${CONSTANTS.CUSTOM_API_PATH}/custom_app.api.login.get_access_token?version=v1&method=get_access_token&entity=access_token&usr=${values.usr}&pwd=${values.pwd}`
     )
     .then((res: any) => {
       response = res;

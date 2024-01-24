@@ -4,6 +4,7 @@ import './globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BootstrapClient from '@/components/BootstrapClient';
 import ReduxProvider from '@/store/ReduxProvider';
+import { useSelector } from 'react-redux';
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'] });
 

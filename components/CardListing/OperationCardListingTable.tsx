@@ -16,8 +16,8 @@ const OperationCardListingTable = ({ data }: any) => {
               'process',
               'department',
               'Machine Size',
-              'Design',
               'Line Number',
+              'Design',
               'karigar',
               'balance',
               'gross balance',
@@ -74,7 +74,7 @@ const OperationCardListingTable = ({ data }: any) => {
                       : '--'}
                   </td>
                   <td>
-                    {rowData?.line_number && rowData?.line_number !== null
+                    {rowData?.line_number && rowData?.line_number !== 0
                       ? rowData?.line_number
                       : '--'}
                   </td>
@@ -83,6 +83,7 @@ const OperationCardListingTable = ({ data }: any) => {
                       ? rowData?.design
                       : '--'}
                   </td>
+
                   <td className="">
                     {rowData?.karigar && rowData?.karigar !== null
                       ? rowData?.karigar
