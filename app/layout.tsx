@@ -3,6 +3,7 @@ import { Nunito } from 'next/font/google';
 import './globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BootstrapClient from '@/components/BootstrapClient';
+import ReduxProvider from '@/store/ReduxProvider';
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'] });
 
@@ -28,8 +29,10 @@ export default function RootLayout({
         />
       </head>
       <body className={nunito.className}>
-        {children}
-        <BootstrapClient />
+        <ReduxProvider>
+          {children}
+          <BootstrapClient />
+        </ReduxProvider>
       </body>
     </html>
   );

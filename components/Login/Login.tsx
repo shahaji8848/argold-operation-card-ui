@@ -1,13 +1,45 @@
 import React, { useState } from 'react';
 import style from '../../styles/login.module.css';
+import { GETLoginAPI } from '@/services/api/auth/login-api';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { storeToken } from '@/store/slice/login-slice';
 
 const Login = () => {
+  const [initialValues, setInitialValues] = useState({
+    usr: '',
+    pwd: '',
+  });
   const [passwordHidden, setPasswordHidden] = useState(true);
+
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const handlePassword = (e: React.MouseEvent) => {
     e.preventDefault();
     setPasswordHidden(!passwordHidden);
   };
-  const handelSubmit = () => {};
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInitialValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const handelSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('initialValues', initialValues);
+    const userLoginAPI: any = await GETLoginAPI(initialValues);
+    if (
+      userLoginAPI?.status === 200 &&
+      userLoginAPI?.data?.message?.msg === 'success'
+    ) {
+      // dispatch(storeToken(userLoginAPI?.data?.message?.data?.access_token));
+      router.push('/');
+    }
+  };
 
   return (
     <div
@@ -20,14 +52,20 @@ const Login = () => {
               <h5 className="bold">User Log In</h5>
             </div>
 
-            <form>
+            <form onSubmit={handelSubmit}>
               <div className="form-group mt-2">
                 <label htmlFor="email">E-mail</label>
                 <input
                   type="email"
+                  name="usr"
                   placeholder="Enter Email"
                   className="form-control"
+                  value={initialValues.usr}
+                  onChange={handleOnChange}
                   required
+                  onKeyDown={(e: React.KeyboardEvent) =>
+                    e.key === 'Enter' && e.preventDefault()
+                  }
                 />
               </div>
 
@@ -36,9 +74,15 @@ const Login = () => {
                 <div className={` ${style.password_position}`}>
                   <input
                     type={passwordHidden ? 'password' : 'text'}
+                    name="pwd"
                     placeholder="Enter Password"
                     className={`form-control `}
+                    value={initialValues.pwd}
+                    onChange={handleOnChange}
                     required
+                    onKeyDown={(e: React.KeyboardEvent) =>
+                      e.key === 'Enter' && e.preventDefault()
+                    }
                   />
                   <button
                     className={`${style.password_icon} `}
@@ -56,7 +100,6 @@ const Login = () => {
               <div className="form-group mb-8 text-center mt-5">
                 <button
                   type="submit"
-                  // onClick={handelSubmit}
                   className="btn btn-primary w-50 text-uppercase btn-blue py-2 fs-14"
                 >
                   Log In
