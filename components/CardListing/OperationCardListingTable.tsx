@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 const OperationCardListingTable = ({ data }: any) => {
+  console.log('data', data);
   return (
     <div className="table-responsive">
       <table className="table table-bordered">
@@ -67,9 +68,21 @@ const OperationCardListingTable = ({ data }: any) => {
                       ? rowData?.operation_department
                       : '--'}
                   </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>
+                    {rowData?.machine_size && rowData?.machine_size !== null
+                      ? rowData?.machine_size
+                      : '--'}
+                  </td>
+                  <td>
+                    {rowData?.line_number && rowData?.line_number !== null
+                      ? rowData?.line_number
+                      : '--'}
+                  </td>
+                  <td>
+                    {rowData?.design && rowData?.design !== null
+                      ? rowData?.design
+                      : '--'}
+                  </td>
                   <td className="">
                     {rowData?.karigar && rowData?.karigar !== null
                       ? rowData?.karigar
@@ -102,7 +115,11 @@ const OperationCardListingTable = ({ data }: any) => {
                         : '--'}
                     </Link>
                   </td>
-                  <td></td>
+                  <td>
+                    {rowData?.created_on && rowData?.creation !== null
+                      ? rowData?.creation
+                      : '--'}
+                  </td>
                 </tr>
               );
             })}
