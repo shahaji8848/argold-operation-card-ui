@@ -83,7 +83,7 @@ const OperationCardListingTable = ({ data }: any) => {
                       ? rowData?.design
                       : '--'}
                   </td>
-                  <td className="text-end">
+                  <td className="">
                     {rowData?.karigar && rowData?.karigar !== null
                       ? rowData?.karigar
                       : '--'}
@@ -116,8 +116,8 @@ const OperationCardListingTable = ({ data }: any) => {
                     </Link>
                   </td>
                   <td>
-                    {rowData?.created_on && rowData?.created_on !== null
-                      ? rowData?.created_on
+                    {rowData?.created_on && rowData?.creation !== null
+                      ? rowData?.creation
                       : '--'}
                   </td>
                 </tr>

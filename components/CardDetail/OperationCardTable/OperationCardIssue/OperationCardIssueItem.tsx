@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
-  console.log(operationCardDetailData, 'operationCardDetailData from issue');
+  const router = useRouter();
   const hasOPkey = (val: any) => {
     return val.hasOwnProperty('operation_card');
   };
@@ -27,22 +28,11 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
     'machine_size',
     'line_number',
   ];
-  // const CalculateTotal = (column: any) => {
-  // if (InValidColumnsForSummation?.includes(`${column}`)) {
-  //   return '--';
-  //   } else {
-  //     return operationCardDetailData?.operation_card_issue_details
-  //       ?.reduce((total: any, item: any) => {
-  //         console.log('item column', item[column]);
-  //         if (item[column] === undefined) {
-  //           return 0;
-  //         } else {
-  //           return total + item[column];
-  //         }
-  //       }, 0)
-  //       .toFixed(3);
-  //   }
-  // };
+
+  const redirectToNextOC = (oc_id: string) => {
+    console.log('oc id', oc_id);
+    router.push(`/operation-card-detail?name=${oc_id}`);
+  };
 
   const CalculateTotal = (column: string, data: any[]) => {
     if (InValidColumnsForSummation?.includes(`${column}`)) {
@@ -158,7 +148,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                     {hasOPkey(data) ? (
                       <Link
                         href={`/operation-card-detail?name=${data?.operation_card}`}
-                        target="_blank"
+                        onClick={() => redirectToNextOC(data?.operation_card)}
                       >
                         {data?.operation_card?.split('-').pop()}
                       </Link>

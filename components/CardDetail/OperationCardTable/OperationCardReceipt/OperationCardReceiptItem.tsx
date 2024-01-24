@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
+  const router = useRouter();
+  const redirectToPrevOC = (oc_id: string) => {
+    router.push(`/operation-card-detail?name=${oc_id}`);
+  };
   const CalculateTotal = (column: string, data: any[]) => {
     if (column === 'in_gross_purity') {
       const totalInWeight = data.reduce(
@@ -88,7 +93,7 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
                     {hasOPkey(data) ? (
                       <Link
                         href={`/operation-card-detail?name=${data?.reference}`}
-                        target="_blank"
+                        onClick={() => redirectToPrevOC(data?.reference)}
                       >
                         {data?.reference?.split('-').pop()}
                       </Link>
