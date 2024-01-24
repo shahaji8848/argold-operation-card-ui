@@ -10,6 +10,7 @@ const OperationCardListingField = ({
   URLForFiltersHandler,
   handleKeyDownEnter,
 }: any) => {
+  console.log('filtersData', filtersData);
   return (
     <div className="spacing-mt">
       <div className="row">

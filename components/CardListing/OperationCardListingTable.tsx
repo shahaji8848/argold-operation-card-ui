@@ -3,6 +3,39 @@ import React from 'react';
 
 const OperationCardListingTable = ({ data }: any) => {
   console.log('data', data);
+
+  //   const CalculateTotal = (column: string, data: any[]) => {
+  //    data?.map((rowData: any, index: number) => {
+  // return rowData?.balance_weight
+  //         })
+  //           ?.reduce((total: any, item: any) => {
+  //             console.log('item column', item[column]);
+  //             if (item[column] === undefined) {
+  //               return 0;
+  //             } else {
+  //               return total + item[column];
+  //             }
+  //           }, 0)
+  //           .toFixed(3);
+  //       }
+  //     }
+  //   };
+
+  const CalculateTotal = (data: any[]) => {
+    if (!data || data.length === 0) {
+      return '--';
+    }
+
+    const totalBalanceWeight = data
+      .map((rowData: any) => rowData?.balance_weight)
+      .reduce((total: any, balanceWeight: any) => {
+        const numericValue = parseFloat(balanceWeight) || 0; // Convert to number or default to 0
+        return total + numericValue;
+      }, 0);
+
+    return totalBalanceWeight.toFixed(3);
+  };
+
   return (
     <div className="table-responsive">
       <table className="table table-bordered">
@@ -123,6 +156,19 @@ const OperationCardListingTable = ({ data }: any) => {
                 </tr>
               );
             })}
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total</td>
+            <td>{CalculateTotal(data)}</td>
+          </tr>
         </tbody>
       </table>
     </div>
