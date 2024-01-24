@@ -70,7 +70,7 @@ const OperationCardListingTable = ({ data }: any) => {
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td className="text-end">
+                  <td className="">
                     {rowData?.karigar && rowData?.karigar !== null
                       ? rowData?.karigar
                       : '--'}

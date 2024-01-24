@@ -62,7 +62,6 @@ const useOperationDetailCard = () => {
 
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
-
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -403,7 +402,7 @@ const useOperationDetailCard = () => {
 
   useEffect(() => {
     operationCardDetail();
-  }, []);
+  }, [search]);
   useEffect(() => {
     if (Object.keys(operationCardDetailData).length > 0) {
       getOperationCardProcessDepartment();
