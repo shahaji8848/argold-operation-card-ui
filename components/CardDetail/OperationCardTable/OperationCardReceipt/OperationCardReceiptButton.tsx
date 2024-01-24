@@ -78,7 +78,12 @@ const OperationCardReciptButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    const callSaveAPI: any = await POSTModalData(search, mergedObjs, token);
+    const callSaveAPI: any = await POSTModalData(
+      'receipt',
+      search,
+      mergedObjs,
+      token
+    );
     console.log('api', callSaveAPI);
     if (callSaveAPI?.status === 200) {
       operationCardDetail();
