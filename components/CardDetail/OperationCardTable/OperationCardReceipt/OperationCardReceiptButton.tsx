@@ -3,6 +3,8 @@ import styles from '../../../../styles/operationDetail.module.css';
 import Modal from 'react-bootstrap/Modal';
 import POSTModalData from '@/services/api/operation-card-detail-page/modal-save';
 import AutoCompleteField from '../OperationCardIssue/AutoCompleteField';
+import { get_access_token } from '@/store/slice/login-slice';
+import { useSelector } from 'react-redux';
 
 const OperationCardReciptButton = ({
   search,
@@ -22,6 +24,7 @@ const OperationCardReciptButton = ({
   operationCardNextProductProcess,
   operationCardNextProductProcessDepartment,
 }: any) => {
+  const { token } = useSelector(get_access_token);
   const checkArray = [
     'karigar',
     'next_karigar',
@@ -75,7 +78,7 @@ const OperationCardReciptButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    const callSaveAPI: any = await POSTModalData(search, mergedObjs);
+    const callSaveAPI: any = await POSTModalData(search, mergedObjs, token);
     console.log('api', callSaveAPI);
     if (callSaveAPI?.status === 200) {
       operationCardDetail();
@@ -357,7 +360,7 @@ const OperationCardReciptButton = ({
               <button
                 type="button"
                 className={`btn btn-blueColor ${styles.submit_btn} `}
-                onClick={handleClose}
+                onClick={handleSubmit}
               >
                 Submit
               </button>
