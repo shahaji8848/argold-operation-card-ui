@@ -86,6 +86,8 @@ const useOperationCardList = () => {
     const searchParamsString = searchParams.toString();
 
     getOperationCardListFromAPI(searchParamsString);
+    URLForFiltersHandler();
+
     // const urlParams = new URLSearchParams(window.location.search);
     // const searchUrl = urlParams.get('search');
     // const searchedValue = searchParamsString.split('=').pop();
@@ -123,7 +125,7 @@ const useOperationCardList = () => {
     } else {
       setListData([]);
     }
-    setFiltersClear(0);
+    // setFiltersClear(0);
   };
 
   useEffect(() => {
