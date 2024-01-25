@@ -77,7 +77,15 @@ const useOperationDetailCard = () => {
   };
 
   const operationCardDetail = async () => {
-    const operationCardDetailVal = await GETOperationCardDetail(search, token);
+    console.log('search +', encodeURI(search));
+    console.log('search +', window.location.href);
+    const hrefValue = window.location.href;
+    const splitVal = hrefValue.split('=');
+    console.log('search + split', splitVal);
+    const operationCardDetailVal = await GETOperationCardDetail(
+      splitVal[1],
+      token
+    );
     if (
       operationCardDetailVal?.status === 200 &&
       Object.keys(operationCardDetailVal?.data?.data)?.length > 0
