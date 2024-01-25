@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
 import { useSearchParams } from 'next/navigation';
 import GETOperationCardProductProcessDepartmentData from '@/services/api/operation-card-detail-page/operation-card-product-process-data';

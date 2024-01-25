@@ -1,5 +1,9 @@
 const inputField = [
   {
+    name: 'search',
+    label: 'search',
+  },
+  {
     name: 'parent_melting_lot',
     label: 'parent melting lot',
   },
@@ -11,10 +15,6 @@ const inputField = [
     name: 'name',
     label: 'operation card',
   },
-  // {
-  //   name: 'search',
-  //   label: 'search',
-  // },
   {
     name: 'product',
     label: 'product',

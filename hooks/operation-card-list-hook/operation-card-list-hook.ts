@@ -18,6 +18,7 @@ const useOperationCardList = () => {
   // const searchUrl = urlParams.get('search') || '';
   // const router = useRouter()
   const [filtersData, setFiltersData] = useState<any>({
+    search: '',
     name: '',
     parent_melting_lot: '',
     melting_lot: '',
@@ -25,13 +26,7 @@ const useOperationCardList = () => {
     product: '',
     operation_department: '',
     product_process_department: '',
-    machine_size: '',
-    design: '',
-    line_number: '',
     karigar: '',
-    balance_weight: '',
-    balance_gross_weight: '',
-    balance_fine_weight: '',
   });
 
   const handleInputChange = (
@@ -44,20 +39,46 @@ const useOperationCardList = () => {
     }));
   };
 
-  const constructUrl = (filtersData: any) => {
-    console.log('url debugging filtersData', filtersData);
-    console.log('url debugging searchparams', searchParams);
-    const urlParams = new URLSearchParams({
-      search: `${searchParams.get('search')}`,
-    });
+  // const constructUrl = (filtersData: any) => {
+  //   console.log('filtersData', filtersData);
+  //   const urlParams = new URLSearchParams({
+  //     search: `${searchParams.get('search')}`,
+  //   });
 
+  //   Object.entries(filtersData).forEach(([key, value]: any) => {
+  //     if (value !== '') {
+  //       urlParams.append(key, value);
+  //     }
+  //   });
+
+  //   console.log('urlParams', urlParams.toString());
+
+  //   return `${window.location.pathname}?${urlParams.toString()}`;
+  // };
+
+  const constructUrl = (filtersData: any) => {
+    const currentUrl = new URL(window.location.href);
+    const urlParams = new URLSearchParams(currentUrl.search);
+
+    // Check if the 'search' parameter already exists
+    if (!urlParams.has('search')) {
+      urlParams.set('search', searchParams.get('search') || ''); // Add 'search' from the original URL if it exists
+    }
+
+    // Add or update other parameters from filtersData
     Object.entries(filtersData).forEach(([key, value]: any) => {
       if (value !== '') {
-        urlParams.append(key, value);
+        // Check if the parameter already exists
+        if (urlParams.has(key)) {
+          urlParams.set(key, value);
+        } else {
+          urlParams.append(key, value);
+        }
       }
     });
 
-    return `${window.location.pathname}?${urlParams.toString()}`;
+    // Return the updated URL
+    return `${currentUrl.pathname}?${urlParams.toString()}`;
   };
 
   const URLForFiltersHandler = () => {
@@ -82,23 +103,16 @@ const useOperationCardList = () => {
     // Get the search parameters
     const searchParams = url.searchParams;
 
+    console.log('searchParams', searchParams);
     // Convert the search parameters to a string
     const searchParamsString = searchParams.toString();
+    console.log('searchParamsString', searchParamsString);
 
-    getOperationCardListFromAPI(searchParamsString);
-    URLForFiltersHandler();
+    const keyValuePairs = searchParamsString.split('&');
 
-    // const urlParams = new URLSearchParams(window.location.search);
-    // const searchUrl = urlParams.get('search');
-    // const searchedValue = searchParamsString.split('=').pop();
-
-    // setFiltersData({
-    //   search: searchUrl,
-    // });
-  }, [searchParams]);
-
-  const handleClearFilters = async () => {
-    await setFiltersData({
+    // Create an object to store the updated state
+    const updatedFiltersData: any = {
+      search: '',
       name: '',
       parent_melting_lot: '',
       melting_lot: '',
@@ -106,14 +120,38 @@ const useOperationCardList = () => {
       product: '',
       operation_department: '',
       product_process_department: '',
-      machine_size: '',
-      design: '',
-      line_number: '',
       karigar: '',
-      balance_weight: '',
-      balance_gross_weight: '',
-      balance_fine_weight: '',
-      // search: '',
+    };
+
+    // Iterate through key-value pairs and update the state
+    keyValuePairs.forEach((keyValuePair) => {
+      const [key, value] = keyValuePair.split('=');
+      if (key in updatedFiltersData) {
+        updatedFiltersData[key] = value;
+      }
+    });
+
+    // Update the state with the new values
+    setFiltersData((prevFiltersData: any) => ({
+      ...prevFiltersData,
+      ...updatedFiltersData,
+    }));
+
+    getOperationCardListFromAPI(searchParamsString);
+    // URLForFiltersHandler();
+  }, [searchParams]);
+
+  const handleClearFilters = async () => {
+    await setFiltersData({
+      search: '',
+      name: '',
+      parent_melting_lot: '',
+      melting_lot: '',
+      product_purity: '',
+      product: '',
+      operation_department: '',
+      product_process_department: '',
+      karigar: '',
     });
 
     setFiltersClear(1);
@@ -125,7 +163,7 @@ const useOperationCardList = () => {
     } else {
       setListData([]);
     }
-    // setFiltersClear(0);
+    setFiltersClear(0);
   };
 
   useEffect(() => {

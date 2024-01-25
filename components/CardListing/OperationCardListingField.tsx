@@ -41,20 +41,6 @@ const OperationCardListingField = ({
   return (
     <div className="spacing-mt">
       <div className="row">
-        <div className="col-md-3">
-          <label className=" w-100 dark-blue fw-bold text-capitalize fs-13">
-            search
-          </label>
-          <input
-            type="text"
-            ref={focusRef}
-            style={{ boxShadow: 'none !important' }}
-            className="form-control inputFields fs-13 rounded-2"
-            value={searchField}
-            onChange={(e: any) => setSearchField(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-        </div>
         {inputField.map((data: any, index: any) => {
           return (
             <div className="col-md-3 mb-2" key={index}>
@@ -70,6 +56,7 @@ const OperationCardListingField = ({
                       value={filtersData[data?.name]}
                       onChange={(e) => handleInputChange(e, data.name)}
                       onKeyDown={handleKeyDownEnter}
+                      ref={data?.name === 'search' ? focusRef : null}
                     />
                   </>
                 </div>
