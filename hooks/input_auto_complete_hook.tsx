@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useInputAutoComplete = (listOfDropdownValues?: any) => {
+const useInputAutoComplete = (
+  listOfDropdownValues?: any,
+  initialValue?: string
+) => {
   console.log('karigar list hook', listOfDropdownValues);
+  console.log('initialValue', initialValue);
   const [optionvalue, setOptionValue] = useState<any>([]);
 
-  const [inputValueAutoComplete, setInputValueAutoComplete] =
-    useState<string>('');
+  const [inputValueAutoComplete, setInputValueAutoComplete] = useState<
+    string | undefined
+  >(initialValue ?? '');
   const [filteredSuggestionsAutoComplete, setFilteredSuggestionsAutoComplete] =
     useState<any>([]);
   const [showSuggestionsAutoComplete, setShowSuggestionsAutoComplete] =
@@ -51,7 +56,7 @@ const useInputAutoComplete = (listOfDropdownValues?: any) => {
     setShowSuggestionsAutoComplete(false);
   };
 
-  const showFilteredValuesHandler = (user_input_value: string) => {
+  const showFilteredValuesHandler = (user_input_value?: string) => {
     // console.log('url debugging user_input_value', user_input_value);
     const trimmedInput = user_input_value?.trim().toLowerCase();
 

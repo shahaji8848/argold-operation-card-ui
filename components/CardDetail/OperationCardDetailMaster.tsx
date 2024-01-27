@@ -10,6 +10,7 @@ import { Toast, ToastContainer } from 'react-bootstrap';
 const OperationCardDetailMaster = () => {
   const {
     search,
+    headerSave,
     handleHeaderSave,
     goldAccessoryTable,
     issueReference,
@@ -40,6 +41,8 @@ const OperationCardDetailMaster = () => {
     operationCardProductCategory,
     getOperationCardDetailNextProductCategoryAPICallFunc,
     getOperationCardDetailProductAPICallFunc,
+    operationCardMachine,
+    operationCardTone,
   } = useOperationDetailCard();
   return (
     <div>
@@ -59,9 +62,15 @@ const OperationCardDetailMaster = () => {
               operationCardDetailData={operationCardDetailData}
               operationCardProductDept={operationCardProductDept}
               operationCardKarigar={operationCardKarigar}
+              operationCardMachine={operationCardMachine}
+              operationCardTone={operationCardTone}
+              operationCardNextProductCategory={
+                operationCardNextProductCategory
+              }
               operationCardKarigarQuantitySettings={
                 operationCardKarigarQuantitySettings
               }
+              headerSave={headerSave}
               handleHeaderSave={handleHeaderSave}
             />
             <OperationCardTableMaster

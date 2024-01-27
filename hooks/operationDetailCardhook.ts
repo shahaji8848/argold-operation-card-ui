@@ -5,7 +5,7 @@ import GETOperationCardProductProcessDepartmentData from '@/services/api/operati
 import GETOperationCardDetailKarigar from '@/services/api/operation-card-detail-page/operation-card-detail-karigar';
 import GETOperationCardDetailProcessThickness from '@/services/api/operation-card-detail-page/operation-card-detail-thickness';
 import GETOperationCardDetailProcessVariant from '@/services/api/operation-card-detail-page/operation-card-detail-variant';
-import GETOperationCardDetailMachineSize from '@/services/api/operation-card-detail-page/operation-card-detail-machine-size copy';
+import GETOperationCardDetailMachineSize from '@/services/api/operation-card-detail-page/operation-card-detail-machine';
 import GETProductProcessDesignCodeCategory from '@/services/api/operation-card-detail-page/operation-card-detail-design-code-category';
 import GETOperationCardDetailNextKarigar from '@/services/api/operation-card-detail-page/operation-card-detail-next-karigar';
 import GETOperationCardDetailProcessConcept from '@/services/api/operation-card-detail-page/operation-card-detail-concept';
@@ -19,14 +19,24 @@ import GETOperationCardDetailProductData from '@/services/api/operation-card-det
 import { OCIssueReferenceAPI } from '@/services/api/operation-card-issue-references/oc-issue-references-api';
 import { useSelector } from 'react-redux';
 import { get_access_token } from '@/store/slice/login-slice';
+import GETOperationCardDetailMachine from '@/services/api/operation-card-detail-page/operation-card-detail-machine';
+import GETOperationCardDetailTone from '@/services/api/operation-card-detail-page/operation-card-detail-tone';
+import GETProductProcessNextProductCategory from '@/services/api/operation-card-detail-page/operation-card-detail-product-category';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
+
   const [
     operationCardKarigarQuantitySettings,
     setOperationCardKarigarQuantitySettings,
   ] = useState({});
 
-  const [headerSave, setHeaderSave] = useState({ karigar: '', quantity: '' });
+  const [headerSave, setHeaderSave] = useState({
+    karigar: '',
+    quantity: '',
+    machine: '',
+    tone: '',
+    product_category: '',
+  });
   const [operationCardProductDept, setOperationCardProductDept] = useState({});
   const [operationCardDetailData, setOperationCardDetailData] = useState<any>(
     {}
@@ -63,17 +73,31 @@ const useOperationDetailCard = () => {
   const [operationCardNextDesignCodeType, setOperationCardNextDesignCodeType] =
     useState<any>([]);
 
+  const [operationCardMachine, setOperationCardMachine] = useState<any>([]);
+  const [operationCardTone, setOperationCardTone] = useState<any>([]);
+
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
-  const handleHeaderSave = (label: any, value: any) => {
-    console.log('handleHeaderSave', label, value);
-    setHeaderSave({
-      ...headerSave,
-      [label]: value,
-    });
+  const handleHeaderSave = (label: any, selectedValue: any) => {
+    if (label === 'karigar') {
+      setHeaderSave({
+        ...headerSave,
+        [label]: selectedValue?.value,
+      });
+    } else if (label === 'quantity') {
+      setHeaderSave({
+        ...headerSave,
+        [label]: selectedValue,
+      });
+    } else {
+      setHeaderSave({
+        ...headerSave,
+        [label]: selectedValue?.name,
+      });
+    }
   };
 
   const operationCardDetail = async () => {
@@ -97,21 +121,41 @@ const useOperationDetailCard = () => {
   };
 
   const getOperationCardProcessDepartment = async () => {
-    const operationCardData =
+    const operationCardProductProcessDepartmentData =
       await GETOperationCardProductProcessDepartmentData(
         operationCardDetailData?.product_process_department,
         token
       );
 
     if (
-      operationCardData?.status === 200 &&
-      Object.keys(operationCardData?.data?.data)?.length > 0
+      operationCardProductProcessDepartmentData?.status === 200 &&
+      Object.keys(operationCardProductProcessDepartmentData?.data?.data)
+        ?.length > 0
     ) {
-      setOperationCardProductDept(operationCardData?.data?.data);
+      setOperationCardProductDept(
+        operationCardProductProcessDepartmentData?.data?.data
+      );
+      setHeaderSave({
+        ...headerSave,
+        karigar: operationCardDetailData?.karigar ?? '',
+        quantity: operationCardDetailData?.quantity ?? '',
+        machine: operationCardDetailData?.machine ?? '',
+        tone: operationCardDetailData?.tone ?? '',
+        product_category: operationCardDetailData?.product_category ?? '',
+      });
       setOperationCardKarigarQuantitySettings({
         ...operationCardKarigarQuantitySettings,
-        set_quantity: operationCardData?.data?.data?.set_quantity,
-        set_karigar: operationCardData?.data?.data?.set_karigar,
+        set_quantity:
+          operationCardProductProcessDepartmentData?.data?.data?.set_quantity,
+        set_karigar:
+          operationCardProductProcessDepartmentData?.data?.data?.set_karigar,
+        set_machine:
+          operationCardProductProcessDepartmentData?.data?.data?.set_machine,
+        set_tone:
+          operationCardProductProcessDepartmentData?.data?.data?.set_tone,
+        set_product_category:
+          operationCardProductProcessDepartmentData?.data?.data
+            ?.set_product_category,
       });
     } else {
       setOperationCardProductDept({});
@@ -296,6 +340,37 @@ const useOperationDetailCard = () => {
       setOperationCardMachineSize([]);
     }
   };
+
+  const getOperationCardDetailMachineAPICall = async () => {
+    const getMachineData = await GETOperationCardDetailMachine(
+      operationCardDetailData?.product_process_department,
+      token
+    );
+    if (getMachineData?.status === 200) {
+      setOperationCardMachine(
+        getMachineData?.data?.data?.map((machine_data: any) => ({
+          name: machine_data?.name,
+          value: machine_data?.machine_name,
+        }))
+      );
+    } else {
+      setOperationCardMachine([]);
+    }
+  };
+
+  const getOperationCardDetailToneAPICall = async () => {
+    const getToneData = await GETOperationCardDetailTone(token);
+    if (getToneData?.status === 200) {
+      setOperationCardTone(
+        getToneData?.data?.data?.map((tone_data: any) => ({
+          name: tone_data?.name,
+          value: tone_data?.name,
+        }))
+      );
+    } else {
+      setOperationCardTone([]);
+    }
+  };
   const getOperationCardDetailDesignCodeCategoryAPICall = async () => {
     const getDesignCodeCategory = await GETProductProcessDesignCodeCategory(
       operationCardDetailData?.product,
@@ -423,7 +498,8 @@ const useOperationDetailCard = () => {
       Object.entries(headerSave).filter(([key, value]) => value !== '')
     );
 
-    const saveOP = await POSTOperationCardSave(search, filteredData, token);
+    console.log('save', filteredData);
+    // const saveOP = await POSTOperationCardSave(search, filteredData, token);
   };
 
   useEffect(() => {
@@ -457,18 +533,17 @@ const useOperationDetailCard = () => {
 
       getOperationCardDetailNextProductCategoryAPICallFunc();
 
+      getOperationCardDetailMachineAPICall();
+      getOperationCardDetailToneAPICall();
       createGoldAccessoryTable();
 
       getIssueReferenceAPICallFunc();
     }
   }, [operationCardDetailData]);
 
-  // useEffect(() => {
-  //   getOperationCardDetailKarigar();
-  // }, []);
-
   return {
     search,
+    headerSave,
     handleHeaderSave,
     goldAccessoryTable,
     issueReference,
@@ -499,6 +574,8 @@ const useOperationDetailCard = () => {
     getOperationCardDetailNextProductCategoryAPICallFunc,
     operationCardKarigarQuantitySettings,
     getOperationCardDetailProductAPICallFunc,
+    operationCardMachine,
+    operationCardTone,
   };
 };
 

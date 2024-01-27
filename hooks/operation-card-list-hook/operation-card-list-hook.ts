@@ -1,5 +1,6 @@
 import GETOperationCardListData from '@/services/api/operation-card-list-page/operation-card-list-api';
 import { get_access_token } from '@/store/slice/login-slice';
+import { FieldTypes } from '@/types/oc-list-input-field-types';
 import { useSearchParams, useRouter } from 'next/navigation';
 // import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -13,11 +14,7 @@ const useOperationCardList = () => {
   const [listData, setListData] = useState<any>([]);
 
   const [filtersClear, setFiltersClear] = useState(0);
-
-  // const urlParams = new URLSearchParams(window.location.search);
-  // const searchUrl = urlParams.get('search') || '';
-  // const router = useRouter()
-  const [filtersData, setFiltersData] = useState<any>({
+  const [filtersData, setFiltersData] = useState<FieldTypes>({
     search: '',
     name: '',
     parent_melting_lot: '',
@@ -38,47 +35,14 @@ const useOperationCardList = () => {
       [fieldName]: e.target.value,
     }));
   };
-
-  // const constructUrl = (filtersData: any) => {
-  //   console.log('filtersData', filtersData);
-  //   const urlParams = new URLSearchParams({
-  //     search: `${searchParams.get('search')}`,
-  //   });
-
-  //   Object.entries(filtersData).forEach(([key, value]: any) => {
-  //     if (value !== '') {
-  //       urlParams.append(key, value);
-  //     }
-  //   });
-
-  //   console.log('urlParams', urlParams.toString());
-
-  //   return `${window.location.pathname}?${urlParams.toString()}`;
-  // };
-
   const constructUrl = (filtersData: any) => {
     const currentUrl = new URL(window.location.href);
-    const urlParams = new URLSearchParams(currentUrl.search);
-
-    // Check if the 'search' parameter already exists
-    if (!urlParams.has('search')) {
-      urlParams.set('search', searchParams.get('search') || ''); // Add 'search' from the original URL if it exists
-    }
-
-    // Add or update other parameters from filtersData
-    Object.entries(filtersData).forEach(([key, value]: any) => {
-      if (value !== '') {
-        // Check if the parameter already exists
-        if (urlParams.has(key)) {
-          urlParams.set(key, value);
-        } else {
-          urlParams.append(key, value);
-        }
-      }
-    });
-
+    const queryString = Object.entries(filtersData)
+      .filter(([key, value]: any) => value !== '')
+      .map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
+      .join('&');
     // Return the updated URL
-    return `${currentUrl.pathname}?${urlParams.toString()}`;
+    return `${currentUrl.pathname}?${queryString}`;
   };
 
   const URLForFiltersHandler = () => {
@@ -168,17 +132,8 @@ const useOperationCardList = () => {
 
   useEffect(() => {
     if (filtersClear === 1) {
-      // getOperationCardListFromAPI();
-
-      const url: any = new URL(window.location.href);
-
-      // Keep only the 'search' parameter
-      const searchValue = url.searchParams.get('search');
-      url.search = new URLSearchParams({ search: searchValue }).toString();
-
-      const clearedALlParamsFromURL = url.toString();
-
-      router.push(`${clearedALlParamsFromURL}`);
+      const currentUrl = new URL(window.location.href);
+      router.push(`${currentUrl.pathname}`);
     }
   }, [filtersClear]);
 

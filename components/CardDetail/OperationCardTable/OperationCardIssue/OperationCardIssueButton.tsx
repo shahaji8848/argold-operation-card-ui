@@ -93,6 +93,7 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
+    console.log('mergedObjs', mergedObjs);
     const callSaveAPI: any = await POSTModalData(
       'issue',
       search,
@@ -316,6 +317,8 @@ const OperationCardIssueButton = ({
                             handleDropDownValuesChange
                           }
                           label={val?.label}
+                          initialValue=""
+                          isReadOnly={false}
                         />
                       </>
                     ) : (

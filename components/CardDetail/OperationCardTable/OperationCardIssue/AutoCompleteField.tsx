@@ -1,26 +1,21 @@
 import useInputAutoComplete from '@/hooks/input_auto_complete_hook';
-import React, { useEffect, useState } from 'react';
 
 const AutoCompleteField = ({
   listOfDropdownObjs,
   label,
   handleDropDownValuesChange,
-  modalDropdownFieldsProp,
+  initialValue,
+  isReadOnly,
 }: any) => {
-  const [field, setField] = useState('');
   const {
-    setOptionValue,
-    setFilteredSuggestionsAutoComplete,
     inputValueAutoComplete,
-    setInputValueAutoComplete,
     showFilteredValuesHandler,
     inputRef,
     showSuggestionsAutoComplete,
-    setShowSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
-    handleFocusRemove,
-  } = useInputAutoComplete(listOfDropdownObjs);
+  } = useInputAutoComplete(listOfDropdownObjs, initialValue);
+  console.log('operationCardKarigarQuantitySettings', isReadOnly);
   return (
     <div>
       <div>
@@ -36,9 +31,10 @@ const AutoCompleteField = ({
                 handleDropDownValuesChange(label, e.target.value);
                 showFilteredValuesHandler(e.target.value);
               }}
-              onFocus={() => showFilteredValuesHandler('')}
-              // onBlur={handleFocusRemove}
+              onFocus={() => showFilteredValuesHandler()}
               ref={inputRef}
+              readOnly={isReadOnly}
+              disabled={isReadOnly}
             />
 
             {showSuggestionsAutoComplete &&
