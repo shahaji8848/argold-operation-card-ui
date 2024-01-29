@@ -221,6 +221,11 @@ const OperationCardIssueButton = ({
     setModalFieldValuesState(alteredObjToCreateDataFields);
 
     setModalDropdownFields(alteredObjToCreateDropDownFields);
+    console.log('getvalues', getValues);
+    console.log(
+      'alteredObjToCreateDropDownFields',
+      alteredObjToCreateDropDownFields
+    );
   };
   return (
     <div>

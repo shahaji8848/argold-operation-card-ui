@@ -2,7 +2,6 @@ import GETOperationCardListData from '@/services/api/operation-card-list-page/op
 import { get_access_token } from '@/store/slice/login-slice';
 import { FieldTypes } from '@/types/oc-list-input-field-types';
 import { useSearchParams, useRouter } from 'next/navigation';
-// import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -39,7 +38,7 @@ const useOperationCardList = () => {
     const currentUrl = new URL(window.location.href);
     const queryString = Object.entries(filtersData)
       .filter(([key, value]: any) => value !== '')
-      .map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
+      .map(([key, value]: any) => `${key}=${value}`)
       .join('&');
     // Return the updated URL
     return `${currentUrl.pathname}?${queryString}`;
@@ -47,6 +46,7 @@ const useOperationCardList = () => {
 
   const URLForFiltersHandler = () => {
     const getconstructedUrl: any = constructUrl(filtersData);
+
     router.push(`${getconstructedUrl}`);
   };
 
@@ -66,11 +66,8 @@ const useOperationCardList = () => {
 
     // Get the search parameters
     const searchParams = url.searchParams;
-
-    console.log('searchParams', searchParams);
     // Convert the search parameters to a string
     const searchParamsString = searchParams.toString();
-    console.log('searchParamsString', searchParamsString);
 
     const keyValuePairs = searchParamsString.split('&');
 
@@ -87,11 +84,11 @@ const useOperationCardList = () => {
       karigar: '',
     };
 
-    // Iterate through key-value pairs and update the state
     keyValuePairs.forEach((keyValuePair) => {
       const [key, value] = keyValuePair.split('=');
       if (key in updatedFiltersData) {
-        updatedFiltersData[key] = value;
+        // Replace '+' with space before updating the state
+        updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
       }
     });
 

@@ -5,6 +5,11 @@ import POSTModalData from '@/services/api/operation-card-detail-page/modal-save'
 import AutoCompleteField from '../OperationCardIssue/AutoCompleteField';
 import { get_access_token } from '@/store/slice/login-slice';
 import { useSelector } from 'react-redux';
+interface IModalFields {
+  show_in_weight: number;
+  set_in_weight: number;
+  label: string;
+}
 
 const OperationCardReciptButton = ({
   search,
@@ -54,7 +59,9 @@ const OperationCardReciptButton = ({
   const [getValues, setGetValues] = useState<any>([]);
 
   // Below State is to set the value of input fields inside the modal. These values are coming from OC Detail API.
-  const [modalFieldValuesState, setModalFieldValuesState] = useState<any>({});
+  const [modalFieldValuesState, setModalFieldValuesState] = useState<any>({
+    in_weight: '',
+  });
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
@@ -113,110 +120,15 @@ const OperationCardReciptButton = ({
   const handleShow = (value: any) => {
     setShow(true);
     setItemName(value);
-    const operationCardValue = operationCardProductDept?.issue_items?.filter(
-      (issueVal: any) => issueVal.item === value
-    );
 
-    const showKeys = Object.keys(operationCardValue[0]).filter((key) =>
-      key.startsWith('show')
-    );
-    const setKeys = Object.keys(operationCardValue[0]).filter((key) =>
-      key.startsWith('set')
-    );
+    const modalObj: IModalFields = {
+      show_in_weight: 1,
+      set_in_weight: 1,
+      label: 'in_weight',
+    };
 
-    const resultArray = groupByKeyWords(showKeys, setKeys);
-
-    function groupByKeyWords(showKeys: any, setKeys: any) {
-      const groupedKeys: any = {};
-
-      showKeys.concat(setKeys).forEach((key: any) => {
-        const keyword = key.substring(key.indexOf('_') + 1);
-
-        if (!groupedKeys[keyword]) {
-          groupedKeys[keyword] = {};
-        }
-
-        groupedKeys[keyword][key] = operationCardValue[0][key]; // Access value correctly
-      });
-
-      return Object.values(groupedKeys);
-    }
-
-    let filterArray: any[];
-
-    filterArray = resultArray?.filter((obj: any) => {
-      const hasNonZeroShow = Object.keys(obj).some(
-        (key) => key.startsWith('show') && obj[key] !== 0
-      );
-
-      const hasNonZeroSet = Object.keys(obj).some(
-        (key) => key.startsWith('set') && obj[key] !== 0
-      );
-
-      return hasNonZeroShow || hasNonZeroSet;
-    });
-
-    filterArray = filterArray.map((obj) => {
-      const updatedObj: any = { ...obj }; // Create a copy of the original object
-      Object.keys(updatedObj).forEach((key) => {
-        if (key.startsWith('show_')) {
-          const label = key.replace('show_', ''); // Remove "show_" from the key
-          updatedObj[key] = obj[key];
-          updatedObj['label'] = label; // Add the "label" key with the modified label value
-        }
-      });
-      return updatedObj;
-    });
-
-    console.log('modal filterArray', filterArray);
-
-    const index = filterArray?.findIndex(
-      (obj: any) => obj.label === 'in_weight'
-    );
-
-    // If 'in_weight' is found, move it to the front of the array
-    if (index !== -1) {
-      const inWeightObject = filterArray?.splice(index, 1)[0];
-      filterArray?.unshift(inWeightObject);
-    }
-
-    setGetValues(filterArray);
-
-    const getOperationCardDetailDataValue =
-      operationCardDetailData?.receipt_details?.filter(
-        (issueVal: any) => issueVal.item === value
-      );
-
-    console.log(
-      'getOperationCardDetailDataValue',
-      getOperationCardDetailDataValue
-    );
-
-    getOperationCardDetailNextKarigarFunc(
-      getOperationCardDetailDataValue[0]?.next_product_process_department
-    );
-    getOperationCardDetailNextProductProcessAPICallFunc();
-
-    getOperationCardDetailNextProductProcessDepartmentAPICallFunc();
-
-    let alteredObjToCreateDataFields: any = {};
-    let alteredObjToCreateDropDownFields: any = {};
-
-    filterArray.forEach((item: any) => {
-      const label = item?.label;
-
-      if (!checkArray?.includes(label)) {
-        alteredObjToCreateDataFields[label] = '';
-      }
-
-      if (checkArray?.includes(label)) {
-        alteredObjToCreateDropDownFields[label] = '';
-      }
-    });
-
-    setModalFieldValuesState(alteredObjToCreateDataFields);
-
-    setModalDropdownFields(alteredObjToCreateDropDownFields);
+    setGetValues([modalObj]);
+    console.log('getvalues', getValues);
   };
 
   return (
@@ -260,108 +172,106 @@ const OperationCardReciptButton = ({
         <Modal.Body>
           {' '}
           <div className="d-flex justify-content-between "></div>
-          <div className="modal-body">
-            <div className="row">
-              {getValues?.length > 0 &&
-                getValues?.map((val: any, i: any) => {
-                  let propToPass: any;
-                  let funcData: any;
-                  const setKey: any = `set_${val.label
-                    .toLowerCase()
-                    .replace(' ', '_')}`;
+          <div className="row">
+            {getValues?.length > 0 &&
+              getValues?.map((val: any, i: any) => {
+                let propToPass: any;
+                let funcData: any;
+                const setKey: any = `set_${val.label
+                  .toLowerCase()
+                  .replace(' ', '_')}`;
 
-                  const handleField = (val: any) => {
-                    const propMappings: any = {
-                      machine_size: operationCardMachineSize,
-                      thickness: operationCardThickness,
-                      variant: operationCardVariant,
-                      karigar: operationCardKarigar,
-                      concept: operationCardConcept,
-                      next_karigar: operationCardNextKarigar,
-                      design_code_category: operationCardDesignCodeCategory,
-                      next_product_process: operationCardNextProductProcess,
-                      next_product_process_department:
-                        operationCardNextProductProcessDepartment,
-                    };
-                    propToPass = propMappings[val];
-                    return propToPass;
+                const handleField = (val: any) => {
+                  const propMappings: any = {
+                    machine_size: operationCardMachineSize,
+                    thickness: operationCardThickness,
+                    variant: operationCardVariant,
+                    karigar: operationCardKarigar,
+                    concept: operationCardConcept,
+                    next_karigar: operationCardNextKarigar,
+                    design_code_category: operationCardDesignCodeCategory,
+                    next_product_process: operationCardNextProductProcess,
+                    next_product_process_department:
+                      operationCardNextProductProcessDepartment,
                   };
-                  funcData = handleField(val?.label);
-                  return (
-                    <div className="col-md-4 " key={i}>
-                      {checkArray?.includes(val?.label) ? (
-                        <>
-                          <label
-                            htmlFor="staticEmail"
-                            className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
-                          >
-                            {val?.label
-                              ?.split('_')
-                              ?.filter(
-                                (val: any) =>
-                                  val !== 'set' &&
-                                  val !== 'readonly' &&
-                                  val !== 'show'
-                              )
-                              ?.map((val: any, index: any) =>
-                                index === 0
-                                  ? val.charAt(0).toUpperCase() + val.slice(1)
-                                  : val
-                              )
-                              .join(' ')}
-                          </label>
-                          <AutoCompleteField
-                            listOfDropdownObjs={funcData}
-                            modalDropdownFieldsProp={modalDropdownFields}
-                            handleDropDownValuesChange={
-                              handleDropDownValuesChange
-                            }
-                            label={val?.label}
+                  propToPass = propMappings[val];
+                  return propToPass;
+                };
+                funcData = handleField(val?.label);
+                return (
+                  <div className="col-md-4 " key={i}>
+                    {checkArray?.includes(val?.label) ? (
+                      <>
+                        <label
+                          htmlFor="staticEmail"
+                          className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
+                        >
+                          {val?.label
+                            ?.split('_')
+                            ?.filter(
+                              (val: any) =>
+                                val !== 'set' &&
+                                val !== 'readonly' &&
+                                val !== 'show'
+                            )
+                            ?.map((val: any, index: any) =>
+                              index === 0
+                                ? val.charAt(0).toUpperCase() + val.slice(1)
+                                : val
+                            )
+                            .join(' ')}
+                        </label>
+                        <AutoCompleteField
+                          listOfDropdownObjs={funcData}
+                          modalDropdownFieldsProp={modalDropdownFields}
+                          handleDropDownValuesChange={
+                            handleDropDownValuesChange
+                          }
+                          label={val?.label}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <label
+                          htmlFor="staticEmail"
+                          className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
+                        >
+                          {val?.label
+                            ?.split('_')
+                            ?.filter(
+                              (val: any) =>
+                                val !== 'set' &&
+                                val !== 'readonly' &&
+                                val !== 'show'
+                            )
+                            ?.map((val: any, index: any) =>
+                              index === 0
+                                ? val.charAt(0).toUpperCase() + val.slice(1)
+                                : val
+                            )
+                            .join(' ')}
+                        </label>
+                        <div
+                          className={`col-sm-10 text-left ${styles.inputFlex} `}
+                        >
+                          <input
+                            type="text"
+                            className="form-control inputFields dark-blue"
+                            name={val?.label}
+                            id={val?.label}
+                            disabled={val[setKey] === 0}
+                            value={modalFieldValuesState[val?.label]}
+                            onChange={handleModalFieldsChange}
                           />
-                        </>
-                      ) : (
-                        <>
-                          <label
-                            htmlFor="staticEmail"
-                            className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
-                          >
-                            {val?.label
-                              ?.split('_')
-                              ?.filter(
-                                (val: any) =>
-                                  val !== 'set' &&
-                                  val !== 'readonly' &&
-                                  val !== 'show'
-                              )
-                              ?.map((val: any, index: any) =>
-                                index === 0
-                                  ? val.charAt(0).toUpperCase() + val.slice(1)
-                                  : val
-                              )
-                              .join(' ')}
-                          </label>
-                          <div
-                            className={`col-sm-10 text-left ${styles.inputFlex} `}
-                          >
-                            <input
-                              type="text"
-                              className="form-control inputFields dark-blue"
-                              name={val?.label}
-                              id={val?.label}
-                              disabled={val[setKey] === 0}
-                              value={modalFieldValuesState[val?.label]}
-                              onChange={handleModalFieldsChange}
-                            />
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
-            </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
           </div>
           {getValues?.length > 0 ? (
-            <div className="d-flex justify-content-start">
+            <div className="d-flex justify-content-start mt-3">
               <button
                 type="button"
                 className={`btn btn-blueColor ${styles.submit_btn} `}

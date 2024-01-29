@@ -12,7 +12,6 @@ const OperationCardHeader = ({
     <div className="row spacing-mt p-0 ">
       <div className="col-md-5">
         <p className="mb-0 m-0 p-0 ">
-          Operation Card:{' '}
           <span className="bold header-heading-mob">
             {operationCardDetailData.name}
           </span>

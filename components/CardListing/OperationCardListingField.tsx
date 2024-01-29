@@ -17,9 +17,6 @@ const OperationCardListingField = ({
   const focusRef = useRef<any>(null);
   const [searchField, setSearchField] = useState<string>('');
   const router = useRouter();
-  // const url = window.location.href;
-  // const searchUrl = url.split('=').pop();
-  console.log('constructUrl', constructUrl);
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       redirectToListPage();

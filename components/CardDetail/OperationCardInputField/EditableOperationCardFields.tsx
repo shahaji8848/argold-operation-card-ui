@@ -42,9 +42,9 @@ const EditableOperationCardFields = ({
           );
         })}
       {dataEditable?.length > 0 &&
-        dataEditable?.map((field: string) => {
+        dataEditable?.map((field: string, index: number) => {
           return (
-            <div className="col-md-2 p-0 m-0">
+            <div className="col-md-2 p-0 m-0" key={index}>
               <div className="fs-14 bold text-start">
                 {field.charAt(0).toUpperCase() + field.slice(1)}
               </div>

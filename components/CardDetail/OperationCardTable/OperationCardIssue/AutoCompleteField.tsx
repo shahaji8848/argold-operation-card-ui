@@ -15,7 +15,6 @@ const AutoCompleteField = ({
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
   } = useInputAutoComplete(listOfDropdownObjs, initialValue);
-  console.log('operationCardKarigarQuantitySettings', isReadOnly);
   return (
     <div>
       <div>
@@ -62,6 +61,7 @@ const AutoCompleteField = ({
                           cursor: 'pointer',
                           padding: '7px',
                           fontWeight: 'bold',
+                          textAlign: 'start',
                         }}
                         className="fileredValue-hover force-overflow"
                         id="style-2"
