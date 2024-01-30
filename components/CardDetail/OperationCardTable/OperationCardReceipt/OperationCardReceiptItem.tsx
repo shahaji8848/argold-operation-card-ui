@@ -17,7 +17,12 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
         (total: any, item: any) => total + item['in_gross_weight'],
         0
       );
-      return ((totalInGrossWeight / totalInWeight) * 100).toFixed(3);
+      if (totalInGrossWeight !== 0 && totalInWeight !== 0) {
+        return ((totalInGrossWeight / totalInWeight) * 100).toFixed(3);
+      } else {
+        return 0;
+      }
+      // return ((totalInGrossWeight / totalInWeight) * 100).toFixed(3);
     } else if (column === 'in_fine_purity') {
       const totalGrossWeight = data.reduce(
         (total: any, item: any) => total + item['in_gross_weight'],
@@ -27,7 +32,12 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
         (total: any, item: any) => total + item['in_fine_weight'],
         0
       );
-      return ((totalFineWeight / totalGrossWeight) * 100).toFixed(3);
+      if (totalFineWeight !== 0 && totalGrossWeight !== 0) {
+        return ((totalFineWeight / totalGrossWeight) * 100).toFixed(3);
+      } else {
+        return 0;
+      }
+      // return ((totalFineWeight / totalGrossWeight) * 100).toFixed(3);
     } else if (column !== 'reference') {
       return data
         .reduce((total: any, item: any) => total + item[column], 0)
