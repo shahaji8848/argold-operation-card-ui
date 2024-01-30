@@ -499,7 +499,7 @@ const useOperationDetailCard = () => {
     );
 
     console.log('save', filteredData);
-    // const saveOP = await POSTOperationCardSave(search, filteredData, token);
+    const saveOP = await POSTOperationCardSave(search, filteredData, token);
   };
 
   useEffect(() => {
