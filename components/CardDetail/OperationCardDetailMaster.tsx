@@ -7,6 +7,7 @@ import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Image from 'next/image';
 import OperationCardCreationDetail from './OperationCardCreationDetail/OperationCardCreationDetail';
 import { Toast, ToastContainer } from 'react-bootstrap';
+import Link from 'next/link';
 const OperationCardDetailMaster = () => {
   const {
     search,
@@ -135,9 +136,9 @@ const OperationCardDetailMaster = () => {
               alt="Picture of the author"
             />
             <h3 className="">Operation Card Not Found...</h3>
-            <a type="button" className="btn btn-link" href="/">
+            <Link type="button" className="btn btn-link" href="/">
               Go To Home Page
-            </a>
+            </Link>
           </div>
         </div>
       )}
