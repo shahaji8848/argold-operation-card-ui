@@ -25,7 +25,6 @@ const OperationCardReceiptMaster = ({
   operationCardNextProductProcess,
   operationCardNextProductProcessDepartment,
 }: any) => {
-  console.log('getIssueReferenceData getIssueReferenceData', issueReference);
   return (
     <>
       <OperationCardReceiptButton

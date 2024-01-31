@@ -157,6 +157,7 @@ const OperationCardIssueButton = ({
 
       return Object.values(groupedKeys);
     }
+    // console.log('result array', resultArray);
 
     let filterArray: any[];
 
@@ -166,7 +167,10 @@ const OperationCardIssueButton = ({
       );
 
       const hasNonZeroSet = Object.keys(obj).some(
-        (key) => key.startsWith('set') && obj[key] !== 0
+        (key) =>
+          key.startsWith('set') &&
+          key !== 'set_fine_purity_based_on_tounch_purity' &&
+          obj[key] !== 0
       );
 
       return hasNonZeroShow || hasNonZeroSet;
@@ -184,7 +188,7 @@ const OperationCardIssueButton = ({
       return updatedObj;
     });
 
-    console.log('modal filterArray', filterArray);
+    // console.log('modal filterArray', filterArray);
 
     const index = filterArray?.findIndex(
       (obj: any) => obj.label === 'in_weight'
@@ -227,6 +231,13 @@ const OperationCardIssueButton = ({
       alteredObjToCreateDropDownFields
     );
   };
+  let funcData: any;
+  let setKey: any;
+  const propertiesToCheck: string[] = [
+    'label',
+    'show_in_weight',
+    'set_in_weight',
+  ];
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
@@ -265,33 +276,37 @@ const OperationCardIssueButton = ({
           <div className="row">
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
-                let propToPass: any;
-                let funcData: any;
-                const setKey: any = `set_${val.label
-                  .toLowerCase()
-                  .replace(' ', '_')}`;
+                // console.log('val label', val);
+                if (propertiesToCheck.every((prop) => prop in val)) {
+                  let propToPass: any;
 
-                const handleField = (val: any) => {
-                  const propMappings: any = {
-                    machine_size: operationCardMachineSize,
-                    thickness: operationCardThickness,
-                    variant: operationCardVariant,
-                    karigar: operationCardKarigar,
-                    concept: operationCardConcept,
-                    next_karigar: operationCardNextKarigar,
-                    next_design: operationCardNextDesign,
-                    next_design_code_type: operationCardNextDesignCodeType,
-                    design_code_category: operationCardDesignCodeCategory,
-                    next_product_process: operationCardNextProductProcess,
-                    next_product_process_department:
-                      operationCardNextProductProcessDepartment,
-                    next_product_category: operationCardNextProductCategory,
-                    gpc_product: operationCardProduct,
+                  setKey = `set_${val.label.toLowerCase().replace(' ', '_')}`;
+
+                  const handleField = (val: any) => {
+                    const propMappings: any = {
+                      machine_size: operationCardMachineSize,
+                      thickness: operationCardThickness,
+                      variant: operationCardVariant,
+                      karigar: operationCardKarigar,
+                      concept: operationCardConcept,
+                      next_karigar: operationCardNextKarigar,
+                      next_design: operationCardNextDesign,
+                      next_design_code_type: operationCardNextDesignCodeType,
+                      design_code_category: operationCardDesignCodeCategory,
+                      next_product_process: operationCardNextProductProcess,
+                      next_product_process_department:
+                        operationCardNextProductProcessDepartment,
+                      next_product_category: operationCardNextProductCategory,
+                      gpc_product: operationCardProduct,
+                    };
+                    propToPass = propMappings[val];
+                    return propToPass;
                   };
-                  propToPass = propMappings[val];
-                  return propToPass;
-                };
-                funcData = handleField(val?.label);
+                  funcData = handleField(val?.label);
+                } else {
+                  // Code to handle the case when at least one property is missing
+                }
+
                 return (
                   <div className="col-md-4 " key={i}>
                     {checkArray?.includes(val?.label) ? (
