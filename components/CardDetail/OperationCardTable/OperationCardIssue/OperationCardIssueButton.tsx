@@ -225,11 +225,11 @@ const OperationCardIssueButton = ({
     setModalFieldValuesState(alteredObjToCreateDataFields);
 
     setModalDropdownFields(alteredObjToCreateDropDownFields);
-    console.log('getvalues', getValues);
-    console.log(
-      'alteredObjToCreateDropDownFields',
-      alteredObjToCreateDropDownFields
-    );
+    // console.log('getvalues', getValues);
+    // console.log(
+    //   'alteredObjToCreateDropDownFields',
+    //   alteredObjToCreateDropDownFields
+    // );
   };
   let funcData: any;
   let setKey: any;
@@ -271,41 +271,40 @@ const OperationCardIssueButton = ({
           <h6 className="">Item: {itemName}</h6>
         </Modal.Header>
         <Modal.Body>
-          {' '}
           <div className="d-flex justify-content-between "></div>
           <div className="row">
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
                 // console.log('val label', val);
-                if (propertiesToCheck.every((prop) => prop in val)) {
-                  let propToPass: any;
+                let propToPass: any;
 
-                  setKey = `set_${val.label.toLowerCase().replace(' ', '_')}`;
+                setKey =
+                  'label' in val ||
+                  'show_in_weight' in val ||
+                  ('set_in_weight' in val &&
+                    `set_${val.label?.toLowerCase()?.replace(' ', '_')}`);
 
-                  const handleField = (val: any) => {
-                    const propMappings: any = {
-                      machine_size: operationCardMachineSize,
-                      thickness: operationCardThickness,
-                      variant: operationCardVariant,
-                      karigar: operationCardKarigar,
-                      concept: operationCardConcept,
-                      next_karigar: operationCardNextKarigar,
-                      next_design: operationCardNextDesign,
-                      next_design_code_type: operationCardNextDesignCodeType,
-                      design_code_category: operationCardDesignCodeCategory,
-                      next_product_process: operationCardNextProductProcess,
-                      next_product_process_department:
-                        operationCardNextProductProcessDepartment,
-                      next_product_category: operationCardNextProductCategory,
-                      gpc_product: operationCardProduct,
-                    };
-                    propToPass = propMappings[val];
-                    return propToPass;
+                const handleField = (val: any) => {
+                  const propMappings: any = {
+                    machine_size: operationCardMachineSize,
+                    thickness: operationCardThickness,
+                    variant: operationCardVariant,
+                    karigar: operationCardKarigar,
+                    concept: operationCardConcept,
+                    next_karigar: operationCardNextKarigar,
+                    next_design: operationCardNextDesign,
+                    next_design_code_type: operationCardNextDesignCodeType,
+                    design_code_category: operationCardDesignCodeCategory,
+                    next_product_process: operationCardNextProductProcess,
+                    next_product_process_department:
+                      operationCardNextProductProcessDepartment,
+                    next_product_category: operationCardNextProductCategory,
+                    gpc_product: operationCardProduct,
                   };
-                  funcData = handleField(val?.label);
-                } else {
-                  // Code to handle the case when at least one property is missing
-                }
+                  propToPass = propMappings[val];
+                  return propToPass;
+                };
+                funcData = handleField(val?.label);
 
                 return (
                   <div className="col-md-4 " key={i}>
