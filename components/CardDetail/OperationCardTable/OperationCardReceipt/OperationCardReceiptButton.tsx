@@ -89,7 +89,7 @@ const OperationCardReciptButton = ({
     };
     const callSaveAPI: any = await POSTModalData(
       'receipt',
-      splitValue[1],
+      decodeURI(splitValue[1]),
       mergedObjs,
       token
     );

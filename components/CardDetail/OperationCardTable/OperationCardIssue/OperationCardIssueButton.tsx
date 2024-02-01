@@ -98,7 +98,7 @@ const OperationCardIssueButton = ({
     console.log('mergedObjs', mergedObjs);
     const callSaveAPI: any = await POSTModalData(
       'issue',
-      splitValue[1],
+      decodeURI(splitValue[1]),
       mergedObjs,
       token
     );
