@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import inputField from '../../DataSet/operationCardListingField';
 import OperationCardSearchField from '../OperationCardSearch/OperationCardSearchField';
 import { useRouter } from 'next/navigation';
+import GETOperationCardListData from '@/services/api/operation-card-list-page/operation-card-list-api';
 
 const OperationCardListingField = ({
   filtersData,
@@ -12,6 +13,7 @@ const OperationCardListingField = ({
   URLForFiltersHandler,
   handleKeyDownEnter,
   constructUrl,
+  handelCheckbox,
 }: any) => {
   console.log('filtersData', filtersData);
   const focusRef = useRef<any>(null);
@@ -31,7 +33,16 @@ const OperationCardListingField = ({
       router.push(`/operation-card-list?search=${searchField}`);
     }
   };
-
+  const [isSubscribed, setIsSubscribed] = useState(0);
+  const handleChange = (event: any) => {
+    if (event.target.checked) {
+      // console.log('✅ Checkbox is checked');
+      setIsSubscribed(1);
+    } else {
+      setIsSubscribed(0);
+      // console.log('⛔️ Checkbox is NOT checked');
+    }
+  };
   useEffect(() => {
     focusRef.current.focus();
   }, []);
@@ -79,7 +90,11 @@ const OperationCardListingField = ({
         </Link>
         <div>
           <label>
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              value={isSubscribed}
+              onChange={handleChange}
+            />
             <span className="ps-2">show zero balance record</span>
           </label>
         </div>

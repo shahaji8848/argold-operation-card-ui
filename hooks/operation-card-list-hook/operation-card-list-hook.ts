@@ -13,6 +13,7 @@ const useOperationCardList = () => {
   const [listData, setListData] = useState<any>([]);
 
   const [filtersClear, setFiltersClear] = useState(0);
+  const [checked, setChecked] = useState(false);
   const [filtersData, setFiltersData] = useState<FieldTypes>({
     search: '',
     name: '',
@@ -60,7 +61,9 @@ const useOperationCardList = () => {
   const handleApplyFilters = () => {
     URLForFiltersHandler();
   };
-
+  const handelCheckbox = () => {
+    URLForFiltersHandler();
+  };
   useEffect(() => {
     const url = new URL(window.location.href);
 
@@ -99,6 +102,7 @@ const useOperationCardList = () => {
     }));
 
     getOperationCardListFromAPI(searchParamsString);
+
     // URLForFiltersHandler();
   }, [searchParams]);
 
@@ -143,6 +147,7 @@ const useOperationCardList = () => {
     handleKeyDownEnter,
     URLForFiltersHandler,
     constructUrl,
+    handelCheckbox,
   };
 };
 
