@@ -80,6 +80,8 @@ const OperationCardReciptButton = ({
   const handleSubmit = async () => {
     console.log('modal list keys data fields', modalFieldValuesState);
     console.log('modal list keys dropdown fields', modalDropdownFields);
+    const hrefValue = window.location.href;
+    const splitValue = hrefValue.split('=');
     const mergedObjs = {
       ...modalFieldValuesState,
       ...modalDropdownFields,
@@ -87,7 +89,7 @@ const OperationCardReciptButton = ({
     };
     const callSaveAPI: any = await POSTModalData(
       'receipt',
-      search,
+      splitValue[1],
       mergedObjs,
       token
     );

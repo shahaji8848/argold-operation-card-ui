@@ -88,6 +88,8 @@ const OperationCardIssueButton = ({
   const handleSubmit = async () => {
     console.log('modal list keys data fields', modalFieldValuesState);
     console.log('modal list keys dropdown fields', modalDropdownFields);
+    const hrefValue = window.location.href;
+    const splitValue = hrefValue.split('=');
     const mergedObjs = {
       ...modalFieldValuesState,
       ...modalDropdownFields,
@@ -96,7 +98,7 @@ const OperationCardIssueButton = ({
     console.log('mergedObjs', mergedObjs);
     const callSaveAPI: any = await POSTModalData(
       'issue',
-      search,
+      splitValue[1],
       mergedObjs,
       token
     );
