@@ -77,6 +77,12 @@ const OperationCardListingField = ({
         >
           Clear Filter
         </Link>
+        <div>
+          <label>
+            <input type="checkbox" />
+            <span className="ps-2">show zero balance record</span>
+          </label>
+        </div>
       </div>
     </div>
   );
