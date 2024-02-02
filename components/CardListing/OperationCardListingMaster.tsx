@@ -16,7 +16,7 @@ const OperationCardListingMaster = () => {
     // listData,
     filtersData,
     handleInputChange,
-    handleApplyFilters,
+    // handleApplyFilters,
     handleClearFilters,
     handleKeyDownEnter,
     URLForFiltersHandler,
@@ -37,10 +37,12 @@ const OperationCardListingMaster = () => {
     }
     // setFiltersClear(0);
   };
-
   const handleCheckbox = () => {
     // Toggle the value
     setShowZeroBalance((prevShowZeroBalance) => !prevShowZeroBalance);
+  };
+  const handleApplyFilters = () => {
+    URLForFiltersHandler();
     const url = new URL(window.location.href);
 
     // Get the search parameters
@@ -79,7 +81,7 @@ const OperationCardListingMaster = () => {
     }));
 
     // Set the value of show_zero_balance in the URL
-    searchParams.set('show_zero_balance', showZeroBalance ? '0' : '1');
+    searchParams.set('show_zero_balance', showZeroBalance ? '1' : '0');
 
     // Trigger API call with the updated state
     const updatedURL: any = url.search.split('?').pop();
