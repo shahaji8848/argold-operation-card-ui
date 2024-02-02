@@ -79,7 +79,7 @@ const OperationCardListingMaster = () => {
     }));
 
     // Set the value of show_zero_balance in the URL
-    searchParams.set('show_zero_balance', showZeroBalance ? '1' : '0');
+    searchParams.set('show_zero_balance', showZeroBalance ? '0' : '1');
 
     // Trigger API call with the updated state
     const updatedURL: any = url.search.split('?').pop();
