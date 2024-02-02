@@ -83,7 +83,7 @@ const OperationCardListingMaster = () => {
 
     // Trigger API call with the updated state
     const updatedURL: any = url.search.split('?').pop();
-    console.log(updatedURL, 'updatedURL');
+    // console.log(updatedURL, 'updatedURL');
     getOperationCardListFromAPI(updatedURL);
     console.log('searchParamsStringsdsd', updatedURL);
     // URLForFiltersHandler();
