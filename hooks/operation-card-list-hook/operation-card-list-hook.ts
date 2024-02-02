@@ -24,17 +24,27 @@ const useOperationCardList = () => {
     operation_department: '',
     product_process_department: '',
     karigar: '',
+    show_zero_balance: 0 || 1,
   });
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     fieldName: string
   ) => {
-    setFiltersData((prevFiltersData: any) => ({
-      ...prevFiltersData,
-      [fieldName]: e.target.value,
-    }));
+    // console.log('val', e.target.checked, fieldName);
+    if (fieldName === 'show_zero_balance') {
+      setFiltersData((prevFiltersData: any) => ({
+        ...prevFiltersData,
+        [fieldName]: e.target.checked ? 1 : 0,
+      }));
+    } else {
+      setFiltersData((prevFiltersData: any) => ({
+        ...prevFiltersData,
+        [fieldName]: e.target.value,
+      }));
+    }
   };
+
   const constructUrl = (filtersData: any) => {
     const currentUrl = new URL(window.location.href);
     const queryString = Object.entries(filtersData)
@@ -85,6 +95,7 @@ const useOperationCardList = () => {
       operation_department: '',
       product_process_department: '',
       karigar: '',
+      show_zero_balance: false,
     };
 
     keyValuePairs.forEach((keyValuePair) => {
@@ -117,6 +128,7 @@ const useOperationCardList = () => {
       operation_department: '',
       product_process_department: '',
       karigar: '',
+      show_zero_balance: false,
     });
 
     setFiltersClear(1);
