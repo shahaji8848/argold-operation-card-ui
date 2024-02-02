@@ -78,8 +78,6 @@ const OperationCardReciptButton = ({
   };
 
   const handleSubmit = async () => {
-    console.log('modal list keys data fields', modalFieldValuesState);
-    console.log('modal list keys dropdown fields', modalDropdownFields);
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
     const mergedObjs = {
@@ -93,7 +91,6 @@ const OperationCardReciptButton = ({
       mergedObjs,
       token
     );
-    console.log('api', callSaveAPI);
     if (callSaveAPI?.status === 200) {
       operationCardDetail();
       handleClose();
