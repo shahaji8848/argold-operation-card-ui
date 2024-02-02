@@ -8,5 +8,5 @@ export interface FieldTypes {
   operation_department: string;
   product_process_department: string;
   karigar: string;
-  show_zero_balance: any;
+  show_zero_balance?: any;
 }

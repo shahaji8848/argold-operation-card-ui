@@ -98,19 +98,19 @@ const OperationCardListingTable = ({ data }: any) => {
                     <td className="text-end">
                       {rowData?.balance_weight && rowData?.balance_weight !== 0
                         ? rowData?.balance_weight.toFixed(3)
-                        : '0'}
+                        : rowData?.balance_weight.toFixed(3)}
                     </td>
                     <td className="text-end">
                       {rowData?.balance_gross_weight &&
                       rowData?.balance_gross_weight !== 0
                         ? rowData?.balance_gross_weight.toFixed(3)
-                        : '0'}
+                        : rowData?.balance_gross_weight.toFixed(3)}
                     </td>
                     <td className="text-end">
                       {rowData?.balance_fine_weight &&
                       rowData?.balance_fine_weight !== 0
                         ? rowData?.balance_fine_weight.toFixed(3)
-                        : '0'}
+                        : rowData?.balance_fine_weight.toFixed(3)}
                     </td>
                     <td>
                       <Link

@@ -24,7 +24,7 @@ const useOperationCardList = () => {
     operation_department: '',
     product_process_department: '',
     karigar: '',
-    show_zero_balance: 0 || 1,
+    // show_zero_balance: 0 || 1,
   });
 
   const handleInputChange = (
@@ -32,17 +32,17 @@ const useOperationCardList = () => {
     fieldName: string
   ) => {
     // console.log('val', e.target.checked, fieldName);
-    if (fieldName === 'show_zero_balance') {
-      setFiltersData((prevFiltersData: any) => ({
-        ...prevFiltersData,
-        [fieldName]: e.target.checked ? 1 : 0,
-      }));
-    } else {
-      setFiltersData((prevFiltersData: any) => ({
-        ...prevFiltersData,
-        [fieldName]: e.target.value,
-      }));
-    }
+    // if (fieldName === 'show_zero_balance') {
+    //   setFiltersData((prevFiltersData: any) => ({
+    //     ...prevFiltersData,
+    //     [fieldName]: e.target.checked ? 1 : 0,
+    //   }));
+    // } else {
+    // }
+    setFiltersData((prevFiltersData: any) => ({
+      ...prevFiltersData,
+      [fieldName]: e.target.value,
+    }));
   };
 
   const constructUrl = (filtersData: any) => {
@@ -95,7 +95,7 @@ const useOperationCardList = () => {
       operation_department: '',
       product_process_department: '',
       karigar: '',
-      show_zero_balance: false,
+      // show_zero_balance: false,
     };
 
     keyValuePairs.forEach((keyValuePair) => {
@@ -128,7 +128,7 @@ const useOperationCardList = () => {
       operation_department: '',
       product_process_department: '',
       karigar: '',
-      show_zero_balance: false,
+      // show_zero_balance: false,
     });
 
     setFiltersClear(1);

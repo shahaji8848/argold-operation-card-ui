@@ -84,11 +84,16 @@ const OperationCardListingField = ({
         </Link>
         <div>
           <label>
-            <input
+            {/* <input
               type="checkbox"
               name="show_zero_balance"
               checked={filtersData['show_zero_balance']}
               onChange={(e: any) => handleInputChange(e, 'show_zero_balance')}
+            /> */}
+            <input
+              type="checkbox"
+              checked={showZeroBalance}
+              onChange={handleCheckbox}
             />
             <span className="ps-2">Show zero balance record</span>
           </label>
