@@ -50,6 +50,8 @@ const OperationCardReciptButton = ({
   ];
 
   const [show, setShow] = useState(false);
+  const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false);
+
   const [showToastErr, setShowToastErr] = useState<boolean>(false);
 
   const [errMessage, setErrMessage] = useState<any>('');
@@ -78,6 +80,7 @@ const OperationCardReciptButton = ({
   };
 
   const handleSubmit = async () => {
+    setDisableSubmitBtn((prev) => !prev);
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
     const mergedObjs = {
@@ -85,27 +88,33 @@ const OperationCardReciptButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    const callSaveAPI: any = await POSTModalData(
-      'receipt',
-      decodeURI(splitValue[1]),
-      mergedObjs,
-      token
-    );
-    if (callSaveAPI?.status === 200) {
-      operationCardDetail();
-      handleClose();
-    } else {
-      handleClose();
-      const parsedObject = JSON.parse(
-        callSaveAPI?.response?.data?._server_messages
+    try {
+      const callSaveAPI: any = await POSTModalData(
+        'receipt',
+        decodeURI(splitValue[1]),
+        mergedObjs,
+        token
       );
+      if (callSaveAPI?.status === 200) {
+        operationCardDetail();
+        handleClose();
+      } else {
+        handleClose();
+        const parsedObject = JSON.parse(
+          callSaveAPI?.response?.data?._server_messages
+        );
 
-      // Access the "message" property
-      const messageValue = parsedObject[0]
-        ? JSON.parse(parsedObject[0]).message
-        : null;
-      setErrMessage(messageValue);
-      setShowToastErr(true);
+        // Access the "message" property
+        const messageValue = parsedObject[0]
+          ? JSON.parse(parsedObject[0]).message
+          : null;
+        setErrMessage(messageValue);
+        setShowToastErr(true);
+      }
+    } catch (error) {
+      setErrMessage('Some error occured while saving the entry');
+    } finally {
+      setDisableSubmitBtn((prev) => !prev);
     }
   };
   const handleClose = () => setShow(false);
@@ -275,6 +284,7 @@ const OperationCardReciptButton = ({
                 type="button"
                 className={`btn btn-blueColor ${styles.submit_btn} `}
                 onClick={handleSubmit}
+                disabled={disableSubmitBtn}
               >
                 Submit
               </button>

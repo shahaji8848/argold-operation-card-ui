@@ -53,9 +53,10 @@ const OperationCardIssueButton = ({
   ];
 
   const [show, setShow] = useState(false);
+  const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false);
   const [showToastErr, setShowToastErr] = useState<boolean>(false);
 
-  const [errMessage, setErrMessage] = useState<any>('');
+  const [errMessage, setErrMessage] = useState<string>('');
   const [itemName, setItemName] = useState('');
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
@@ -86,8 +87,7 @@ const OperationCardIssueButton = ({
   };
 
   const handleSubmit = async () => {
-    console.log('modal list keys data fields', modalFieldValuesState);
-    console.log('modal list keys dropdown fields', modalDropdownFields);
+    setDisableSubmitBtn((prev) => !prev);
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
     const mergedObjs = {
@@ -95,29 +95,33 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    console.log('mergedObjs', mergedObjs);
-    const callSaveAPI: any = await POSTModalData(
-      'issue',
-      decodeURI(splitValue[1]),
-      mergedObjs,
-      token
-    );
-    console.log('api', callSaveAPI);
-    if (callSaveAPI?.status === 200) {
-      operationCardDetail();
-      handleClose();
-    } else {
-      handleClose();
-      const parsedObject = JSON.parse(
-        callSaveAPI?.response?.data?._server_messages
+    try {
+      const callSaveAPI: any = await POSTModalData(
+        'issue',
+        decodeURI(splitValue[1]),
+        mergedObjs,
+        token
       );
-
-      // Access the "message" property
-      const messageValue = parsedObject[0]
-        ? JSON.parse(parsedObject[0]).message
-        : null;
-      setErrMessage(messageValue);
-      setShowToastErr(true);
+      console.log('api', callSaveAPI);
+      if (callSaveAPI?.status === 200) {
+        operationCardDetail();
+        handleClose();
+      } else {
+        handleClose();
+        const parsedObject = JSON.parse(
+          callSaveAPI?.response?.data?._server_messages
+        );
+        // Access the "message" property
+        const messageValue = parsedObject[0]
+          ? JSON.parse(parsedObject[0]).message
+          : null;
+        setErrMessage(messageValue);
+        setShowToastErr(true);
+      }
+    } catch (error) {
+      setErrMessage('Some error occured while saving the entry');
+    } finally {
+      setDisableSubmitBtn((prev) => !prev);
     }
   };
   const handleClose = () => setShow(false);
@@ -388,6 +392,7 @@ const OperationCardIssueButton = ({
                 type="button"
                 className={`btn btn-blueColor ${styles.submit_btn}`}
                 onClick={handleSubmit}
+                disabled={disableSubmitBtn}
               >
                 Save
               </button>
