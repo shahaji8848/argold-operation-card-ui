@@ -35,6 +35,14 @@ const MeltingLotData = ({ operationCardDetailData }: any) => {
           </div>
           <div className="fs-14 mob-px">Accessories </div>
         </div>
+        <div className="col-md-3 p-0 m-0 mob-reverse-content">
+          <div className="fs-14 bold mob-text-start">
+            {operationCardDetailData?.tracking_number === ''
+              ? '--'
+              : operationCardDetailData?.tracking_number}
+          </div>
+          <div className="fs-14 mob-px">Tracking No. </div>
+        </div>
       </div>
     </div>
   );
