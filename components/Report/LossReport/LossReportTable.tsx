@@ -1,6 +1,7 @@
 import React from 'react';
 
-const LossReportTable = () => {
+const LossReportTable = ({ reportLossData }: any) => {
+  console.log(reportLossData, 'reportLossData');
   return (
     <table className="table table-bordered mt-2">
       <thead className="card-listing-head ">
@@ -23,115 +24,24 @@ const LossReportTable = () => {
           ))}
         </tr>
       </thead>
+
       <tbody className="card-listing-body">
-        <tr>
-          <td>outside refine water recovery</td>
-          <td>0.001</td>
-          <td>271599.00</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.30334534</td>
-        </tr>
-        <tr>
-          <td>outside refine water recovery</td>
-          <td>0.001</td>
-          <td>271599.00</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.30334534</td>
-        </tr>
-        <tr>
-          <td>outside refine water recovery</td>
-          <td>0.001</td>
-          <td>271599.00</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.30334534</td>
-        </tr>
-        <tr>
-          <td>outside refine water recovery</td>
-          <td>0.001</td>
-          <td>271599.00</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.30334534</td>
-        </tr>
-        <tr>
-          <td>outside refine water recovery</td>
-          <td>0.001</td>
-          <td>271599.00</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.30334534</td>
-        </tr>
-        <tr>
-          <td>outside refine water recovery</td>
-          <td>0.001</td>
-          <td>271599.00</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.30334534</td>
-        </tr>
-        <tr>
-          <td>outside refine water recovery</td>
-          <td>0.001</td>
-          <td>271599.00</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.30334534</td>
-        </tr>{' '}
-        <tr>
-          <td>outside refine water recovery</td>
-          <td>0.001</td>
-          <td>271599.00</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.30334534</td>
-        </tr>
-        <tr>
-          <td>outside refine water recovery</td>
-          <td>0.001</td>
-          <td>271599.00</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.303</td>
-          <td>0.30334534</td>
-        </tr>
+        {reportLossData?.map((lossData: any, idx: any) => {
+          return (
+            <tr key={idx}>
+              <td>{lossData?.department_group}</td>
+              <td className="text-end">{lossData?.total_fine_weight}</td>
+              <td className="text-end">{lossData?.in_gross_weight}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
