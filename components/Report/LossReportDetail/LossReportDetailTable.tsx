@@ -10,8 +10,9 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
   console.log('search ', decodedUrl);
   return (
     <>
-      <div className=" text-uppercase fw-semibold fs-14 my-3">
-        <span className="blue">Loss Report :</span> {decodedUrl} Report
+      <div className="   mb-4 bold header-heading-mob">
+        <span className="blue text-uppercase ">Loss Report :</span> {decodedUrl}{' '}
+        Report
       </div>
 
       <div className="table-responsive">
@@ -19,17 +20,32 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
           <thead className="card-listing-head ">
             <tr>
               {[
-                'type of loss',
-                'fine loss',
-                'total out weight',
+                'date',
+                'loss period',
+                'in loss gross',
+                'purity',
+                'in loss fine',
+                'out weight',
                 'per kg loss',
                 'metal receive after recovery',
                 'recovered loss',
                 'per kg loss after recovery',
-                'unrecoverable loss',
+                'unrecoverable',
                 'balance loss',
                 '% recovered',
-                'Operation card',
+                'OC',
+                'Action',
+
+                // 'fine loss',
+                // 'total out weight',
+                // 'per kg loss',
+                // 'metal receive after recovery',
+                // 'recovered loss',
+                // 'per kg loss after recovery',
+                // 'unrecoverable loss',
+                // 'balance loss',
+                // '% recovered',
+                // 'OC',
               ].map((val: any, index: any) => (
                 <th className=" text-center" scope="col" key={index}>
                   {val}
@@ -41,7 +57,11 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
             {reportLossDetailData.map((lossData: any, idx: any) => {
               return (
                 <tr key={idx}>
-                  <td>{lossData?.type_of_loss}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  {/* <td>{lossData?.type_of_loss}</td> */}
+                  <td></td>
                   <td className="text-end">
                     {lossData?.fine_loss?.toFixed(3)}
                   </td>
@@ -80,9 +100,10 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
                     <Link
                       href={`/operation-card-detail?name=${lossData?.operation_card}`}
                     >
-                      {lossData?.operation_card}
+                      {lossData?.operation_card.split('-').pop()}
                     </Link>
                   </td>
+                  <td></td>
                 </tr>
               );
             })}

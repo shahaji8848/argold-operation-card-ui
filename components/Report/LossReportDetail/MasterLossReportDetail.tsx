@@ -10,7 +10,7 @@ const MasterLossReportDetail = () => {
   return (
     <div className="spacing-mt spacing-pd">
       <div className="row">
-        <div className="col-md-12 mt-3">
+        <div className="col-md-12 ">
           <LossReportDetailTable reportLossDetailData={reportLossDetailData} />
         </div>
       </div>
