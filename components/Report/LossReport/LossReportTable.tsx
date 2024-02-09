@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const LossReportTable = ({ reportLossData }: any) => {
@@ -30,7 +31,13 @@ const LossReportTable = ({ reportLossData }: any) => {
             reportLossData?.map((lossData: any, idx: any) => {
               return (
                 <tr key={idx}>
-                  <td>{lossData?.type_of_loss}</td>
+                  <td>
+                    <Link
+                      href={`/report/loss-report?department_group=${lossData?.type_of_loss}`}
+                    >
+                      {lossData?.type_of_loss}
+                    </Link>
+                  </td>
                   <td className="text-end">
                     {lossData?.fine_loss?.toFixed(3)}
                   </td>
@@ -50,10 +57,16 @@ const LossReportTable = ({ reportLossData }: any) => {
                     {lossData?.per_kg_loss_after_recovery?.toFixed(3)}
                   </td>
                   <td className="text-end">
-                    {lossData?.uncrecoverable_loss?.toFixed(3)}
+                    {lossData?.uncrecoverable_loss &&
+                    lossData?.uncrecoverable_loss !== null
+                      ? lossData?.uncrecoverable_loss?.toFixed(3)
+                      : '--'}
                   </td>
                   <td className="text-end">
-                    {lossData?.balance_loss?.toFixed(3)}
+                    {lossData?.balance_loss && lossData?.balance_loss !== null
+                      ? lossData?.balance_loss?.toFixed(3)
+                      : '--'}
+                    {/* {lossData?.balance_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
                     {lossData?.percentage_recovered?.toFixed(3)}
