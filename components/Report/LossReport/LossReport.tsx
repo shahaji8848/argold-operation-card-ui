@@ -6,7 +6,7 @@ const LossReport = () => {
       <div className="blue text-uppercase fw-semibold fs-14 my-3">
         Loss Report
       </div>
-      <div className="row ">
+      {/* <div className="row ">
         <div className="col-md-2">
           <div className=" fs-14 ">
             <div className="row">
@@ -40,7 +40,7 @@ const LossReport = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
