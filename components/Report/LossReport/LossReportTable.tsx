@@ -1,7 +1,6 @@
 import React from 'react';
 
 const LossReportTable = ({ reportLossData }: any) => {
-  console.log(reportLossData, 'reportLossData');
   return (
     <div className="table-responsive">
       <table className="table table-bordered mt-2">
@@ -27,22 +26,27 @@ const LossReportTable = ({ reportLossData }: any) => {
         </thead>
 
         <tbody className="card-listing-body">
-          {reportLossData?.map((lossData: any, idx: any) => {
-            return (
-              <tr key={idx}>
-                <td>{lossData?.department_group}</td>
-                <td className="text-end">{lossData?.total_fine_weight}</td>
-                <td className="text-end">{lossData?.in_gross_weight}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            );
-          })}
+          {reportLossData?.length > 0 &&
+            reportLossData?.map((lossData: any, idx: any) => {
+              return (
+                <tr key={idx}>
+                  <td>{lossData?.type_of_loss}</td>
+                  <td className="text-end">{lossData?.fine_loss}</td>
+                  <td className="text-end">{lossData?.total_out_weight}</td>
+                  <td className="text-end">{lossData?.per_kg_loss}</td>
+                  <td className="text-end">
+                    {lossData?.metal_recieved_after_recovery}
+                  </td>
+                  <td className="text-end">{lossData?.recovered_loss}</td>
+                  <td className="text-end">
+                    {lossData?.per_kg_loss_after_recovery}
+                  </td>
+                  <td className="text-end">{lossData?.uncrecoverable_loss}</td>
+                  <td className="text-end">{lossData?.balance_loss}</td>
+                  <td className="text-end">{lossData?.percentage_recovered}</td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
