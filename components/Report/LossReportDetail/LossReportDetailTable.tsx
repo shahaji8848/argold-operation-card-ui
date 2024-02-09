@@ -40,7 +40,12 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
       console.log('totalOutWeight', totalOutWeight);
       const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
       console.log('totalPerKgLoss', totalPerKgLoss);
-      return totalPerKgLoss.toFixed(3);
+
+      if (totalPerKgLoss !== 0) {
+        return totalPerKgLoss.toFixed(3);
+      } else {
+        return '--';
+      }
     }
 
     if (column === 'per_kg_loss_after_recovery') {
@@ -61,14 +66,23 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
       console.log('totalRecoveredLoss', totalRecoveredLoss);
       const diff = totalfineLoss - totalRecoveredLoss;
       const totalkglossrecored = (diff / totalOutWeight) * 1000;
-      return totalkglossrecored.toFixed(3);
+      // return totalkglossrecored.toFixed(3);
+      if (totalkglossrecored !== 0) {
+        return totalkglossrecored.toFixed(3);
+      } else {
+        ('--');
+      }
     }
 
     const total = data.reduce((acc: number, item: any) => {
       return acc + item[column];
     }, 0);
 
-    return total.toFixed(3);
+    if (total !== 0) {
+      return total.toFixed(3);
+    } else {
+      return '--';
+    }
   };
 
   return (
@@ -127,44 +141,69 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
             {reportLossDetailData?.map((lossData: any, idx: any) => {
               return (
                 <tr key={idx}>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  {/* <td>{lossData?.type_of_loss}</td> */}
-                  <td></td>
+                  <td>{lossData?.date}</td>
+                  <td>{lossData?.loss_period}</td>
+                  <td>{lossData?.in_loss_gross}</td>
+
+                  <td>{lossData?.purity}</td>
                   <td className="text-end">
-                    {lossData?.fine_loss?.toFixed(3)}
+                    {lossData?.fine_loss && lossData?.fine_loss !== 0
+                      ? lossData?.fine_loss?.toFixed(3)
+                      : '--'}
+                    {/* {lossData?.fine_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {lossData?.total_out_weight?.toFixed(3)}
+                    {lossData?.total_out_weight &&
+                    lossData?.total_out_weight !== 0
+                      ? lossData?.total_out_weight?.toFixed(3)
+                      : '--'}
+                    {/* {lossData?.total_out_weight?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {lossData?.per_kg_loss?.toFixed(3)}
+                    {lossData?.per_kg_loss && lossData?.per_kg_loss !== 0
+                      ? lossData?.per_kg_loss?.toFixed(3)
+                      : '--'}
+                    {/* {lossData?.per_kg_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {lossData?.metal_recieved_after_recovery?.toFixed(3)}
+                    {lossData?.metal_recieved_after_recovery &&
+                    lossData?.metal_recieved_after_recovery !== 0
+                      ? lossData?.metal_recieved_after_recovery?.toFixed(3)
+                      : '--'}
+                    {/* {lossData?.metal_recieved_after_recovery?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {lossData?.recovered_loss?.toFixed(3)}
+                    {lossData?.recovered_loss && lossData?.recovered_loss !== 0
+                      ? lossData?.recovered_loss?.toFixed(3)
+                      : '--'}
+                    {/* {lossData?.recovered_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {lossData?.per_kg_loss_after_recovery?.toFixed(3)}
+                    {lossData?.per_kg_loss_after_recovery &&
+                    lossData?.per_kg_loss_after_recovery !== 0
+                      ? lossData?.per_kg_loss_after_recovery?.toFixed(3)
+                      : '--'}
+                    {/* {lossData?.per_kg_loss_after_recovery?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {/* {lossData?.uncrecoverable_loss &&
-                    lossData?.uncrecoverable_loss !== null
+                    {lossData?.uncrecoverable_loss &&
+                    lossData?.uncrecoverable_loss !== 0
                       ? lossData?.uncrecoverable_loss?.toFixed(3)
-                      : '--'} */}
-                    {lossData?.uncrecoverable_loss?.toFixed(3)}
+                      : '--'}
+                    {/* {lossData?.uncrecoverable_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {/* {lossData?.balance_loss && lossData?.balance_loss !== null
+                    {lossData?.balance_loss && lossData?.balance_loss !== 0
                       ? lossData?.balance_loss?.toFixed(3)
-                      : '--'} */}
-                    {lossData?.balance_loss?.toFixed(3)}
+                      : '--'}
+                    {/* {lossData?.balance_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {lossData?.percentage_recovered?.toFixed(3)}
+                    {lossData?.percentage_recovered &&
+                    lossData?.percentage_recovered !== 0
+                      ? lossData?.percentage_recovered?.toFixed(3)
+                      : '--'}
+                    {/* {lossData?.percentage_recovered?.toFixed(3)} */}
                   </td>
                   <td>
                     <Link
