@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import LossReportDetail from './LossReportDetailTable';
 import LossReportDetailTable from './LossReportDetailTable';
 import useReportLossDetail from '@/hooks/report-loss-detail.hooks';
 

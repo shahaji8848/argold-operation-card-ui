@@ -57,16 +57,17 @@ const LossReportTable = ({ reportLossData }: any) => {
                     {lossData?.per_kg_loss_after_recovery?.toFixed(3)}
                   </td>
                   <td className="text-end">
-                    {lossData?.uncrecoverable_loss &&
+                    {/* {lossData?.uncrecoverable_loss &&
                     lossData?.uncrecoverable_loss !== null
                       ? lossData?.uncrecoverable_loss?.toFixed(3)
-                      : '--'}
+                      : '--'} */}
+                    {lossData?.uncrecoverable_loss?.toFixed(3)}
                   </td>
                   <td className="text-end">
-                    {lossData?.balance_loss && lossData?.balance_loss !== null
+                    {/* {lossData?.balance_loss && lossData?.balance_loss !== null
                       ? lossData?.balance_loss?.toFixed(3)
-                      : '--'}
-                    {/* {lossData?.balance_loss?.toFixed(3)} */}
+                      : '--'} */}
+                    {lossData?.balance_loss?.toFixed(3)}
                   </td>
                   <td className="text-end">
                     {lossData?.percentage_recovered?.toFixed(3)}
