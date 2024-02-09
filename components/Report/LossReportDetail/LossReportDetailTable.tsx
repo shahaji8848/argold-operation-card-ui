@@ -27,9 +27,43 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
   //   }
   // };
   const CalculateTotal = (column: string, data: any[]) => {
-    if (column === 'per_kg_loss' || column === 'per_kg_loss_after_recovery') {
-      return '';
+    if (column === 'per_kg_loss') {
+      const totalfineLoss = data.reduce(
+        (total: any, item: any) => total + item['fine_loss'],
+        0
+      );
+      console.log('totalfineLoss', totalfineLoss);
+      const totalOutWeight = data.reduce(
+        (total: any, item: any) => total + item['total_out_weight'],
+        0
+      );
+      console.log('totalOutWeight', totalOutWeight);
+      const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
+      console.log('totalPerKgLoss', totalPerKgLoss);
+      return totalPerKgLoss.toFixed(3);
     }
+
+    if (column === 'per_kg_loss_after_recovery') {
+      const totalfineLoss = data.reduce(
+        (total: any, item: any) => total + item['fine_loss'],
+        0
+      );
+      console.log('totalfineLoss', totalfineLoss);
+      const totalOutWeight = data.reduce(
+        (total: any, item: any) => total + item['total_out_weight'],
+        0
+      );
+      console.log('totalOutWeight', totalOutWeight);
+      const totalRecoveredLoss = data.reduce(
+        (total: any, item: any) => total + item['recovered_loss'],
+        0
+      );
+      console.log('totalRecoveredLoss', totalRecoveredLoss);
+      const diff = totalfineLoss - totalRecoveredLoss;
+      const totalkglossrecored = (diff / totalOutWeight) * 1000;
+      return totalkglossrecored.toFixed(3);
+    }
+
     const total = data.reduce((acc: number, item: any) => {
       return acc + item[column];
     }, 0);
@@ -90,7 +124,7 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
             </tr>
           </thead>
           <tbody className="card-listing-body">
-            {reportLossDetailData.map((lossData: any, idx: any) => {
+            {reportLossDetailData?.map((lossData: any, idx: any) => {
               return (
                 <tr key={idx}>
                   <td></td>
@@ -136,7 +170,7 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
                     <Link
                       href={`/operation-card-detail?name=${lossData?.operation_card}`}
                     >
-                      {lossData?.operation_card.split('-').pop()}
+                      {lossData?.operation_card?.split('-')?.pop()}
                     </Link>
                   </td>
                   {/* <td></td> */}

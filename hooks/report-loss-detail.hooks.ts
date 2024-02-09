@@ -22,7 +22,7 @@ const useReportLossDetail = () => {
       await GETOperationCardReportLossDetail(token, splitVal[1]);
     console.log('fetchReportLossDetailData', fetchReportLossDetailData);
     if (fetchReportLossDetailData?.status === 200) {
-      setreportLossDetailData(fetchReportLossDetailData?.data?.message?.data);
+      setreportLossDetailData(fetchReportLossDetailData?.data?.message);
     } else {
       setreportLossDetailData([]);
     }

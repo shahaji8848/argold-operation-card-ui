@@ -2,6 +2,52 @@ import Link from 'next/link';
 import React from 'react';
 
 const LossReportTable = ({ reportLossData }: any) => {
+  const CalculateTotal = (column: string, data: any[]) => {
+    if (column === 'per_kg_loss') {
+      const totalfineLoss = data.reduce(
+        (total: any, item: any) => total + item['fine_loss'],
+        0
+      );
+      console.log('totalfineLoss', totalfineLoss);
+      const totalOutWeight = data.reduce(
+        (total: any, item: any) => total + item['total_out_weight'],
+        0
+      );
+      console.log('totalOutWeight', totalOutWeight);
+      const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
+      console.log('totalPerKgLoss', totalPerKgLoss);
+      return totalPerKgLoss.toFixed(3);
+    }
+
+    if (column === 'per_kg_loss_after_recovery') {
+      const totalfineLoss = data.reduce(
+        (total: any, item: any) => total + item['fine_loss'],
+        0
+      );
+      console.log('totalfineLoss', totalfineLoss);
+      const totalOutWeight = data.reduce(
+        (total: any, item: any) => total + item['total_out_weight'],
+        0
+      );
+      console.log('totalOutWeight', totalOutWeight);
+      const totalRecoveredLoss = data.reduce(
+        (total: any, item: any) => total + item['recovered_loss'],
+        0
+      );
+      console.log('totalRecoveredLoss', totalRecoveredLoss);
+      const diff = totalfineLoss - totalRecoveredLoss;
+      const totalkglossrecored = (diff / totalOutWeight) * 1000;
+      return totalkglossrecored.toFixed(3);
+    }
+    if (column === 'per_kg_loss' || column === 'per_kg_loss_after_recovery') {
+      return '';
+    }
+    const total = data.reduce((acc: number, item: any) => {
+      return acc + item[column];
+    }, 0);
+
+    return total.toFixed(3);
+  };
   return (
     <div className="table-responsive">
       <table className="table table-bordered mt-2">
@@ -75,6 +121,26 @@ const LossReportTable = ({ reportLossData }: any) => {
                 </tr>
               );
             })}
+
+          <tr className="table-text">
+            <td className="font-weight-bold ">Total</td>
+
+            {[
+              'fine_loss',
+              'total_out_weight',
+              'per_kg_loss',
+              'metal_recieved_after_recovery',
+              'recovered_loss',
+              'per_kg_loss_after_recovery',
+              'uncrecoverable_loss',
+              'balance_loss',
+              'percentage_recovered',
+            ].map((column: string, i: number) => (
+              <td className="font-weight-bold text-end" key={i}>
+                {CalculateTotal(column, reportLossData || [])}
+              </td>
+            ))}
+          </tr>
         </tbody>
       </table>
     </div>
