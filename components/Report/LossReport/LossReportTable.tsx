@@ -14,9 +14,8 @@ const LossReportTable = ({ reportLossData }: any) => {
         0
       );
       console.log('totalOutWeight', totalOutWeight);
-      const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
-      console.log('totalPerKgLoss', totalPerKgLoss);
-      if (totalPerKgLoss !== 0) {
+      if (totalfineLoss !== 0 && totalOutWeight !== 0) {
+        const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
         return totalPerKgLoss.toFixed(3);
       } else {
         return '--';
@@ -39,17 +38,16 @@ const LossReportTable = ({ reportLossData }: any) => {
         0
       );
       console.log('totalRecoveredLoss', totalRecoveredLoss);
+
       const diff = totalfineLoss - totalRecoveredLoss;
-      const totalkglossrecored = (diff / totalOutWeight) * 1000;
-      if (totalkglossrecored !== 0) {
+      if (diff !== 0 && totalOutWeight !== 0) {
+        const totalkglossrecored = (diff / totalOutWeight) * 1000;
         return totalkglossrecored.toFixed(3);
       } else {
         ('--');
       }
     }
-    // if (column === 'per_kg_loss' || column === 'per_kg_loss_after_recovery') {
-    //   return '';
-    // }
+
     const total = data.reduce((acc: number, item: any) => {
       return acc + item[column];
     }, 0);

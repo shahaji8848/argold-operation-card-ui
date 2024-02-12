@@ -15,17 +15,6 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
     router.push('/report/loss-report-list');
   };
 
-  // const CalculateTotal = (column: string, data: any[]) => {
-  //   if (column === column) {
-  //     const totalfineLoss = data.reduce(
-  //       (total: any, item: any) => total + item['fine_loss'],
-  //       0
-  //     );
-  //     return totalfineLoss.toFixed(3);
-  //   } else {
-  //     return '--';
-  //   }
-  // };
   const CalculateTotal = (column: string, data: any[]) => {
     if (column === 'per_kg_loss') {
       const totalfineLoss = data.reduce(
@@ -38,10 +27,9 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
         0
       );
       console.log('totalOutWeight', totalOutWeight);
-      const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
-      console.log('totalPerKgLoss', totalPerKgLoss);
-
-      if (totalPerKgLoss !== 0) {
+      if (totalfineLoss !== 0 && totalOutWeight !== 0) {
+        const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
+        console.log('totalPerKgLoss', totalPerKgLoss);
         return totalPerKgLoss.toFixed(3);
       } else {
         return '--';
@@ -65,9 +53,8 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
       );
       console.log('totalRecoveredLoss', totalRecoveredLoss);
       const diff = totalfineLoss - totalRecoveredLoss;
-      const totalkglossrecored = (diff / totalOutWeight) * 1000;
-      // return totalkglossrecored.toFixed(3);
-      if (totalkglossrecored !== 0) {
+      if (diff !== 0 && totalOutWeight !== 0) {
+        const totalkglossrecored = (diff / totalOutWeight) * 1000;
         return totalkglossrecored.toFixed(3);
       } else {
         ('--');
@@ -141,11 +128,31 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
             {reportLossDetailData?.map((lossData: any, idx: any) => {
               return (
                 <tr key={idx}>
-                  <td>{lossData?.date}</td>
-                  <td>{lossData?.loss_period}</td>
-                  <td>{lossData?.in_loss_gross}</td>
+                  <td>
+                    {lossData?.date && lossData?.date !== 0
+                      ? lossData?.date
+                      : '--'}
+                    {/* {lossData?.date} */}
+                  </td>
+                  <td>
+                    {/* {lossData?.loss_period && lossData?.loss_period !== 0
+                      ? lossData?.loss_period
+                      : '--'} */}
+                    {lossData?.loss_period}
+                  </td>
+                  <td>
+                    {/* {lossData?.in_loss_gross && lossData?.in_loss_gross !== 0
+                      ? lossData?.in_loss_gross
+                      : '--'} */}
+                    {lossData?.in_loss_gross}
+                  </td>
 
-                  <td>{lossData?.purity}</td>
+                  <td>
+                    {lossData?.purity && lossData?.purity !== 0
+                      ? lossData?.purity?.toFixed(3)
+                      : '--'}
+                    {/* {lossData?.purity?.toFixed(3)} */}
+                  </td>
                   <td className="text-end">
                     {lossData?.fine_loss && lossData?.fine_loss !== 0
                       ? lossData?.fine_loss?.toFixed(3)
