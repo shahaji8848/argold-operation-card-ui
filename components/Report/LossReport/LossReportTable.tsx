@@ -3,6 +3,7 @@ import React from 'react';
 
 const LossReportTable = ({ reportLossData }: any) => {
   const CalculateTotal = (column: string, data: any[]) => {
+    // per kg loss
     if (column === 'per_kg_loss') {
       const totalfineLoss = data.reduce(
         (total: any, item: any) => total + item['fine_loss'],
@@ -22,6 +23,7 @@ const LossReportTable = ({ reportLossData }: any) => {
       }
     }
 
+    // per kg loss after recovery
     if (column === 'per_kg_loss_after_recovery') {
       const totalfineLoss = data.reduce(
         (total: any, item: any) => total + item['fine_loss'],
@@ -48,6 +50,7 @@ const LossReportTable = ({ reportLossData }: any) => {
       }
     }
 
+    // All other total values other than per kg
     const total = data.reduce((acc: number, item: any) => {
       return acc + item[column];
     }, 0);
