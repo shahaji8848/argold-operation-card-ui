@@ -499,8 +499,6 @@ const useOperationDetailCard = () => {
     const filteredData = Object.fromEntries(
       Object.entries(headerSave).filter(([key, value]) => value !== '')
     );
-
-    console.log('save', filteredData);
     const saveOP = await POSTOperationCardSave(search, filteredData, token);
   };
 
