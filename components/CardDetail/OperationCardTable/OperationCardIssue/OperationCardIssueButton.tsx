@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from '../../../../styles/operationDetail.module.css';
 import Modal from 'react-bootstrap/Modal';
 import AutoCompleteField from './AutoCompleteField';
@@ -67,6 +67,7 @@ const OperationCardIssueButton = ({
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
+  const inputInWeightRef: any = useRef(null);
 
   const handleDropDownValuesChange = (
     labelValue: string,
@@ -281,7 +282,7 @@ const OperationCardIssueButton = ({
           <div className="row">
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
-                // console.log('val label', val);
+                console.log('val label', val);
                 let propToPass: any;
 
                 setKey =
@@ -375,6 +376,10 @@ const OperationCardIssueButton = ({
                             className="form-control inputFields dark-blue"
                             name={val?.label}
                             id={val?.label}
+                            ref={
+                              val?.label === 'in_weight' &&
+                              inputInWeightRef?.current?.focus()
+                            }
                             disabled={val[setKey] === 0}
                             value={modalFieldValuesState[val?.label]}
                             onChange={handleModalFieldsChange}

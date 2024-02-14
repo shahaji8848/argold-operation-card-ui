@@ -88,7 +88,7 @@ const useOperationDetailCard = () => {
         ...headerSave,
         [label]: selectedValue?.value,
       });
-    } else if (label === 'quantity') {
+    } else if (label === 'quantity' || label === 'description') {
       setHeaderSave({
         ...headerSave,
         [label]: selectedValue,
@@ -143,6 +143,7 @@ const useOperationDetailCard = () => {
         machine: operationCardDetailData?.machine ?? '',
         tone: operationCardDetailData?.tone ?? '',
         product_category: operationCardDetailData?.product_category ?? '',
+        description: operationCardDetailData?.description ?? '',
       });
       setOperationCardKarigarQuantitySettings({
         ...operationCardKarigarQuantitySettings,
@@ -500,7 +501,7 @@ const useOperationDetailCard = () => {
     );
 
     console.log('save', filteredData);
-    const saveOP = await POSTOperationCardSave(search, filteredData, token);
+    // const saveOP = await POSTOperationCardSave(search, filteredData, token);
   };
 
   useEffect(() => {

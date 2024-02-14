@@ -20,6 +20,7 @@ const EditableOperationCardFields = ({
   operationCardDetailData,
   operationCardKarigarQuantitySettings,
 }: IEditableOperationCardFields) => {
+  console.log('operationCardDetailData', operationCardDetailData);
   return (
     <>
       {dropdownEditable?.length > 0 &&
@@ -41,6 +42,7 @@ const EditableOperationCardFields = ({
             </div>
           );
         })}
+
       {dataEditable?.length > 0 &&
         dataEditable?.map((field: string, index: number) => {
           return (
@@ -59,6 +61,22 @@ const EditableOperationCardFields = ({
             </div>
           );
         })}
+      {operationCardDetailData?.description && (
+        <div className="col-md-2">
+          <div className="fs-14 bold text-start ">Description</div>
+          <div className="text-start">
+            <textarea
+              className="px-2"
+              onChange={(e: any) => {
+                handleHeaderSave('description', e.target.value);
+              }}
+            >
+              {operationCardDetailData?.description &&
+                operationCardDetailData?.description}
+            </textarea>
+          </div>
+        </div>
+      )}
     </>
   );
 };
