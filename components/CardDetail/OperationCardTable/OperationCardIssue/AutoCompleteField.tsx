@@ -6,6 +6,7 @@ const AutoCompleteField = ({
   handleDropDownValuesChange,
   initialValue,
   isReadOnly,
+  modalDropdownFieldsProp,
 }: any) => {
   const {
     inputValueAutoComplete,
@@ -14,7 +15,9 @@ const AutoCompleteField = ({
     showSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
+    selectedOption,
   } = useInputAutoComplete(listOfDropdownObjs, initialValue);
+  console.log('modalDropdownFieldsProp', modalDropdownFieldsProp);
   return (
     <div>
       <div>
@@ -34,6 +37,7 @@ const AutoCompleteField = ({
               ref={inputRef}
               readOnly={isReadOnly}
               disabled={isReadOnly}
+              // style={{ border: '2px solid red' }}
             />
 
             {showSuggestionsAutoComplete &&
@@ -62,9 +66,17 @@ const AutoCompleteField = ({
                           padding: '7px',
                           fontWeight: 'bold',
                           textAlign: 'start',
+                          // border: '2px solid red',
                         }}
-                        className="fileredValue-hover force-overflow"
-                        id="style-2"
+                        className={`fileredValue-hover force-overflow 
+                        ${
+                          // handleDropDownValuesChange(label, suggestion) ||
+                          index === selectedOption
+                            ? 'selected force-overflow'
+                            : ''
+                        }
+                        `}
+                        id={`style-2-${index}`}
                       >
                         {suggestion?.value}
                       </div>

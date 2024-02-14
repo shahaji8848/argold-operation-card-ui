@@ -15,7 +15,6 @@ const useInputAutoComplete = (
     useState<any>([]);
   const [showSuggestionsAutoComplete, setShowSuggestionsAutoComplete] =
     useState<boolean>(false);
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
   // this login is for hide and show suggestion based on click
   useEffect(() => {
@@ -51,6 +50,65 @@ const useInputAutoComplete = (
     setInputValueAutoComplete(suggestion?.value);
     setShowSuggestionsAutoComplete(false);
   };
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [selectedOption, setSelectedOption] = useState(0);
+  const handleKeyDown: any = (e: React.KeyboardEvent) => {
+    switch (e.key) {
+      case 'ArrowUp':
+        setSelectedOption((prev: any) =>
+          prev >= 0 ? prev - 1 : filteredSuggestionsAutoComplete.length - 1
+        );
+        break;
+
+      case 'ArrowDown':
+        setSelectedOption((prev: any) =>
+          prev <= filteredSuggestionsAutoComplete.length - 1 ? prev + 1 : 0
+        );
+        break;
+
+      case 'Enter':
+        if (selectedOption !== null) {
+          const suggestion = filteredSuggestionsAutoComplete[selectedOption];
+
+          handleSuggestionClickAutoComplete(suggestion);
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  // useEffect(() => {
+  //   window.addEventListener('keydown', handleKeyDown);
+  //   return () => {
+  //     window.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // });
+
+  useEffect(() => {
+    const handleKeyDownEvent = (event: KeyboardEvent) => {
+      if (inputRef.current && event.target === inputRef.current) {
+        handleKeyDown(event);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDownEvent);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDownEvent);
+    };
+  }, [inputRef, handleKeyDown]);
+
+  const selectedOptionElement: any = document.getElementById(
+    `style-2-${selectedOption}`
+  );
+  if (selectedOptionElement) {
+    selectedOptionElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
+  }
 
   const handleFocusRemove = () => {
     setShowSuggestionsAutoComplete(false);
@@ -99,7 +157,7 @@ const useInputAutoComplete = (
     showSuggestionsAutoComplete,
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
-    handleFocusRemove,
+    selectedOption,
   };
 };
 

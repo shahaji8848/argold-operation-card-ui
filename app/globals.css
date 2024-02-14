@@ -2,7 +2,10 @@
   --max-width: 1100px;
   --border-radius: 12px;
 }
-
+.modal-content {
+  margin-top: 172px;
+  /* margin: auto !important; */
+}
 @media (prefers-color-scheme: dark) {
   :root {
   }
@@ -316,6 +319,10 @@ a {
   }
   .hr-mob {
     display: none;
+  }
+  .modal-content {
+    margin-top: 60px;
+    /* margin: auto !important; */
   }
   /* .balance-mob {
     margin-left: -80px !important;
