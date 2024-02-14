@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
   const router = useRouter();
@@ -83,6 +84,14 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
     }
   };
 
+  function ToolTipData(descriptionData: string) {
+    return (
+      <Tooltip id="tooltip">
+        <strong>{descriptionData}</strong>
+      </Tooltip>
+    );
+  }
+
   return (
     <div className="table-responsive ">
       <table className="table table-bordered">
@@ -115,6 +124,14 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               (data: any, i: any) => (
                 <tr className="table-text" key={i}>
                   <td>{data.item}</td>
+                  {data?.description && (
+                    <OverlayTrigger
+                      placement="right"
+                      overlay={ToolTipData(data?.description)}
+                    >
+                      <Button>*</Button>
+                    </OverlayTrigger>
+                  )}
                   <td className="text-end">
                     {data?.in_weight === 0 ? '--' : data?.in_weight?.toFixed(3)}
                   </td>
@@ -155,7 +172,9 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                     {data?.line_number === 0 ? '--' : data?.line_number}
                   </td>
                   <td className="text-end">
-                    {data?.next_tracking_number === '' ? '--' : data?.next_tracking_number}
+                    {data?.next_tracking_number === ''
+                      ? '--'
+                      : data?.next_tracking_number}
                   </td>
                   <td className="text-end">{data?.next_karigar ?? '--'}</td>
                   <td className="text-end">
