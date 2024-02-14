@@ -67,7 +67,7 @@ const OperationCardIssueButton = ({
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
-  const inputInWeightRef: any = useRef(null);
+  // const inputInWeightRef: any = useRef(null);
 
   const handleDropDownValuesChange = (
     labelValue: string,
@@ -376,10 +376,10 @@ const OperationCardIssueButton = ({
                             className="form-control inputFields dark-blue"
                             name={val?.label}
                             id={val?.label}
-                            ref={
-                              val?.label === 'in_weight' &&
-                              inputInWeightRef?.current?.focus()
-                            }
+                            // ref={
+                            //   val?.label === 'in_weight' &&
+                            //   inputInWeightRef?.current?.focus()
+                            // }
                             disabled={val[setKey] === 0}
                             value={modalFieldValuesState[val?.label]}
                             onChange={handleModalFieldsChange}
