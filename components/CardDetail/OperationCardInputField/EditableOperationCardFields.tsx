@@ -61,21 +61,19 @@ const EditableOperationCardFields = ({
             </div>
           );
         })}
-      {operationCardDetailData?.description && (
-        <div className="col-md-2">
-          <div className="fs-14 bold text-start ">Description</div>
-          <div className="text-start">
-            <input
-              type="text"
-              className="form-control dark-blue px-2"
-              onChange={(e: any) => {
-                handleHeaderSave('description', e.target.value);
-              }}
-              value={headerSave?.description}
-            />
-          </div>
+      <div className="col-md-2">
+        <div className="fs-14 bold text-start ">Description</div>
+        <div className="text-start">
+          <input
+            type="text"
+            className="form-control dark-blue px-2"
+            onChange={(e: any) => {
+              handleHeaderSave('description', e.target.value);
+            }}
+            value={headerSave?.description}
+          />
         </div>
-      )}
+      </div>
     </>
   );
 };
