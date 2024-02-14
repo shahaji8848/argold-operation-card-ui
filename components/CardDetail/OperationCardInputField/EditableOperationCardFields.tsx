@@ -65,15 +65,14 @@ const EditableOperationCardFields = ({
         <div className="col-md-2">
           <div className="fs-14 bold text-start ">Description</div>
           <div className="text-start">
-            <textarea
-              className="px-2"
+            <input
+              type="text"
+              className="form-control dark-blue px-2"
               onChange={(e: any) => {
                 handleHeaderSave('description', e.target.value);
               }}
-            >
-              {operationCardDetailData?.description &&
-                operationCardDetailData?.description}
-            </textarea>
+              value={headerSave?.description}
+            />
           </div>
         </div>
       )}
