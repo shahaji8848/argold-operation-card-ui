@@ -373,13 +373,19 @@ const OperationCardIssueButton = ({
                         >
                           <input
                             type="text"
-                            className="form-control inputFields dark-blue"
+                            className="form-control inputFields dark-blue "
                             name={val?.label}
                             id={val?.label}
-                            ref={
-                              val?.label === 'in_weight' &&
-                              inputInWeightRef?.current?.focus()
-                            }
+                            // ref={
+                            //   val?.label === 'in_weight' &&
+                            //   inputInWeightRef?.current?.focus()
+                            // }
+                            ref={(input) => {
+                              if (val?.label === 'in_weight') {
+                                inputInWeightRef.current = input;
+                                inputInWeightRef?.current?.focus();
+                              }
+                            }}
                             disabled={val[setKey] === 0}
                             value={modalFieldValuesState[val?.label]}
                             onChange={handleModalFieldsChange}
