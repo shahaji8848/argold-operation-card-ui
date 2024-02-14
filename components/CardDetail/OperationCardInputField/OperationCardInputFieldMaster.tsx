@@ -17,6 +17,7 @@ const OperationCardInputFieldMaster = ({
   const operationCardFields: any = Object?.entries(operationCardProductDept)
     .filter(([key, value]) => key.includes('show') && value === 1)
     .map(([key, value]) => key.replace('show_', ''));
+  console.log('operationCardFields', operationCardFields);
 
   const operationCardFieldValue = Object.entries(
     operationCardDetailData
@@ -28,6 +29,7 @@ const OperationCardInputFieldMaster = ({
     'machine',
     'tone',
     'product_category',
+    'description',
   ];
   const editableFieldsWithDropdownData = [
     { name: 'karigar', label: 'Karigar', data: operationCardKarigar },

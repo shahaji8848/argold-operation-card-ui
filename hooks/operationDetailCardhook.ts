@@ -36,6 +36,7 @@ const useOperationDetailCard = () => {
     machine: '',
     tone: '',
     product_category: '',
+    description: '',
   });
   const [operationCardProductDept, setOperationCardProductDept] = useState({});
   const [operationCardDetailData, setOperationCardDetailData] = useState<any>(
