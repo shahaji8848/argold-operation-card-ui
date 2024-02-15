@@ -16,7 +16,11 @@ const MasterLossReport = () => {
         <div className="col-md-12">
           <LossReport />
           <LossReportTable reportLossData={reportLossData} />
-          <LossReportItem reportLossItem={reportLossItem} />
+          <div className="row">
+            <div className="col-md-5">
+              <LossReportItem reportLossItem={reportLossItem} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
