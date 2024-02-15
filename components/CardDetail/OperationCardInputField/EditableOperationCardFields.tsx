@@ -66,7 +66,7 @@ const EditableOperationCardFields = ({
         <div className="text-start">
           <input
             type="text"
-            className="form-control dark-blue px-2"
+            className="form-control  px-2"
             onChange={(e: any) => {
               handleHeaderSave('description', e.target.value);
             }}

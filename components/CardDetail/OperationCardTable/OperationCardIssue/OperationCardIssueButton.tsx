@@ -245,6 +245,13 @@ const OperationCardIssueButton = ({
     'show_in_weight',
     'set_in_weight',
   ];
+
+  useEffect(() => {
+    if (show && inputInWeightRef.current) {
+      inputInWeightRef.current.focus();
+    }
+  }, [show]);
+
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
@@ -368,24 +375,13 @@ const OperationCardIssueButton = ({
                             )
                             .join(' ')}
                         </label>
-                        <div
-                          className={`col-sm-10 text-left ${styles.inputFlex} `}
-                        >
+                        <div className={` text-left ${styles.inputFlex} `}>
                           <input
                             type="text"
-                            className="form-control inputFields dark-blue "
+                            className="form-control inputFields dark-blue input_in_weight"
                             name={val?.label}
                             id={val?.label}
-                            // ref={
-                            //   val?.label === 'in_weight' &&
-                            //   inputInWeightRef?.current?.focus()
-                            // }
-                            ref={(input) => {
-                              if (val?.label === 'in_weight') {
-                                inputInWeightRef.current = input;
-                                inputInWeightRef?.current?.focus();
-                              }
-                            }}
+                            ref={inputInWeightRef}
                             disabled={val[setKey] === 0}
                             value={modalFieldValuesState[val?.label]}
                             onChange={handleModalFieldsChange}

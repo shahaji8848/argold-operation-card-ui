@@ -74,7 +74,9 @@ const useInputAutoComplete = (
           handleSuggestionClickAutoComplete(suggestion);
         }
         break;
-
+      case 'Tab':
+        setShowSuggestionsAutoComplete(false);
+        break;
       default:
         break;
     }

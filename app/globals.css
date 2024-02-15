@@ -47,6 +47,7 @@ a {
 .table-text {
   font-size: 13px !important;
 }
+
 .operationCardinputFields {
   background-color: #ebebeb !important;
   border: none !important;
@@ -68,6 +69,11 @@ a {
   border: 1px solid #cfd6dd !important;
   font-size: 13px !important;
   color: #000 !important;
+}
+.input_in_weight {
+  padding: 8.2px 12px !important;
+  border: 1px solid #dee2e6 !important;
+  /* border: 1px solid red !important; */
 }
 .bold {
   font-weight: bold !important;
