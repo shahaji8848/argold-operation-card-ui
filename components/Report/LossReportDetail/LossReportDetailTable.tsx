@@ -143,14 +143,14 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
                       : '--'} */}
                     {lossData?.loss_period}
                   </td>
-                  <td>
+                  <td className="text-end">
                     {/* {lossData?.in_loss_gross && lossData?.in_loss_gross !== 0
                       ? lossData?.in_loss_gross
                       : '--'} */}
                     {lossData?.in_loss_gross}
                   </td>
 
-                  <td>
+                  <td className="text-end">
                     {lossData?.purity && lossData?.purity !== 0
                       ? lossData?.purity?.toFixed(3)
                       : '--'}
@@ -230,13 +230,12 @@ const LossReportDetailTable = ({ reportLossDetailData }: any) => {
             <tr className="table-text">
               <td className="font-weight-bold ">Total</td>
               <td></td>
-              <td></td>
-              <td></td>
+
               {[
                 // 'date',
                 // 'loss period',
-                // 'in loss gross',
-                // 'purity',
+                'in_loss_gross',
+                'purity',
                 'fine_loss',
                 'total_out_weight',
                 'per_kg_loss',
