@@ -44,7 +44,9 @@ const OperationCardDetailMaster = () => {
     getOperationCardDetailProductAPICallFunc,
     operationCardMachine,
     operationCardTone,
+    lossReportList,
   } = useOperationDetailCard();
+  console.log('lossReportList', lossReportList);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -65,6 +67,7 @@ const OperationCardDetailMaster = () => {
               operationCardKarigar={operationCardKarigar}
               operationCardMachine={operationCardMachine}
               operationCardTone={operationCardTone}
+              lossReportList={lossReportList}
               operationCardNextProductCategory={
                 operationCardNextProductCategory
               }

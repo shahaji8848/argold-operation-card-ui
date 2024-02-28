@@ -9,6 +9,7 @@ const OperationCardInputFieldMaster = ({
   operationCardKarigar,
   operationCardMachine,
   operationCardTone,
+  lossReportList,
   operationCardNextProductCategory,
   operationCardKarigarQuantitySettings,
   headerSave,
@@ -30,6 +31,7 @@ const OperationCardInputFieldMaster = ({
     'tone',
     'product_category',
     'description',
+    'loss_period',
   ];
   const editableFieldsWithDropdownData = [
     { name: 'karigar', label: 'Karigar', data: operationCardKarigar },
@@ -39,6 +41,11 @@ const OperationCardInputFieldMaster = ({
       name: 'product_category',
       label: 'Product Category',
       data: operationCardNextProductCategory,
+    },
+    {
+      name: 'loss_period',
+      label: 'Loss Period',
+      data: lossReportList,
     },
   ];
   const dropdownEditable: IDropdownEditable[] =

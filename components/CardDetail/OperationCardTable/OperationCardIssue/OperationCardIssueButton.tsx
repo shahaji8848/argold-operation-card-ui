@@ -96,10 +96,16 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    const hasEmptyValue = Object?.values(mergedObjs).some(
-      (value) => value === ''
+    console.log('mergedObjs', mergedObjs);
+    // const hasEmptyValue = Object?.values(mergedObjs).some(
+    //   (value) => value === ''
+    // );
+    const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
+      ([key, value]) =>
+        key === 'line_number' ||
+        (value !== '' && value !== null && value !== undefined)
     );
-    if (!hasEmptyValue) {
+    if (allNonEmptyExceptLineNumber) {
       setDisableSubmitBtn((prev) => !prev);
       try {
         const callSaveAPI: any = await POSTModalData(
@@ -358,6 +364,7 @@ const OperationCardIssueButton = ({
                           handleDropDownValuesChange={
                             handleDropDownValuesChange
                           }
+                          handleSubmit={handleSubmit}
                           label={val?.label}
                           initialValue=""
                           isReadOnly={false}

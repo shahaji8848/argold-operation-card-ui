@@ -22,6 +22,7 @@ import { get_access_token } from '@/store/slice/login-slice';
 import GETOperationCardDetailMachine from '@/services/api/operation-card-detail-page/operation-card-detail-machine';
 import GETOperationCardDetailTone from '@/services/api/operation-card-detail-page/operation-card-detail-tone';
 import GETProductProcessNextProductCategory from '@/services/api/operation-card-detail-page/operation-card-detail-product-category';
+import GETLossPeriodList from '@/services/api/loss-period/loss-period-api';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -37,6 +38,7 @@ const useOperationDetailCard = () => {
     tone: '',
     product_category: '',
     description: '',
+    loss_period: '',
   });
   const [operationCardProductDept, setOperationCardProductDept] = useState({});
   const [operationCardDetailData, setOperationCardDetailData] = useState<any>(
@@ -76,6 +78,7 @@ const useOperationDetailCard = () => {
 
   const [operationCardMachine, setOperationCardMachine] = useState<any>([]);
   const [operationCardTone, setOperationCardTone] = useState<any>([]);
+  const [lossReportList, setLossReportList] = useState<any>([]);
 
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
@@ -144,6 +147,7 @@ const useOperationDetailCard = () => {
         tone: operationCardDetailData?.tone ?? '',
         product_category: operationCardDetailData?.product_category ?? '',
         description: operationCardDetailData?.description ?? '',
+        loss_period: operationCardDetailData?.loss_period ?? '',
       });
       setOperationCardKarigarQuantitySettings({
         ...operationCardKarigarQuantitySettings,
@@ -158,6 +162,9 @@ const useOperationDetailCard = () => {
         set_product_category:
           operationCardProductProcessDepartmentData?.data?.data
             ?.set_product_category,
+        set_loss_report:
+          operationCardProductProcessDepartmentData?.data?.data
+            ?.set_loss_period,
       });
     } else {
       setOperationCardProductDept({});
@@ -495,6 +502,22 @@ const useOperationDetailCard = () => {
     }
   };
 
+  const getOperationCardDetailLossReportList = async () => {
+    const getLossReportListDataFromAPI = await GETLossPeriodList(token);
+    if (getLossReportListDataFromAPI?.status === 200) {
+      setLossReportList(
+        getLossReportListDataFromAPI?.data?.data?.map(
+          (product_category: any) => ({
+            name: product_category?.name,
+            value: product_category?.name,
+          })
+        )
+      );
+    } else {
+      setLossReportList([]);
+    }
+  };
+
   const handleOperationCardSave = async () => {
     const filteredData = Object.fromEntries(
       Object.entries(headerSave).filter(([key, value]) => value !== '')
@@ -515,6 +538,7 @@ const useOperationDetailCard = () => {
       getOperationCardDetailMachineSizeAPICall();
       getOperationCardDetailVariantAPICall();
       getOperationCardDetailConceptAPIFunc();
+      getOperationCardDetailLossReportList();
 
       getOperationCardDetailNextKarigarFunc(
         operationCardDetailData?.next_product_process_department
@@ -576,6 +600,7 @@ const useOperationDetailCard = () => {
     getOperationCardDetailProductAPICallFunc,
     operationCardMachine,
     operationCardTone,
+    lossReportList,
   };
 };
 

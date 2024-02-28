@@ -4,6 +4,7 @@ const AutoCompleteField = ({
   listOfDropdownObjs,
   label,
   handleDropDownValuesChange,
+  handleSubmit,
   initialValue,
   isReadOnly,
   modalDropdownFieldsProp,
@@ -34,6 +35,13 @@ const AutoCompleteField = ({
                 showFilteredValuesHandler(e.target.value);
               }}
               onFocus={() => showFilteredValuesHandler()}
+              onKeyDown={(e) => {
+                // Check for Ctrl + Enter manually if needed
+                if (e.ctrlKey && e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
               ref={inputRef}
               readOnly={isReadOnly}
               disabled={isReadOnly}
