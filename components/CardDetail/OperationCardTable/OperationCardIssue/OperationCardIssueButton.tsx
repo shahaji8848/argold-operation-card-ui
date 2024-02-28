@@ -55,6 +55,7 @@ const OperationCardIssueButton = ({
   const [show, setShow] = useState(false);
   const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false);
   const [showToastErr, setShowToastErr] = useState<boolean>(false);
+  const [emptyFieldsErr, setEmptyFieldsErr] = useState<boolean>(false);
 
   const [errMessage, setErrMessage] = useState<string>('');
   const [itemName, setItemName] = useState('');
@@ -88,7 +89,6 @@ const OperationCardIssueButton = ({
   };
 
   const handleSubmit = async () => {
-    setDisableSubmitBtn((prev) => !prev);
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
     const mergedObjs = {
@@ -96,33 +96,42 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    try {
-      const callSaveAPI: any = await POSTModalData(
-        'issue',
-        decodeURI(splitValue[1]),
-        mergedObjs,
-        token
-      );
-      console.log('api', callSaveAPI);
-      if (callSaveAPI?.status === 200) {
-        operationCardDetail();
-        handleClose();
-      } else {
-        handleClose();
-        const parsedObject = JSON.parse(
-          callSaveAPI?.response?.data?._server_messages
-        );
-        // Access the "message" property
-        const messageValue = parsedObject[0]
-          ? JSON.parse(parsedObject[0]).message
-          : null;
-        setErrMessage(messageValue);
-        setShowToastErr(true);
-      }
-    } catch (error) {
-      setErrMessage('Some error occured while saving the entry');
-    } finally {
+    const hasEmptyValue = Object?.values(mergedObjs).some(
+      (value) => value === ''
+    );
+    if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
+      try {
+        const callSaveAPI: any = await POSTModalData(
+          'issue',
+          decodeURI(splitValue[1]),
+          mergedObjs,
+          token
+        );
+        console.log('api', callSaveAPI);
+        if (callSaveAPI?.status === 200) {
+          operationCardDetail();
+          handleClose();
+        } else {
+          handleClose();
+          const parsedObject = JSON.parse(
+            callSaveAPI?.response?.data?._server_messages
+          );
+          // Access the "message" property
+          const messageValue = parsedObject[0]
+            ? JSON.parse(parsedObject[0]).message
+            : null;
+          setErrMessage(messageValue);
+          setShowToastErr(true);
+        }
+      } catch (error) {
+        setErrMessage('Some error occured while saving the entry');
+      } finally {
+        setDisableSubmitBtn((prev) => !prev);
+        setEmptyFieldsErr(false);
+      }
+    } else {
+      setEmptyFieldsErr(true);
     }
   };
   const handleClose = () => setShow(false);
@@ -406,6 +415,9 @@ const OperationCardIssueButton = ({
             </div>
           ) : (
             ''
+          )}
+          {emptyFieldsErr && (
+            <p className="mt-3 text-danger">Please fill all the fields</p>
           )}
         </Modal.Body>
       </Modal>
