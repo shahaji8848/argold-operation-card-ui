@@ -1,3 +1,4 @@
+import { CONSTANTS } from '@/services/config/api-config';
 import Link from 'next/link';
 import React from 'react';
 
@@ -36,7 +37,7 @@ const LossReportItem = ({ reportLossItem }: any) => {
                   </td>
                   <td className="text-end">
                     <Link
-                      href={`https://erp.ar-gold.in/app/query-report/Vatav%20Report?item_name=${lossData?.item}`}
+                      href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item_name=${lossData?.item}`}
                       target="_blank"
                     >
                       {lossData?.balance && lossData?.balance !== 0
