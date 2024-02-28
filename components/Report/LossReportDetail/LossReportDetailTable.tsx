@@ -4,10 +4,9 @@ import { useRouter } from 'next/navigation';
 
 const LossReportDetailTable = ({ reportLossDetailData }: any) => {
   console.log('component reportLossDetailData', reportLossDetailData);
-  const hrefValue = window.location.href;
-
-  const splitVal = hrefValue.split('=');
-  const decodedUrl = decodeURI(splitVal[1]);
+  const hrefValue = new URL(window.location.href);
+  const splitVal: any = hrefValue.searchParams.get('department_group');
+  const decodedUrl = decodeURI(splitVal);
   console.log('search ', decodedUrl);
 
   const router = useRouter();

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-const LossReportTable = ({ reportLossData }: any) => {
+const LossReportTable = ({ reportLossData, selectedLossPeriodValue }: any) => {
   const CalculateTotal = (column: string, data: any[]) => {
     // per kg loss
     if (column === 'per_kg_loss') {
@@ -91,7 +91,7 @@ const LossReportTable = ({ reportLossData }: any) => {
                 <tr key={idx}>
                   <td>
                     <Link
-                      href={`/report/loss-report?department_group=${lossData?.type_of_loss}`}
+                      href={`/report/loss-report?department_group=${lossData?.type_of_loss}&loss_period=${selectedLossPeriodValue}`}
                     >
                       {lossData?.type_of_loss !== ''
                         ? lossData?.type_of_loss

@@ -70,6 +70,7 @@ const useInputAutoComplete = (
       case 'Enter':
         if (selectedOption !== null) {
           const suggestion = filteredSuggestionsAutoComplete[selectedOption];
+          console.log('selected value here', suggestion);
 
           handleSuggestionClickAutoComplete(suggestion);
         }

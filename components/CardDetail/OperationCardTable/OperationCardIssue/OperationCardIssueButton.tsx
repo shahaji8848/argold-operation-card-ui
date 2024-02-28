@@ -63,12 +63,43 @@ const OperationCardIssueButton = ({
   // Below State is to iterate over an array of objs to display fields inside the modal.
   const [getValues, setGetValues] = useState<any>([]);
 
+  const [mergedObjsState, setMergedObjsState] = useState<any>({});
+
   // Below State is to set the value of input fields inside the modal. These values are coming from OC Detail API.
   const [modalFieldValuesState, setModalFieldValuesState] = useState<any>({});
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
   const inputInWeightRef: any = useRef(null);
+
+  const checkIfValuesAreEmpty = () => {
+    const mergedObjs = {
+      ...modalFieldValuesState,
+      ...modalDropdownFields,
+      item: itemName,
+    };
+
+    const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
+      ([key, value]) =>
+        key === 'line_number' ||
+        (value !== '' && value !== null && value !== undefined)
+    );
+
+    if (!allNonEmptyExceptLineNumber) {
+      setEmptyFieldsErr(true);
+    } else {
+      setEmptyFieldsErr(false);
+    }
+  };
+
+  const handleModalFieldsChange = (e: any) => {
+    const { name, value } = e.target;
+    setModalFieldValuesState({
+      ...modalFieldValuesState,
+      [name]: value,
+    });
+    // checkIfValuesAreEmpty();
+  };
 
   const handleDropDownValuesChange = (
     labelValue: string,
@@ -86,6 +117,7 @@ const OperationCardIssueButton = ({
         [labelValue]: selectedValue?.name,
       });
     }
+    // checkIfValuesAreEmpty();
   };
 
   const handleSubmit = async () => {
@@ -96,7 +128,6 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    console.log('mergedObjs', mergedObjs);
     // const hasEmptyValue = Object?.values(mergedObjs).some(
     //   (value) => value === ''
     // );
@@ -140,13 +171,9 @@ const OperationCardIssueButton = ({
       setEmptyFieldsErr(true);
     }
   };
-  const handleClose = () => setShow(false);
-  const handleModalFieldsChange = (e: any) => {
-    const { name, value } = e.target;
-    setModalFieldValuesState({
-      ...modalFieldValuesState,
-      [name]: value,
-    });
+  const handleClose = () => {
+    setEmptyFieldsErr(false);
+    setShow(false);
   };
   const handleShow = (value: any) => {
     setShow(true);
@@ -401,6 +428,13 @@ const OperationCardIssueButton = ({
                             disabled={val[setKey] === 0}
                             value={modalFieldValuesState[val?.label]}
                             onChange={handleModalFieldsChange}
+                            // onKeyDown={(e) => {
+                            //   // Check for Ctrl + Enter manually if needed
+                            //   if (e.key === 'Enter') {
+                            //     e.preventDefault();
+                            //     handleSubmit();
+                            //   }
+                            // }}
                           />
                         </div>
                       </>

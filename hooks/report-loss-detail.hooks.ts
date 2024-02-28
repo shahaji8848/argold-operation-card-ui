@@ -13,13 +13,19 @@ const useReportLossDetail = () => {
   const search: any = searchParams.get('name');
   console.log('search', search);
   const getReportLossDetailData = async () => {
-    console.log('search +', encodeURI(search));
-    console.log('search +', window.location.href);
+    const url = new URL(window.location.href);
+    const department_group: any = url.searchParams.get('department_group');
+    const loss_period: any = url.searchParams.get('loss_period');
+    console.log('check url', department_group, loss_period);
     const hrefValue = window.location.href;
     const splitVal = hrefValue.split('=');
     console.log('search + split', splitVal[1]);
     const fetchReportLossDetailData: any =
-      await GETOperationCardReportLossDetail(token, splitVal[1]);
+      await GETOperationCardReportLossDetail(
+        token,
+        department_group,
+        loss_period
+      );
     console.log('fetchReportLossDetailData', fetchReportLossDetailData);
     if (fetchReportLossDetailData?.status === 200) {
       setreportLossDetailData(fetchReportLossDetailData?.data?.message);

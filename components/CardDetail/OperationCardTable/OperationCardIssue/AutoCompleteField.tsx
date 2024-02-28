@@ -35,17 +35,17 @@ const AutoCompleteField = ({
                 showFilteredValuesHandler(e.target.value);
               }}
               onFocus={() => showFilteredValuesHandler()}
-              onKeyDown={(e) => {
-                // Check for Ctrl + Enter manually if needed
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  handleSubmit();
-                }
-              }}
+              // onKeyDown={(e) => {
+              //   // Check for Ctrl + Enter manually if needed
+              //   if (e.key === 'Enter') {
+              //     e.preventDefault();
+              //     handleSubmit();
+              //   }
+              // }}
               ref={inputRef}
               readOnly={isReadOnly}
               disabled={isReadOnly}
-            // style={{ border: '2px solid red' }}
+              // style={{ border: '2px solid red' }}
             />
 
             {showSuggestionsAutoComplete &&
@@ -82,7 +82,7 @@ const AutoCompleteField = ({
                           index === selectedOption
                             ? 'selected force-overflow'
                             : ''
-                          }
+                        }
                         `}
                         id={`style-2-${index}`}
                       >
