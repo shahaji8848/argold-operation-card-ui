@@ -37,7 +37,7 @@ const AutoCompleteField = ({
               onFocus={() => showFilteredValuesHandler()}
               onKeyDown={(e) => {
                 // Check for Ctrl + Enter manually if needed
-                if (e.ctrlKey && e.key === 'Enter') {
+                if (e.key === 'Enter') {
                   e.preventDefault();
                   handleSubmit();
                 }
@@ -45,7 +45,7 @@ const AutoCompleteField = ({
               ref={inputRef}
               readOnly={isReadOnly}
               disabled={isReadOnly}
-              // style={{ border: '2px solid red' }}
+            // style={{ border: '2px solid red' }}
             />
 
             {showSuggestionsAutoComplete &&
@@ -82,7 +82,7 @@ const AutoCompleteField = ({
                           index === selectedOption
                             ? 'selected force-overflow'
                             : ''
-                        }
+                          }
                         `}
                         id={`style-2-${index}`}
                       >
