@@ -128,17 +128,19 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    // const hasEmptyValue = Object?.values(mergedObjs).some(
-    //   (value) => value === ''
-    // );
-    const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
-      ([key, value]) =>
-        key === 'line_number' ||
-        (value !== '' && value !== null && value !== undefined)
+    const hasEmptyValue = Object?.values(mergedObjs).some(
+      (value) => value === ''
     );
-    if (allNonEmptyExceptLineNumber) {
+    // const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
+    //   ([key, value]) =>
+    //     key === 'line_number' ||
+    //     (value !== '' && value !== null && value !== undefined)
+    // );
+    // console.log('post data all', allNonEmptyExceptLineNumber);
+    if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
       try {
+        // console.log('post data');
         const callSaveAPI: any = await POSTModalData(
           'issue',
           decodeURI(splitValue[1]),
