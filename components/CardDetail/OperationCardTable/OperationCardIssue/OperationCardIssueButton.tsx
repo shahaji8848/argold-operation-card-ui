@@ -78,18 +78,6 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-
-    const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
-      ([key, value]) =>
-        key === 'line_number' ||
-        (value !== '' && value !== null && value !== undefined)
-    );
-
-    if (!allNonEmptyExceptLineNumber) {
-      setEmptyFieldsErr(true);
-    } else {
-      setEmptyFieldsErr(false);
-    }
   };
 
   const handleModalFieldsChange = (e: any) => {
