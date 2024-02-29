@@ -30,6 +30,9 @@ const OperationCardTableMaster = ({
   operationCardProduct,
   goldAccessoryTable,
   issueReference,
+  isBalanceWeightSetAsInWeight,
+  balanceWeight,
+  modalFieldsState,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -106,6 +109,9 @@ const OperationCardTableMaster = ({
           }
           operationCardNextProductCategory={operationCardNextProductCategory}
           operationCardProduct={operationCardProduct}
+          isBalanceWeightSetAsInWeight={isBalanceWeightSetAsInWeight}
+          balanceWeight={balanceWeight}
+          modalFieldsState={modalFieldsState}
         />
       </div>
     </div>

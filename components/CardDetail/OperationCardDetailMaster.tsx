@@ -45,8 +45,12 @@ const OperationCardDetailMaster = () => {
     operationCardMachine,
     operationCardTone,
     lossReportList,
+    isBalanceWeightSetAsInWeight,
+    balanceWeight,
+    modalFieldsState,
   } = useOperationDetailCard();
   console.log('lossReportList', lossReportList);
+  console.log('modalFieldsState', modalFieldsState);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -123,6 +127,9 @@ const OperationCardDetailMaster = () => {
               operationCardProduct={operationCardProduct}
               goldAccessoryTable={goldAccessoryTable}
               issueReference={issueReference}
+              isBalanceWeightSetAsInWeight={isBalanceWeightSetAsInWeight}
+              balanceWeight={balanceWeight}
+              modalFieldsState={modalFieldsState}
             />
             <OperationCardCreationDetail
               operationCardDetailData={operationCardDetailData}

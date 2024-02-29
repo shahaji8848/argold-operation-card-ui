@@ -30,6 +30,9 @@ const OperationCardIssueButton = ({
   operationCardProductCategory,
   operationCardNextProductCategory,
   operationCardProduct,
+  isBalanceWeightSetAsInWeight,
+  balanceWeight,
+  modalFieldsState,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -86,7 +89,6 @@ const OperationCardIssueButton = ({
       ...modalFieldValuesState,
       [name]: value,
     });
-    // checkIfValuesAreEmpty();
   };
 
   const handleDropDownValuesChange = (
@@ -105,7 +107,6 @@ const OperationCardIssueButton = ({
         [labelValue]: selectedValue?.name,
       });
     }
-    // checkIfValuesAreEmpty();
   };
 
   const handleSubmit = async () => {
@@ -116,9 +117,11 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
+
     const hasEmptyValue = Object?.values(mergedObjs).some(
       (value) => value === ''
     );
+    console.log('mergedObjs', mergedObjs);
     // const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
     //   ([key, value]) =>
     //     key === 'line_number' ||
@@ -129,28 +132,28 @@ const OperationCardIssueButton = ({
       setDisableSubmitBtn((prev) => !prev);
       try {
         // console.log('post data');
-        const callSaveAPI: any = await POSTModalData(
-          'issue',
-          decodeURI(splitValue[1]),
-          mergedObjs,
-          token
-        );
-        console.log('api', callSaveAPI);
-        if (callSaveAPI?.status === 200) {
-          operationCardDetail();
-          handleClose();
-        } else {
-          handleClose();
-          const parsedObject = JSON.parse(
-            callSaveAPI?.response?.data?._server_messages
-          );
-          // Access the "message" property
-          const messageValue = parsedObject[0]
-            ? JSON.parse(parsedObject[0]).message
-            : null;
-          setErrMessage(messageValue);
-          setShowToastErr(true);
-        }
+        // const callSaveAPI: any = await POSTModalData(
+        //   'issue',
+        //   decodeURI(splitValue[1]),
+        //   mergedObjs,
+        //   token
+        // );
+        // console.log('api', callSaveAPI);
+        // if (callSaveAPI?.status === 200) {
+        //   operationCardDetail();
+        //   handleClose();
+        // } else {
+        //   handleClose();
+        //   const parsedObject = JSON.parse(
+        //     callSaveAPI?.response?.data?._server_messages
+        //   );
+        //   // Access the "message" property
+        //   const messageValue = parsedObject[0]
+        //     ? JSON.parse(parsedObject[0]).message
+        //     : null;
+        //   setErrMessage(messageValue);
+        //   setShowToastErr(true);
+        // }
       } catch (error) {
         setErrMessage('Some error occured while saving the entry');
       } finally {
@@ -166,6 +169,7 @@ const OperationCardIssueButton = ({
     setShow(false);
   };
   const handleShow = (value: any) => {
+    console.log('value', value);
     setShow(true);
     setItemName(value);
     const operationCardValue = operationCardProductDept?.issue_items?.filter(
@@ -209,6 +213,7 @@ const OperationCardIssueButton = ({
         (key) =>
           key.startsWith('set') &&
           key !== 'set_fine_purity_based_on_tounch_purity' &&
+          key !== 'set_operation_card_balance_weight_as_in_weight' &&
           obj[key] !== 0
       );
 
@@ -253,7 +258,15 @@ const OperationCardIssueButton = ({
       const label = item?.label;
 
       if (!checkArray?.includes(label)) {
-        alteredObjToCreateDataFields[label] = '';
+        if (
+          value === 'Unrecoverable Loss' &&
+          isBalanceWeightSetAsInWeight &&
+          label === 'in_weight'
+        ) {
+          alteredObjToCreateDataFields['in_weight'] = balanceWeight;
+        } else {
+          alteredObjToCreateDataFields[label] = '';
+        }
       }
 
       if (checkArray?.includes(label)) {

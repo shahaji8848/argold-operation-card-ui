@@ -40,6 +40,11 @@ const useOperationDetailCard = () => {
     description: '',
     loss_period: '',
   });
+
+  const [isBalanceWeightSetAsInWeight, setIsBalanceWeightAsInWeight] =
+    useState<boolean>(false);
+  const [balanceWeight, setBalanceWeight] = useState<any>('');
+  const [modalFieldsState, setModalFieldsState] = useState<any>({});
   const [operationCardProductDept, setOperationCardProductDept] = useState({});
   const [operationCardDetailData, setOperationCardDetailData] = useState<any>(
     {}
@@ -166,6 +171,21 @@ const useOperationDetailCard = () => {
           operationCardProductProcessDepartmentData?.data?.data
             ?.set_loss_period,
       });
+      const getUnrecoverableLossData =
+        operationCardProductProcessDepartmentData?.data?.data?.issue_items?.filter(
+          (item: any) => item?.item === 'Unrecoverable Loss'
+        );
+      console.log('getUnrecoverableLossData', getUnrecoverableLossData);
+      const storeValueOfBalanceWeightAsInWeight =
+        getUnrecoverableLossData[0]
+          ?.set_operation_card_balance_weight_as_in_weight;
+      if (storeValueOfBalanceWeightAsInWeight) {
+        setIsBalanceWeightAsInWeight(true);
+        setBalanceWeight(operationCardDetailData?.balance_weight?.toFixed(3));
+      } else {
+        setIsBalanceWeightAsInWeight(false);
+        setBalanceWeight('');
+      }
     } else {
       setOperationCardProductDept({});
     }
@@ -526,6 +546,14 @@ const useOperationDetailCard = () => {
   };
 
   useEffect(() => {
+    if (balanceWeight !== '') {
+      setModalFieldsState({ in_weight: balanceWeight });
+    } else {
+      setModalFieldsState({});
+    }
+  }, [balanceWeight]);
+
+  useEffect(() => {
     operationCardDetail();
   }, [search]);
   useEffect(() => {
@@ -601,6 +629,9 @@ const useOperationDetailCard = () => {
     operationCardMachine,
     operationCardTone,
     lossReportList,
+    isBalanceWeightSetAsInWeight,
+    balanceWeight,
+    modalFieldsState,
   };
 };
 

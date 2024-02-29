@@ -28,6 +28,9 @@ const OperationCardIssueMaster = ({
   operationCardNextProductCategory,
   getOperationCardDetailNextProductCategoryAPICallFunc,
   operationCardProduct,
+  isBalanceWeightSetAsInWeight,
+  balanceWeight,
+  modalFieldsState,
 }: any) => {
   return (
     <>
@@ -73,6 +76,9 @@ const OperationCardIssueMaster = ({
           getOperationCardDetailNextProductCategoryAPICallFunc
         }
         operationCardNextProductCategory={operationCardNextProductCategory}
+        isBalanceWeightSetAsInWeight={isBalanceWeightSetAsInWeight}
+        balanceWeight={balanceWeight}
+        modalFieldsState={modalFieldsState}
       />
       <div className="mt-2">
         <OperationCardIssueItem
