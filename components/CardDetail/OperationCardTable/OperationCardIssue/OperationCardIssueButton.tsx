@@ -131,29 +131,28 @@ const OperationCardIssueButton = ({
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
       try {
-        // console.log('post data');
-        // const callSaveAPI: any = await POSTModalData(
-        //   'issue',
-        //   decodeURI(splitValue[1]),
-        //   mergedObjs,
-        //   token
-        // );
-        // console.log('api', callSaveAPI);
-        // if (callSaveAPI?.status === 200) {
-        //   operationCardDetail();
-        //   handleClose();
-        // } else {
-        //   handleClose();
-        //   const parsedObject = JSON.parse(
-        //     callSaveAPI?.response?.data?._server_messages
-        //   );
-        //   // Access the "message" property
-        //   const messageValue = parsedObject[0]
-        //     ? JSON.parse(parsedObject[0]).message
-        //     : null;
-        //   setErrMessage(messageValue);
-        //   setShowToastErr(true);
-        // }
+        const callSaveAPI: any = await POSTModalData(
+          'issue',
+          decodeURI(splitValue[1]),
+          mergedObjs,
+          token
+        );
+        console.log('api', callSaveAPI);
+        if (callSaveAPI?.status === 200) {
+          operationCardDetail();
+          handleClose();
+        } else {
+          handleClose();
+          const parsedObject = JSON.parse(
+            callSaveAPI?.response?.data?._server_messages
+          );
+          // Access the "message" property
+          const messageValue = parsedObject[0]
+            ? JSON.parse(parsedObject[0]).message
+            : null;
+          setErrMessage(messageValue);
+          setShowToastErr(true);
+        }
       } catch (error) {
         setErrMessage('Some error occured while saving the entry');
       } finally {
