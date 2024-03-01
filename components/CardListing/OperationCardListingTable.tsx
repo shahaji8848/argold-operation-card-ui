@@ -21,6 +21,7 @@ const OperationCardListingTable = ({ data }: any) => {
                 'quantity',
                 'karigar',
                 'tracking number',
+                'description',
                 'balance',
                 'gross balance',
                 'fine balance',
@@ -40,7 +41,7 @@ const OperationCardListingTable = ({ data }: any) => {
                   <tr key={index}>
                     <td className="text-uppercase">
                       {rowData?.parent_melting_lot &&
-                        rowData?.parent_melting_lot !== null
+                      rowData?.parent_melting_lot !== null
                         ? rowData?.parent_melting_lot
                         : '--'}
                     </td>
@@ -61,7 +62,7 @@ const OperationCardListingTable = ({ data }: any) => {
                     </td>
                     <td>
                       {rowData?.product_process_department &&
-                        rowData?.product_process_department !== null
+                      rowData?.product_process_department !== null
                         ? rowData?.product_process_department.split('-')[0]
                         : '--'}
                     </td>
@@ -87,7 +88,7 @@ const OperationCardListingTable = ({ data }: any) => {
                     </td>
                     <td>
                       {rowData?.quantity &&
-                        rowData?.quantity !== Number(0).toFixed(3)
+                      rowData?.quantity !== Number(0).toFixed(3)
                         ? rowData?.quantity
                         : '--'}
                     </td>
@@ -97,8 +98,14 @@ const OperationCardListingTable = ({ data }: any) => {
                         : '--'}
                     </td>
                     <td className="">
-                      {rowData?.tracking_number && rowData?.tracking_number !== ''
+                      {rowData?.tracking_number &&
+                      rowData?.tracking_number !== ''
                         ? rowData?.tracking_number
+                        : '--'}
+                    </td>
+                    <td>
+                      {rowData?.description && rowData?.description !== ''
+                        ? rowData?.description
                         : '--'}
                     </td>
                     <td className="text-end">
@@ -108,13 +115,13 @@ const OperationCardListingTable = ({ data }: any) => {
                     </td>
                     <td className="text-end">
                       {rowData?.balance_gross_weight &&
-                        rowData?.balance_gross_weight !== 0
+                      rowData?.balance_gross_weight !== 0
                         ? rowData?.balance_gross_weight.toFixed(3)
                         : rowData?.balance_gross_weight.toFixed(3)}
                     </td>
                     <td className="text-end">
                       {rowData?.balance_fine_weight &&
-                        rowData?.balance_fine_weight !== 0
+                      rowData?.balance_fine_weight !== 0
                         ? rowData?.balance_fine_weight.toFixed(3)
                         : rowData?.balance_fine_weight.toFixed(3)}
                     </td>
@@ -137,6 +144,8 @@ const OperationCardListingTable = ({ data }: any) => {
                 );
               })}
             <tr>
+              <td></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
