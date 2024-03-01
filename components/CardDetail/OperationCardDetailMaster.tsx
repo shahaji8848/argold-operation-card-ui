@@ -49,8 +49,6 @@ const OperationCardDetailMaster = () => {
     balanceWeight,
     modalFieldsState,
   } = useOperationDetailCard();
-  console.log('lossReportList', lossReportList);
-  console.log('modalFieldsState', modalFieldsState);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (

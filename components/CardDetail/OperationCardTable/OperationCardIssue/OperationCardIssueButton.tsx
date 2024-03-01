@@ -213,6 +213,7 @@ const OperationCardIssueButton = ({
           key.startsWith('set') &&
           key !== 'set_fine_purity_based_on_tounch_purity' &&
           key !== 'set_operation_card_balance_weight_as_in_weight' &&
+          key !== 'set_line_number' &&
           obj[key] !== 0
       );
 
