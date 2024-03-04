@@ -18,7 +18,6 @@ const AutoCompleteField = ({
     handleSuggestionClickAutoComplete,
     selectedOption,
   } = useInputAutoComplete(listOfDropdownObjs, initialValue);
-  console.log('modalDropdownFieldsProp', modalDropdownFieldsProp);
   return (
     <div>
       <div>

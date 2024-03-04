@@ -9,11 +9,7 @@ import { useSelector } from 'react-redux';
 import { get_access_token } from '@/store/slice/login-slice';
 
 const OperationCardIssueButton = ({
-  search,
   operationCardDetail,
-  getOperationCardDetailNextKarigarFunc,
-  getOperationCardDetailNextProductProcessAPICallFunc,
-  getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
   operationCardProductDept,
   operationCardDetailData,
   operationCardKarigar,

@@ -600,6 +600,7 @@ const useOperationDetailCard = () => {
 
       getOperationCardDetailDesignCodeTypeAPICall();
 
+      getOperationCardProductCategory();
       getOperationCardDetailNextProductCategoryAPICallFunc();
 
       getOperationCardDetailMachineAPICall();

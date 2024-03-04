@@ -49,6 +49,7 @@ const OperationCardDetailMaster = () => {
     balanceWeight,
     modalFieldsState,
   } = useOperationDetailCard();
+
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
