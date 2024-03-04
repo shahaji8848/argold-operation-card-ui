@@ -357,6 +357,7 @@ const OperationCardIssueButton = ({
                     next_product_process: operationCardNextProductProcess,
                     next_product_process_department:
                       operationCardNextProductProcessDepartment,
+                    product_category: operationCardProductCategory,
                     next_product_category: operationCardNextProductCategory,
                     gpc_product: operationCardProduct,
                   };

@@ -505,6 +505,23 @@ const useOperationDetailCard = () => {
     }
   };
 
+  const getOperationCardProductCategory = async () => {
+    const getNextProductCategory = await GETProductProcessProductCategory(
+      operationCardDetailData?.product,
+      token
+    );
+    if (getNextProductCategory?.status === 200) {
+      setOperationCardProductCategory(
+        getNextProductCategory?.data?.data?.map((product_category: any) => ({
+          name: product_category?.name,
+          value: product_category?.name1,
+        }))
+      );
+    } else {
+      setOperationCardProductCategory([]);
+    }
+  };
+
   const getOperationCardDetailNextProductCategoryAPICallFunc = async () => {
     const getNextProductCategory = await GETProductProcessProductCategory(
       operationCardDetailData?.product,
@@ -615,6 +632,7 @@ const useOperationDetailCard = () => {
     operationCardNextProductProcess,
     operationCardNextProductProcessDepartment,
     operationCardProductCategory,
+    getOperationCardProductCategory,
     operationCardNextProductCategory,
     operationCardNextDesign,
     operationCardNextDesignCodeType,
