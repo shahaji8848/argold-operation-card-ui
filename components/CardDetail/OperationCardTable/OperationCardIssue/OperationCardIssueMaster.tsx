@@ -14,6 +14,7 @@ const OperationCardIssueMaster = ({
   operationCardNextKarigar,
   operationCardThickness,
   operationCardConcept,
+  operationCardTone,
   operationCardVariant,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
@@ -54,6 +55,7 @@ const OperationCardIssueMaster = ({
         operationCardConcept={operationCardConcept}
         operationCardNextKarigar={operationCardNextKarigar}
         operationCardThickness={operationCardThickness}
+        operationCardTone={operationCardTone}
         operationCardVariant={operationCardVariant}
         operationCardMachineSize={operationCardMachineSize}
         operationCardNextDesign={operationCardNextDesign}

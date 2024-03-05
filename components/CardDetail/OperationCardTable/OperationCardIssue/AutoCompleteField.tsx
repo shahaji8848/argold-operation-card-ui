@@ -68,6 +68,7 @@ const AutoCompleteField = ({
                         onClick={() => {
                           if (label === 'gpc_product') {
                             getOperationCardProductCategory(suggestion.value);
+                          } else {
                           }
                           handleSuggestionClickAutoComplete(suggestion);
                           handleDropDownValuesChange(label, suggestion);

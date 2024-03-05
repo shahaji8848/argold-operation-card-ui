@@ -98,6 +98,7 @@ const OperationCardDetailMaster = () => {
               operationCardNextKarigar={operationCardNextKarigar}
               operationCardDetailData={operationCardDetailData}
               operationCardThickness={operationCardThickness}
+              operationCardTone={operationCardTone}
               operationCardConcept={operationCardConcept}
               operationCardVariant={operationCardVariant}
               operationCardMachineSize={operationCardMachineSize}
