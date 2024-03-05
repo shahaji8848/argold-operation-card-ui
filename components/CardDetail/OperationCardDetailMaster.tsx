@@ -41,7 +41,7 @@ const OperationCardDetailMaster = () => {
     operationCardKarigarQuantitySettings,
     operationCardProductCategory,
     getOperationCardDetailNextProductCategoryAPICallFunc,
-    getOperationCardDetailProductAPICallFunc,
+    getOperationCardProductCategory,
     operationCardMachine,
     operationCardTone,
     lossReportList,
@@ -120,6 +120,7 @@ const OperationCardDetailMaster = () => {
               getOperationCardDetailNextProductCategoryAPICallFunc={
                 getOperationCardDetailNextProductCategoryAPICallFunc
               }
+              getOperationCardProductCategory={getOperationCardProductCategory}
               operationCardNextProductCategory={
                 operationCardNextProductCategory
               }

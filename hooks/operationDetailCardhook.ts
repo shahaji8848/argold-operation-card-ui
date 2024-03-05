@@ -505,9 +505,9 @@ const useOperationDetailCard = () => {
     }
   };
 
-  const getOperationCardProductCategory = async () => {
+  const getOperationCardProductCategory = async (product: any) => {
     const getNextProductCategory = await GETProductProcessProductCategory(
-      operationCardDetailData?.product,
+      product,
       token
     );
     if (getNextProductCategory?.status === 200) {
@@ -600,7 +600,7 @@ const useOperationDetailCard = () => {
 
       getOperationCardDetailDesignCodeTypeAPICall();
 
-      getOperationCardProductCategory();
+      getOperationCardProductCategory(operationCardDetailData?.product);
       getOperationCardDetailNextProductCategoryAPICallFunc();
 
       getOperationCardDetailMachineAPICall();

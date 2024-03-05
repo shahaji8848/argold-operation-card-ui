@@ -7,6 +7,7 @@ const AutoCompleteField = ({
   handleSubmit,
   initialValue,
   isReadOnly,
+  getOperationCardProductCategory,
   modalDropdownFieldsProp,
 }: any) => {
   const {
@@ -65,6 +66,9 @@ const AutoCompleteField = ({
                       <div
                         key={index}
                         onClick={() => {
+                          if (label === 'gpc_product') {
+                            getOperationCardProductCategory(suggestion.value);
+                          }
                           handleSuggestionClickAutoComplete(suggestion);
                           handleDropDownValuesChange(label, suggestion);
                         }}

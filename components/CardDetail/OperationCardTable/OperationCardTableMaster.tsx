@@ -24,6 +24,7 @@ const OperationCardTableMaster = ({
   getOperationCardDetailDesignCodeCategoryAPICall,
   getOperationCardDetailDesignAPICall,
   getOperationCardDetailDesignCodeTypeAPICall,
+  getOperationCardProductCategory,
   operationCardNextDesignCodeType,
   operationCardProductCategory,
   getOperationCardDetailNextProductCategoryAPICallFunc,
@@ -102,6 +103,7 @@ const OperationCardTableMaster = ({
           getOperationCardDetailDesignCodeTypeAPICall={
             getOperationCardDetailDesignCodeTypeAPICall
           }
+          getOperationCardProductCategory={getOperationCardProductCategory}
           operationCardNextDesignCodeType={operationCardNextDesignCodeType}
           operationCardProductCategory={operationCardProductCategory}
           getOperationCardDetailNextProductCategoryAPICallFunc={

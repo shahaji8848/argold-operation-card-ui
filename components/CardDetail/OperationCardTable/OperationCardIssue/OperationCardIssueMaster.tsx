@@ -25,6 +25,7 @@ const OperationCardIssueMaster = ({
   getOperationCardDetailDesignCodeTypeAPICall,
   operationCardNextDesignCodeType,
   operationCardProductCategory,
+  getOperationCardProductCategory,
   operationCardNextProductCategory,
   getOperationCardDetailNextProductCategoryAPICallFunc,
   operationCardProduct,
@@ -46,6 +47,7 @@ const OperationCardIssueMaster = ({
         getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
           getOperationCardDetailNextProductProcessDepartmentAPICallFunc
         }
+        getOperationCardProductCategory={getOperationCardProductCategory}
         operationCardProductDept={operationCardProductDept}
         operationCardDetailData={operationCardDetailData}
         operationCardKarigar={operationCardKarigar}

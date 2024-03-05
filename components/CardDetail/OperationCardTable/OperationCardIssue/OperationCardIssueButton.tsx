@@ -28,6 +28,7 @@ const OperationCardIssueButton = ({
   operationCardProduct,
   isBalanceWeightSetAsInWeight,
   balanceWeight,
+  getOperationCardProductCategory,
   modalFieldsState,
 }: any) => {
   const { token } = useSelector(get_access_token);
@@ -390,6 +391,9 @@ const OperationCardIssueButton = ({
                           modalDropdownFieldsProp={modalDropdownFields}
                           handleDropDownValuesChange={
                             handleDropDownValuesChange
+                          }
+                          getOperationCardProductCategory={
+                            getOperationCardProductCategory
                           }
                           handleSubmit={handleSubmit}
                           label={val?.label}
