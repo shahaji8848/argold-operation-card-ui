@@ -66,9 +66,22 @@ const LossReportItem = ({
                     )}
                   </td>
                   <td className="text-end">
-                    {lossData?.out_weight && lossData?.out_weight !== 0
-                      ? lossData?.out_weight?.toFixed(3)
-                      : '--'}
+                    {lossData?.item === 'Parent Lot Loss' ? (
+                      <Link href={``} target="_blank">
+                        {lossData?.out_weight && lossData?.out_weight !== 0
+                          ? lossData?.out_weight?.toFixed(3)
+                          : '--'}
+                      </Link>
+                    ) : (
+                      <Link
+                        href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item_name=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}&is_material_issue=1`}
+                        target="_blank"
+                      >
+                        {lossData?.out_weight && lossData?.out_weight !== 0
+                          ? lossData?.out_weight?.toFixed(3)
+                          : '--'}
+                      </Link>
+                    )}
                   </td>
                   <td className="text-end">
                     {lossData?.balance && lossData?.balance !== 0
