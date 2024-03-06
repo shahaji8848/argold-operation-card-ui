@@ -31,7 +31,11 @@ const useReportLoss = () => {
   };
 
   const getReportLossItem = async () => {
-    const fetchReportLossItem: any = await GETReportLossItem(token);
+    const fetchReportLossItem: any = await GETReportLossItem(
+      getLossPeriodValueFromURL,
+      getFactoryValueFromURL,
+      token
+    );
 
     if (fetchReportLossItem?.status === 200) {
       setReportLossItem(fetchReportLossItem?.data?.message);
