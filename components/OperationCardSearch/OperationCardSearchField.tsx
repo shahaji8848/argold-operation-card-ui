@@ -54,7 +54,9 @@ const OperationCardSearchField = () => {
       <div className="row mt-4">
         <div className="col-md-3"></div>
         <div className="col-md-9 text-capitalize">
-          <Link href={`report/loss-report-list`}>view loss report</Link>
+          <Link href={`report/loss-report-list?loss_period=&factory=`}>
+            view loss report
+          </Link>
         </div>
       </div>
     </>

@@ -1,12 +1,12 @@
+import React from 'react';
+import Image from 'next/image';
+import { Toast, ToastContainer } from 'react-bootstrap';
 import OperationCardDataSummaryMaster from './OperationCardDataSummary/OperationCardDataSummaryMaster';
 import OperationCardTableMaster from './OperationCardTable/OperationCardTableMaster';
-import React from 'react';
 import OperationCardHeaderMaster from './OperationCardHeader/OperationCardHeaderMaster';
 import OperationCardInputFieldMaster from './OperationCardInputField/OperationCardInputFieldMaster';
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
-import Image from 'next/image';
 import OperationCardCreationDetail from './OperationCardCreationDetail/OperationCardCreationDetail';
-import { Toast, ToastContainer } from 'react-bootstrap';
 import Link from 'next/link';
 const OperationCardDetailMaster = () => {
   const {

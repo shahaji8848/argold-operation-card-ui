@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 import OperationCardInputField from './OperationCardInputField';
+import Link from 'next/link';
 const OperationCardHeader = ({
   operationCardDetailData,
   handleOperationCardSave,
@@ -11,10 +12,14 @@ const OperationCardHeader = ({
   return (
     <div className="row spacing-mt p-0 ">
       <div className="col-md-5">
-        <p className="mb-0 m-0 p-0 ">
-          <span className="bold header-heading-mob">
+        <p className="mb-0 m-0 p-0 bold header-heading-mob">
+          <Link
+            href={`https://erp.ar-gold.in/app/operation-card/${operationCardDetailData.name}`}
+            style={{ textDecoration: 'none !important' }}
+            className=""
+          >
             {operationCardDetailData.name}
-          </span>
+          </Link>
         </p>
       </div>
       <div className="col-md-7 text-end btn-actions-wrapper  p-0">

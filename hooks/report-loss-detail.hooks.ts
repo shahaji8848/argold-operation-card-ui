@@ -11,12 +11,15 @@ const useReportLossDetail = () => {
   const [reportLossDetailData, setreportLossDetailData] = useState([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
-  console.log('search', search);
+  const getLossPeriodValueFromURL: string | null =
+    searchParams.get('loss_period');
+  const getFactoryValueFromURL: string | null = searchParams.get('factory');
+
   const getReportLossDetailData = async () => {
     const url = new URL(window.location.href);
     const department_group: any = url.searchParams.get('department_group');
     const loss_period: any = url.searchParams.get('loss_period');
-    console.log('check url', department_group, loss_period);
+    const factory: any = url.searchParams.get('factory');
     const hrefValue = window.location.href;
     const splitVal = hrefValue.split('=');
     console.log('search + split', splitVal[1]);
@@ -24,7 +27,8 @@ const useReportLossDetail = () => {
       await GETOperationCardReportLossDetail(
         token,
         department_group,
-        loss_period
+        loss_period,
+        factory
       );
     console.log('fetchReportLossDetailData', fetchReportLossDetailData);
     if (fetchReportLossDetailData?.status === 200) {
@@ -33,14 +37,15 @@ const useReportLossDetail = () => {
       setreportLossDetailData([]);
     }
   };
-  console.log('reportLossDetailData', reportLossDetailData);
 
   useEffect(() => {
     getReportLossDetailData();
-  }, []);
+  }, [searchParams]);
 
   return {
     reportLossDetailData,
+    getLossPeriodValueFromURL,
+    getFactoryValueFromURL,
   };
 };
 

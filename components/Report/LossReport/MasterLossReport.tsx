@@ -11,7 +11,12 @@ const MasterLossReport = () => {
     reportLossItem,
     lossPeriodList,
     selectedLossPeriodValue,
+    selectedFactoryValue,
     setSelectedLossPeriodValue,
+    handleLossPeriodValuesChange,
+    handleFactoryValuesChange,
+    getLossPeriodValueFromURL,
+    getFactoryValueFromURL,
   } = useReportLoss();
 
   return (
@@ -21,14 +26,25 @@ const MasterLossReport = () => {
           <LossReport
             lossPeriodList={lossPeriodList}
             setSelectedLossPeriodValue={setSelectedLossPeriodValue}
+            handleLossPeriodValuesChange={handleLossPeriodValuesChange}
+            handleFactoryValuesChange={handleFactoryValuesChange}
+            getLossPeriodValueFromURL={getLossPeriodValueFromURL}
+            getFactoryValueFromURL={getFactoryValueFromURL}
           />
           <LossReportTable
             reportLossData={reportLossData}
             selectedLossPeriodValue={selectedLossPeriodValue}
+            selectedFactoryValue={selectedFactoryValue}
+            getLossPeriodValueFromURL={getLossPeriodValueFromURL}
+            getFactoryValueFromURL={getFactoryValueFromURL}
           />
           <div className="row">
             <div className="col-md-5">
-              <LossReportItem reportLossItem={reportLossItem} />
+              <LossReportItem
+                reportLossItem={reportLossItem}
+                getLossPeriodValueFromURL={getLossPeriodValueFromURL}
+                getFactoryValueFromURL={getFactoryValueFromURL}
+              />
             </div>
           </div>
         </div>

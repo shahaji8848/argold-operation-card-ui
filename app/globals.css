@@ -47,7 +47,9 @@ a {
 .table-text {
   font-size: 13px !important;
 }
-
+.header-heading-mob a {
+  text-decoration: none !important;
+}
 .operationCardinputFields {
   background-color: #ebebeb !important;
   border: none !important;

@@ -1,7 +1,13 @@
+import { factory } from 'mathjs';
 import Link from 'next/link';
 import React from 'react';
 
-const LossReportTable = ({ reportLossData, selectedLossPeriodValue }: any) => {
+const LossReportTable = ({
+  reportLossData,
+  selectedLossPeriodValue,
+  getLossPeriodValueFromURL,
+  getFactoryValueFromURL,
+}: any) => {
   const CalculateTotal = (column: string, data: any[]) => {
     // per kg loss
     if (column === 'per_kg_loss') {
@@ -15,9 +21,11 @@ const LossReportTable = ({ reportLossData, selectedLossPeriodValue }: any) => {
         0
       );
       console.log('totalOutWeight', totalOutWeight);
-      if (totalfineLoss !== 0 && totalOutWeight !== 0) {
+      if (totalfineLoss > 0 && totalOutWeight > 0) {
         const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
-        return totalPerKgLoss.toFixed(3);
+        if (totalPerKgLoss > 0 && totalPerKgLoss >= 0.001) {
+          return totalPerKgLoss.toFixed(3);
+        }
       } else {
         return '--';
       }
@@ -42,9 +50,11 @@ const LossReportTable = ({ reportLossData, selectedLossPeriodValue }: any) => {
       console.log('totalRecoveredLoss', totalRecoveredLoss);
 
       const diff = totalfineLoss - totalRecoveredLoss;
-      if (diff !== 0 && totalOutWeight !== 0) {
+      if (diff > 0 && totalOutWeight > 0) {
         const totalkglossrecored = (diff / totalOutWeight) * 1000;
-        return totalkglossrecored.toFixed(3);
+        if (totalkglossrecored > 0 && totalkglossrecored >= 0.001) {
+          return totalkglossrecored.toFixed(3);
+        }
       } else {
         ('--');
       }
@@ -54,7 +64,7 @@ const LossReportTable = ({ reportLossData, selectedLossPeriodValue }: any) => {
     const total = data.reduce((acc: number, item: any) => {
       return acc + item[column];
     }, 0);
-    if (total !== 0) {
+    if (total > 0 && total >= 0.001) {
       return total.toFixed(3);
     } else {
       return '--';
@@ -91,7 +101,7 @@ const LossReportTable = ({ reportLossData, selectedLossPeriodValue }: any) => {
                 <tr key={idx}>
                   <td>
                     <Link
-                      href={`/report/loss-report?department_group=${lossData?.type_of_loss}&loss_period=${selectedLossPeriodValue}`}
+                      href={`/report/loss-report?department_group=${lossData?.type_of_loss}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
                     >
                       {lossData?.type_of_loss !== ''
                         ? lossData?.type_of_loss
@@ -99,63 +109,66 @@ const LossReportTable = ({ reportLossData, selectedLossPeriodValue }: any) => {
                     </Link>
                   </td>
                   <td className="text-end">
-                    {lossData?.fine_loss && lossData?.fine_loss !== 0
+                    {lossData?.fine_loss &&
+                    lossData?.fine_loss > 0 &&
+                    lossData?.fine_loss >= 0.001
                       ? lossData?.fine_loss?.toFixed(3)
                       : '--'}
-                    {/* {lossData?.fine_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
                     {lossData?.total_out_weight &&
-                    lossData?.total_out_weight !== 0
+                    lossData?.total_out_weight > 0 &&
+                    lossData?.total_out_weight >= 0.001
                       ? lossData?.total_out_weight?.toFixed(3)
                       : '--'}
-                    {/* {lossData?.total_out_weight?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {lossData?.per_kg_loss && lossData?.per_kg_loss !== 0
+                    {lossData?.per_kg_loss &&
+                    lossData?.per_kg_loss > 0 &&
+                    lossData?.per_kg_loss >= 0.001
                       ? lossData?.per_kg_loss?.toFixed(3)
                       : '--'}
-                    {/* {lossData?.per_kg_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
                     {lossData?.metal_recieved_after_recovery &&
-                    lossData?.metal_recieved_after_recovery !== 0
+                    lossData?.metal_recieved_after_recovery > 0 &&
+                    lossData?.metal_recieved_after_recovery >= 0.001
                       ? lossData?.metal_recieved_after_recovery?.toFixed(3)
                       : '--'}
-                    {/* {lossData?.metal_recieved_after_recovery?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {lossData?.recovered_loss && lossData?.recovered_loss !== 0
+                    {lossData?.recovered_loss &&
+                    lossData?.recovered_loss > 0 &&
+                    lossData?.recovered_loss >= 0.001
                       ? lossData?.recovered_loss?.toFixed(3)
                       : '--'}
-                    {/* {lossData?.recovered_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
                     {lossData?.per_kg_loss_after_recovery &&
-                    lossData?.per_kg_loss_after_recovery !== 0
+                    lossData?.per_kg_loss_after_recovery > 0 &&
+                    lossData?.per_kg_loss_after_recovery >= 0.001
                       ? lossData?.per_kg_loss_after_recovery?.toFixed(3)
                       : '--'}
-                    {/* {lossData?.per_kg_loss_after_recovery?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
                     {lossData?.uncrecoverable_loss &&
-                    lossData?.uncrecoverable_loss !== 0
+                    lossData?.uncrecoverable_loss > 0
                       ? lossData?.uncrecoverable_loss?.toFixed(3)
                       : '--'}
-                    {/* {lossData?.uncrecoverable_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
-                    {lossData?.balance_loss && lossData?.balance_loss !== 0
+                    {lossData?.balance_loss &&
+                    lossData?.balance_loss > 0 &&
+                    lossData?.balance_loss >= 0.001
                       ? lossData?.balance_loss?.toFixed(3)
                       : '--'}
-                    {/* {lossData?.balance_loss?.toFixed(3)} */}
                   </td>
                   <td className="text-end">
                     {lossData?.percentage_recovered &&
-                    lossData?.percentage_recovered !== 0
+                    lossData?.percentage_recovered > 0 &&
+                    lossData?.percentage_recovered >= 0.001
                       ? lossData?.percentage_recovered?.toFixed(3)
                       : '--'}
-                    {/* {lossData?.percentage_recovered?.toFixed(3)} */}
                   </td>
                 </tr>
               );
