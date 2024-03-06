@@ -47,7 +47,7 @@ const LossReportItem = ({
                   <td className="text-end">
                     {lossData?.item === 'Parent Lot Loss' ? (
                       <Link
-                        href={`${CONSTANTS.API_BASE_URL}app/query-report/Productwise%20Parent%20Lot%20Loss?loss_period=${getLossPeriodValueFromURL}`}
+                        href={`${CONSTANTS.API_BASE_URL}app/query-report/Productwise%20Parent%20Lot%20Loss?loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
                         target="_blank"
                       >
                         {lossData?.in_weight && lossData?.in_weight !== 0
@@ -56,7 +56,7 @@ const LossReportItem = ({
                       </Link>
                     ) : (
                       <Link
-                        href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item_name=${lossData?.item}`}
+                        href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item_name=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
                         target="_blank"
                       >
                         {lossData?.in_weight && lossData?.in_weight !== 0
