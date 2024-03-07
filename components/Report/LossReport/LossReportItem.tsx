@@ -52,7 +52,7 @@ const LossReportItem = ({
                       </Link>
                     ) : (
                       <Link
-                        href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item_name=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
+                        href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
                         target="_blank"
                       >
                         {lossData?.in_weight &&
@@ -74,7 +74,7 @@ const LossReportItem = ({
                       </Link>
                     ) : (
                       <Link
-                        href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item_name=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}&is_material_issue=1`}
+                        href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}&is_material_issue=1`}
                         target="_blank"
                       >
                         {lossData?.out_weight &&

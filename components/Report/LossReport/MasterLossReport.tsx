@@ -75,7 +75,7 @@ const MasterLossReport = () => {
                 CalculateTotalOfReportItem={CalculateTotalOfReportItem}
               />
             </div>
-            <div className="col-md-4">
+            {/* <div className="col-md-4">
               <p className="mb-0 pb-0">
                 Unrecoverable loss for {getLossPeriodValueFromURL}
               </p>
@@ -90,7 +90,7 @@ const MasterLossReport = () => {
               >
                 Transfer
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
