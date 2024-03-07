@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import BootstrapClient from '@/components/BootstrapClient';
 import ReduxProvider from '@/store/ReduxProvider';
 import { useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'] });
 
@@ -30,6 +32,15 @@ export default function RootLayout({
         />
       </head>
       <body className={nunito.className}>
+        <ToastContainer
+          position="top-right"
+          autoClose={8000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          draggable={false}
+          closeOnClick
+          pauseOnHover
+        />
         <ReduxProvider>
           {children}
           <BootstrapClient />

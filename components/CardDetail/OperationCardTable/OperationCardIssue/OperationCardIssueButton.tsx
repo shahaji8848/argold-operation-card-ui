@@ -299,10 +299,10 @@ const OperationCardIssueButton = ({
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
-        <div className="col-xxl-1 col-xl-2 col-lg-2 col-md-3">
+        <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-3">
           <span className="bold">Issue :</span>
         </div>
-        <div className="col-xxl-11 col-xl-10 col-lg-10 col-md-9 ">
+        <div className="col-xxl-10 col-xl-10 col-lg-10 col-md-9 ">
           <div className=" row btn_wrapper_end">
             <div className={`col-md-12 text-end ${styles.btn_wrapper_mob}`}>
               {operationCardProductDept?.issue_items?.length > 0 &&
