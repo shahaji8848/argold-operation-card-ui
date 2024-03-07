@@ -6,6 +6,9 @@ import GETLossPeriodList from '@/services/api/loss-period/loss-period-api';
 import GETOperationCardReportLoss from '@/services/api/operation-card-report-loss/operation-card-report-loss';
 import GETReportLossItem from '@/services/api/operation-card-report-loss/report-loss-item-api';
 import { get_access_token } from '@/store/slice/login-slice';
+import { CONSTANTS, callFormDataPOSTAPI } from '@/services/config/api-config';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const useReportLoss = () => {
   const router = useRouter();
@@ -103,6 +106,27 @@ const useReportLoss = () => {
     getLossPeriodList();
   }, []);
 
+  async function convertFunc(item_name: any) {
+    const url = `${CONSTANTS.API_BASE_URL}/api/method/custom_app.custom_app.doctype.internal_transfer.create_internal_transfer_from_parent_lot_loss.create_internal_transfer_for_unrecoverable_loss`;
+    const formData: any = new FormData();
+    formData.append('item', item_name);
+    formData.append('loss_period', getLossPeriodValueFromURL);
+    formData.append('factory', getFactoryValueFromURL);
+    try {
+      const getAPIResponse = await callFormDataPOSTAPI(url, formData, token);
+      if (getAPIResponse?.status === 200) {
+        toast.success('Submitted successfully');
+        return getAPIResponse.data;
+      } else {
+        toast.error('Error occurred while submitting');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Error occurred while submitting');
+    }
+  }
+
   return {
     reportLossData,
     reportLossItem,
@@ -114,6 +138,7 @@ const useReportLoss = () => {
     handleFactoryValuesChange,
     getLossPeriodValueFromURL,
     getFactoryValueFromURL,
+    convertFunc,
   };
 };
 

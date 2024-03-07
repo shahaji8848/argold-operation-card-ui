@@ -17,6 +17,7 @@ const MasterLossReport = () => {
     handleFactoryValuesChange,
     getLossPeriodValueFromURL,
     getFactoryValueFromURL,
+    convertFunc,
   } = useReportLoss();
 
   return (
@@ -44,6 +45,7 @@ const MasterLossReport = () => {
                 reportLossItem={reportLossItem}
                 getLossPeriodValueFromURL={getLossPeriodValueFromURL}
                 getFactoryValueFromURL={getFactoryValueFromURL}
+                convertFunc={convertFunc}
               />
             </div>
           </div>

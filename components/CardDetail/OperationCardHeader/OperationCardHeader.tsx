@@ -40,12 +40,12 @@ const OperationCardHeader = ({
             >
               Save
             </button>
-            <button
+            {/* <button
               className="btn btn-blue  px-4 px-1 ms-2 btn-py "
               onClick={redirectToHomepage}
             >
               Submit
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
