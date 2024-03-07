@@ -1,0 +1,14 @@
+@media screen and (max-width: 767px) {
+  .mg_x_3 {
+    /* margin: 0px 8px; */
+  }
+}
+@media screen and (min-width: 767px) {
+  .mg_s_5 {
+    margin-left: 16px !important;
+  }
+  .mg_x_5 {
+    margin-right: 80px !important;
+    margin-left: 80px !important;
+  }
+}

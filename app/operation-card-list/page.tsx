@@ -1,8 +1,11 @@
+'use client';
+import OperationCardListingMaster from '@/components/CardListing/OperationCardListingMaster';
+
 const Page = () => {
   return (
-    <div>
-      <div>Operation Card listing</div>
-    </div>
+    <>
+      <OperationCardListingMaster />
+    </>
   );
 };
 

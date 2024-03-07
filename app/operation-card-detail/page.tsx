@@ -1,9 +1,12 @@
-import React from 'react';
+'use client';
+import OperationCardDetailMaster from '@/components/CardDetail/OperationCardDetailMaster';
 
 const Page = () => {
   return (
     <div>
-      <div>Operation Card Detail</div>
+      <div>
+        <OperationCardDetailMaster />
+      </div>
     </div>
   );
 };
