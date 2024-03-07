@@ -9,6 +9,7 @@ const LossReportItem = ({
   getLossPeriodValueFromURL,
   getFactoryValueFromURL,
   convertFunc,
+  CalculateTotalOfReportItem,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -103,6 +104,19 @@ const LossReportItem = ({
                 </tr>
               );
             })}
+
+          <tr className="table-text">
+            <td className="font-weight-bold ">Total</td>
+
+            {['in_weight', 'out_weight', 'balance'].map(
+              (column: string, i: number) => (
+                <td className="font-weight-bold text-end" key={i}>
+                  {CalculateTotalOfReportItem(column, reportLossItem || [])}
+                </td>
+              )
+            )}
+            <td></td>
+          </tr>
         </tbody>
       </table>
     </div>

@@ -7,69 +7,8 @@ const LossReportTable = ({
   selectedLossPeriodValue,
   getLossPeriodValueFromURL,
   getFactoryValueFromURL,
+  CalculateTotalOfLossReport,
 }: any) => {
-  const CalculateTotal = (column: string, data: any[]) => {
-    // per kg loss
-    if (column === 'per_kg_loss') {
-      const totalfineLoss = data.reduce(
-        (total: any, item: any) => total + item['fine_loss'],
-        0
-      );
-      console.log('totalfineLoss', totalfineLoss);
-      const totalOutWeight = data.reduce(
-        (total: any, item: any) => total + item['total_out_weight'],
-        0
-      );
-      console.log('totalOutWeight', totalOutWeight);
-      if (totalfineLoss !== 0 && totalOutWeight !== 0) {
-        const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
-        if (totalPerKgLoss !== 0 && totalPerKgLoss >= 0.001) {
-          return totalPerKgLoss.toFixed(3);
-        }
-      } else {
-        return '--';
-      }
-    }
-
-    // per kg loss after recovery
-    if (column === 'per_kg_loss_after_recovery') {
-      const totalfineLoss = data.reduce(
-        (total: any, item: any) => total + item['fine_loss'],
-        0
-      );
-      console.log('totalfineLoss', totalfineLoss);
-      const totalOutWeight = data.reduce(
-        (total: any, item: any) => total + item['total_out_weight'],
-        0
-      );
-      console.log('totalOutWeight', totalOutWeight);
-      const totalRecoveredLoss = data.reduce(
-        (total: any, item: any) => total + item['recovered_loss'],
-        0
-      );
-      console.log('totalRecoveredLoss', totalRecoveredLoss);
-
-      const diff = totalfineLoss - totalRecoveredLoss;
-      if (diff !== 0 && totalOutWeight !== 0) {
-        const totalkglossrecored = (diff / totalOutWeight) * 1000;
-        if (totalkglossrecored !== 0 && totalkglossrecored >= 0.001) {
-          return totalkglossrecored.toFixed(3);
-        }
-      } else {
-        ('--');
-      }
-    }
-
-    // All other total values other than per kg
-    const total = data.reduce((acc: number, item: any) => {
-      return acc + item[column];
-    }, 0);
-    if (total !== 0 && total >= 0.001) {
-      return total.toFixed(3);
-    } else {
-      return '--';
-    }
-  };
   return (
     <div className="table-responsive">
       <table className="table table-bordered mt-2">
@@ -190,7 +129,7 @@ const LossReportTable = ({
               'percentage_recovered',
             ].map((column: string, i: number) => (
               <td className="font-weight-bold text-end" key={i}>
-                {CalculateTotal(column, reportLossData || [])}
+                {CalculateTotalOfLossReport(column, reportLossData || [])}
               </td>
             ))}
           </tr>
