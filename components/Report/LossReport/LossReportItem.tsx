@@ -21,7 +21,7 @@ const LossReportItem = ({
             {[
               'item',
               'Operation Card Weight',
-              'Material Issued Weight',
+              'Issued Weight',
               'balance',
               'Convert to Unrecoverable Loss',
             ].map((val: any, index: any) => (
