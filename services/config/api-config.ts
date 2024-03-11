@@ -24,7 +24,7 @@ export const callGetAPI = async (url: string, token: any) => {
   await axios
     .get(`${url}`, {
       ...API_CONFIG,
-      timeout: 5000,
+      // timeout: 5000, this is commented because api take some good time in certain cases to return the response. So timeout wont work here.
     })
     .then((res: any) => {
       response = res;
