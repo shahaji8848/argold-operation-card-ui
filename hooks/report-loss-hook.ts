@@ -115,11 +115,14 @@ const useReportLoss = () => {
     try {
       const getAPIResponse = await callFormDataPOSTAPI(url, formData, token);
       if (getAPIResponse?.status === 200) {
-        toast.success(`${getAPIResponse?.data?.message}`);
-        return getAPIResponse.data;
-      } else {
-        toast.error('Error occurred while submitting');
-        return null;
+        console.log('getAPIResponse', getAPIResponse);
+        if (getAPIResponse?.data?.message?.msg !== 'error') {
+          toast.success(`${getAPIResponse?.data?.message?.data}`);
+          return getAPIResponse?.data?.message?.data;
+        } else {
+          toast.error(`${getAPIResponse?.data?.message?.data}`);
+          return null;
+        }
       }
     } catch (error) {
       console.error('Error:', error);
