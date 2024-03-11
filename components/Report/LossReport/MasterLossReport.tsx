@@ -17,7 +17,33 @@ const MasterLossReport = () => {
     handleFactoryValuesChange,
     getLossPeriodValueFromURL,
     getFactoryValueFromURL,
+    convertFunc,
+    CalculateTotalOfLossReport,
+    CalculateTotalOfReportItem,
+    ObjToStoreLossReportTable,
+    ObjToStoreLossReportItem,
   } = useReportLoss();
+
+  // const totalUnrecoverableLoss = CalculateTotalOfReportItem(
+  //   'uncrecoverable_loss',
+  //   reportLossData || []
+  // );
+  // console.log(totalUnrecoverableLoss, 'totalOutWeights');
+
+  // const totalOutWeight = CalculateTotalOfReportItem(
+  //   'out_weight',
+  //   reportLossItem || []
+  // );
+  // console.log(totalOutWeight, 'totalOutWeights');
+
+  // let DifferenceUnrecoverableLoss;
+  // if (totalUnrecoverableLoss !== '--' && totalOutWeight !== '--') {
+  //   DifferenceUnrecoverableLoss = totalUnrecoverableLoss - totalOutWeight;
+  // } else {
+  //   DifferenceUnrecoverableLoss = '--';
+  // }
+
+  // console.log(DifferenceUnrecoverableLoss, 'totalOutWeights');
 
   return (
     <div className="spacing-mt spacing-pd">
@@ -37,6 +63,7 @@ const MasterLossReport = () => {
             selectedFactoryValue={selectedFactoryValue}
             getLossPeriodValueFromURL={getLossPeriodValueFromURL}
             getFactoryValueFromURL={getFactoryValueFromURL}
+            CalculateTotalOfLossReport={CalculateTotalOfLossReport}
           />
           <div className="row">
             <div className="col-md-5">
@@ -44,8 +71,26 @@ const MasterLossReport = () => {
                 reportLossItem={reportLossItem}
                 getLossPeriodValueFromURL={getLossPeriodValueFromURL}
                 getFactoryValueFromURL={getFactoryValueFromURL}
+                convertFunc={convertFunc}
+                CalculateTotalOfReportItem={CalculateTotalOfReportItem}
               />
             </div>
+            {/* <div className="col-md-4">
+              <p className="mb-0 pb-0">
+                Unrecoverable loss for {getLossPeriodValueFromURL}
+              </p>
+
+              <span>
+                {ObjToStoreLossReportTable?.uncrecoverable_loss -
+                  ObjToStoreLossReportItem?.out_weight}
+              </span>
+              <button
+                className="btn  text-capitalize btn-link fs-13"
+                type="button"
+              >
+                Transfer
+              </button>
+            </div> */}
           </div>
         </div>
       </div>

@@ -23,10 +23,11 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
 
   const InValidColumnsForSummation = [
     'old_operation_card',
+    'karigar',
     'next_karigar',
     'tounch_no',
     'fire_tounch_no',
-    'machine_size',
+    // 'machine_size',
     'line_number',
   ];
 
@@ -91,7 +92,10 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
       </Tooltip>
     );
   }
-
+  console.log(
+    'operationCardDetailData?.operation_card_issue_details',
+    operationCardDetailData?.operation_card_issue_details
+  );
   return (
     <div className="table-responsive ">
       <table className="table table-bordered">
@@ -106,9 +110,10 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'Fine Weight',
               'Touch No',
               'Fire Touch No ',
-              'Machine Size',
+              // 'Machine Size',
               'Line Number',
               'Tracking Number',
+              'Karigar',
               'Next Karigar',
               'OP',
             ].map((val, i: any) => (
@@ -165,9 +170,9 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                       ? '--'
                       : data?.fire_tounch_no}
                   </td>
-                  <td className="text-end">
+                  {/* <td className="text-end">
                     {data?.machine_size === 0 ? '--' : data?.machine_size}
-                  </td>
+                  </td> */}
                   <td className="text-end">
                     {data?.line_number === 0 ? '--' : data?.line_number}
                   </td>
@@ -176,6 +181,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                       ? '--'
                       : data?.next_tracking_number}
                   </td>
+                  <td className="text-end">{data?.karigar ?? '--'}</td>
                   <td className="text-end">{data?.next_karigar ?? '--'}</td>
                   <td className="text-end">
                     {hasOPkey(data) ? (
@@ -202,8 +208,9 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'in_fine_weight',
               'tounch_no',
               'fire_tounch_no',
-              'machine_size',
+              // 'machine_size',
               'line_number',
+              'karigar',
               'next_karigar',
               'old_operation_card',
             ].map((data: any, i: any) => (
@@ -215,6 +222,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                 )}
               </td>
             ))}
+            <td></td>
           </tr>
         </tbody>
       </table>
