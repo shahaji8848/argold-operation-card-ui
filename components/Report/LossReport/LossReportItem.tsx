@@ -43,7 +43,8 @@ const LossReportItem = ({
                       <>
                         {lossData?.in_weight &&
                         lossData?.in_weight !== 0 &&
-                        lossData?.in_weight !== 0.001 ? (
+                        (lossData?.in_weight < -0.001 ||
+                          lossData?.in_weight > 0.001) ? (
                           <Link
                             href={`${CONSTANTS.API_BASE_URL}app/query-report/Productwise%20Parent%20Lot%20Loss?loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
                             target="_blank"
@@ -58,7 +59,8 @@ const LossReportItem = ({
                       <>
                         {lossData?.in_weight &&
                         lossData?.in_weight !== 0 &&
-                        lossData?.in_weight !== 0.001 ? (
+                        (lossData?.in_weight < -0.001 ||
+                          lossData?.in_weight > 0.001) ? (
                           <Link
                             href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
                             target="_blank"
@@ -76,7 +78,8 @@ const LossReportItem = ({
                       <>
                         {lossData?.out_weight &&
                         lossData?.out_weight !== 0 &&
-                        lossData?.out_weight !== 0.001 ? (
+                        (lossData?.out_weight < -0.001 ||
+                          lossData?.out_weight > 0.001) ? (
                           <Link href={``} target="_blank">
                             {lossData?.out_weight?.toFixed(3)}
                           </Link>
@@ -88,7 +91,8 @@ const LossReportItem = ({
                       <>
                         {lossData?.out_weight &&
                         lossData?.out_weight !== 0 &&
-                        lossData?.out_weight !== 0.001 ? (
+                        (lossData?.out_weight < -0.001 ||
+                          lossData?.out_weight > 0.001) ? (
                           <Link
                             href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}&is_material_issue=1`}
                             target="_blank"
@@ -104,7 +108,7 @@ const LossReportItem = ({
                   <td className="text-end">
                     {lossData?.balance &&
                     lossData?.balance !== 0 &&
-                    lossData?.balance !== 0.001
+                    (lossData?.balance < -0.001 || lossData?.balance > 0.001)
                       ? lossData?.balance?.toFixed(3)
                       : '--'}
                   </td>

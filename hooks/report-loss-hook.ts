@@ -163,7 +163,10 @@ const useReportLoss = () => {
       console.log('totalOutWeight', totalOutWeight);
       if (totalfineLoss !== 0 && totalOutWeight !== 0) {
         const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
-        if (totalPerKgLoss !== 0 && totalPerKgLoss >= 0.001) {
+        if (
+          totalPerKgLoss !== 0 &&
+          (totalPerKgLoss < -0.001 || totalPerKgLoss > 0.001)
+        ) {
           ObjToStoreLossReportTable.per_kg_loss = Number(
             totalPerKgLoss.toFixed(3)
           );
@@ -195,7 +198,10 @@ const useReportLoss = () => {
       const diff = totalfineLoss - totalRecoveredLoss;
       if (diff !== 0 && totalOutWeight !== 0) {
         const totalkglossrecored = (diff / totalOutWeight) * 1000;
-        if (totalkglossrecored !== 0 && totalkglossrecored >= 0.001) {
+        if (
+          totalkglossrecored !== 0 &&
+          (totalkglossrecored < -0.001 || totalkglossrecored > 0.001)
+        ) {
           ObjToStoreLossReportTable.per_kg_loss_after_recovery = Number(
             totalkglossrecored.toFixed(3)
           );
@@ -212,7 +218,7 @@ const useReportLoss = () => {
     }, 0);
     console.log('totalss', total);
 
-    if (total !== 0 && total >= 0.001) {
+    if (total !== 0 && (total < -0.001 || total > 0.001)) {
       ObjToStoreLossReportTable.uncrecoverable_loss = Number(total.toFixed(3));
       return total.toFixed(3);
     } else {
@@ -233,7 +239,7 @@ const useReportLoss = () => {
       // }
     }, 0);
     console.log('totals', total);
-    if (total !== 0) {
+    if (total !== 0 && (total < -0.001 || total > 0.001)) {
       ObjToStoreLossReportItem.out_weight = Number(total.toFixed(3));
       return total.toFixed(3);
     } else {

@@ -50,63 +50,72 @@ const LossReportTable = ({
                   <td className="text-end">
                     {lossData?.fine_loss &&
                     lossData?.fine_loss !== 0 &&
-                    lossData?.fine_loss >= 0.001
+                    (lossData?.fine_loss < -0.001 ||
+                      lossData?.fine_loss > 0.001)
                       ? lossData?.fine_loss?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.total_out_weight &&
                     lossData?.total_out_weight !== 0 &&
-                    lossData?.total_out_weight >= 0.001
+                    (lossData?.total_out_weight < -0.001 ||
+                      lossData?.total_out_weight > 0.001)
                       ? lossData?.total_out_weight?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.per_kg_loss &&
                     lossData?.per_kg_loss !== 0 &&
-                    lossData?.per_kg_loss >= 0.001
+                    (lossData?.per_kg_loss < -0.001 ||
+                      lossData?.per_kg_loss > 0.001)
                       ? lossData?.per_kg_loss?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.metal_recieved_after_recovery &&
                     lossData?.metal_recieved_after_recovery !== 0 &&
-                    lossData?.metal_recieved_after_recovery >= 0.001
+                    (lossData?.metal_recieved_after_recovery < -0.001 ||
+                      lossData?.metal_recieved_after_recovery > 0.001)
                       ? lossData?.metal_recieved_after_recovery?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.recovered_loss &&
                     lossData?.recovered_loss !== 0 &&
-                    lossData?.recovered_loss >= 0.001
+                    (lossData?.recovered_loss < -0.001 ||
+                      lossData?.recovered_loss > 0.001)
                       ? lossData?.recovered_loss?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.per_kg_loss_after_recovery &&
                     lossData?.per_kg_loss_after_recovery !== 0 &&
-                    lossData?.per_kg_loss_after_recovery >= 0.001
+                    (lossData?.per_kg_loss_after_recovery < -0.001 ||
+                      lossData?.per_kg_loss_after_recovery > 0.001)
                       ? lossData?.per_kg_loss_after_recovery?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.uncrecoverable_loss &&
                     lossData?.uncrecoverable_loss !== 0 &&
-                    lossData?.uncrecoverable_loss >= 0.001
+                    (lossData?.uncrecoverable_loss < -0.001 ||
+                      lossData?.uncrecoverable_loss > 0.001)
                       ? lossData?.uncrecoverable_loss?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.balance_loss &&
                     lossData?.balance_loss !== 0 &&
-                    lossData?.balance_loss >= 0.001
+                    (lossData?.balance_loss < -0.001 ||
+                      lossData?.balance_loss > 0.001)
                       ? lossData?.balance_loss?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.percentage_recovered &&
                     lossData?.percentage_recovered !== 0 &&
-                    lossData?.percentage_recovered >= 0.001
+                    (lossData?.percentage_recovered < -0.001 ||
+                      lossData?.percentage_recovered > 0.001)
                       ? lossData?.percentage_recovered?.toFixed(3)
                       : '--'}
                   </td>
