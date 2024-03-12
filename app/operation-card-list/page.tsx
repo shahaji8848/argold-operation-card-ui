@@ -5,9 +5,8 @@ import io from 'socket.io-client';
 
 const Page = () => {
   // useEffect(() => {
-  //   const socket = io('http://127.0.0.1:9000/', {
+  //   const socket = io('http://localhost:9000/', {
   //     withCredentials: true,
-  //     reconnectionAttempts: 5,
   //   }); // Replace with your server URL
   //   // const socket = io('https://erp.ar-gold.in/'); // Replace with your server URL
   //   // // Event listener for when the connection is established
