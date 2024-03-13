@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 const useInputAutoComplete = (
   listOfDropdownValues?: any,
-  initialValue?: string
+  initialValue?: any,
+  handleSubmit?: any
 ) => {
   console.log('karigar list hook', listOfDropdownValues);
   console.log('initialValue', initialValue);
@@ -94,6 +95,10 @@ const useInputAutoComplete = (
     const handleKeyDownEvent = (event: KeyboardEvent) => {
       if (inputRef.current && event.target === inputRef.current) {
         handleKeyDown(event);
+        console.log('press enter', event);
+        if (event.key === 'Enter' && showSuggestionsAutoComplete === false) {
+          handleSubmit();
+        }
       }
     };
 
@@ -147,6 +152,7 @@ const useInputAutoComplete = (
     }
     console.log('modal', optionvalue);
   };
+  // console.log('optionvalue', optionvalue);
 
   //passing all the data and function
   return {

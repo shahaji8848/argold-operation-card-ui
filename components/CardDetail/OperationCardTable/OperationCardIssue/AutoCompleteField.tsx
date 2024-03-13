@@ -1,4 +1,5 @@
 import useInputAutoComplete from '@/hooks/input_auto_complete_hook';
+import { useEffect } from 'react';
 
 const AutoCompleteField = ({
   listOfDropdownObjs,
@@ -18,7 +19,25 @@ const AutoCompleteField = ({
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
     selectedOption,
-  } = useInputAutoComplete(listOfDropdownObjs, initialValue);
+  } = useInputAutoComplete(listOfDropdownObjs, initialValue, handleSubmit);
+
+  console.log(
+    'select option in drop',
+    inputValueAutoComplete,
+    showSuggestionsAutoComplete
+  );
+
+  useEffect(() => {
+    if (showSuggestionsAutoComplete === false) {
+      console.log('select dropdown value', inputValueAutoComplete);
+      if (label === 'next_karigar' || label === 'karigar') {
+        handleDropDownValuesChange(label, { value: inputValueAutoComplete });
+      } else {
+        handleDropDownValuesChange(label, { name: inputValueAutoComplete });
+      }
+    }
+  }, [showSuggestionsAutoComplete]);
+
   return (
     <div>
       <div>

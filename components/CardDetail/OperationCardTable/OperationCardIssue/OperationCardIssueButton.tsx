@@ -94,7 +94,7 @@ const OperationCardIssueButton = ({
     labelValue: string,
     selectedValue: any
   ) => {
-    console.log('dropdown values', labelValue, selectedValue);
+    console.log('select dropdown values', labelValue, selectedValue);
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
       setModalDropdownFields({
         ...modalDropdownFields,
@@ -108,7 +108,10 @@ const OperationCardIssueButton = ({
     }
   };
 
+  console.log('modal updated data', modalDropdownFields);
+
   const handleSubmit = async () => {
+    console.log('submitt');
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
     const mergedObjs = {
@@ -435,13 +438,11 @@ const OperationCardIssueButton = ({
                             disabled={val[setKey] === 0}
                             value={modalFieldValuesState[val?.label]}
                             onChange={handleModalFieldsChange}
-                            // onKeyDown={(e) => {
-                            //   // Check for Ctrl + Enter manually if needed
-                            //   if (e.key === 'Enter') {
-                            //     e.preventDefault();
-                            //     handleSubmit();
-                            //   }
-                            // }}
+                            onKeyDown={(e: any) => {
+                              if (e.key === 'Enter') {
+                                handleSubmit();
+                              }
+                            }}
                           />
                         </div>
                       </>
