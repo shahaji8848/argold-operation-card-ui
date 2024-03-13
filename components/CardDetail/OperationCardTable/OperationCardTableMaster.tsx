@@ -4,6 +4,7 @@ import OperationCardIssueMaster from './OperationCardIssue/OperationCardIssueMas
 
 const OperationCardTableMaster = ({
   search,
+  headerSave,
   operationCardDetail,
   getOperationCardDetailNextKarigarFunc,
   getOperationCardDetailNextProductProcessAPICallFunc,
@@ -71,6 +72,7 @@ const OperationCardTableMaster = ({
       <div className="col-xxl-7 col-xl-8 col-md-7">
         <OperationCardIssueMaster
           search={search}
+          headerSave={headerSave}
           getOperationCardDetailNextKarigarFunc={
             getOperationCardDetailNextKarigarFunc
           }

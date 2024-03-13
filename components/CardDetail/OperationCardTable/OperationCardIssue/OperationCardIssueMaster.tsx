@@ -4,6 +4,7 @@ import OperationCardIssueItem from './OperationCardIssueItem';
 
 const OperationCardIssueMaster = ({
   search,
+  headerSave,
   getOperationCardDetailNextKarigarFunc,
   getOperationCardDetailNextProductProcessAPICallFunc,
   getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
@@ -38,6 +39,7 @@ const OperationCardIssueMaster = ({
     <>
       <OperationCardIssueButton
         search={search}
+        headerSave={headerSave}
         operationCardDetail={operationCardDetail}
         getOperationCardDetailNextKarigarFunc={
           getOperationCardDetailNextKarigarFunc
