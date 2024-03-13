@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { get_access_token } from '@/store/slice/login-slice';
 
 const OperationCardIssueButton = ({
+  headerSave,
   operationCardDetail,
   operationCardProductDept,
   operationCardDetailData,
@@ -201,6 +202,7 @@ const OperationCardIssueButton = ({
     // console.log('result array', resultArray);
 
     let filterArray: any[];
+    let storeNonZeroSetAndShow: any;
 
     filterArray = resultArray?.filter((obj: any) => {
       const hasNonZeroShow = Object.keys(obj).some(
@@ -215,9 +217,12 @@ const OperationCardIssueButton = ({
           key !== 'set_line_number' &&
           obj[key] !== 0
       );
+      storeNonZeroSetAndShow = [hasNonZeroSet, hasNonZeroShow];
 
       return hasNonZeroShow || hasNonZeroSet;
     });
+
+    console.log('modal filterArray zero set show', storeNonZeroSetAndShow);
 
     filterArray = filterArray.map((obj) => {
       const updatedObj: any = { ...obj }; // Create a copy of the original object
@@ -231,13 +236,32 @@ const OperationCardIssueButton = ({
       return updatedObj;
     });
 
-    // console.log('modal filterArray', filterArray);
+    console.log(
+      'modal filterArray',
+      filterArray,
+      headerSave,
+      operationCardDetailData
+    );
+
+    // Below changes are just for Product KA Chain and Dept Hammering 2 as requested by Vijay Sir from AR Gold.
+    // (This is some condition according to factory for KA Chain only).
+
+    if (
+      operationCardDetailData?.product === 'KA Chain' &&
+      operationCardDetailData?.operation_department === 'Hammering 2'
+    ) {
+      if (headerSave?.tone === '2 Tone') {
+        filterArray = filterArray.filter(
+          (obj) => obj.label !== 'next_product_process'
+        );
+      }
+    }
 
     const index = filterArray?.findIndex(
       (obj: any) => obj.label === 'in_weight'
     );
 
-    // If 'in_weight' is found, move it to the front of the array
+    // If 'in_weight' is found, move it to the start of the array
     if (index !== -1) {
       const inWeightObject = filterArray?.splice(index, 1)[0];
       filterArray?.unshift(inWeightObject);
