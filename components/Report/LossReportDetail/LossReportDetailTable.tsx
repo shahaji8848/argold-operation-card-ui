@@ -33,7 +33,10 @@ const LossReportDetailTable = ({
       if (totalfineLoss !== 0 && totalOutWeight !== 0) {
         const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
         console.log('totalPerKgLoss', totalPerKgLoss);
-        if (totalPerKgLoss !== 0 && totalPerKgLoss >= 0.001) {
+        if (
+          totalPerKgLoss !== 0 &&
+          (totalPerKgLoss < -0.001 || totalPerKgLoss > 0.001)
+        ) {
           return totalPerKgLoss.toFixed(3);
         }
       } else {
@@ -61,7 +64,10 @@ const LossReportDetailTable = ({
       const diff = totalfineLoss - totalRecoveredLoss;
       if (diff !== 0 && totalOutWeight !== 0) {
         const totalkglossrecored = (diff / totalOutWeight) * 1000;
-        if (totalkglossrecored !== 0 && totalkglossrecored >= 0.001) {
+        if (
+          totalkglossrecored !== 0 &&
+          (totalkglossrecored < -0.001 || totalkglossrecored > 0.001)
+        ) {
           return totalkglossrecored.toFixed(3);
         }
       } else {
@@ -74,7 +80,7 @@ const LossReportDetailTable = ({
       return acc + item[column];
     }, 0);
 
-    if (total !== 0 && total >= 0.001) {
+    if (total !== 0 && (total < -0.001 || total > 0.001)) {
       return total.toFixed(3);
     } else {
       return '--';
@@ -140,7 +146,8 @@ const LossReportDetailTable = ({
                   <td className="text-end">
                     {lossData?.in_loss_gross &&
                     lossData?.in_loss_gross !== 0 &&
-                    lossData?.in_loss_gross >= 0.001
+                    (lossData?.in_loss_gross < -0.001 ||
+                      lossData?.in_loss_gross > 0.001)
                       ? lossData?.in_loss_gross
                       : '--'}
                   </td>
@@ -148,70 +155,79 @@ const LossReportDetailTable = ({
                   <td className="text-end">
                     {lossData?.purity &&
                     lossData?.purity !== 0 &&
-                    lossData?.purity >= 0.001
+                    (lossData?.purity < -0.001 || lossData?.purity > 0.001)
                       ? lossData?.purity?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.fine_loss &&
                     lossData?.fine_loss !== 0 &&
-                    lossData?.fine_loss !== 0.001
+                    (lossData?.fine_loss < -0.001 ||
+                      lossData?.fine_loss > 0.001)
                       ? lossData?.fine_loss?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.total_out_weight &&
                     lossData?.total_out_weight !== 0 &&
-                    lossData?.total_out_weight >= 0.001
+                    (lossData?.total_out_weight < -0.001 ||
+                      lossData?.total_out_weight > 0.001)
                       ? lossData?.total_out_weight?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.per_kg_loss &&
                     lossData?.per_kg_loss !== 0 &&
-                    lossData?.per_kg_loss >= 0.001
+                    (lossData?.per_kg_loss < -0.001 ||
+                      lossData?.per_kg_loss > 0.001)
                       ? lossData?.per_kg_loss?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.metal_recieved_after_recovery &&
                     lossData?.metal_recieved_after_recovery !== 0 &&
-                    lossData?.metal_recieved_after_recovery >= 0.001
+                    (lossData?.metal_recieved_after_recovery < -0.001 ||
+                      lossData?.metal_recieved_after_recovery > 0.001)
                       ? lossData?.metal_recieved_after_recovery?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.recovered_loss &&
                     lossData?.recovered_loss !== 0 &&
-                    lossData?.recovered_loss >= 0.001
+                    (lossData?.recovered_loss < -0.001 ||
+                      lossData?.recovered_loss > 0.001)
                       ? lossData?.recovered_loss?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.per_kg_loss_after_recovery &&
                     lossData?.per_kg_loss_after_recovery !== 0 &&
-                    lossData?.per_kg_loss_after_recovery >= 0.001
+                    (lossData?.per_kg_loss_after_recovery < -0.001 ||
+                      lossData?.per_kg_loss_after_recovery > 0.001)
                       ? lossData?.per_kg_loss_after_recovery?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.uncrecoverable_loss &&
                     lossData?.uncrecoverable_loss !== 0 &&
-                    lossData?.uncrecoverable_loss >= 0.001
+                    (lossData?.uncrecoverable_loss < -0.001 ||
+                      lossData?.uncrecoverable_loss > 0.001)
                       ? lossData?.uncrecoverable_loss?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.balance_loss &&
                     lossData?.balance_loss !== 0 &&
-                    lossData?.balance_loss >= 0.001
+                    (lossData?.balance_loss < -0.001 ||
+                      lossData?.balance_loss > 0.001)
                       ? lossData?.balance_loss?.toFixed(3)
                       : '--'}
                   </td>
                   <td className="text-end">
                     {lossData?.percentage_recovered &&
                     lossData?.percentage_recovered !== 0 &&
-                    lossData?.percentage_recovered >= 0.001
+                    (lossData?.percentage_recovered < -0.001 ||
+                      lossData?.percentage_recovered > 0.001)
                       ? lossData?.percentage_recovered?.toFixed(3)
                       : '--'}
                   </td>
