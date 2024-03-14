@@ -22,6 +22,7 @@ const MasterLossReport = () => {
     CalculateTotalOfReportItem,
     ObjToStoreLossReportTable,
     ObjToStoreLossReportItem,
+    difference_of_unrecoverableloss_and_outweight,
   } = useReportLoss();
 
   // const totalUnrecoverableLoss = CalculateTotalOfReportItem(
@@ -74,23 +75,27 @@ const MasterLossReport = () => {
                 convertFunc={convertFunc}
                 CalculateTotalOfReportItem={CalculateTotalOfReportItem}
               />
-            </div>
-            {/* <div className="col-md-4">
-              <p className="mb-0 pb-0">
-                Unrecoverable loss for {getLossPeriodValueFromURL}
-              </p>
 
-              <span>
-                {ObjToStoreLossReportTable?.uncrecoverable_loss -
-                  ObjToStoreLossReportItem?.out_weight}
-              </span>
-              <button
-                className="btn  text-capitalize btn-link fs-13"
-                type="button"
-              >
-                Transfer
-              </button>
-            </div> */}
+            </div>
+  
+            {difference_of_unrecoverableloss_and_outweight !=0 && <div className="col-md-7">
+              <div className='mt-2 border rounded w-75 p-3' style={{borderColor:'#DEE2E6 !important'}}>
+                <table>
+                  <tr>
+                    <td>
+                      Total Unrecoverable Loss:  &nbsp;
+                    </td>
+                    <td>
+                      <b> {difference_of_unrecoverableloss_and_outweight} &nbsp;</b>
+                    </td>
+                    <td className=''>
+                     <a href='transfer'> Transfer </a>
+                    </td>
+                  </tr>
+                 
+                </table>
+              </div>
+            </div>}
           </div>
         </div>
       </div>

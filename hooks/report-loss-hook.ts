@@ -115,7 +115,7 @@ const useReportLoss = () => {
     try {
       const getAPIResponse = await callFormDataPOSTAPI(url, formData, token);
       if (getAPIResponse?.status === 200) {
-        console.log('getAPIResponse', getAPIResponse);
+       
         if (getAPIResponse?.data?.message?.msg !== 'error') {
           toast.success(`${getAPIResponse?.data?.message?.data}`);
           return getAPIResponse?.data?.message?.data;
@@ -125,11 +125,10 @@ const useReportLoss = () => {
         }
       }
     } catch (error) {
-      console.error('Error:', error);
+    
       toast.error('Error occurred while submitting');
     }
   }
-
   const ObjToStoreLossReportTable = {
     fine_loss: 0,
     total_out_weight: 0,
@@ -147,20 +146,19 @@ const useReportLoss = () => {
     out_weight: 0,
     balance: 0,
   };
-
   const CalculateTotalOfLossReport = (column: string, data: any[]) => {
-    // per kg loss
+   
     if (column === 'per_kg_loss') {
       const totalfineLoss = data.reduce(
         (total: any, item: any) => total + item['fine_loss'],
         0
       );
-      console.log('totalfineLoss', totalfineLoss);
+    
       const totalOutWeight = data.reduce(
         (total: any, item: any) => total + item['total_out_weight'],
         0
       );
-      console.log('totalOutWeight', totalOutWeight);
+     
       if (totalfineLoss !== 0 && totalOutWeight !== 0) {
         const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
         if (
@@ -183,17 +181,16 @@ const useReportLoss = () => {
         (total: any, item: any) => total + item['fine_loss'],
         0
       );
-      console.log('totalfineLoss', totalfineLoss);
       const totalOutWeight = data.reduce(
         (total: any, item: any) => total + item['total_out_weight'],
         0
       );
-      console.log('totalOutWeight', totalOutWeight);
+     
       const totalRecoveredLoss = data.reduce(
         (total: any, item: any) => total + item['recovered_loss'],
         0
       );
-      console.log('totalRecoveredLoss', totalRecoveredLoss);
+      
 
       const diff = totalfineLoss - totalRecoveredLoss;
       if (diff !== 0 && totalOutWeight !== 0) {
@@ -211,34 +208,36 @@ const useReportLoss = () => {
         ('--');
       }
     }
-
     // All other total values other than per kg
     const total = data.reduce((acc: number, item: any) => {
       return acc + item[column];
     }, 0);
-    console.log('totalss', total);
-
+  
+ 
     if (total !== 0 && (total < -0.001 || total > 0.001)) {
       ObjToStoreLossReportTable.uncrecoverable_loss = Number(total.toFixed(3));
       return total.toFixed(3);
     } else {
       return '--';
+    
     }
+    
   };
-  console.log(
-    ObjToStoreLossReportTable.uncrecoverable_loss,
-    'ObjToStoreLossReportTable?.uncrecoverable_loss'
-  );
+  
   const CalculateTotalOfReportItem = (column: string, data: any[]) => {
-    // All other total values other than per kg
-
+   
+   
     const total = data.reduce((acc: number, item: any) => {
-      console.log('data', item[column]);
       // if (item[column] !== 0) {
       return acc + item[column];
       // }
     }, 0);
-    console.log('totals', total);
+    //  if (total !== 0 && (total < -0.001 || total > 0.001)) {
+    //   ObjToStoreLossReportItem.balance = Number(total.toFixed(3));
+      
+    // }
+
+  
     if (total !== 0 && (total < -0.001 || total > 0.001)) {
       ObjToStoreLossReportItem.out_weight = Number(total.toFixed(3));
       return total.toFixed(3);
@@ -247,6 +246,22 @@ const useReportLoss = () => {
     }
   };
 
+let totalUnrecoverableLoss = CalculateTotalOfLossReport('uncrecoverable_loss', reportLossData);
+let totalBalance = CalculateTotalOfReportItem('out_weight', reportLossItem);
+let difference_of_unrecoverableloss_and_outweight=0
+if ((totalBalance ==='--') && (totalUnrecoverableLoss ==='--')){
+ 
+  difference_of_unrecoverableloss_and_outweight=0
+}
+
+else if ((totalBalance ==='--')){
+  totalBalance=0
+  difference_of_unrecoverableloss_and_outweight = totalUnrecoverableLoss - totalBalance;
+}
+else {
+  difference_of_unrecoverableloss_and_outweight = totalUnrecoverableLoss - totalBalance;
+
+}
   return {
     reportLossData,
     reportLossItem,
@@ -263,6 +278,7 @@ const useReportLoss = () => {
     CalculateTotalOfLossReport,
     ObjToStoreLossReportTable,
     ObjToStoreLossReportItem,
+    difference_of_unrecoverableloss_and_outweight,
   };
 };
 
