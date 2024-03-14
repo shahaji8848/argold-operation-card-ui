@@ -97,10 +97,6 @@ const OperationCardListingField = ({
             />
             <span className="ps-2">Show zero balance record</span>
           </label>
-        
-          <Link href={`report/loss-report-list?loss_period=&factory=`}>
-          <span className="ps-2" style={{ marginLeft: '990px'}}> View Loss Report</span>
-          </Link>
           {/* Other components or JSX as needed */}
         </div>
       </div>
