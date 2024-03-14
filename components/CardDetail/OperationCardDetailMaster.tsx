@@ -131,6 +131,7 @@ const OperationCardDetailMaster = () => {
               isBalanceWeightSetAsInWeight={isBalanceWeightSetAsInWeight}
               balanceWeight={balanceWeight}
               modalFieldsState={modalFieldsState}
+              headerSave={headerSave}
             />
             <OperationCardCreationDetail
               operationCardDetailData={operationCardDetailData}

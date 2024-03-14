@@ -452,12 +452,23 @@ const useOperationDetailCard = () => {
   };
 
   const getOperationCardDetailNextProductProcessAPICallFunc = async () => {
-    const getNextProductProcess =
-      await GETOperationCardDetailNextProductProcess(
+    let getNextProductProcess: any;
+    if (
+      operationCardDetailData?.product === 'KA Chain' &&
+      operationCardDetailData?.operation_department === 'Copper'
+    ) {
+      getNextProductProcess = await GETOperationCardDetailNextProductProcess(
+        operationCardDetailData?.product,
+        operationCardDetailData?.process_sequence,
+        token
+      );
+    } else {
+      getNextProductProcess = await GETOperationCardDetailNextProductProcess(
         operationCardDetailData?.product,
         operationCardDetailData?.process_sequence + 1,
         token
       );
+    }
     if (getNextProductProcess?.status === 200) {
       setOperationCardNextProductProcess(
         getNextProductProcess?.data?.data?.map((nextProductProcess: any) => ({
