@@ -21,18 +21,14 @@ const AutoCompleteField = ({
     selectedOption,
   } = useInputAutoComplete(listOfDropdownObjs, initialValue, handleSubmit);
 
-  console.log(
-    'select option in drop',
-
-    listOfDropdownObjs
-  );
+  console.log('select option in drop', listOfDropdownObjs);
 
   useEffect(() => {
     if (showSuggestionsAutoComplete === false) {
       console.log('select dropdown value', inputValueAutoComplete);
       if (label === 'next_karigar' || label === 'karigar') {
         handleDropDownValuesChange(label, {
-          value: inputValueAutoComplete?.name,
+          value: inputValueAutoComplete?.value,
         });
       } else {
         handleDropDownValuesChange(label, {
