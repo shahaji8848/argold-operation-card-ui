@@ -109,7 +109,7 @@ const OperationCardIssueButton = ({
     }
   };
 
-  console.log('modal updated data', modalDropdownFields);
+  console.log('modal updated data', getValues);
 
   const handleSubmit = async () => {
     console.log('submitt');
@@ -124,47 +124,47 @@ const OperationCardIssueButton = ({
     const hasEmptyValue = Object?.values(mergedObjs).some(
       (value) => value === ''
     );
-    console.log('mergedObjs', mergedObjs);
+    console.log('mergedObjs', mergedObjs, decodeURI(splitValue[1]));
     // const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
     //   ([key, value]) =>
     //     key === 'line_number' ||
     //     (value !== '' && value !== null && value !== undefined)
     // );
     // console.log('post data all', allNonEmptyExceptLineNumber);
-    if (!hasEmptyValue) {
-      setDisableSubmitBtn((prev) => !prev);
-      try {
-        const callSaveAPI: any = await POSTModalData(
-          'issue',
-          decodeURI(splitValue[1]),
-          mergedObjs,
-          token
-        );
-        console.log('api', callSaveAPI);
-        if (callSaveAPI?.status === 200) {
-          operationCardDetail();
-          handleClose();
-        } else {
-          handleClose();
-          const parsedObject = JSON.parse(
-            callSaveAPI?.response?.data?._server_messages
-          );
-          // Access the "message" property
-          const messageValue = parsedObject[0]
-            ? JSON.parse(parsedObject[0]).message
-            : null;
-          setErrMessage(messageValue);
-          setShowToastErr(true);
-        }
-      } catch (error) {
-        setErrMessage('Some error occured while saving the entry');
-      } finally {
-        setDisableSubmitBtn((prev) => !prev);
-        setEmptyFieldsErr(false);
-      }
-    } else {
-      setEmptyFieldsErr(true);
-    }
+    // if (!hasEmptyValue) {
+    //   setDisableSubmitBtn((prev) => !prev);
+    //   try {
+    //     const callSaveAPI: any = await POSTModalData(
+    //       'issue',
+    //       decodeURI(splitValue[1]),
+    //       mergedObjs,
+    //       token
+    //     );
+    //     console.log('api', callSaveAPI);
+    //     if (callSaveAPI?.status === 200) {
+    //       operationCardDetail();
+    //       handleClose();
+    //     } else {
+    //       handleClose();
+    //       const parsedObject = JSON.parse(
+    //         callSaveAPI?.response?.data?._server_messages
+    //       );
+    //       // Access the "message" property
+    //       const messageValue = parsedObject[0]
+    //         ? JSON.parse(parsedObject[0]).message
+    //         : null;
+    //       setErrMessage(messageValue);
+    //       setShowToastErr(true);
+    //     }
+    //   } catch (error) {
+    //     setErrMessage('Some error occured while saving the entry');
+    //   } finally {
+    //     setDisableSubmitBtn((prev) => !prev);
+    //     setEmptyFieldsErr(false);
+    //   }
+    // } else {
+    //   setEmptyFieldsErr(true);
+    // }
   };
   const handleClose = () => {
     setEmptyFieldsErr(false);
@@ -239,12 +239,7 @@ const OperationCardIssueButton = ({
       return updatedObj;
     });
 
-    console.log(
-      'modal filterArray',
-      filterArray,
-      headerSave,
-      operationCardDetailData
-    );
+    console.log('modal filterArray', mergedObjsState);
 
     // Below changes are just for Product KA Chain and Dept Hammering 2 as requested by Vijay Sir from AR Gold.
     // (This is some condition according to factory for KA Chain only).

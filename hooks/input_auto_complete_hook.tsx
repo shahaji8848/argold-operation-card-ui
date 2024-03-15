@@ -9,9 +9,12 @@ const useInputAutoComplete = (
   console.log('initialValue', initialValue);
   const [optionvalue, setOptionValue] = useState<any>([]);
 
-  const [inputValueAutoComplete, setInputValueAutoComplete] = useState<
-    string | undefined
-  >(initialValue ?? '');
+  const [inputValueAutoComplete, setInputValueAutoComplete] = useState<any>(
+    initialValue ?? {
+      name: '',
+      value: '',
+    }
+  );
   const [filteredSuggestionsAutoComplete, setFilteredSuggestionsAutoComplete] =
     useState<any>([]);
   const [showSuggestionsAutoComplete, setShowSuggestionsAutoComplete] =
@@ -48,7 +51,11 @@ const useInputAutoComplete = (
   // }, [inputValueAutoComplete]);
 
   const handleSuggestionClickAutoComplete = (suggestion: any) => {
-    setInputValueAutoComplete(suggestion?.value);
+    setInputValueAutoComplete({
+      name: suggestion.name,
+      value: suggestion?.value,
+    });
+    // setInputValueAutoComplete(suggestion?.value);
     setShowSuggestionsAutoComplete(false);
   };
 
@@ -152,7 +159,7 @@ const useInputAutoComplete = (
     }
     console.log('modal', optionvalue);
   };
-  // console.log('optionvalue', optionvalue);
+  console.log('optionvalue', filteredSuggestionsAutoComplete);
 
   //passing all the data and function
   return {
