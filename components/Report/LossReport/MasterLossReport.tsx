@@ -71,13 +71,14 @@ const MasterLossReport = () => {
                           {difference_of_unrecoverableloss_and_outweight} &nbsp;
                         </b>
                       </td>
-                      {parseInt(totalBalanceOFLossReportItem) === 0 && (
-                        <td className="">
-                          <a href="transfer" onClick={handleTransferAPI}>
-                            Transfer
-                          </a>
-                        </td>
-                      )}
+                      {parseInt(totalBalanceOFLossReportItem) === 0 ||
+                        (totalBalanceOFLossReportItem === '--' && (
+                          <td className="">
+                            <a href="transfer" onClick={handleTransferAPI}>
+                              Transfer
+                            </a>
+                          </td>
+                        ))}
                     </tr>
                   </table>
                 </div>
