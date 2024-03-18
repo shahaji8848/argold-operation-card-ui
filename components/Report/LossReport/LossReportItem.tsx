@@ -12,6 +12,7 @@ const LossReportItem = ({
   CalculateTotalOfReportItem,
 }: any) => {
   const { token } = useSelector(get_access_token);
+  console.log('CalculateTotalOfReportItem', CalculateTotalOfReportItem);
 
   return (
     <div className="table-responsive">
