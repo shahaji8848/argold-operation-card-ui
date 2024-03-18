@@ -18,34 +18,14 @@ const MasterLossReport = () => {
     getLossPeriodValueFromURL,
     getFactoryValueFromURL,
     convertFunc,
+    handleTransferAPI,
     CalculateTotalOfLossReport,
     CalculateTotalOfReportItem,
+    totalBalanceOFLossReportItem,
     ObjToStoreLossReportTable,
     ObjToStoreLossReportItem,
     difference_of_unrecoverableloss_and_outweight,
   } = useReportLoss();
-
-  // const totalUnrecoverableLoss = CalculateTotalOfReportItem(
-  //   'uncrecoverable_loss',
-  //   reportLossData || []
-  // );
-  // console.log(totalUnrecoverableLoss, 'totalOutWeights');
-
-  // const totalOutWeight = CalculateTotalOfReportItem(
-  //   'out_weight',
-  //   reportLossItem || []
-  // );
-  // console.log(totalOutWeight, 'totalOutWeights');
-
-  // let DifferenceUnrecoverableLoss;
-  // if (totalUnrecoverableLoss !== '--' && totalOutWeight !== '--') {
-  //   DifferenceUnrecoverableLoss = totalUnrecoverableLoss - totalOutWeight;
-  // } else {
-  //   DifferenceUnrecoverableLoss = '--';
-  // }
-
-  // console.log(DifferenceUnrecoverableLoss, 'totalOutWeights');
-
   return (
     <div className="spacing-mt spacing-pd">
       <div className="row">
@@ -75,27 +55,40 @@ const MasterLossReport = () => {
                 convertFunc={convertFunc}
                 CalculateTotalOfReportItem={CalculateTotalOfReportItem}
               />
-
             </div>
-  
-            {difference_of_unrecoverableloss_and_outweight !=0 && <div className="col-md-7">
-              <div className='mt-2 border rounded w-75 p-3' style={{borderColor:'#DEE2E6 !important'}}>
-                <table>
-                  <tr>
-                    <td>
-                      Total Unrecoverable Loss:  &nbsp;
-                    </td>
-                    <td>
-                      <b> {difference_of_unrecoverableloss_and_outweight} &nbsp;</b>
-                    </td>
-                    <td className=''>
-                     <a href='transfer'> Transfer </a>
-                    </td>
-                  </tr>
-                 
-                </table>
+
+            {difference_of_unrecoverableloss_and_outweight != 0 && (
+              <div className="col-md-7">
+                <div
+                  className="mt-2 border rounded w-75 p-3"
+                  style={{ borderColor: '#DEE2E6 !important' }}
+                >
+                  <table>
+                    <tr>
+                      <td>Total Unrecoverable Loss: &nbsp;</td>
+                      <td>
+                        <b>
+                          {difference_of_unrecoverableloss_and_outweight} &nbsp;
+                        </b>
+                      </td>
+                      {parseInt(totalBalanceOFLossReportItem) === 0 ||
+                        (totalBalanceOFLossReportItem === '--' && (
+                          <td className="">
+                            <button
+                              className="btn text-capitalize btn-link"
+                              style={{ fontSize: '16px' }}
+                              type="button"
+                              onClick={() => handleTransferAPI()}
+                            >
+                              Transfer
+                            </button>
+                          </td>
+                        ))}
+                    </tr>
+                  </table>
+                </div>
               </div>
-            </div>}
+            )}
           </div>
         </div>
       </div>

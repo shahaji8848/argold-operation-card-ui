@@ -21,19 +21,19 @@ const AutoCompleteField = ({
     selectedOption,
   } = useInputAutoComplete(listOfDropdownObjs, initialValue, handleSubmit);
 
-  console.log(
-    'select option in drop',
-    inputValueAutoComplete,
-    showSuggestionsAutoComplete
-  );
+  console.log('select option in drop', listOfDropdownObjs);
 
   useEffect(() => {
     if (showSuggestionsAutoComplete === false) {
       console.log('select dropdown value', inputValueAutoComplete);
       if (label === 'next_karigar' || label === 'karigar') {
-        handleDropDownValuesChange(label, { value: inputValueAutoComplete });
+        handleDropDownValuesChange(label, {
+          value: inputValueAutoComplete?.value,
+        });
       } else {
-        handleDropDownValuesChange(label, { name: inputValueAutoComplete });
+        handleDropDownValuesChange(label, {
+          name: inputValueAutoComplete?.name,
+        });
       }
     }
   }, [showSuggestionsAutoComplete]);
@@ -46,7 +46,7 @@ const AutoCompleteField = ({
             <input
               type="text"
               // id={field}
-              value={inputValueAutoComplete}
+              value={inputValueAutoComplete?.value}
               className={`form-control w-100 `}
               autoComplete="off"
               onChange={(e) => {

@@ -115,7 +115,6 @@ const useReportLoss = () => {
     try {
       const getAPIResponse = await callFormDataPOSTAPI(url, formData, token);
       if (getAPIResponse?.status === 200) {
-       
         if (getAPIResponse?.data?.message?.msg !== 'error') {
           toast.success(`${getAPIResponse?.data?.message?.data}`);
           return getAPIResponse?.data?.message?.data;
@@ -125,10 +124,30 @@ const useReportLoss = () => {
         }
       }
     } catch (error) {
-    
       toast.error('Error occurred while submitting');
     }
   }
+
+  const handleTransferAPI = async () => {
+    const url = `${CONSTANTS.API_BASE_URL}/api/method/custom_app.custom_app.doctype.internal_transfer.create_internal_transfer_from_parent_lot_loss.create_material_issue_for_unrecoverable_loss`;
+    const formData: any = new FormData();
+    formData.append('loss_period', getLossPeriodValueFromURL);
+    formData.append('factory', getFactoryValueFromURL);
+    try {
+      const getAPIResponse = await callFormDataPOSTAPI(url, formData, token);
+      if (getAPIResponse?.status === 200) {
+        if (getAPIResponse?.data?.message?.msg !== 'error') {
+          toast.success(`${getAPIResponse?.data?.message?.data}`);
+          return getAPIResponse?.data?.message?.data;
+        } else {
+          toast.error(`${getAPIResponse?.data?.message?.data}`);
+          return null;
+        }
+      }
+    } catch (error) {
+      toast.error('Error occurred while transferring');
+    }
+  };
   const ObjToStoreLossReportTable = {
     fine_loss: 0,
     total_out_weight: 0,
@@ -147,18 +166,17 @@ const useReportLoss = () => {
     balance: 0,
   };
   const CalculateTotalOfLossReport = (column: string, data: any[]) => {
-   
     if (column === 'per_kg_loss') {
       const totalfineLoss = data.reduce(
         (total: any, item: any) => total + item['fine_loss'],
         0
       );
-    
+
       const totalOutWeight = data.reduce(
         (total: any, item: any) => total + item['total_out_weight'],
         0
       );
-     
+
       if (totalfineLoss !== 0 && totalOutWeight !== 0) {
         const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
         if (
@@ -185,12 +203,11 @@ const useReportLoss = () => {
         (total: any, item: any) => total + item['total_out_weight'],
         0
       );
-     
+
       const totalRecoveredLoss = data.reduce(
         (total: any, item: any) => total + item['recovered_loss'],
         0
       );
-      
 
       const diff = totalfineLoss - totalRecoveredLoss;
       if (diff !== 0 && totalOutWeight !== 0) {
@@ -212,21 +229,16 @@ const useReportLoss = () => {
     const total = data.reduce((acc: number, item: any) => {
       return acc + item[column];
     }, 0);
-  
- 
+
     if (total !== 0 && (total < -0.001 || total > 0.001)) {
       ObjToStoreLossReportTable.uncrecoverable_loss = Number(total.toFixed(3));
       return total.toFixed(3);
     } else {
       return '--';
-    
     }
-    
   };
-  
+
   const CalculateTotalOfReportItem = (column: string, data: any[]) => {
-   
-   
     const total = data.reduce((acc: number, item: any) => {
       // if (item[column] !== 0) {
       return acc + item[column];
@@ -234,10 +246,9 @@ const useReportLoss = () => {
     }, 0);
     //  if (total !== 0 && (total < -0.001 || total > 0.001)) {
     //   ObjToStoreLossReportItem.balance = Number(total.toFixed(3));
-      
+
     // }
 
-  
     if (total !== 0 && (total < -0.001 || total > 0.001)) {
       ObjToStoreLossReportItem.out_weight = Number(total.toFixed(3));
       return total.toFixed(3);
@@ -246,22 +257,29 @@ const useReportLoss = () => {
     }
   };
 
-let totalUnrecoverableLoss = CalculateTotalOfLossReport('uncrecoverable_loss', reportLossData);
-let totalBalance = CalculateTotalOfReportItem('out_weight', reportLossItem);
-let difference_of_unrecoverableloss_and_outweight=0
-if ((totalBalance ==='--') && (totalUnrecoverableLoss ==='--')){
- 
-  difference_of_unrecoverableloss_and_outweight=0
-}
-
-else if ((totalBalance ==='--')){
-  totalBalance=0
-  difference_of_unrecoverableloss_and_outweight = totalUnrecoverableLoss - totalBalance;
-}
-else {
-  difference_of_unrecoverableloss_and_outweight = totalUnrecoverableLoss - totalBalance;
-
-}
+  let totalUnrecoverableLoss = CalculateTotalOfLossReport(
+    'uncrecoverable_loss',
+    reportLossData
+  );
+  let totalBalance = CalculateTotalOfReportItem('out_weight', reportLossItem);
+  let difference_of_unrecoverableloss_and_outweight = 0;
+  if (totalBalance === '--' && totalUnrecoverableLoss === '--') {
+    difference_of_unrecoverableloss_and_outweight = 0;
+  } else if (totalBalance === '--') {
+    totalBalance = 0;
+    difference_of_unrecoverableloss_and_outweight =
+      parseFloat(totalUnrecoverableLoss) + parseFloat(totalBalance);
+  } else {
+    difference_of_unrecoverableloss_and_outweight =
+      parseFloat(totalUnrecoverableLoss) + parseFloat(totalBalance);
+  }
+  difference_of_unrecoverableloss_and_outweight = parseFloat(
+    difference_of_unrecoverableloss_and_outweight.toFixed(3)
+  );
+  let totalBalanceOFLossReportItem = CalculateTotalOfReportItem(
+    'balance',
+    reportLossItem
+  );
   return {
     reportLossData,
     reportLossItem,
@@ -273,12 +291,14 @@ else {
     handleFactoryValuesChange,
     getLossPeriodValueFromURL,
     getFactoryValueFromURL,
+    handleTransferAPI,
     convertFunc,
     CalculateTotalOfReportItem,
     CalculateTotalOfLossReport,
     ObjToStoreLossReportTable,
     ObjToStoreLossReportItem,
     difference_of_unrecoverableloss_and_outweight,
+    totalBalanceOFLossReportItem,
   };
 };
 

@@ -109,7 +109,7 @@ const OperationCardIssueButton = ({
     }
   };
 
-  console.log('modal updated data', modalDropdownFields);
+  console.log('modal updated data', getValues);
 
   const handleSubmit = async () => {
     console.log('submitt');
@@ -122,9 +122,9 @@ const OperationCardIssueButton = ({
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some(
-      (value) => value === ''
+      (value) => value === '' || value === undefined
     );
-    console.log('mergedObjs', mergedObjs);
+    console.log('mergedObjs', mergedObjs, decodeURI(splitValue[1]));
     // const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
     //   ([key, value]) =>
     //     key === 'line_number' ||
@@ -282,12 +282,7 @@ const OperationCardIssueButton = ({
       return updatedObj;
     });
 
-    console.log(
-      'modal filterArray',
-      filterArray,
-      headerSave,
-      operationCardDetailData
-    );
+    console.log('modal filterArray', mergedObjsState);
 
     // Below changes are just for Product KA Chain and Dept Hammering 2 as requested by Vijay Sir from AR Gold.
     // (This is some condition according to factory for KA Chain only).
