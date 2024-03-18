@@ -74,9 +74,14 @@ const MasterLossReport = () => {
                       {parseInt(totalBalanceOFLossReportItem) === 0 ||
                         (totalBalanceOFLossReportItem === '--' && (
                           <td className="">
-                            <a href="transfer" onClick={handleTransferAPI}>
+                            <button
+                              className="btn text-capitalize btn-link"
+                              style={{ fontSize: '16px' }}
+                              type="button"
+                              onClick={() => handleTransferAPI()}
+                            >
                               Transfer
-                            </a>
+                            </button>
                           </td>
                         ))}
                     </tr>
