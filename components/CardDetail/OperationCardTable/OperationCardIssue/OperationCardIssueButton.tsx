@@ -122,7 +122,7 @@ const OperationCardIssueButton = ({
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some(
-      (value) => value === ''
+      (value) => value === '' || value === undefined
     );
     console.log('mergedObjs', mergedObjs, decodeURI(splitValue[1]));
     // const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
