@@ -7,11 +7,12 @@ import ReduxProvider from '@/store/ReduxProvider';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
-  title: 'ARG - Operation Card',
+  title: 'ARC',
   description: 'Operation Card',
 };
 
@@ -32,19 +33,21 @@ export default function RootLayout({
         />
       </head>
       <body className={nunito.className}>
-        <ToastContainer
-          position="top-right"
-          autoClose={8000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          draggable={false}
-          closeOnClick
-          pauseOnHover
-        />
-        <ReduxProvider>
-          {children}
-          <BootstrapClient />
-        </ReduxProvider>
+        <ErrorBoundary>
+          <ToastContainer
+            position="top-right"
+            autoClose={8000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            draggable={false}
+            closeOnClick
+            pauseOnHover
+          />
+          <ReduxProvider>
+            {children}
+            <BootstrapClient />
+          </ReduxProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

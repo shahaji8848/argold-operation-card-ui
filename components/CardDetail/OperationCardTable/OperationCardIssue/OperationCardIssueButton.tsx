@@ -133,6 +133,7 @@ const OperationCardIssueButton = ({
     // console.log('post data all', allNonEmptyExceptLineNumber);
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
+
       try {
         const callSaveAPI: any = await POSTModalData(
           'issue',
@@ -166,6 +167,48 @@ const OperationCardIssueButton = ({
       setEmptyFieldsErr(true);
     }
   };
+
+  // const mergedObjs = {
+  //   ...modalFieldValuesState,
+  //   ...modalDropdownFields,
+  //   item: itemName,
+  // };
+
+  // const hasEmptyValue = Object.values(mergedObjs).some(
+  //   (value) => value !== '' && value !== undefined
+  // );
+
+  // console.log('hasEmptyValues', mergedObjs);
+  // const handleKeyPress = (event: any) => {
+  //   if (event.key === 'Enter') {
+  //     // const mergedObjs = {
+  //     //   ...modalFieldValuesState,
+  //     //   ...modalDropdownFields,
+  //     //   item: itemName,
+  //     // };
+
+  //     // const hasEmptyValue = Object.values(mergedObjs).some(
+  //     //   (value) => value === ''
+  //     // );
+
+  //     if (hasEmptyValue) {
+  //       console.log('Empty values ');
+  //       setEmptyFieldsErr(true);
+  //     } else {
+  //       console.log('No empty values');
+  //       handleSubmit();
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   document.addEventListener('keydown', handleKeyPress);
+
+  //   return () => {
+  //     document.removeEventListener('keydown', handleKeyPress);
+  //   };
+  // }, [modalFieldValuesState, modalDropdownFields]);
+
   const handleClose = () => {
     setEmptyFieldsErr(false);
     setShow(false);
