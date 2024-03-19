@@ -22,6 +22,10 @@ const useInputAutoComplete = (
 
   // this login is for hide and show suggestion based on click
   useEffect(() => {
+    setInputValueAutoComplete({
+      name: initialValue,
+      value: initialValue,
+    });
     const handleOutsideClickAutoComplete = (event: any) => {
       if (
         inputRef.current &&
