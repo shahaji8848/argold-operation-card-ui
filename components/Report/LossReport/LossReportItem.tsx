@@ -40,6 +40,40 @@ const LossReportItem = ({
                 <tr key={idx}>
                   <td>{lossData?.item !== '' ? lossData?.item : '--'}</td>
                   <td className="text-end">
+                    {/* {lossData?.item === 'Parent Lot Loss' ? (
+                      <>
+                        {lossData?.in_weight &&
+                        lossData?.in_weight !== 0 &&
+                        (lossData?.in_weight < -0.001 ||
+                          lossData?.in_weight > 0.001) ? (
+                          <Link
+                            href={`${CONSTANTS.API_BASE_URL}app/query-report/Productwise%20Parent%20Lot%20Loss?loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
+                            target="_blank"
+                          >
+                            {lossData?.in_weight?.toFixed(3)}
+                          </Link>
+                        ) : (
+                          '--'
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {lossData?.in_weight &&
+                        lossData?.in_weight !== 0 &&
+                        (lossData?.in_weight < -0.001 ||
+                          lossData?.in_weight > 0.001) ? (
+                          <Link
+                            href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
+                            target="_blank"
+                          >
+                            {lossData?.in_weight?.toFixed(3)}
+                          </Link>
+                        ) : (
+                          '--'
+                        )}
+                      </>
+                    )} */}
+
                     {lossData?.item === 'Parent Lot Loss' ? (
                       <>
                         {lossData?.in_weight &&
@@ -48,6 +82,22 @@ const LossReportItem = ({
                           lossData?.in_weight > 0.001) ? (
                           <Link
                             href={`${CONSTANTS.API_BASE_URL}app/query-report/Productwise%20Parent%20Lot%20Loss?loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
+                            target="_blank"
+                          >
+                            {lossData?.in_weight?.toFixed(3)}
+                          </Link>
+                        ) : (
+                          '--'
+                        )}
+                      </>
+                    ) : lossData?.item === 'Tounch Loss Fine' ? (
+                      <>
+                        {lossData?.in_weight &&
+                        lossData?.in_weight !== 0 &&
+                        (lossData?.in_weight < -0.001 ||
+                          lossData?.in_weight > 0.001) ? (
+                          <Link
+                            href={`${CONSTANTS.API_BASE_URL}app/query-report/Product%20Wise%20Tounch%20Loss%20Fine?loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
                             target="_blank"
                           >
                             {lossData?.in_weight?.toFixed(3)}
