@@ -1,6 +1,7 @@
 import { useRouter } from 'next/navigation';
 import OperationCardInputField from './OperationCardInputField';
 import Link from 'next/link';
+import { CONSTANTS } from '@/services/config/api-config';
 const OperationCardHeader = ({
   operationCardDetailData,
   handleOperationCardSave,
@@ -14,7 +15,7 @@ const OperationCardHeader = ({
       <div className="col-md-5">
         <p className="mb-0 m-0 p-0 bold header-heading-mob">
           <Link
-            href={`https://erp.ar-gold.in/app/operation-card/${operationCardDetailData.name}`}
+            href={`${CONSTANTS.API_BASE_URL}app/operation-card/${operationCardDetailData.name}`}
             style={{ textDecoration: 'none !important' }}
             className=""
           >

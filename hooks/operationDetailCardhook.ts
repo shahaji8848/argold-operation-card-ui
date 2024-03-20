@@ -427,7 +427,7 @@ const useOperationDetailCard = () => {
       setOperationCardNextDesign(
         getDesign?.data?.data?.map((design: any) => ({
           name: design?.name,
-          value: design?.name1,
+          value: design?.name,
         }))
       );
     } else {
