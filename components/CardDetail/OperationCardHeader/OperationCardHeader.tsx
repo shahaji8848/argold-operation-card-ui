@@ -10,6 +10,10 @@ const OperationCardHeader = ({
   const redirectToHomepage = () => {
     router.push('/');
   };
+
+  const redirectToHome = () => {
+    router.push(`${CONSTANTS.API_BASE_URL}`);
+  };
   return (
     <div className="row spacing-mt p-0 ">
       <div className="col-md-5">
@@ -41,12 +45,12 @@ const OperationCardHeader = ({
             >
               Save
             </button>
-            {/* <button
+            <button
               className="btn btn-blue  px-4 px-1 ms-2 btn-py "
-              onClick={redirectToHomepage}
+              onClick={redirectToHome}
             >
-              Submit
-            </button> */}
+              Home
+            </button>
           </div>
         </div>
       </div>

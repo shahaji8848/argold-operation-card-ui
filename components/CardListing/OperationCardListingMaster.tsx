@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { get_access_token } from '@/store/slice/login-slice';
 import GETOperationCardListData from '@/services/api/operation-card-list-page/operation-card-list-api';
+import { CONSTANTS } from '@/services/config/api-config';
 
 const OperationCardListingMaster = () => {
   const router = useRouter();
@@ -91,6 +92,10 @@ const OperationCardListingMaster = () => {
     // URLForFiltersHandler();
   };
 
+  const redirectToHome = () => {
+    router.push(`${CONSTANTS.API_BASE_URL}`);
+  };
+
   useEffect(() => {
     const url = new URL(window.location.href);
 
@@ -136,14 +141,14 @@ const OperationCardListingMaster = () => {
     <div className="container-fuild">
       <div className="row spacing-pd mt-3">
         <div className="col-md-10"></div>
-        {/* <div className="col-md-2 text-end">
+        <div className="col-md-2 text-end">
           <button
-            className="btn btn-secondary fs-13 px-4 px-1 btn-py "
-            onClick={redirectToHomepage}
+            className="btn btn-blue fs-13 px-4 px-1 btn-py "
+            onClick={redirectToHome}
           >
-            Back
+            Home
           </button>
-        </div> */}
+        </div>
       </div>
       <div className="spacing-pd">
         <OperationCardListingField
