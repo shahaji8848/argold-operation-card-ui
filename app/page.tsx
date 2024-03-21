@@ -1,4 +1,5 @@
 'use client';
+import Navbar from '@/components/Navbar/CustomNavbar';
 import OperationCardSearchMaster from '@/components/OperationCardSearch/OperationCardSearchMaster';
 
 const Home = () => {

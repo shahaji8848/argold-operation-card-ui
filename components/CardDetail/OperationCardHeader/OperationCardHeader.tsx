@@ -12,7 +12,7 @@ const OperationCardHeader = ({
   };
 
   const redirectToHome = () => {
-    router.push(`${CONSTANTS.API_BASE_URL}`);
+    router.push(`${CONSTANTS.API_BASE_URL}app`);
   };
   return (
     <div className="row spacing-mt p-0 ">
@@ -45,12 +45,12 @@ const OperationCardHeader = ({
             >
               Save
             </button>
-            <button
+            {/* <button
               className="btn btn-blue  px-4 px-1 ms-2 btn-py "
               onClick={redirectToHome}
             >
               Home
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

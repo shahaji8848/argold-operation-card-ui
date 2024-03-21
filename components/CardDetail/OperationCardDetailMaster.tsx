@@ -8,6 +8,7 @@ import OperationCardInputFieldMaster from './OperationCardInputField/OperationCa
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import OperationCardCreationDetail from './OperationCardCreationDetail/OperationCardCreationDetail';
 import Link from 'next/link';
+import MasterOperationCardSellsOrder from './OperationCardSellsOrder/MasterOperationCardSellsOrder';
 const OperationCardDetailMaster = () => {
   const {
     search,
@@ -48,8 +49,10 @@ const OperationCardDetailMaster = () => {
     isBalanceWeightSetAsInWeight,
     balanceWeight,
     modalFieldsState,
+    getOperationCardSellsOrder,
+    sellsOrderData,
   } = useOperationDetailCard();
-
+  console.log('operationCardDetailDatas', operationCardDetailData);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -132,6 +135,10 @@ const OperationCardDetailMaster = () => {
               balanceWeight={balanceWeight}
               modalFieldsState={modalFieldsState}
               headerSave={headerSave}
+            />
+            <MasterOperationCardSellsOrder
+              getOperationCardSellsOrder={getOperationCardSellsOrder}
+              sellsOrderData={sellsOrderData}
             />
             <OperationCardCreationDetail
               operationCardDetailData={operationCardDetailData}

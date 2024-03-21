@@ -93,7 +93,7 @@ const OperationCardListingMaster = () => {
   };
 
   const redirectToHome = () => {
-    router.push(`${CONSTANTS.API_BASE_URL}`);
+    router.push(`${CONSTANTS.API_BASE_URL}app`);
   };
 
   useEffect(() => {
@@ -139,7 +139,7 @@ const OperationCardListingMaster = () => {
   }, [searchParams]);
   return (
     <div className="container-fuild">
-      <div className="row spacing-pd mt-3">
+      {/* <div className="row spacing-pd mt-3">
         <div className="col-md-10"></div>
         <div className="col-md-2 text-end">
           <button
@@ -149,7 +149,7 @@ const OperationCardListingMaster = () => {
             Home
           </button>
         </div>
-      </div>
+      </div> */}
       <div className="spacing-pd">
         <OperationCardListingField
           filtersData={filtersData}

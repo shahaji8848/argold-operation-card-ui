@@ -23,6 +23,7 @@ import GETOperationCardDetailMachine from '@/services/api/operation-card-detail-
 import GETOperationCardDetailTone from '@/services/api/operation-card-detail-page/operation-card-detail-tone';
 import GETProductProcessNextProductCategory from '@/services/api/operation-card-detail-page/operation-card-detail-product-category';
 import GETLossPeriodList from '@/services/api/loss-period/loss-period-api';
+import GETSellsOrder from '@/services/api/operation-card-detail-page/sells-order';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -434,6 +435,7 @@ const useOperationDetailCard = () => {
       setOperationCardNextDesign([]);
     }
   };
+  console.log('OperationCardNextDesigns', operationCardNextDesign);
   const getOperationCardDetailDesignCodeTypeAPICall = async () => {
     const getDesignCodeType = await GETProductProcessDesignCodeType(
       operationCardDetailData?.product,
@@ -566,6 +568,32 @@ const useOperationDetailCard = () => {
     }
   };
 
+  console.log('operationCardDetailDatas', operationCardDetailData);
+  const [sellsOrderData, setSellsOrderData] = useState([]);
+  const getOperationCardSellsOrder = async () => {
+    const keys = operationCardDetailData?.operation_card_issue_details?.map(
+      (name: any) => Object.keys(name)
+    );
+    const getSellsOrderList = await GETSellsOrder(
+      operationCardDetailData?.melting_lot,
+      operationCardDetailData?.design,
+      operationCardDetailData?.name,
+      // keys,
+      operationCardDetailData?.operation_department,
+      token
+    );
+    console.log(getSellsOrderList, 'getSellsOrderList');
+    if (getSellsOrderList?.status === 200) {
+      setSellsOrderData(getSellsOrderList?.data);
+    } else {
+      setSellsOrderData([]);
+    }
+  };
+  // useEffect(() => {
+  //   getOperationCardSellsOrder();
+  // }, []);
+  // console.log('getSellsOrderList', sellsOrderData);
+
   const handleOperationCardSave = async () => {
     const filteredData = Object.fromEntries(
       Object.entries(headerSave).filter(([key, value]) => value !== '')
@@ -662,6 +690,8 @@ const useOperationDetailCard = () => {
     isBalanceWeightSetAsInWeight,
     balanceWeight,
     modalFieldsState,
+    getOperationCardSellsOrder,
+    sellsOrderData,
   };
 };
 

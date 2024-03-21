@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 const OperationCardSearchField = () => {
   const focusRef = useRef<any>(null);
   const router = useRouter();
-  const dispatch = useDispatch();
+
   const [searchField, setSearchField] = useState<string>('');
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -24,38 +24,12 @@ const OperationCardSearchField = () => {
     }
   };
 
-  const redirectToHome = () => {
-    router.push(`${CONSTANTS.API_BASE_URL}`);
-  };
-
-  const handleLogout = () => {
-    router.push(`/login`);
-    dispatch(clearToken());
-  };
-
   useEffect(() => {
     focusRef.current.focus();
   }, []);
 
   return (
     <>
-      <div className="row mt-5 ">
-        <div className="col-xxl-10"></div>
-        <div className="col-xxl-2 text-end p-0">
-          <button
-            className="btn btn-blue  px-4 px-1 ms-2 btn-py "
-            onClick={redirectToHome}
-          >
-            Home
-          </button>
-          <button
-            className="btn btn-grey  px-4 px-1 ms-2 btn-py "
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
       <div className="row mt-5 ">
         <div className="col-md-3">
           <p className="text-capitalize fs-14 light-grey">

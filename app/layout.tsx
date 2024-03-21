@@ -8,6 +8,10 @@ import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { Navbar } from 'react-bootstrap';
+import { useParams, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import CustomNavbar from '@/components/Navbar/CustomNavbar';
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'] });
 
@@ -44,6 +48,7 @@ export default function RootLayout({
             pauseOnHover
           />
           <ReduxProvider>
+            <CustomNavbar />
             {children}
             <BootstrapClient />
           </ReduxProvider>
