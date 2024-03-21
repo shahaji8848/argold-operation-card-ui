@@ -149,7 +149,7 @@ const useInputAutoComplete = (
       const filtered: any = optionvalue.filter(
         (suggestion: any) =>
           // suggestion.toLowerCase().includes(trimmedInput)
-          suggestion?.value?.toLowerCase().startsWith(trimmedInput)
+          suggestion?.value?.toLowerCase()?.includes(trimmedInput)
       );
 
       // setFilteredSuggestionsAutoComplete(filtered);
