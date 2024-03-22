@@ -42,10 +42,6 @@ const CustomNavbar = () => {
           <div className="d-flex align-items-center justify-content-end  navbar-height spacing-pd">
             <div className="container-fluid ">
               <div className="">
-                {/* <img
-          src="https://erp.ar-gold.in/assets/erpnext/images/erpnext-logo.svg"
-          style={{ width: '24px' }}
-        /> */}
                 <Image
                   src="/arc-logo.png"
                   alt="ERPNext Logo"
@@ -66,30 +62,13 @@ const CustomNavbar = () => {
                   color: '#030f27',
                 }}
               >
-                {/* Home */}
-                {/* <i
-            className="fa fa-home me-2 light-grey"
-            aria-hidden="true"
-            style={{ fontSize: '17px' }}
-          >
-            {' '}
-          </i> */}
                 <Image
-                  // src="/arc-logo.png"
                   src="https://erp.ar-gold.in/assets/erpnext/images/erpnext-logo.svg"
                   alt="ERPNext Logo"
                   width={24}
                   height={24}
                 />
-
-                {/* <span className="light-grey ps-2 " style={{ fontSize: '14px' }}>
-            Home
-          </span> */}
               </button>
-
-              {/* <Link href="" className="   " onClick={handleLogout}>
-          Logout
-        </Link> */}
             </div>
             <div className="d-flex align-items-center  ps-3 pe-3">
               <button className="btn-none  pt-1" onClick={handleLogout}>
@@ -99,41 +78,6 @@ const CustomNavbar = () => {
                   style={{ fontSize: '20px' }}
                 ></i>{' '}
               </button>
-              {/* <div className="dropdown ">
-          <button
-            className="btn btn-secondary dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            style={{
-              background: 'none',
-              border: 'none',
-              marginTop: '6px',
-              color: '#030f27',
-            }}
-          >
-            <i
-              className="fa fa-user-circle me-2 "
-              aria-hidden="true"
-              style={{ fontSize: '20px' }}
-            ></i>
-            {token?.username?.split('@')[0]}
-          </button>
-          <ul
-            className="dropdown-menu px-2"
-            aria-labelledby="dropdownMenuButton1"
-          >
-            <li className="py-1">
-              <span>{token?.username}</span>
-            </li>
-            <li className="py-1">
-              <Link href="" className="" onClick={handleLogout}>
-                Logout
-              </Link>
-            </li>
-          </ul>
-        </div> */}
             </div>
           </div>
         </div>
