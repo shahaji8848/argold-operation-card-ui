@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const OperationCardSellsOrder = ({
   getOperationCardSellsOrder,
@@ -10,6 +11,9 @@ const OperationCardSellsOrder = ({
   const handleButtonClick = () => {
     getOperationCardSellsOrder();
     setShowTable(true);
+    if (sellsOrderData.length === 0) {
+      toast.error('No data available from the API');
+    }
   };
 
   return (
@@ -23,18 +27,20 @@ const OperationCardSellsOrder = ({
       <div className="row mt-2">
         <div className="col-xxl-5 col-xl-4 col-md-5">
           {/* <span className="bold">Operation Card Order Detail:</span> */}
-          {showTable && sellsOrderData.length > 0 && (
+          {showTable && sellsOrderData?.length > 0 && (
             <div className="table-responsive mt-2">
               <table className="table table-bordered">
                 <thead>
                   <tr className="table-text">
                     {[
                       'Item',
-                      'Size',
                       'Production Qty',
-                      'Ready Qty',
-                      'MI Order Detail Ref',
-                      'Design',
+                      'Size',
+                      'Name',
+                      'Item Name',
+                      // 'Ready Qty',
+                      // 'MI Order Detail Ref',
+                      // 'Design',
                       'Sales Order',
                       'SOISD Item',
                     ].map((val, i: any) => (
@@ -49,20 +55,19 @@ const OperationCardSellsOrder = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {operationCardDetailData?.receipt_details?.length > 0 &&
-              operationCardDetailData?.receipt_details?.map(
-                (data: any, i: any) => (
-                  <tr className="table-text" key={i}>
-                    <td></td>
-                    <td className="text-end"></td>
-                    <td className="text-end"></td>
-                    <td className="text-end"></td>
-                    <td className="text-end"></td>
-                    <td className="text-end"></td>
-                    <td className="text-end"></td>
-                  </tr>
-                )
-              )} */}
+                  {sellsOrderData?.length > 0 &&
+                    sellsOrderData?.map((data: any, i: any) => (
+                      <tr className="table-text" key={i}>
+                        <td></td>
+                        <td className="text-end">{data?.item}</td>
+                        <td className="text-end">{data?.production_qty}</td>
+                        <td className="text-end">{data?.size}</td>
+                        <td className="text-end">{data?.name}</td>
+                        <td className="text-end">{data?.item_name}</td>
+                        <td className="text-end">{data?.sales_order}</td>
+                        <td className="text-end">{data?.so_detail}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
