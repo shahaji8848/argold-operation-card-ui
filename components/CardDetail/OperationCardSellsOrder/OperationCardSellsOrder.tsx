@@ -28,19 +28,6 @@ const OperationCardSellsOrder = ({
   };
 
   const handleDeleteSelectedItems = () => {
-    // Filter out selected items from the sellsOrderData
-    // const updatedData = sellsOrderData?.filter(
-    //   (item: any) => !selectedItems?.includes(item?.so_detail)
-    // );
-    // Show a message if no items are selected
-    // if (selectedItems?.length === 0) {
-    //   toast.error('No items selected for deletion');
-    //   return;
-    // }
-    // Update the state with the filtered data
-    // getOperationCardSellsOrder(updatedData);
-    // setSelectedItems([]);
-
     const updatedData: any = [];
     sellsOrderData.forEach((item: any) => {
       if (!selectedItems.includes(item.so_detail)) {
@@ -83,7 +70,7 @@ const OperationCardSellsOrder = ({
                       // 'MI Order Detail Ref',
                       // 'Design',
                       'Sales Order',
-                      'SOISD Item',
+                      // 'SOISD Item',
                     ].map((val, i: any) => (
                       <th
                         className="thead-dark text-center"
@@ -114,7 +101,7 @@ const OperationCardSellsOrder = ({
                         <td className="text-center">{data?.name}</td>
                         <td className="text-center">{data?.item_name}</td>
                         <td className="text-center">{data?.sales_order}</td>
-                        <td className="text-center">{data?.so_detail}</td>
+                        {/* <td className="text-center">{data?.so_detail}</td> */}
                       </tr>
                     ))}
                 </tbody>
