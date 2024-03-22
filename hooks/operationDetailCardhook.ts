@@ -575,16 +575,16 @@ const useOperationDetailCard = () => {
       (name: any) => Object.keys(name)
     );
     const getSellsOrderList = await GETSellsOrder(
-      operationCardDetailData?.melting_lot,
-      operationCardDetailData?.design,
+      // operationCardDetailData?.melting_lot,
+      // operationCardDetailData?.design,
       operationCardDetailData?.name,
       // keys,
-      operationCardDetailData?.operation_department,
+      // operationCardDetailData?.operation_department,
       token
     );
     console.log(getSellsOrderList, 'getSellsOrderList');
     if (getSellsOrderList?.status === 200) {
-      setSellsOrderData(getSellsOrderList?.data);
+      setSellsOrderData(getSellsOrderList?.data?.message);
     } else {
       setSellsOrderData([]);
     }
@@ -692,6 +692,7 @@ const useOperationDetailCard = () => {
     modalFieldsState,
     getOperationCardSellsOrder,
     sellsOrderData,
+    setSellsOrderData,
   };
 };
 
