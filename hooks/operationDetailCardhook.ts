@@ -584,7 +584,7 @@ const useOperationDetailCard = () => {
     );
     console.log(getSellsOrderList, 'getSellsOrderList');
     if (getSellsOrderList?.status === 200) {
-      setSellsOrderData(getSellsOrderList?.data);
+      setSellsOrderData(getSellsOrderList?.data?.message);
     } else {
       setSellsOrderData([]);
     }
@@ -692,6 +692,7 @@ const useOperationDetailCard = () => {
     modalFieldsState,
     getOperationCardSellsOrder,
     sellsOrderData,
+    setSellsOrderData,
   };
 };
 

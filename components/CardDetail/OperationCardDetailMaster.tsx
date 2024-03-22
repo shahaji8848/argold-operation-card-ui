@@ -51,6 +51,7 @@ const OperationCardDetailMaster = () => {
     modalFieldsState,
     getOperationCardSellsOrder,
     sellsOrderData,
+    setSellsOrderData,
   } = useOperationDetailCard();
   console.log('operationCardDetailDatas', operationCardDetailData);
   return (
@@ -139,6 +140,7 @@ const OperationCardDetailMaster = () => {
             <MasterOperationCardSellsOrder
               getOperationCardSellsOrder={getOperationCardSellsOrder}
               sellsOrderData={sellsOrderData}
+              setSellsOrderData={setSellsOrderData}
             />
             <OperationCardCreationDetail
               operationCardDetailData={operationCardDetailData}
