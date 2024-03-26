@@ -52,6 +52,7 @@ const OperationCardDetailMaster = () => {
     getOperationCardSellsOrder,
     sellsOrderData,
     setSellsOrderData,
+    handleSaveButtonClickSalesOrder,
   } = useOperationDetailCard();
   console.log('operationCardDetailDatas', operationCardDetailData);
   return (
@@ -138,9 +139,11 @@ const OperationCardDetailMaster = () => {
               headerSave={headerSave}
             />
             <MasterOperationCardSellsOrder
+              operationCardDetailData={operationCardDetailData}
               getOperationCardSellsOrder={getOperationCardSellsOrder}
               sellsOrderData={sellsOrderData}
               setSellsOrderData={setSellsOrderData}
+              handleSaveButtonClickSalesOrder={handleSaveButtonClickSalesOrder}
             />
             <OperationCardCreationDetail
               operationCardDetailData={operationCardDetailData}
