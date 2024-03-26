@@ -24,6 +24,8 @@ import GETOperationCardDetailTone from '@/services/api/operation-card-detail-pag
 import GETProductProcessNextProductCategory from '@/services/api/operation-card-detail-page/operation-card-detail-product-category';
 import GETLossPeriodList from '@/services/api/loss-period/loss-period-api';
 import GETSellsOrder from '@/services/api/operation-card-detail-page/sells-order';
+import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/update-sales-order-api';
+import { toast } from 'react-toastify';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -593,6 +595,23 @@ const useOperationDetailCard = () => {
       setSellsOrderData([]);
     }
   };
+
+  const handleSaveButtonClickSalesOrder = async () => {
+    try {
+      const updatedData = await UpdateSalesOrderAPI(
+        sellsOrderData,
+        operationCardDetailData?.name,
+        token
+      );
+      console.log('sellsOrderData', sellsOrderData);
+      console.log('token', token);
+      setSellsOrderData(updatedData);
+      toast.success('Sales order updated successfully');
+    } catch (error) {
+      toast.error('Failed to update sales order');
+    }
+  };
+
   // useEffect(() => {
   //   getOperationCardSellsOrder();
   // }, []);
@@ -697,6 +716,7 @@ const useOperationDetailCard = () => {
     getOperationCardSellsOrder,
     sellsOrderData,
     setSellsOrderData,
+    handleSaveButtonClickSalesOrder,
   };
 };
 

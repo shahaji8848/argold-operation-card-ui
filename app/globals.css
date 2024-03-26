@@ -266,6 +266,14 @@ a {
   background-color: #2490ef !important;
   color: white !important;
 }
+/* To remove by default number input style */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0; /* Optional: Remove margin */
+}
+
 @media (max-width: 768px) {
   .btn-blueColor {
     width: 100% !important;

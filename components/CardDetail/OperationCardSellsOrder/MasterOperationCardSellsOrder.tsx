@@ -3,16 +3,20 @@ import OperationCardCreationDetail from '../OperationCardCreationDetail/Operatio
 import OperationCardSellsOrder from './OperationCardSellsOrder';
 
 const MasterOperationCardSellsOrder = ({
+  operationCardDetailData,
   getOperationCardSellsOrder,
   sellsOrderData,
   setSellsOrderData,
+  handleSaveButtonClickSalesOrder,
 }: any) => {
   return (
     <>
       <OperationCardSellsOrder
+        operationCardDetailData={operationCardDetailData}
         getOperationCardSellsOrder={getOperationCardSellsOrder}
         sellsOrderData={sellsOrderData}
         setSellsOrderData={setSellsOrderData}
+        handleSaveButtonClickSalesOrder={handleSaveButtonClickSalesOrder}
       />
     </>
   );
