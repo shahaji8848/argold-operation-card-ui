@@ -35,14 +35,14 @@ const OperationCardSellsOrder = ({
   //   await getOperationCardSellsOrder();
   // };
 
-  // useEffect(() => {
-  //   // Check if any selected items or numeric values have changed
-  //   setIsTableChanged(
-  //     selectedItems?.length > 0 ||
-  //       numericValues.some((val) => !isNaN(val)) ||
-  //       sellsOrderData?.length > 0
-  //   );
-  // }, [selectedItems, numericValues]);
+  useEffect(() => {
+    // Check if any selected items or numeric values have changed
+    setIsTableChanged(
+      selectedItems?.length > 0 ||
+        numericValues.some((val) => !isNaN(val)) ||
+        sellsOrderData?.length > 0
+    );
+  }, [selectedItems, numericValues]);
 
   // useEffect(() => {
   //   // Check if any selected items or numeric values have changed
@@ -55,14 +55,14 @@ const OperationCardSellsOrder = ({
 
   //   setIsTableChanged(isTableChanged);
   // }, [selectedItems, sellsOrderData, numericValues]);
-  useEffect(() => {
-    // Check if any selected items have changed
-    const isTableChanged =
-      selectedItems?.length > 0 ||
-      sellsOrderData?.some((item: any) => isNaN(parseFloat(item?.ready_qty)));
+  // useEffect(() => {
+  //   // Check if any selected items have changed
+  //   const isTableChanged =
+  //     selectedItems?.length > 0 ||
+  //     sellsOrderData?.some((item: any) => isNaN(parseFloat(item?.ready_qty)));
 
-    setIsTableChanged(isTableChanged);
-  }, [sellsOrderData]);
+  //   setIsTableChanged(isTableChanged);
+  // }, [sellsOrderData]);
 
   const handleButtonClick = async () => {
     await getOperationCardSellsOrder();
