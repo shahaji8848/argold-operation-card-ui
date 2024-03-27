@@ -331,49 +331,31 @@ const OperationCardSellsOrder = ({
                             />
                           </td>
                         )}
-
                         {/* {operationCardDetailData?.operation_card_issue_details?.map(
-                            (ele: any) => {
-                              return (
-                                ele?.item === 'GPC' &&
-                                ele?.item && ( */}
-                        {/* <td className="text-center d-flex justify-content-center">
-                            <input
-                              type="number"
-                              className="input_fields px-2 py-1 rounded-2"
-                              // Assuming data is the numeric value from sellsOrderData
-                              value={
-                                // data?.production_qty <= data?.ready_qty
-                                //   ? data?.ready_qty
-                                //   : ''
-                                data?.ready_qty
-                              }
-                              // onChange={(
-                              //   e: React.ChangeEvent<HTMLInputElement>
-                              // ) => handleNumericChange(e, i)}
-                              // onChange={(e: any) => {
-                              //   e.target.value;
-                              // }}
-                              onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
-                              ) => {
-                                const newValue = parseFloat(e.target.value);
-                                if (!isNaN(newValue)) {
-                                  const updatedData = [...sellsOrderData];
-                                  updatedData[i].ready_qty = newValue;
-                                  setSellsOrderData(updatedData);
-                                }
-                              }}
-                              style={{
-                                width: '100%',
-                                maxWidth: '120px',
-                              }}
-                            />
-                          </td> */}
-                        {/* )
-                              );
-                            }
-                          )} */}
+                          (ele: any) => {
+                            return (
+                              ele?.item === 'GPC' &&
+                              ele?.item && (
+                                <td className="text-center d-flex justify-content-center">
+                                  <input
+                                    type="number"
+                                    className="input_fields px-2 py-1 rounded-2 text-center"
+                                    value={data?.ready_qty || ''} // Ensure empty string fallback if data?.ready_qty is undefined or null
+                                    onChange={(
+                                      e: React.ChangeEvent<HTMLInputElement>
+                                    ) =>
+                                      handleNumericChange(
+                                        parseFloat(e.target.value),
+                                        i
+                                      )
+                                    }
+                                    style={{ width: '100%', maxWidth: '120px' }}
+                                  />
+                                </td>
+                              )
+                            );
+                          }
+                        )} */}
                       </tr>
                     ))
                   ) : (
