@@ -200,7 +200,8 @@ const OperationCardSellsOrder = ({
               // Show error message only if it hasn't been shown before
               errorShown = true;
               toast.error(
-                'Entered value should be a number and less than or equal to production quantity.'
+                // 'Entered value should be a number and less than or equal to production quantity.'
+                'Entered value ready quantity should be less than or equal to production quantity.'
               );
             }
             return item;
