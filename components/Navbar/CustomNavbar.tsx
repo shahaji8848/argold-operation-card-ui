@@ -63,7 +63,8 @@ const CustomNavbar = () => {
                 }}
               >
                 <Image
-                  src="https://erp.ar-gold.in/assets/erpnext/images/erpnext-logo.svg"
+                  src="/erpnext-logo.png"
+                  // src="https://erp.ar-gold.in/assets/erpnext/images/erpnext-logo.svg"
                   alt="ERPNext Logo"
                   width={24}
                   height={24}
