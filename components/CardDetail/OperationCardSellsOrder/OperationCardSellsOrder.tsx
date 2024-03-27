@@ -67,8 +67,8 @@ const OperationCardSellsOrder = ({
   const handleButtonClick = async () => {
     await getOperationCardSellsOrder();
 
-    if (sellsOrderData || sellsOrderData?.length !== 0) {
-      // toast.success('fetched order data');
+    if (sellsOrderData?.length !== 0) {
+      toast.success('fetched order data');
     } else {
       toast.error('No data found');
     }
