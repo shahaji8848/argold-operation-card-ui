@@ -94,19 +94,114 @@ const OperationCardSellsOrder = ({
   //   setNumericValues(updatedNumericValues);
   // };
 
-  const handleNumericChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    i: number
-  ) => {
-    const value = parseFloat(e.target.value);
-    const updatedData = [...sellsOrderData];
-    const valueData = sellsOrderData?.map((data: any) => {
-      return data?.production_qty;
+  // const handleNumericChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>,
+  //   i: number
+  // ) => {
+  //   const value = e;
+  //   const updatedData = [...sellsOrderData];
+  //   const valueData = sellsOrderData?.map((data: any) => {
+  //     return data?.production_qty;
+  //   });
+  //   let valueDataReady = sellsOrderData?.map((data: any) => {
+  //     return data?.ready_qty;
+  //   });
+  //   // updatedData[i].ready_qty = value;
+  //   console.log('valueData', valueData);
+  //   if (valueDataReady.some((val: any) => isNaN(val))) {
+  //     valueDataReady = valueDataReady.map((val: any) => (isNaN(val) ? 0 : val));
+  //   }
+
+  //   console.log('valueData', valueDataReady);
+  //   if (value <= valueData) {
+  //     setSellsOrderData(value);
+  //   }
+  //   console.log('setSellsOrderData', sellsOrderData);
+  // };
+
+  // const handleNumericChange = (newValue: number, i: number) => {
+  //   if (!isNaN(newValue) && newValue <= sellsOrderData[i].production_qty) {
+  //     const updatedData = [...sellsOrderData];
+  //     updatedData[i].ready_qty = newValue;
+  //     setSellsOrderData(...updatedData);
+  //   } else {
+  //     console.error(
+  //       'Entered value should be a number and less than or equal to production quantity.'
+  //     );
+  //     toast.error(
+  //       'Entered value should be a number and less than or equal to production quantity.'
+  //     );
+  //   }
+  // };
+
+  // const handleNumericChange = (newValue: number, i: number) => {
+  //   if (!isNaN(newValue) && newValue <= sellsOrderData[i].production_qty) {
+  //     // Create a copy of the sellsOrderData array
+  //     const updatedData = sellsOrderData.map((item: any, index: any) => {
+  //       // If the current index matches the index being edited, update the ready_qty
+  //       if (index === i) {
+  //         return { ...item, ready_qty: newValue };
+  //       }
+  //       // Otherwise, return the item unchanged
+  //       return item;
+  //     });
+  //     // Update the state with the modified array
+  //     setSellsOrderData(updatedData);
+  //   } else {
+  //     // Show error notification here
+  //     console.error(
+  //       'Entered value should be a number and less than or equal to production quantity.'
+  //     );
+  //   }
+  // };
+
+  // const handleNumericChange = (newValue: number, i: number) => {
+  //   if (!isNaN(newValue) && newValue <= sellsOrderData[i].production_qty) {
+  //     const updatedData = sellsOrderData.map((item: any, index: number) => {
+  //       if (index === i) {
+  //         return { ...item, ready_qty: newValue };
+  //       }
+  //       return item;
+  //     });
+  //     setSellsOrderData(updatedData);
+  //   } else if (isNaN(newValue)) {
+  //     const updatedData = sellsOrderData.map((item: any, index: number) => {
+  //       if (index === i) {
+  //         return { ...item, ready_qty: 0 }; // Set ready_qty to 0 if input value is NaN
+  //       }
+  //       return item;
+  //     });
+  //     setSellsOrderData(updatedData);
+  //   } else {
+  //     console.error(
+  //       'Entered value should be a number and less than or equal to production quantity.'
+  //     );
+  //   }
+  // };
+
+  const handleNumericChange = (newValue: number, i: number) => {
+    setSellsOrderData((prevData: any[]) => {
+      // Specify the type of prevData as any[]
+      const updatedData = prevData.map((item: any, index: number) => {
+        if (index === i) {
+          if (!isNaN(newValue) && newValue <= item.production_qty) {
+            return { ...item, ready_qty: newValue };
+          } else if (isNaN(newValue)) {
+            return { ...item, ready_qty: 0 }; // Set ready_qty to 0 if input value is NaN
+          } else {
+            console.error(
+              'Entered value should be a number and less than or equal to production quantity.'
+            );
+            toast.error(
+              'Entered value should be a number and less than or equal to production quantity.'
+            );
+            return item;
+          }
+        }
+        return item;
+      });
+      return updatedData;
     });
-    updatedData[i].ready_qty = value;
-    if (updatedData <= valueData) {
-      setSellsOrderData(updatedData);
-    }
   };
 
   return (
@@ -192,39 +287,15 @@ const OperationCardSellsOrder = ({
                               <input
                                 type="number"
                                 className="input_fields px-2 py-1 rounded-2"
-                                // Assuming data is the numeric value from sellsOrderData
-                                // value={numericValues[i]}
-                                // onChange={(
-                                //   e: React.ChangeEvent<HTMLInputElement>
-                                // ) => handleNumericChange(e, i)}
-                                value={
-                                  // data?.production_qty <= data?.ready_qty
-                                  //   ? data?.ready_qty
-                                  //   : ''
-                                  // data?.production_qty <= data?.ready_qty
-                                  //   ? data?.ready_qty
-                                  //   : ''
-                                  data?.ready_qty
-                                }
-                                // onChange={(
-                                //   e: React.ChangeEvent<HTMLInputElement>
-                                // ) => handleNumericChange(e, i)}
-                                // onChange={(e: any) => {
-                                //   e.target.value;
-                                // }}
-                                // onChange={(
-                                //   e: React.ChangeEvent<HTMLInputElement>
-                                // ) => {
-                                //   const newValue = parseFloat(e.target.value);
-                                //   if (!isNaN(newValue)) {
-                                //     const updatedData = [...sellsOrderData];
-                                //     updatedData[i].ready_qty = newValue;
-                                //     setSellsOrderData(updatedData);
-                                //   }
-                                // }}
+                                value={data?.ready_qty || ''} // Ensure empty string fallback if data?.ready_qty is undefined or null
                                 onChange={(
                                   e: React.ChangeEvent<HTMLInputElement>
-                                ) => handleNumericChange(e, i)}
+                                ) =>
+                                  handleNumericChange(
+                                    parseFloat(e.target.value),
+                                    i
+                                  )
+                                }
                                 style={{ width: '100%', maxWidth: '120px' }}
                               />
                             </td>
