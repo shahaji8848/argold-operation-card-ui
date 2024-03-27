@@ -208,7 +208,7 @@ const OperationCardSellsOrder = ({
                         <td className="text-center">{data?.item_name}</td>
                         <td className="text-center">{data?.production_qty}</td>
                         <td className="text-center">{data?.size}</td>
-                        {operationCardDetailData?.operation_department ===
+                        {/* {operationCardDetailData?.operation_department ===
                           'GPC' && (
                           <td className="text-center d-flex justify-content-center">
                             <input
@@ -226,8 +226,8 @@ const OperationCardSellsOrder = ({
                               style={{ width: '100%', maxWidth: '120px' }}
                             />
                           </td>
-                        )}
-                        {/* {operationCardDetailData?.operation_card_issue_details?.map(
+                        )} */}
+                        {operationCardDetailData?.operation_card_issue_details?.map(
                           (ele: any) => {
                             return (
                               ele?.item === 'GPC' &&
@@ -251,7 +251,7 @@ const OperationCardSellsOrder = ({
                               )
                             );
                           }
-                        )} */}
+                        )}
                       </tr>
                     ))
                   ) : (
