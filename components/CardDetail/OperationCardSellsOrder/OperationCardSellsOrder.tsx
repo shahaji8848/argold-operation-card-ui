@@ -180,6 +180,7 @@ const OperationCardSellsOrder = ({
   // };
 
   const handleNumericChange = (newValue: number, i: number) => {
+    let errorShown = false; // Flag to track whether error message has been shown
     setSellsOrderData((prevData: any[]) => {
       // Specify the type of prevData as any[]
       const updatedData = prevData.map((item: any, index: number) => {
@@ -189,12 +190,19 @@ const OperationCardSellsOrder = ({
           } else if (isNaN(newValue)) {
             return { ...item, ready_qty: 0 }; // Set ready_qty to 0 if input value is NaN
           } else {
-            console.error(
-              'Entered value should be a number and less than or equal to production quantity.'
-            );
-            toast.error(
-              'Entered value should be a number and less than or equal to production quantity.'
-            );
+            // console.error(
+            //   'Entered value should be a number and less than or equal to production quantity.'
+            // );
+            // toast.error(
+            //   'Entered value should be a number and less than or equal to production quantity.'
+            // );
+            if (!errorShown) {
+              // Show error message only if it hasn't been shown before
+              errorShown = true;
+              toast.error(
+                'Entered value should be a number and less than or equal to production quantity.'
+              );
+            }
             return item;
           }
         }
