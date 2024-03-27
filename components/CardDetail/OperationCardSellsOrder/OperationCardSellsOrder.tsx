@@ -317,7 +317,7 @@ const OperationCardSellsOrder = ({
                           <td className="text-center d-flex justify-content-center">
                             <input
                               type="number"
-                              className="input_fields px-2 py-1 rounded-2"
+                              className="input_fields px-2 py-1 rounded-2 text-center"
                               value={data?.ready_qty || ''} // Ensure empty string fallback if data?.ready_qty is undefined or null
                               onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
