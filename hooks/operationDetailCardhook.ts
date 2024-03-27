@@ -602,7 +602,9 @@ const useOperationDetailCard = () => {
       console.log('sellsOrderData', sellsOrderData);
       console.log('token', token);
       setSellsOrderData(updatedData);
+      console.log(sellsOrderData, 'SellsOrderData api');
       toast.success('Sales order updated successfully');
+      // toast.error(updatedData?.response?.data?.exception);
     } catch (error) {
       toast.error('Failed to update sales order');
     }
