@@ -18,8 +18,21 @@ const OperationCardSellsOrder = ({
   const [isTableChanged, setIsTableChanged] = useState(false);
 
   useEffect(() => {
+    // Check if local storage is available before attempting to use it
+    if (typeof window !== 'undefined') {
+      const savedSellsOrderData = JSON.parse(
+        localStorage.getItem('sellsOrderData') || '[]'
+      );
+      if (savedSellsOrderData && savedSellsOrderData?.length > 0) {
+        setSellsOrderData(savedSellsOrderData);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (sellsOrderData && sellsOrderData?.length > 0) {
       setShowTable(true);
+      localStorage.setItem('sellsOrderData', JSON.stringify(sellsOrderData));
     } else {
       // setShowTable(false);
       // toast.error('No Data Available');
@@ -79,14 +92,14 @@ const OperationCardSellsOrder = ({
     setSelectedItems(
       isHeaderCheckboxChecked
         ? []
-        : sellsOrderData.map((data: any) => data.soisd_item)
+        : sellsOrderData.map((data: any) => data.so_detail)
     );
   };
 
   const handleDeleteSelectedItems = () => {
     const updatedData: any = [];
     sellsOrderData.forEach((item: any) => {
-      if (!selectedItems.includes(item.soisd_item)) {
+      if (!selectedItems.includes(item.so_detail)) {
         updatedData.push(item);
       }
     });
@@ -195,13 +208,13 @@ const OperationCardSellsOrder = ({
                           <input
                             type="checkbox"
                             // onChange={() =>
-                            //   handleCheckboxChange(data?.soisd_item)
+                            //   handleCheckboxChange(data?.so_detail)
                             // }
-                            // checked={selectedItems.includes(data?.soisd_item)}
+                            // checked={selectedItems.includes(data?.so_detail)}
                             onChange={() =>
-                              handleCheckboxChange(data?.soisd_item)
+                              handleCheckboxChange(data?.so_detail)
                             }
-                            checked={selectedItems.includes(data?.soisd_item)}
+                            checked={selectedItems.includes(data?.so_detail)}
                           />
                         </td>
                         <td className="text-center">{data?.sales_order}</td>
