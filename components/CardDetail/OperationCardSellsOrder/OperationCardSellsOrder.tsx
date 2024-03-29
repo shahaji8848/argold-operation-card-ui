@@ -20,7 +20,9 @@ const OperationCardSellsOrder = ({
   const [numericValues, setNumericValues] =
     useState<Array<number>>(sellsOrderData);
   const [isTableChanged, setIsTableChanged] = useState(false);
-
+  const [operationCardDetailDataValue, setOperationCardDetailDataValue] =
+    useState<any>(operationCardDetailData?.operation_card_order_details);
+  console.log('operationCardDetailDataValue', operationCardDetailDataValue);
   // useEffect(() => {
   //   // if (sellsOrderData && sellsOrderData?.length > 0) {
   //   //   setShowTable(true);
@@ -91,30 +93,56 @@ const OperationCardSellsOrder = ({
 
   const handleNumericChange = (newValue: number, i: number) => {
     let errorShown = false; // Flag to track whether error message has been shown
-    setSellsOrderData((prevData: any[]) => {
-      // Specify the type of prevData as any[]
-      const updatedData = prevData.map((item: any, index: number) => {
-        if (index === i) {
-          if (!isNaN(newValue) && newValue <= item.production_qty) {
-            return { ...item, ready_qty: newValue };
-          } else if (isNaN(newValue)) {
-            return { ...item, ready_qty: 0 }; // Set ready_qty to 0 if input value is NaN
-          } else {
-            if (!errorShown) {
-              // Show error message only if it hasn't been shown before
-              errorShown = true;
-              toast.error(
-                // 'Entered value should be a number and less than or equal to production quantity.'
-                'Entered value ready quantity should be less than or equal to production quantity.'
-              );
+    if (sellsOrderData?.length > 0) {
+      setSellsOrderData((prevData: any[]) => {
+        // Specify the type of prevData as any[]
+        const updatedData = prevData.map((item: any, index: number) => {
+          if (index === i) {
+            if (!isNaN(newValue) && newValue > item.production_qty) {
+              return { ...item, ready_qty: newValue };
+            } else if (isNaN(newValue)) {
+              return { ...item, ready_qty: 0 }; // Set ready_qty to 0 if input value is NaN
+            } else {
+              if (!errorShown) {
+                // Show error message only if it hasn't been shown before
+                errorShown = true;
+                toast.error(
+                  // 'Entered value should be a number and less than or equal to production quantity.'
+                  'Entered value ready quantity should be less than or equal to production quantity.'
+                );
+              }
+              return item;
             }
-            return item;
           }
-        }
-        return item;
+          return item;
+        });
+        return updatedData;
       });
-      return updatedData;
-    });
+    } else if (operationCardDetailDataValue?.length > 0) {
+      setOperationCardDetailDataValue((prevData: any[]) => {
+        // Specify the type of prevData as any[]
+        const updatedData = prevData.map((item: any, index: number) => {
+          if (index === i) {
+            if (!isNaN(newValue) && newValue <= item.production_qty) {
+              return { ...item, ready_qty: newValue };
+            } else if (isNaN(newValue)) {
+              return { ...item, ready_qty: 0 }; // Set ready_qty to 0 if input value is NaN
+            } else {
+              if (!errorShown) {
+                // Show error message only if it hasn't been shown before
+                errorShown = true;
+                toast.error(
+                  'Entered value ready quantity should be less than or equal to production quantity.'
+                );
+              }
+              return item;
+            }
+          }
+          return item;
+        });
+        return updatedData;
+      });
+    }
   };
 
   // useEffect(() => {
