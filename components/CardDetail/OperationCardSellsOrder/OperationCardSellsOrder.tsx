@@ -41,8 +41,8 @@ const OperationCardSellsOrder = ({
   }, [selectedItems, numericValues]);
 
   const handleButtonClick = async () => {
-    setShowTable(true);
     await getOperationCardSellsOrder();
+    setShowTable(true);
 
     // if (typeof window !== 'undefined') {
     //   const savedSellsOrderData = JSON.parse(
