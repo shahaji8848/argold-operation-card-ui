@@ -22,6 +22,7 @@ const OperationCardSellsOrder = ({
       setShowTable(true);
       // localStorage.setItem('sellsOrderData', JSON.stringify(sellsOrderData));
     } else {
+      setShowTable(true);
       // setShowTable(false);
       // toast.error('No Data Available');
     }
@@ -59,11 +60,11 @@ const OperationCardSellsOrder = ({
   const handleButtonClick = async () => {
     await getOperationCardSellsOrder();
 
-    if (sellsOrderData && sellsOrderData?.length !== 0) {
-      // toast.success('fetched order data');
-    } else {
-      toast.error('No data found');
-    }
+    // if (sellsOrderData && sellsOrderData?.length !== 0) {
+    //   // toast.success('fetched order data');
+    // } else {
+    //   toast.error('No data found');
+    // }
     // if (typeof window !== 'undefined') {
     //   const savedSellsOrderData = JSON.parse(
     //     localStorage.getItem('sellsOrderData') || '[]'

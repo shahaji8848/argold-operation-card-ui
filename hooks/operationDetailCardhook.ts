@@ -589,6 +589,7 @@ const useOperationDetailCard = () => {
       setSellsOrderData(getSellsOrderList?.data?.message);
     } else {
       setSellsOrderData([]);
+      toast.error('No data found');
     }
   };
 
