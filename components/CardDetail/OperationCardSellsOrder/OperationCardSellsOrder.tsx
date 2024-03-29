@@ -18,21 +18,9 @@ const OperationCardSellsOrder = ({
   const [isTableChanged, setIsTableChanged] = useState(false);
 
   useEffect(() => {
-    // Check if local storage is available before attempting to use it
-    if (typeof window !== 'undefined') {
-      const savedSellsOrderData = JSON.parse(
-        localStorage.getItem('sellsOrderData') || '[]'
-      );
-      if (savedSellsOrderData && savedSellsOrderData?.length > 0) {
-        setSellsOrderData(savedSellsOrderData);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
     if (sellsOrderData && sellsOrderData?.length > 0) {
       setShowTable(true);
-      localStorage.setItem('sellsOrderData', JSON.stringify(sellsOrderData));
+      // localStorage.setItem('sellsOrderData', JSON.stringify(sellsOrderData));
     } else {
       // setShowTable(false);
       // toast.error('No Data Available');
@@ -76,6 +64,14 @@ const OperationCardSellsOrder = ({
     } else {
       toast.error('No data found');
     }
+    // if (typeof window !== 'undefined') {
+    //   const savedSellsOrderData = JSON.parse(
+    //     localStorage.getItem('sellsOrderData') || '[]'
+    //   );
+    //   if (savedSellsOrderData && savedSellsOrderData.length > 0) {
+    //     setSellsOrderData(savedSellsOrderData);
+    //   }
+    // }
   };
 
   const handleCheckboxChange = (itemId: string) => {
@@ -140,6 +136,18 @@ const OperationCardSellsOrder = ({
       return updatedData;
     });
   };
+
+  // useEffect(() => {
+  //   // Check if local storage is available before attempting to use it
+  //   if (typeof window !== 'undefined') {
+  //     const savedSellsOrderData = JSON.parse(
+  //       localStorage.getItem('sellsOrderData') || '[]'
+  //     );
+  //     if (savedSellsOrderData && savedSellsOrderData?.length > 0) {
+  //       setSellsOrderData(savedSellsOrderData);
+  //     }
+  //   }
+  // }, []);
 
   return (
     <div>

@@ -529,7 +529,7 @@ const useOperationDetailCard = () => {
       setOperationCardProductCategory(
         getNextProductCategory?.data?.data?.map((product_category: any) => ({
           name: product_category?.name,
-          value: product_category?.name1,
+          value: product_category?.name,
         }))
       );
     } else {
