@@ -16,7 +16,7 @@ const useReportLoss = () => {
   const getLossPeriodValueFromURL: string | null =
     searchParams.get('loss_period');
   const getFactoryValueFromURL: string | null = searchParams.get('factory');
-  const { token } = useSelector(get_access_token);
+  const { token, username } = useSelector(get_access_token);
   const [lossPeriodList, setLossPeriodList] = useState<any>([]);
   const [reportLossData, setReportLossData] = useState([]);
   const [reportLossItem, setReportLossItem] = useState([]);
@@ -37,6 +37,7 @@ const useReportLoss = () => {
     const fetchReportLossItem: any = await GETReportLossItem(
       getLossPeriodValueFromURL,
       getFactoryValueFromURL,
+      username,
       token
     );
 
@@ -51,6 +52,7 @@ const useReportLoss = () => {
     const fetchReportLossData: any = await GETOperationCardReportLoss(
       getLossPeriodValueFromURL,
       getFactoryValueFromURL,
+      username,
       token
     );
 

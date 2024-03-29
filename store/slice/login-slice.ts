@@ -2,10 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../root-reducer';
 interface AuthState {
   token: any;
+  username: any;
 }
-
 const initialState: AuthState = {
   token: '',
+  username: '',
 };
 
 const storeAccessTokenSlice = createSlice({
@@ -13,7 +14,8 @@ const storeAccessTokenSlice = createSlice({
   initialState,
   reducers: {
     storeToken(state, action) {
-      state.token = action.payload;
+      state.token = action.payload.token;
+      state.username = action.payload.username;
     },
     clearToken(state?: any) {
       state.token = '';

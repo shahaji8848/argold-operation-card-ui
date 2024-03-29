@@ -24,13 +24,13 @@ const OperationCardListingMaster = () => {
     constructUrl,
   } = useOperationCardList();
 
-  const { token } = useSelector(get_access_token);
+  const { token, username } = useSelector(get_access_token);
   const [data, setData] = useState(filtersData);
   const [showZeroBalance, setShowZeroBalance] = useState(false);
   const [listData, setListData] = useState<any>([]);
   const searchParams = useSearchParams();
   const getOperationCardListFromAPI = async (url: string) => {
-    const getList: any = await GETOperationCardListData(url, token);
+    const getList: any = await GETOperationCardListData(url, token, username);
     if (getList?.status === 200 && getList?.data?.message?.length > 0) {
       setListData([...getList?.data?.message]);
     } else {

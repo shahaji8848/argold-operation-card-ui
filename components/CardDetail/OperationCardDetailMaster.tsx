@@ -136,10 +136,10 @@ const OperationCardDetailMaster = () => {
               modalFieldsState={modalFieldsState}
               headerSave={headerSave}
             />
-            <MasterOperationCardSellsOrder
+            {/* <MasterOperationCardSellsOrder
               getOperationCardSellsOrder={getOperationCardSellsOrder}
               sellsOrderData={sellsOrderData}
-            />
+            /> */}
             <OperationCardCreationDetail
               operationCardDetailData={operationCardDetailData}
             />
