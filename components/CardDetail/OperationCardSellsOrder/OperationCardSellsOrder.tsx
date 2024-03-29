@@ -183,29 +183,28 @@ const OperationCardSellsOrder = ({
               </thead>
               <tbody>
                 {showTable ? (
-                  sellsOrderData &&
-                  sellsOrderData?.length > 0 &&
-                  sellsOrderData?.map((data: any, i: any) => (
-                    <tr className="table-text" key={i}>
-                      <td className="text-center">
-                        <input
-                          type="checkbox"
-                          // onChange={() =>
-                          //   handleCheckboxChange(data?.soisd_item)
-                          // }
-                          // checked={selectedItems.includes(data?.soisd_item)}
-                          onChange={() =>
-                            handleCheckboxChange(data?.soisd_item)
-                          }
-                          checked={selectedItems.includes(data?.soisd_item)}
-                        />
-                      </td>
-                      <td className="text-center">{data?.sales_order}</td>
-                      <td className="text-center">{data?.item}</td>
-                      <td className="text-center">{data?.item_name}</td>
-                      <td className="text-center">{data?.production_qty}</td>
-                      <td className="text-center">{data?.size}</td>
-                      {/* {operationCardDetailData?.operation_department ===
+                  sellsOrderData && sellsOrderData?.length > 0 ? (
+                    sellsOrderData?.map((data: any, i: any) => (
+                      <tr className="table-text" key={i}>
+                        <td className="text-center">
+                          <input
+                            type="checkbox"
+                            // onChange={() =>
+                            //   handleCheckboxChange(data?.soisd_item)
+                            // }
+                            // checked={selectedItems.includes(data?.soisd_item)}
+                            onChange={() =>
+                              handleCheckboxChange(data?.soisd_item)
+                            }
+                            checked={selectedItems.includes(data?.soisd_item)}
+                          />
+                        </td>
+                        <td className="text-center">{data?.sales_order}</td>
+                        <td className="text-center">{data?.item}</td>
+                        <td className="text-center">{data?.item_name}</td>
+                        <td className="text-center">{data?.production_qty}</td>
+                        <td className="text-center">{data?.size}</td>
+                        {/* {operationCardDetailData?.operation_department ===
                           'GPC' && (
                           <td className="text-center d-flex justify-content-center">
                             <input
@@ -224,36 +223,50 @@ const OperationCardSellsOrder = ({
                             />
                           </td>
                         )} */}
-                      {operationCardDetailData?.operation_card_issue_details?.map(
-                        (ele: any) => {
-                          return (
-                            ele?.item === 'GPC' &&
-                            ele?.item && (
-                              <td className="text-center d-flex justify-content-center">
-                                <input
-                                  type="number"
-                                  className="input_fields px-2 py-1 rounded-2 text-center"
-                                  value={data?.ready_qty || ''} // Ensure empty string fallback if data?.ready_qty is undefined or null
-                                  onChange={(
-                                    e: React.ChangeEvent<HTMLInputElement>
-                                  ) =>
-                                    handleNumericChange(
-                                      parseFloat(e.target.value),
-                                      i
-                                    )
-                                  }
-                                  style={{
-                                    width: '100%',
-                                    maxWidth: '120px',
-                                  }}
-                                />
-                              </td>
-                            )
-                          );
-                        }
-                      )}
+                        {operationCardDetailData?.operation_card_issue_details?.map(
+                          (ele: any) => {
+                            return (
+                              ele?.item === 'GPC' &&
+                              ele?.item && (
+                                <td className="text-center d-flex justify-content-center">
+                                  <input
+                                    type="number"
+                                    className="input_fields px-2 py-1 rounded-2 text-center"
+                                    value={data?.ready_qty || ''} // Ensure empty string fallback if data?.ready_qty is undefined or null
+                                    onChange={(
+                                      e: React.ChangeEvent<HTMLInputElement>
+                                    ) =>
+                                      handleNumericChange(
+                                        parseFloat(e.target.value),
+                                        i
+                                      )
+                                    }
+                                    style={{
+                                      width: '100%',
+                                      maxWidth: '120px',
+                                    }}
+                                  />
+                                </td>
+                              )
+                            );
+                          }
+                        )}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="text-center w-100 my-4">
+                        <Image
+                          src="/grid-empty-state.png"
+                          alt="empty Logo"
+                          width={40}
+                          height={42}
+                          className="my-2"
+                        />
+                        <div className="fs-14 grey">No Data </div>
+                      </td>
                     </tr>
-                  ))
+                  )
                 ) : operationCardDetailData &&
                   operationCardDetailData?.operation_card_order_details
                     ?.length > 0 ? (
