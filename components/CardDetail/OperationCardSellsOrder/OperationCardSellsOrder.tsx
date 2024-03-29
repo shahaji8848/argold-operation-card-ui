@@ -152,8 +152,9 @@ const OperationCardSellsOrder = ({
 
   return (
     <div>
+      <h6 className="bold">Operation Card Order Details</h6>
       <button
-        className="btn btn-blue px-4 px-1 btn-py "
+        className="btn btn-blue px-4 px-1 btn-py mt-2"
         onClick={handleButtonClick}
       >
         Get Orders

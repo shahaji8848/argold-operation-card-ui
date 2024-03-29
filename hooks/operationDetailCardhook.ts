@@ -585,7 +585,11 @@ const useOperationDetailCard = () => {
       token
     );
     console.log(getSellsOrderList, 'getSellsOrderList');
-    if (getSellsOrderList?.status === 200) {
+    if (
+      getSellsOrderList?.status === 200 &&
+      Array.isArray(getSellsOrderList?.data?.message) &&
+      getSellsOrderList?.data?.message?.length > 0
+    ) {
       setSellsOrderData(getSellsOrderList?.data?.message);
     } else {
       setSellsOrderData([]);
