@@ -1,41 +1,11 @@
 import { CONSTANTS } from '@/services/config/api-config';
 import axios from 'axios';
 
-const UpdateSalesOrderAPI = async (
-  data_list: any,
-  doc_name: any,
-  token: any
-) => {
-  const API_CONFIG = {
-    headers: {
-      Accept: 'application/json',
-      Authorization: token,
-    },
-  };
+const UpdateSalesOrderAPI = async (data_list: any, doc_name: any, token: any) => {
   const params = {
     data_list: data_list,
     doc_name: doc_name,
   };
-  //   console.log('data_list', data_list);
-  //   const url = `${
-  //     CONSTANTS.API_BASE_URL
-  //   }api/method/custom_app.www.operation_card_entry.index.update_orders_operation_card?data_list=${JSON.stringify(
-  //     data_list
-  //   )}&doc_name=${doc_name}`;
-
-  //   try {
-  //     const response = await axios.put(url, {
-  //       headers: {
-  //         Authorization: token,
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Error updating sells order:', error);
-  //     throw error;
-  //   }
 
   let response: any;
 

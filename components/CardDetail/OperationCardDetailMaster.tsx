@@ -9,6 +9,7 @@ import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import OperationCardCreationDetail from './OperationCardCreationDetail/OperationCardCreationDetail';
 import Link from 'next/link';
 import MasterOperationCardSellsOrder from './OperationCardSellsOrder/MasterOperationCardSellsOrder';
+import SalesOrderTable from './OperationCardSellsOrder/SalesOrderTable';
 const OperationCardDetailMaster = () => {
   const {
     search,
@@ -49,12 +50,11 @@ const OperationCardDetailMaster = () => {
     isBalanceWeightSetAsInWeight,
     balanceWeight,
     modalFieldsState,
-    getOperationCardSellsOrder,
-    sellsOrderData,
-    setSellsOrderData,
-    handleSaveButtonClickSalesOrder,
+    salesOrderList,
+    setSalesOrderList,
+    getSalesOrder,
+    handleUpdateSalesOrderListWithReadyQty,
   } = useOperationDetailCard();
-  console.log('operationCardDetailDatas', operationCardDetailData);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -65,9 +65,7 @@ const OperationCardDetailMaster = () => {
               handleOperationCardSave={handleOperationCardSave}
             />
 
-            <OperationCardDataSummaryMaster
-              operationCardDetailData={operationCardDetailData}
-            />
+            <OperationCardDataSummaryMaster operationCardDetailData={operationCardDetailData} />
 
             <OperationCardInputFieldMaster
               operationCardDetailData={operationCardDetailData}
@@ -76,24 +74,16 @@ const OperationCardDetailMaster = () => {
               operationCardMachine={operationCardMachine}
               operationCardTone={operationCardTone}
               lossReportList={lossReportList}
-              operationCardNextProductCategory={
-                operationCardNextProductCategory
-              }
-              operationCardKarigarQuantitySettings={
-                operationCardKarigarQuantitySettings
-              }
+              operationCardNextProductCategory={operationCardNextProductCategory}
+              operationCardKarigarQuantitySettings={operationCardKarigarQuantitySettings}
               headerSave={headerSave}
               handleHeaderSave={handleHeaderSave}
             />
             <OperationCardTableMaster
               search={search}
               operationCardDetail={operationCardDetail}
-              getOperationCardDetailNextKarigarFunc={
-                getOperationCardDetailNextKarigarFunc
-              }
-              getOperationCardDetailNextProductProcessAPICallFunc={
-                getOperationCardDetailNextProductProcessAPICallFunc
-              }
+              getOperationCardDetailNextKarigarFunc={getOperationCardDetailNextKarigarFunc}
+              getOperationCardDetailNextProductProcessAPICallFunc={getOperationCardDetailNextProductProcessAPICallFunc}
               getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
                 getOperationCardDetailNextProductProcessDepartmentAPICallFunc
               }
@@ -109,27 +99,15 @@ const OperationCardDetailMaster = () => {
               operationCardMachineSize={operationCardMachineSize}
               operationCardDesignCodeCategory={operationCardDesignCodeCategory}
               operationCardNextProductProcess={operationCardNextProductProcess}
-              operationCardNextProductProcessDepartment={
-                operationCardNextProductProcessDepartment
-              }
-              getOperationCardDetailDesignCodeCategoryAPICall={
-                getOperationCardDetailDesignCodeCategoryAPICall
-              }
-              getOperationCardDetailDesignAPICall={
-                getOperationCardDetailDesignAPICall
-              }
-              getOperationCardDetailDesignCodeTypeAPICall={
-                getOperationCardDetailDesignCodeTypeAPICall
-              }
+              operationCardNextProductProcessDepartment={operationCardNextProductProcessDepartment}
+              getOperationCardDetailDesignCodeCategoryAPICall={getOperationCardDetailDesignCodeCategoryAPICall}
+              getOperationCardDetailDesignAPICall={getOperationCardDetailDesignAPICall}
+              getOperationCardDetailDesignCodeTypeAPICall={getOperationCardDetailDesignCodeTypeAPICall}
               operationCardNextDesignCodeType={operationCardNextDesignCodeType}
               operationCardProductCategory={operationCardProductCategory}
-              getOperationCardDetailNextProductCategoryAPICallFunc={
-                getOperationCardDetailNextProductCategoryAPICallFunc
-              }
+              getOperationCardDetailNextProductCategoryAPICallFunc={getOperationCardDetailNextProductCategoryAPICallFunc}
               getOperationCardProductCategory={getOperationCardProductCategory}
-              operationCardNextProductCategory={
-                operationCardNextProductCategory
-              }
+              operationCardNextProductCategory={operationCardNextProductCategory}
               operationCardProduct={operationCardProduct}
               goldAccessoryTable={goldAccessoryTable}
               issueReference={issueReference}
@@ -138,27 +116,20 @@ const OperationCardDetailMaster = () => {
               modalFieldsState={modalFieldsState}
               headerSave={headerSave}
             />
-            <MasterOperationCardSellsOrder
+            <SalesOrderTable
               operationCardDetailData={operationCardDetailData}
-              getOperationCardSellsOrder={getOperationCardSellsOrder}
-              sellsOrderData={sellsOrderData}
-              setSellsOrderData={setSellsOrderData}
-              handleSaveButtonClickSalesOrder={handleSaveButtonClickSalesOrder}
+              salesOrderList={salesOrderList}
+              setSalesOrderList={setSalesOrderList}
+              getAllSalesOrderList={getSalesOrder}
+              handleUpdateSalesOrderListWithReadyQty={handleUpdateSalesOrderListWithReadyQty}
             />
-            <OperationCardCreationDetail
-              operationCardDetailData={operationCardDetailData}
-            />
+            <OperationCardCreationDetail operationCardDetailData={operationCardDetailData} />
           </div>
         </div>
       ) : (
         <div className="OpertaionCardcontainer">
           <div className="vertical-center text-center">
-            <Image
-              src="/not-found.png"
-              width={180}
-              height={180}
-              alt="Picture of the author"
-            />
+            <Image src="/not-found.png" width={180} height={180} alt="Picture of the author" />
             <h3 className="">Operation Card Not Found...</h3>
             <Link type="button" className="btn btn-link" href="/">
               Go To Home Page
