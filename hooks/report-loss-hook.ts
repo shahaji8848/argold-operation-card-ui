@@ -9,19 +9,18 @@ import { get_access_token } from '@/store/slice/login-slice';
 import { CONSTANTS, callFormDataPOSTAPI } from '@/services/config/api-config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GETReportLossFactory from '@/services/api/loss-period/report-loss-factory-api';
 
 const useReportLoss = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const getLossPeriodValueFromURL: string | null =
-    searchParams.get('loss_period');
+  const getLossPeriodValueFromURL: string | null = searchParams.get('loss_period');
   const getFactoryValueFromURL: string | null = searchParams.get('factory');
   const { token } = useSelector(get_access_token);
   const [lossPeriodList, setLossPeriodList] = useState<any>([]);
   const [reportLossData, setReportLossData] = useState([]);
   const [reportLossItem, setReportLossItem] = useState([]);
-  const [selectedLossPeriodValue, setSelectedLossPeriodValue] =
-    useState<string>('');
+  const [selectedLossPeriodValue, setSelectedLossPeriodValue] = useState<string>('');
   const [selectedFactoryValue, setSelectedFactoryValue] = useState<string>('');
 
   const getLossPeriodList = async () => {
@@ -34,11 +33,7 @@ const useReportLoss = () => {
   };
 
   const getReportLossItem = async () => {
-    const fetchReportLossItem: any = await GETReportLossItem(
-      getLossPeriodValueFromURL,
-      getFactoryValueFromURL,
-      token
-    );
+    const fetchReportLossItem: any = await GETReportLossItem(getLossPeriodValueFromURL, getFactoryValueFromURL, token);
 
     if (fetchReportLossItem?.status === 200) {
       setReportLossItem(fetchReportLossItem?.data?.message);
@@ -48,11 +43,7 @@ const useReportLoss = () => {
   };
 
   const getReportLossData = async () => {
-    const fetchReportLossData: any = await GETOperationCardReportLoss(
-      getLossPeriodValueFromURL,
-      getFactoryValueFromURL,
-      token
-    );
+    const fetchReportLossData: any = await GETOperationCardReportLoss(getLossPeriodValueFromURL, getFactoryValueFromURL, token);
 
     if (fetchReportLossData?.status === 200) {
       setReportLossData(fetchReportLossData?.data?.message);
@@ -167,25 +158,14 @@ const useReportLoss = () => {
   };
   const CalculateTotalOfLossReport = (column: string, data: any[]) => {
     if (column === 'per_kg_loss') {
-      const totalfineLoss = data.reduce(
-        (total: any, item: any) => total + item['fine_loss'],
-        0
-      );
+      const totalfineLoss = data.reduce((total: any, item: any) => total + item['fine_loss'], 0);
 
-      const totalOutWeight = data.reduce(
-        (total: any, item: any) => total + item['total_out_weight'],
-        0
-      );
+      const totalOutWeight = data.reduce((total: any, item: any) => total + item['total_out_weight'], 0);
 
       if (totalfineLoss !== 0 && totalOutWeight !== 0) {
         const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
-        if (
-          totalPerKgLoss !== 0 &&
-          (totalPerKgLoss < -0.001 || totalPerKgLoss > 0.001)
-        ) {
-          ObjToStoreLossReportTable.per_kg_loss = Number(
-            totalPerKgLoss.toFixed(3)
-          );
+        if (totalPerKgLoss !== 0 && (totalPerKgLoss < -0.001 || totalPerKgLoss > 0.001)) {
+          ObjToStoreLossReportTable.per_kg_loss = Number(totalPerKgLoss.toFixed(3));
           return totalPerKgLoss.toFixed(3);
         }
       } else {
@@ -195,30 +175,16 @@ const useReportLoss = () => {
 
     // per kg loss after recovery
     if (column === 'per_kg_loss_after_recovery') {
-      const totalfineLoss = data.reduce(
-        (total: any, item: any) => total + item['fine_loss'],
-        0
-      );
-      const totalOutWeight = data.reduce(
-        (total: any, item: any) => total + item['total_out_weight'],
-        0
-      );
+      const totalfineLoss = data.reduce((total: any, item: any) => total + item['fine_loss'], 0);
+      const totalOutWeight = data.reduce((total: any, item: any) => total + item['total_out_weight'], 0);
 
-      const totalRecoveredLoss = data.reduce(
-        (total: any, item: any) => total + item['recovered_loss'],
-        0
-      );
+      const totalRecoveredLoss = data.reduce((total: any, item: any) => total + item['recovered_loss'], 0);
 
       const diff = totalfineLoss - totalRecoveredLoss;
       if (diff !== 0 && totalOutWeight !== 0) {
         const totalkglossrecored = (diff / totalOutWeight) * 1000;
-        if (
-          totalkglossrecored !== 0 &&
-          (totalkglossrecored < -0.001 || totalkglossrecored > 0.001)
-        ) {
-          ObjToStoreLossReportTable.per_kg_loss_after_recovery = Number(
-            totalkglossrecored.toFixed(3)
-          );
+        if (totalkglossrecored !== 0 && (totalkglossrecored < -0.001 || totalkglossrecored > 0.001)) {
+          ObjToStoreLossReportTable.per_kg_loss_after_recovery = Number(totalkglossrecored.toFixed(3));
           return totalkglossrecored.toFixed(3);
         }
       } else {
@@ -257,29 +223,35 @@ const useReportLoss = () => {
     }
   };
 
-  let totalUnrecoverableLoss = CalculateTotalOfLossReport(
-    'uncrecoverable_loss',
-    reportLossData
-  );
+  let totalUnrecoverableLoss = CalculateTotalOfLossReport('uncrecoverable_loss', reportLossData);
   let totalBalance = CalculateTotalOfReportItem('out_weight', reportLossItem);
   let difference_of_unrecoverableloss_and_outweight = 0;
   if (totalBalance === '--' && totalUnrecoverableLoss === '--') {
     difference_of_unrecoverableloss_and_outweight = 0;
   } else if (totalBalance === '--') {
     totalBalance = 0;
-    difference_of_unrecoverableloss_and_outweight =
-      parseFloat(totalUnrecoverableLoss) + parseFloat(totalBalance);
+    difference_of_unrecoverableloss_and_outweight = parseFloat(totalUnrecoverableLoss) + parseFloat(totalBalance);
   } else {
-    difference_of_unrecoverableloss_and_outweight =
-      parseFloat(totalUnrecoverableLoss) + parseFloat(totalBalance);
+    difference_of_unrecoverableloss_and_outweight = parseFloat(totalUnrecoverableLoss) + parseFloat(totalBalance);
   }
-  difference_of_unrecoverableloss_and_outweight = parseFloat(
-    difference_of_unrecoverableloss_and_outweight.toFixed(3)
-  );
-  let totalBalanceOFLossReportItem = CalculateTotalOfReportItem(
-    'balance',
-    reportLossItem
-  );
+  difference_of_unrecoverableloss_and_outweight = parseFloat(difference_of_unrecoverableloss_and_outweight.toFixed(3));
+  let totalBalanceOFLossReportItem = CalculateTotalOfReportItem('balance', reportLossItem);
+
+  // Get Loss Report Factory List
+  const [factoryList, setFactoryList] = useState<any>([]);
+  const getLossReportFactoryFromAPI = async () => {
+    const getFactoryList: any = await GETReportLossFactory(token);
+    console.log('getLossReportFactoryFromAPI', getFactoryList?.status);
+    if (getFactoryList?.status === 200) {
+      setFactoryList(getFactoryList?.data?.data);
+    } else {
+      setFactoryList([]);
+    }
+  };
+  useEffect(() => {
+    getLossReportFactoryFromAPI();
+  }, []);
+
   return {
     reportLossData,
     reportLossItem,
@@ -299,6 +271,9 @@ const useReportLoss = () => {
     ObjToStoreLossReportItem,
     difference_of_unrecoverableloss_and_outweight,
     totalBalanceOFLossReportItem,
+
+    // factory list
+    factoryList,
   };
 };
 

@@ -25,6 +25,7 @@ const MasterLossReport = () => {
     ObjToStoreLossReportTable,
     ObjToStoreLossReportItem,
     difference_of_unrecoverableloss_and_outweight,
+    factoryList,
   } = useReportLoss();
   return (
     <div className="spacing-mt spacing-pd">
@@ -37,6 +38,7 @@ const MasterLossReport = () => {
             handleFactoryValuesChange={handleFactoryValuesChange}
             getLossPeriodValueFromURL={getLossPeriodValueFromURL}
             getFactoryValueFromURL={getFactoryValueFromURL}
+            factoryList={factoryList}
           />
           <LossReportTable
             reportLossData={reportLossData}
@@ -59,17 +61,12 @@ const MasterLossReport = () => {
 
             {difference_of_unrecoverableloss_and_outweight != 0 && (
               <div className="col-md-7">
-                <div
-                  className="mt-2 border rounded w-75 p-3"
-                  style={{ borderColor: '#DEE2E6 !important' }}
-                >
+                <div className="mt-2 border rounded w-75 p-3" style={{ borderColor: '#DEE2E6 !important' }}>
                   <table>
                     <tr>
                       <td>Total Unrecoverable Loss: &nbsp;</td>
                       <td>
-                        <b>
-                          {difference_of_unrecoverableloss_and_outweight} &nbsp;
-                        </b>
+                        <b>{difference_of_unrecoverableloss_and_outweight} &nbsp;</b>
                       </td>
                       {parseInt(totalBalanceOFLossReportItem) === 0 ||
                         (totalBalanceOFLossReportItem === '--' && (

@@ -469,8 +469,14 @@ const useOperationDetailCard = () => {
     if (callSalesOrderAPI?.status === 200 && callSalesOrderAPI?.data?.message?.data?.length > 0) {
       setSalesOrderList([...callSalesOrderAPI?.data?.message?.data]);
       console.log('salesOrderList', salesOrderList);
+    } else if (
+      operationCardDetailData?.opertion_card_order_details &&
+      operationCardDetailData?.opertion_card_order_details?.length > 0
+    ) {
+      setSalesOrderList([...operationCardDetailData?.opertion_card_order_details]);
     } else {
-      setSalesOrderList([...operationCardDetailData?.opertion_card_order_details] || []);
+      setSalesOrderList([]);
+      toast.error('No data found');
     }
   };
 
