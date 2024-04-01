@@ -466,10 +466,11 @@ const useOperationDetailCard = () => {
     const operationCardName = hrefValue.split('=');
     const callSalesOrderAPI = await GETSalesOrderList(operationCardName[1], token);
     console.log('list sales ord', callSalesOrderAPI);
-    if (callSalesOrderAPI?.status === 200 && callSalesOrderAPI?.data?.message?.length > 0) {
-      setSalesOrderList([...callSalesOrderAPI?.data?.message]);
+    if (callSalesOrderAPI?.status === 200 && callSalesOrderAPI?.data?.message?.data?.length > 0) {
+      setSalesOrderList([...callSalesOrderAPI?.data?.message?.data]);
+      console.log('salesOrderList', salesOrderList);
     } else {
-      setSalesOrderList([...operationCardDetailData?.opertion_card_order_details]);
+      setSalesOrderList([...operationCardDetailData?.opertion_card_order_details] || []);
     }
   };
 
