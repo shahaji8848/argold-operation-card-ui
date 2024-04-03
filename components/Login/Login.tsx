@@ -38,7 +38,12 @@ const Login = () => {
       userLoginAPI?.status === 200 &&
       userLoginAPI?.data?.message?.msg === 'success'
     ) {
-      dispatch(storeToken(userLoginAPI?.data?.message?.data?.access_token));
+      dispatch(
+        storeToken({
+          token: userLoginAPI?.data?.message?.data?.access_token,
+          username: userLoginAPI?.data?.message?.data?.username,
+        })
+      );
       router.push('/operation-card-list');
     } else {
       setShowErr(true);

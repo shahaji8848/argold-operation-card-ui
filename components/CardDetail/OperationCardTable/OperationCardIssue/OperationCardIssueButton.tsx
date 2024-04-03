@@ -55,6 +55,8 @@ const OperationCardIssueButton = ({
     'next_design_code_type',
   ];
 
+  const checkboxFieldsList: string[] = ['hold_order_details'];
+
   const [show, setShow] = useState(false);
   const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false);
   const [showToastErr, setShowToastErr] = useState<boolean>(false);
@@ -84,11 +86,19 @@ const OperationCardIssueButton = ({
   };
 
   const handleModalFieldsChange = (e: any) => {
-    const { name, value } = e.target;
-    setModalFieldValuesState({
-      ...modalFieldValuesState,
-      [name]: value,
-    });
+    console.log('merged e.target.value', e.target.name, e.target.checked);
+    const { name, value, checked } = e.target;
+    if (name === 'hold_order_details') {
+      setModalFieldValuesState({
+        ...modalFieldValuesState,
+        [name]: checked ? 1 : 0,
+      });
+    } else {
+      setModalFieldValuesState({
+        ...modalFieldValuesState,
+        [name]: value,
+      });
+    }
   };
 
   const handleDropDownValuesChange = (
@@ -112,7 +122,6 @@ const OperationCardIssueButton = ({
   console.log('modal updated data', getValues);
 
   const handleSubmit = async () => {
-    console.log('submitt');
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
     const mergedObjs = {
@@ -320,6 +329,7 @@ const OperationCardIssueButton = ({
 
     filterArray.forEach((item: any) => {
       const label = item?.label;
+      console.log('item', item);
 
       if (!checkArray?.includes(label)) {
         if (
@@ -328,6 +338,8 @@ const OperationCardIssueButton = ({
           label === 'in_weight'
         ) {
           alteredObjToCreateDataFields['in_weight'] = balanceWeight;
+        } else if (label === 'hold_order_details') {
+          alteredObjToCreateDataFields[label] = 0;
         } else {
           alteredObjToCreateDataFields[label] = '';
         }
@@ -337,6 +349,7 @@ const OperationCardIssueButton = ({
         alteredObjToCreateDropDownFields[label] = '';
       }
     });
+    console.log('altered', alteredObjToCreateDataFields);
 
     setModalFieldValuesState(alteredObjToCreateDataFields);
 
@@ -469,6 +482,35 @@ const OperationCardIssueButton = ({
                           isReadOnly={false}
                         />
                       </>
+                    ) : checkboxFieldsList?.includes(val?.label) ? (
+                      <div className="checkbox-wrapper-mt ">
+                        <input
+                          type="checkbox"
+                          id={val?.label}
+                          name={val?.label}
+                          value={modalFieldValuesState[val?.label]}
+                          onChange={handleModalFieldsChange}
+                        />
+                        <label
+                          htmlFor="staticEmail"
+                          className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold ps-1`}
+                        >
+                          {val?.label
+                            ?.split('_')
+                            ?.filter(
+                              (val: any) =>
+                                val !== 'set' &&
+                                val !== 'readonly' &&
+                                val !== 'show'
+                            )
+                            ?.map((val: any, index: any) =>
+                              index === 0
+                                ? val.charAt(0).toUpperCase() + val.slice(1)
+                                : val
+                            )
+                            .join(' ')}
+                        </label>
+                      </div>
                     ) : (
                       <>
                         <label

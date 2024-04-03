@@ -16,12 +16,24 @@ const useReportLoss = () => {
   const searchParams = useSearchParams();
   const getLossPeriodValueFromURL: string | null = searchParams.get('loss_period');
   const getFactoryValueFromURL: string | null = searchParams.get('factory');
-  const { token } = useSelector(get_access_token);
+  const { token, username } = useSelector(get_access_token);
   const [lossPeriodList, setLossPeriodList] = useState<any>([]);
   const [reportLossData, setReportLossData] = useState([]);
   const [reportLossItem, setReportLossItem] = useState([]);
   const [selectedLossPeriodValue, setSelectedLossPeriodValue] = useState<string>('');
   const [selectedFactoryValue, setSelectedFactoryValue] = useState<string>('');
+
+  // Get Loss Report Factory List
+  const [factoryList, setFactoryList] = useState<any>([]);
+  const getLossReportFactoryFromAPI = async () => {
+    const getFactoryList: any = await GETReportLossFactory(token);
+    console.log('getLossReportFactoryFromAPI', getFactoryList?.status);
+    if (getFactoryList?.status === 200) {
+      setFactoryList(getFactoryList?.data?.data);
+    } else {
+      setFactoryList([]);
+    }
+  };
 
   const getLossPeriodList = async () => {
     const getLossReportListDataFromAPI = await GETLossPeriodList(token);
@@ -33,7 +45,7 @@ const useReportLoss = () => {
   };
 
   const getReportLossItem = async () => {
-    const fetchReportLossItem: any = await GETReportLossItem(getLossPeriodValueFromURL, getFactoryValueFromURL, token);
+    const fetchReportLossItem: any = await GETReportLossItem(getLossPeriodValueFromURL, getFactoryValueFromURL, username, token);
 
     if (fetchReportLossItem?.status === 200) {
       setReportLossItem(fetchReportLossItem?.data?.message);
@@ -43,7 +55,12 @@ const useReportLoss = () => {
   };
 
   const getReportLossData = async () => {
-    const fetchReportLossData: any = await GETOperationCardReportLoss(getLossPeriodValueFromURL, getFactoryValueFromURL, token);
+    const fetchReportLossData: any = await GETOperationCardReportLoss(
+      getLossPeriodValueFromURL,
+      getFactoryValueFromURL,
+      username,
+      token
+    );
 
     if (fetchReportLossData?.status === 200) {
       setReportLossData(fetchReportLossData?.data?.message);
@@ -95,6 +112,7 @@ const useReportLoss = () => {
 
   useEffect(() => {
     getLossPeriodList();
+    getLossReportFactoryFromAPI();
   }, []);
 
   async function convertFunc(item_name: any) {
@@ -237,17 +255,6 @@ const useReportLoss = () => {
   difference_of_unrecoverableloss_and_outweight = parseFloat(difference_of_unrecoverableloss_and_outweight.toFixed(3));
   let totalBalanceOFLossReportItem = CalculateTotalOfReportItem('balance', reportLossItem);
 
-  // Get Loss Report Factory List
-  const [factoryList, setFactoryList] = useState<any>([]);
-  const getLossReportFactoryFromAPI = async () => {
-    const getFactoryList: any = await GETReportLossFactory(token);
-    console.log('getLossReportFactoryFromAPI', getFactoryList?.status);
-    if (getFactoryList?.status === 200) {
-      setFactoryList(getFactoryList?.data?.data);
-    } else {
-      setFactoryList([]);
-    }
-  };
   useEffect(() => {
     getLossReportFactoryFromAPI();
   }, []);
@@ -271,8 +278,6 @@ const useReportLoss = () => {
     ObjToStoreLossReportItem,
     difference_of_unrecoverableloss_and_outweight,
     totalBalanceOFLossReportItem,
-
-    // factory list
     factoryList,
   };
 };

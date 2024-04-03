@@ -64,6 +64,11 @@ a {
   overflow-x: auto;
   white-space: nowrap;
 }
+/* check box wrapper modal  */
+.checkbox-wrapper-mt {
+  padding-top: 2.8rem;
+  /* margin-top: 2.8rem; */
+}
 .scrollbar {
   overflow-x: auto !important;
   white-space: nowrap !important;
@@ -357,6 +362,9 @@ input[type='number']::-webkit-outer-spin-button {
   .modal-content {
     margin-top: 60px;
     /* margin: auto !important; */
+  }
+  .checkbox-wrapper-mt {
+    padding-top: 0.4rem;
   }
   /* .balance-mob {
     margin-left: -80px !important;

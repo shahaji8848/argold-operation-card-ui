@@ -39,7 +39,11 @@ const LossReport = ({
           <select value={getFactoryValueFromURL} onChange={(e: any) => handleFactoryValuesChange(e.target.value)}>
             <option value=""></option>
             {/* <option value="ARG ERP Software">ARG ERP Software</option> */}
-            {factoryList?.map((list: any, index: any) => <option value={list.name}>{list?.name}</option>)}
+            {factoryList?.map((list: any) => (
+              <option key={list?.name} value={list.name}>
+                {list?.name}
+              </option>
+            ))}
           </select>
         </div>
 
