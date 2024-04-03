@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import GETLossPeriodList from '@/services/api/loss-period/loss-period-api';
 import GETOperationCardReportLoss from '@/services/api/operation-card-report-loss/operation-card-report-loss';
 import GETReportLossItem from '@/services/api/operation-card-report-loss/report-loss-item-api';
+import GETReportLossFactory from '@/services/api/loss-period/report-loss-factory-api';
 import { get_access_token } from '@/store/slice/login-slice';
 import { CONSTANTS, callFormDataPOSTAPI } from '@/services/config/api-config';
 import { toast } from 'react-toastify';
@@ -23,6 +24,18 @@ const useReportLoss = () => {
   const [selectedLossPeriodValue, setSelectedLossPeriodValue] =
     useState<string>('');
   const [selectedFactoryValue, setSelectedFactoryValue] = useState<string>('');
+
+  // Get Loss Report Factory List
+  const [factoryList, setFactoryList] = useState<any>([]);
+  const getLossReportFactoryFromAPI = async () => {
+    const getFactoryList: any = await GETReportLossFactory(token);
+    console.log('getLossReportFactoryFromAPI', getFactoryList?.status);
+    if (getFactoryList?.status === 200) {
+      setFactoryList(getFactoryList?.data?.data);
+    } else {
+      setFactoryList([]);
+    }
+  };
 
   const getLossPeriodList = async () => {
     const getLossReportListDataFromAPI = await GETLossPeriodList(token);
@@ -106,6 +119,7 @@ const useReportLoss = () => {
 
   useEffect(() => {
     getLossPeriodList();
+    getLossReportFactoryFromAPI();
   }, []);
 
   async function convertFunc(item_name: any) {
@@ -301,6 +315,7 @@ const useReportLoss = () => {
     ObjToStoreLossReportItem,
     difference_of_unrecoverableloss_and_outweight,
     totalBalanceOFLossReportItem,
+    factoryList,
   };
 };
 

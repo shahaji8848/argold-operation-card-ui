@@ -9,6 +9,7 @@ const LossReport = ({
   handleFactoryValuesChange,
   getLossPeriodValueFromURL,
   getFactoryValueFromURL,
+  factoryList,
 }: any) => {
   const router = useRouter();
   const redirectToHomepage = () => {
@@ -47,7 +48,11 @@ const LossReport = ({
             onChange={(e: any) => handleFactoryValuesChange(e.target.value)}
           >
             <option value=""></option>
-            <option value="ARG ERP Software">ARG ERP Software</option>
+            {factoryList?.map((list: any) => (
+              <option key={list?.name} value={list.name}>
+                {list?.name}
+              </option>
+            ))}
           </select>
         </div>
 
