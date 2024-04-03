@@ -483,7 +483,7 @@ const OperationCardIssueButton = ({
                         />
                       </>
                     ) : checkboxFieldsList?.includes(val?.label) ? (
-                      <>
+                      <div className="checkbox-wrapper-mt ">
                         <input
                           type="checkbox"
                           id={val?.label}
@@ -493,7 +493,7 @@ const OperationCardIssueButton = ({
                         />
                         <label
                           htmlFor="staticEmail"
-                          className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
+                          className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold ps-1`}
                         >
                           {val?.label
                             ?.split('_')
@@ -510,7 +510,7 @@ const OperationCardIssueButton = ({
                             )
                             .join(' ')}
                         </label>
-                      </>
+                      </div>
                     ) : (
                       <>
                         <label
