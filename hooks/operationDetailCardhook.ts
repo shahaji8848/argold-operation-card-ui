@@ -27,6 +27,7 @@ import GETSellsOrder from '@/services/api/operation-card-detail-page/sales-order
 import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/update-sales-order-api';
 import { toast } from 'react-toastify';
 import GETSalesOrderList from '@/services/api/operation-card-detail-page/sales-order-list';
+import GETWorkerList from '@/services/api/Worker/worker';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -62,6 +63,7 @@ const useOperationDetailCard = () => {
   const [operationCardNextProductCategory, setOperationCardNextProductCategory] = useState<any>([]);
   const [operationCardNextDesign, setOperationCardNextDesign] = useState<any>([]);
   const [operationCardNextDesignCodeType, setOperationCardNextDesignCodeType] = useState<any>([]);
+  const [operationCardWorkerList, setOperationCardWorkerList] = useState<any>([]);
 
   const [operationCardMachine, setOperationCardMachine] = useState<any>([]);
   const [operationCardTone, setOperationCardTone] = useState<any>([]);
@@ -446,6 +448,19 @@ const useOperationDetailCard = () => {
       setOperationCardNextProductCategory([]);
     }
   };
+  const getOperationCardDetailWorkerAPICallFunc = async () => {
+    const getWorkerList = await GETWorkerList(token);
+    if (getWorkerList?.status === 200) {
+      setOperationCardWorkerList(
+        getWorkerList?.data?.data?.map((product_category: any) => ({
+          name: product_category?.name,
+          value: product_category?.worker,
+        }))
+      );
+    } else {
+      setOperationCardWorkerList([]);
+    }
+  };
 
   const getOperationCardDetailLossReportList = async () => {
     const getLossReportListDataFromAPI = await GETLossPeriodList(token);
@@ -533,6 +548,7 @@ const useOperationDetailCard = () => {
 
       getOperationCardProductCategory(operationCardDetailData?.product);
       getOperationCardDetailNextProductCategoryAPICallFunc();
+      getOperationCardDetailWorkerAPICallFunc();
 
       getOperationCardDetailMachineAPICall();
       getOperationCardDetailToneAPICall();
@@ -562,6 +578,7 @@ const useOperationDetailCard = () => {
     operationCardProduct,
     operationCardDesignCodeCategory,
     operationCardNextProductProcess,
+    operationCardWorkerList,
     operationCardNextProductProcessDepartment,
     operationCardProductCategory,
     getOperationCardProductCategory,

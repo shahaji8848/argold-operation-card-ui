@@ -21,6 +21,7 @@ const OperationCardIssueMaster = ({
   operationCardDesignCodeCategory,
   operationCardNextDesign,
   operationCardNextProductProcess,
+  operationCardWorkerList,
   operationCardNextProductProcessDepartment,
   getOperationCardDetailDesignCodeCategoryAPICall,
   getOperationCardDetailDesignAPICall,
@@ -41,12 +42,8 @@ const OperationCardIssueMaster = ({
         search={search}
         headerSave={headerSave}
         operationCardDetail={operationCardDetail}
-        getOperationCardDetailNextKarigarFunc={
-          getOperationCardDetailNextKarigarFunc
-        }
-        getOperationCardDetailNextProductProcessAPICallFunc={
-          getOperationCardDetailNextProductProcessAPICallFunc
-        }
+        getOperationCardDetailNextKarigarFunc={getOperationCardDetailNextKarigarFunc}
+        getOperationCardDetailNextProductProcessAPICallFunc={getOperationCardDetailNextProductProcessAPICallFunc}
         getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
           getOperationCardDetailNextProductProcessDepartmentAPICallFunc
         }
@@ -59,37 +56,26 @@ const OperationCardIssueMaster = ({
         operationCardThickness={operationCardThickness}
         operationCardTone={operationCardTone}
         operationCardVariant={operationCardVariant}
+        operationCardWorkerList={operationCardWorkerList}
         operationCardMachineSize={operationCardMachineSize}
         operationCardNextDesign={operationCardNextDesign}
         operationCardDesignCodeCategory={operationCardDesignCodeCategory}
         operationCardNextProductProcess={operationCardNextProductProcess}
         operationCardProduct={operationCardProduct}
-        operationCardNextProductProcessDepartment={
-          operationCardNextProductProcessDepartment
-        }
-        getOperationCardDetailDesignCodeCategoryAPICall={
-          getOperationCardDetailDesignCodeCategoryAPICall
-        }
-        getOperationCardDetailDesignAPICall={
-          getOperationCardDetailDesignAPICall
-        }
-        getOperationCardDetailDesignCodeTypeAPICall={
-          getOperationCardDetailDesignCodeTypeAPICall
-        }
+        operationCardNextProductProcessDepartment={operationCardNextProductProcessDepartment}
+        getOperationCardDetailDesignCodeCategoryAPICall={getOperationCardDetailDesignCodeCategoryAPICall}
+        getOperationCardDetailDesignAPICall={getOperationCardDetailDesignAPICall}
+        getOperationCardDetailDesignCodeTypeAPICall={getOperationCardDetailDesignCodeTypeAPICall}
         operationCardNextDesignCodeType={operationCardNextDesignCodeType}
         operationCardProductCategory={operationCardProductCategory}
-        getOperationCardDetailNextProductCategoryAPICallFunc={
-          getOperationCardDetailNextProductCategoryAPICallFunc
-        }
+        getOperationCardDetailNextProductCategoryAPICallFunc={getOperationCardDetailNextProductCategoryAPICallFunc}
         operationCardNextProductCategory={operationCardNextProductCategory}
         isBalanceWeightSetAsInWeight={isBalanceWeightSetAsInWeight}
         balanceWeight={balanceWeight}
         modalFieldsState={modalFieldsState}
       />
       <div className="mt-2">
-        <OperationCardIssueItem
-          operationCardDetailData={operationCardDetailData}
-        />
+        <OperationCardIssueItem operationCardDetailData={operationCardDetailData} />
       </div>
     </>
   );

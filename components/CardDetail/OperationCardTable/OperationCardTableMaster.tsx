@@ -17,6 +17,7 @@ const OperationCardTableMaster = ({
   operationCardConcept,
   operationCardVariant,
   operationCardTone,
+  operationCardWorkerList,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextDesign,
@@ -42,12 +43,8 @@ const OperationCardTableMaster = ({
       <div className="col-xxl-5 col-xl-4 col-md-5">
         <OperationCardReceiptMaster
           search={search}
-          getOperationCardDetailNextKarigarFunc={
-            getOperationCardDetailNextKarigarFunc
-          }
-          getOperationCardDetailNextProductProcessAPICallFunc={
-            getOperationCardDetailNextProductProcessAPICallFunc
-          }
+          getOperationCardDetailNextKarigarFunc={getOperationCardDetailNextKarigarFunc}
+          getOperationCardDetailNextProductProcessAPICallFunc={getOperationCardDetailNextProductProcessAPICallFunc}
           getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
             getOperationCardDetailNextProductProcessDepartmentAPICallFunc
           }
@@ -62,9 +59,7 @@ const OperationCardTableMaster = ({
           operationCardMachineSize={operationCardMachineSize}
           operationCardDesignCodeCategory={operationCardDesignCodeCategory}
           operationCardNextProductProcess={operationCardNextProductProcess}
-          operationCardNextProductProcessDepartment={
-            operationCardNextProductProcessDepartment
-          }
+          operationCardNextProductProcessDepartment={operationCardNextProductProcessDepartment}
           goldAccessoryTable={goldAccessoryTable}
           issueReference={issueReference}
         />
@@ -73,12 +68,8 @@ const OperationCardTableMaster = ({
         <OperationCardIssueMaster
           search={search}
           headerSave={headerSave}
-          getOperationCardDetailNextKarigarFunc={
-            getOperationCardDetailNextKarigarFunc
-          }
-          getOperationCardDetailNextProductProcessAPICallFunc={
-            getOperationCardDetailNextProductProcessAPICallFunc
-          }
+          getOperationCardDetailNextKarigarFunc={getOperationCardDetailNextKarigarFunc}
+          getOperationCardDetailNextProductProcessAPICallFunc={getOperationCardDetailNextProductProcessAPICallFunc}
           getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
             getOperationCardDetailNextProductProcessDepartmentAPICallFunc
           }
@@ -95,24 +86,15 @@ const OperationCardTableMaster = ({
           operationCardMachineSize={operationCardMachineSize}
           operationCardDesignCodeCategory={operationCardDesignCodeCategory}
           operationCardNextProductProcess={operationCardNextProductProcess}
-          operationCardNextProductProcessDepartment={
-            operationCardNextProductProcessDepartment
-          }
-          getOperationCardDetailDesignCodeCategoryAPICall={
-            getOperationCardDetailDesignCodeCategoryAPICall
-          }
-          getOperationCardDetailDesignAPICall={
-            getOperationCardDetailDesignAPICall
-          }
-          getOperationCardDetailDesignCodeTypeAPICall={
-            getOperationCardDetailDesignCodeTypeAPICall
-          }
+          operationCardNextProductProcessDepartment={operationCardNextProductProcessDepartment}
+          operationCardWorkerList={operationCardWorkerList}
+          getOperationCardDetailDesignCodeCategoryAPICall={getOperationCardDetailDesignCodeCategoryAPICall}
+          getOperationCardDetailDesignAPICall={getOperationCardDetailDesignAPICall}
+          getOperationCardDetailDesignCodeTypeAPICall={getOperationCardDetailDesignCodeTypeAPICall}
           getOperationCardProductCategory={getOperationCardProductCategory}
           operationCardNextDesignCodeType={operationCardNextDesignCodeType}
           operationCardProductCategory={operationCardProductCategory}
-          getOperationCardDetailNextProductCategoryAPICallFunc={
-            getOperationCardDetailNextProductCategoryAPICallFunc
-          }
+          getOperationCardDetailNextProductCategoryAPICallFunc={getOperationCardDetailNextProductCategoryAPICallFunc}
           operationCardNextProductCategory={operationCardNextProductCategory}
           operationCardProduct={operationCardProduct}
           isBalanceWeightSetAsInWeight={isBalanceWeightSetAsInWeight}

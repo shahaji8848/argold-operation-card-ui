@@ -43,6 +43,7 @@ const OperationCardDetailMaster = () => {
     operationCardKarigarQuantitySettings,
     operationCardProductCategory,
     getOperationCardDetailNextProductCategoryAPICallFunc,
+    operationCardWorkerList,
     getOperationCardProductCategory,
     operationCardMachine,
     operationCardTone,
@@ -99,6 +100,7 @@ const OperationCardDetailMaster = () => {
               operationCardMachineSize={operationCardMachineSize}
               operationCardDesignCodeCategory={operationCardDesignCodeCategory}
               operationCardNextProductProcess={operationCardNextProductProcess}
+              operationCardWorkerList={operationCardWorkerList}
               operationCardNextProductProcessDepartment={operationCardNextProductProcessDepartment}
               getOperationCardDetailDesignCodeCategoryAPICall={getOperationCardDetailDesignCodeCategoryAPICall}
               getOperationCardDetailDesignAPICall={getOperationCardDetailDesignAPICall}

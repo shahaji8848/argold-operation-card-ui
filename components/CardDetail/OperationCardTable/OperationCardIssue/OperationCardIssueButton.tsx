@@ -24,6 +24,7 @@ const OperationCardIssueButton = ({
   operationCardNextProductProcess,
   operationCardNextDesign,
   operationCardNextProductProcessDepartment,
+  operationCardWorkerList,
   operationCardNextDesignCodeType,
   operationCardProductCategory,
   operationCardNextProductCategory,
@@ -53,6 +54,7 @@ const OperationCardIssueButton = ({
     'product_category',
     'next_design',
     'next_design_code_type',
+    'worker',
   ];
 
   const checkboxFieldsList: string[] = ['hold_order_details'];
@@ -101,10 +103,7 @@ const OperationCardIssueButton = ({
     }
   };
 
-  const handleDropDownValuesChange = (
-    labelValue: string,
-    selectedValue: any
-  ) => {
+  const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
     console.log('select dropdown values', labelValue, selectedValue);
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
       setModalDropdownFields({
@@ -130,9 +129,7 @@ const OperationCardIssueButton = ({
       item: itemName,
     };
 
-    const hasEmptyValue = Object?.values(mergedObjs).some(
-      (value) => value === '' || value === undefined
-    );
+    const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
     console.log('mergedObjs', mergedObjs, decodeURI(splitValue[1]));
     // const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
     //   ([key, value]) =>
@@ -144,25 +141,16 @@ const OperationCardIssueButton = ({
       setDisableSubmitBtn((prev) => !prev);
 
       try {
-        const callSaveAPI: any = await POSTModalData(
-          'issue',
-          decodeURI(splitValue[1]),
-          mergedObjs,
-          token
-        );
+        const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
         console.log('api', callSaveAPI);
         if (callSaveAPI?.status === 200) {
           operationCardDetail();
           handleClose();
         } else {
           handleClose();
-          const parsedObject = JSON.parse(
-            callSaveAPI?.response?.data?._server_messages
-          );
+          const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
           // Access the "message" property
-          const messageValue = parsedObject[0]
-            ? JSON.parse(parsedObject[0]).message
-            : null;
+          const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
           setErrMessage(messageValue);
           setShowToastErr(true);
         }
@@ -226,16 +214,10 @@ const OperationCardIssueButton = ({
     console.log('value', value);
     setShow(true);
     setItemName(value);
-    const operationCardValue = operationCardProductDept?.issue_items?.filter(
-      (issueVal: any) => issueVal.item === value
-    );
+    const operationCardValue = operationCardProductDept?.issue_items?.filter((issueVal: any) => issueVal.item === value);
 
-    const showKeys = Object.keys(operationCardValue[0]).filter((key) =>
-      key.startsWith('show')
-    );
-    const setKeys = Object.keys(operationCardValue[0]).filter((key) =>
-      key.startsWith('set')
-    );
+    const showKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('show'));
+    const setKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('set'));
 
     const resultArray = groupByKeyWords(showKeys, setKeys);
 
@@ -260,9 +242,7 @@ const OperationCardIssueButton = ({
     let storeNonZeroSetAndShow: any;
 
     filterArray = resultArray?.filter((obj: any) => {
-      const hasNonZeroShow = Object.keys(obj).some(
-        (key) => key.startsWith('show') && obj[key] !== 0
-      );
+      const hasNonZeroShow = Object.keys(obj).some((key) => key.startsWith('show') && obj[key] !== 0);
 
       const hasNonZeroSet = Object.keys(obj).some(
         (key) =>
@@ -296,20 +276,13 @@ const OperationCardIssueButton = ({
     // Below changes are just for Product KA Chain and Dept Hammering 2 as requested by Vijay Sir from AR Gold.
     // (This is some condition according to factory for KA Chain only).
 
-    if (
-      operationCardDetailData?.product === 'KA Chain' &&
-      operationCardDetailData?.operation_department === 'Hammering 2'
-    ) {
+    if (operationCardDetailData?.product === 'KA Chain' && operationCardDetailData?.operation_department === 'Hammering 2') {
       if (headerSave?.tone === '2 Tone') {
-        filterArray = filterArray.filter(
-          (obj) => obj.label !== 'next_product_process'
-        );
+        filterArray = filterArray.filter((obj) => obj.label !== 'next_product_process');
       }
     }
 
-    const index = filterArray?.findIndex(
-      (obj: any) => obj.label === 'in_weight'
-    );
+    const index = filterArray?.findIndex((obj: any) => obj.label === 'in_weight');
 
     // If 'in_weight' is found, move it to the start of the array
     if (index !== -1) {
@@ -319,10 +292,9 @@ const OperationCardIssueButton = ({
 
     setGetValues(filterArray);
 
-    const getOperationCardDetailDataValue =
-      operationCardDetailData?.operation_card_issue_details?.filter(
-        (issueVal: any) => issueVal.item === value
-      );
+    const getOperationCardDetailDataValue = operationCardDetailData?.operation_card_issue_details?.filter(
+      (issueVal: any) => issueVal.item === value
+    );
 
     let alteredObjToCreateDataFields: any = {};
     let alteredObjToCreateDropDownFields: any = {};
@@ -332,11 +304,7 @@ const OperationCardIssueButton = ({
       console.log('item', item);
 
       if (!checkArray?.includes(label)) {
-        if (
-          value === 'Unrecoverable Loss' &&
-          isBalanceWeightSetAsInWeight &&
-          label === 'in_weight'
-        ) {
+        if (value === 'Unrecoverable Loss' && isBalanceWeightSetAsInWeight && label === 'in_weight') {
           alteredObjToCreateDataFields['in_weight'] = balanceWeight;
         } else if (label === 'hold_order_details') {
           alteredObjToCreateDataFields[label] = 0;
@@ -362,11 +330,7 @@ const OperationCardIssueButton = ({
   };
   let funcData: any;
   let setKey: any;
-  const propertiesToCheck: string[] = [
-    'label',
-    'show_in_weight',
-    'set_in_weight',
-  ];
+  const propertiesToCheck: string[] = ['label', 'show_in_weight', 'set_in_weight'];
 
   useEffect(() => {
     if (show && inputInWeightRef.current) {
@@ -384,18 +348,16 @@ const OperationCardIssueButton = ({
           <div className=" row btn_wrapper_end">
             <div className={`col-md-12 text-end ${styles.btn_wrapper_mob}`}>
               {operationCardProductDept?.issue_items?.length > 0 &&
-                operationCardProductDept?.issue_items.map(
-                  (val: any, i: any) => (
-                    <button
-                      type="button"
-                      className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
-                      onClick={() => handleShow(val.item)}
-                      key={i}
-                    >
-                      {val?.item}
-                    </button>
-                  )
-                )}
+                operationCardProductDept?.issue_items.map((val: any, i: any) => (
+                  <button
+                    type="button"
+                    className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
+                    onClick={() => handleShow(val.item)}
+                    key={i}
+                  >
+                    {val?.item}
+                  </button>
+                ))}
             </div>
           </div>
         </div>
@@ -417,8 +379,7 @@ const OperationCardIssueButton = ({
                 setKey =
                   'label' in val ||
                   'show_in_weight' in val ||
-                  ('set_in_weight' in val &&
-                    `set_${val.label?.toLowerCase()?.replace(' ', '_')}`);
+                  ('set_in_weight' in val && `set_${val.label?.toLowerCase()?.replace(' ', '_')}`);
 
                 const handleField = (val: any) => {
                   const propMappings: any = {
@@ -433,11 +394,11 @@ const OperationCardIssueButton = ({
                     next_design_code_type: operationCardNextDesignCodeType,
                     design_code_category: operationCardDesignCodeCategory,
                     next_product_process: operationCardNextProductProcess,
-                    next_product_process_department:
-                      operationCardNextProductProcessDepartment,
+                    next_product_process_department: operationCardNextProductProcessDepartment,
                     product_category: operationCardProductCategory,
                     next_product_category: operationCardNextProductCategory,
                     gpc_product: operationCardProduct,
+                    worker: operationCardWorkerList,
                   };
                   propToPass = propMappings[val];
                   return propToPass;
@@ -454,28 +415,15 @@ const OperationCardIssueButton = ({
                         >
                           {val?.label
                             ?.split('_')
-                            ?.filter(
-                              (val: any) =>
-                                val !== 'set' &&
-                                val !== 'readonly' &&
-                                val !== 'show'
-                            )
-                            ?.map((val: any, index: any) =>
-                              index === 0
-                                ? val.charAt(0).toUpperCase() + val.slice(1)
-                                : val
-                            )
+                            ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                            ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
                             .join(' ')}
                         </label>
                         <AutoCompleteField
                           listOfDropdownObjs={funcData}
                           modalDropdownFieldsProp={modalDropdownFields}
-                          handleDropDownValuesChange={
-                            handleDropDownValuesChange
-                          }
-                          getOperationCardProductCategory={
-                            getOperationCardProductCategory
-                          }
+                          handleDropDownValuesChange={handleDropDownValuesChange}
+                          getOperationCardProductCategory={getOperationCardProductCategory}
                           handleSubmit={handleSubmit}
                           label={val?.label}
                           initialValue=""
@@ -497,17 +445,8 @@ const OperationCardIssueButton = ({
                         >
                           {val?.label
                             ?.split('_')
-                            ?.filter(
-                              (val: any) =>
-                                val !== 'set' &&
-                                val !== 'readonly' &&
-                                val !== 'show'
-                            )
-                            ?.map((val: any, index: any) =>
-                              index === 0
-                                ? val.charAt(0).toUpperCase() + val.slice(1)
-                                : val
-                            )
+                            ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                            ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
                             .join(' ')}
                         </label>
                       </div>
@@ -519,17 +458,8 @@ const OperationCardIssueButton = ({
                         >
                           {val?.label
                             ?.split('_')
-                            ?.filter(
-                              (val: any) =>
-                                val !== 'set' &&
-                                val !== 'readonly' &&
-                                val !== 'show'
-                            )
-                            ?.map((val: any, index: any) =>
-                              index === 0
-                                ? val.charAt(0).toUpperCase() + val.slice(1)
-                                : val
-                            )
+                            ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                            ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
                             .join(' ')}
                         </label>
                         <div className={` text-left ${styles.inputFlex} `}>
@@ -569,20 +499,12 @@ const OperationCardIssueButton = ({
           ) : (
             ''
           )}
-          {emptyFieldsErr && (
-            <p className="mt-3 text-danger">Please fill all the fields</p>
-          )}
+          {emptyFieldsErr && <p className="mt-3 text-danger">Please fill all the fields</p>}
         </Modal.Body>
       </Modal>
 
       <ToastContainer position="bottom-end">
-        <Toast
-          onClose={() => setShowToastErr(false)}
-          show={showToastErr}
-          delay={5000}
-          autohide
-          bg="danger"
-        >
+        <Toast onClose={() => setShowToastErr(false)} show={showToastErr} delay={5000} autohide bg="danger">
           <Toast.Body className="text-white">{errMessage}</Toast.Body>
         </Toast>
       </ToastContainer>
