@@ -393,6 +393,7 @@ const OperationCardIssueButton = ({
                     next_design: operationCardNextDesign,
                     next_design_code_type: operationCardNextDesignCodeType,
                     design_code_category: operationCardDesignCodeCategory,
+                    next_process: operationCardNextProductProcess,
                     next_product_process: operationCardNextProductProcess,
                     next_product_process_department: operationCardNextProductProcessDepartment,
                     product_category: operationCardProductCategory,
