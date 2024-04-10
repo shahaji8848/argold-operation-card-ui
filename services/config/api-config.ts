@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const CONSTANTS = {
-  API_BASE_URL: 'https://staging1-arg-manufacturing.8848digitalerp.com/',
-  // API_BASE_URL: 'https://erp.ar-gold.in/',
+  // API_BASE_URL: 'https://staging1-arg-manufacturing.8848digitalerp.com/',
+  API_BASE_URL: 'https://erp.ar-gold.in/',
   STANDARD_API_PATH: 'api/resource',
   CUSTOM_API_PATH: 'api/method',
 };
@@ -43,11 +43,7 @@ export const callGetAPI = async (url: string, token: any) => {
 
   return response;
 };
-export const callFormDataPOSTAPI = async (
-  url: string,
-  body: any,
-  token: any
-) => {
+export const callFormDataPOSTAPI = async (url: string, body: any, token: any) => {
   let response: any;
   const API_CONFIG = {
     headers: {
