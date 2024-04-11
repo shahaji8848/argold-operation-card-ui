@@ -264,6 +264,9 @@ a {
 .form-control:focus {
   box-shadow: none !important;
 }
+.cursor {
+  cursor: pointer;
+}
 /* print format css */
 .print-format {
   color: #6c757d;

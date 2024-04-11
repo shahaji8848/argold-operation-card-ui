@@ -52,7 +52,7 @@ const LossReport = ({
         </div>
 
         <div className="ms-auto d-flex align-items-center">
-          <i className="fa fa-print me-3  grey print-format" aria-hidden="true" onClick={(e: any) => printPage(e)}></i>
+          <i className="fa fa-print me-3  grey print-format cursor" aria-hidden="true" onClick={(e: any) => printPage(e)}></i>
 
           <button className="btn btn-grey px-4 px-1 btn-py" onClick={redirectToHomepage}>
             Back
