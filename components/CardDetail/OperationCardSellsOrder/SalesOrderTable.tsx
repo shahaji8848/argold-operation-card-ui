@@ -64,6 +64,9 @@ function SalesOrderTable({
   setSalesOrderList,
   getAllSalesOrderList,
   handleUpdateSalesOrderListWithReadyQty,
+  operationCardNextProductProcessDepartment,
+
+  operationCardProductDept,
 }: any) {
   const [doGetAllOrders, setDoGetAllOrders] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -144,76 +147,79 @@ function SalesOrderTable({
       }
     }
   };
+  console.log('operationCardDetailDataValues', operationCardProductDept?.show_get_orders);
   return (
     <div>
+      <div>{operationCardProductDept?.show_get_orders !== 0 && <h6 className="bold">Operation Card Order Details</h6>}</div>
       <div>
-        <h6 className="bold">Operation Card Order Details</h6>
-      </div>
-      <div>
-        <button
-          className="btn btn-blue px-4 px-1 btn-py mt-2"
-          onClick={() => {
-            getAllSalesOrderList();
-            setDoGetAllOrders(true);
-          }}
-        >
-          Get Orders
-        </button>
+        {operationCardProductDept?.show_get_orders !== 0 && (
+          <button
+            className="btn btn-blue px-4 px-1 btn-py mt-2"
+            onClick={() => {
+              getAllSalesOrderList();
+              setDoGetAllOrders(true);
+            }}
+          >
+            Get Orders
+          </button>
+        )}
       </div>
 
       <div className="row mt-2">
         <div className="col-md-12">
-          <div className="table-responsive mt-2">
-            <table className="table table-bordered">
-              <thead>
-                <tr className="table-text">
-                  <th className="text-center thead-dark">
-                    <input type="checkbox" onChange={handleHeaderCheckboxChange} checked={isHeaderCheckboxChecked} />
-                  </th>
-                  {columnsBuilder(operationCardDetailData)?.map((val, i: any) => (
-                    <th className="thead-dark text-center" scope="col" key={i}>
-                      {val}
+          {operationCardProductDept?.show_get_orders !== 0 && (
+            <div className="table-responsive mt-2">
+              <table className="table table-bordered">
+                <thead>
+                  <tr className="table-text">
+                    <th className="text-center thead-dark">
+                      <input type="checkbox" onChange={handleHeaderCheckboxChange} checked={isHeaderCheckboxChecked} />
                     </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {salesOrderList?.length > 0 ? (
-                  <>
-                    {salesOrderList?.map((salesOrder: any) => {
-                      return (
-                        <>
-                          {rowsBuilder(
-                            operationCardDetailData,
-                            salesOrder,
-                            doGetAllOrders,
-                            selectedItems,
-                            handleCheckboxChange,
-                            handleChangesInReadyQty
-                          )}
-                        </>
-                      );
-                    })}
-                  </>
-                ) : (
-                  <tr>
-                    <td colSpan={6} className="text-center w-100 my-4">
-                      <Image src="/grid-empty-state.png" alt="empty Logo" width={40} height={42} className="my-2" />
-                      <div className="fs-14 grey">No Data </div>
-                    </td>
+                    {columnsBuilder(operationCardDetailData)?.map((val, i: any) => (
+                      <th className="thead-dark text-center" scope="col" key={i}>
+                        {val}
+                      </th>
+                    ))}
                   </tr>
-                )}
-              </tbody>
-            </table>
-            {selectedItems?.length > 0 && (
-              <button className="btn btn-danger btn-py fs-13 me-2 " onClick={handleDeleteSelectedItems}>
-                Delete
+                </thead>
+                <tbody>
+                  {salesOrderList?.length > 0 ? (
+                    <>
+                      {salesOrderList?.map((salesOrder: any) => {
+                        return (
+                          <>
+                            {rowsBuilder(
+                              operationCardDetailData,
+                              salesOrder,
+                              doGetAllOrders,
+                              selectedItems,
+                              handleCheckboxChange,
+                              handleChangesInReadyQty
+                            )}
+                          </>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="text-center w-100 my-4">
+                        <Image src="/grid-empty-state.png" alt="empty Logo" width={40} height={42} className="my-2" />
+                        <div className="fs-14 grey">No Data </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+              {selectedItems?.length > 0 && (
+                <button className="btn btn-danger btn-py fs-13 me-2 " onClick={handleDeleteSelectedItems}>
+                  Delete
+                </button>
+              )}
+              <button className="btn btn-blue btn-py " onClick={handleUpdateSalesOrderListWithReadyQty}>
+                Save
               </button>
-            )}
-            <button className="btn btn-blue btn-py " onClick={handleUpdateSalesOrderListWithReadyQty}>
-              Save
-            </button>
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

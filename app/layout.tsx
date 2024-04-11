@@ -7,11 +7,12 @@ import ReduxProvider from '@/store/ReduxProvider';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ErrorBoundary from '@/components/ErrorBoundary';
 import { Navbar } from 'react-bootstrap';
 import { useParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import CustomNavbar from '@/components/Navbar/CustomNavbar';
+import Error from './error';
+import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'] });
 
@@ -20,11 +21,7 @@ export const metadata: Metadata = {
   description: 'Operation Card',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -37,22 +34,22 @@ export default function RootLayout({
         />
       </head>
       <body className={nunito.className}>
-        <ErrorBoundary>
-          <ToastContainer
-            position="top-right"
-            autoClose={8000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            draggable={false}
-            closeOnClick
-            pauseOnHover
-          />
-          <ReduxProvider>
-            <CustomNavbar />
-            {children}
-            <BootstrapClient />
-          </ReduxProvider>
-        </ErrorBoundary>
+        {/* <ErrorBoundary fallback={<Error />}> */}
+        <ToastContainer
+          position="top-right"
+          autoClose={8000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          draggable={false}
+          closeOnClick
+          pauseOnHover
+        />
+        <ReduxProvider>
+          <CustomNavbar />
+          {children}
+          <BootstrapClient />
+        </ReduxProvider>
+        {/* </ErrorBoundary> */}
       </body>
     </html>
   );

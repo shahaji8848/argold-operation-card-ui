@@ -8,6 +8,8 @@ const MasterOperationCardSellsOrder = ({
   sellsOrderData,
   setSellsOrderData,
   handleSaveButtonClickSalesOrder,
+
+  operationCardProductDept,
 }: any) => {
   return (
     <>
@@ -17,6 +19,7 @@ const MasterOperationCardSellsOrder = ({
         sellsOrderData={sellsOrderData}
         setSellsOrderData={setSellsOrderData}
         handleSaveButtonClickSalesOrder={handleSaveButtonClickSalesOrder}
+        operationCardProductDept={operationCardProductDept}
       />
     </>
   );
