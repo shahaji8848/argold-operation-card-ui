@@ -10,6 +10,9 @@ const LossReport = ({
   getLossPeriodValueFromURL,
   getFactoryValueFromURL,
   factoryList,
+  financialYearList,
+  handleFinancialYearValuesChange,
+  getFinancialYearValueFromURL,
 }: any) => {
   const router = useRouter();
   const redirectToHomepage = () => {
@@ -44,6 +47,21 @@ const LossReport = ({
                 {list?.name}
               </option>
             ))}
+          </select>
+        </div>
+
+        <div className="ps-3"> Financial Year</div>
+        <div className="ms-3">
+          <select value={getFinancialYearValueFromURL} onChange={(e: any) => handleFinancialYearValuesChange(e.target.value)}>
+            <option value=""></option>
+            {financialYearList?.length > 0 &&
+              financialYearList?.map((financial_year_data: any, index: number) => {
+                return (
+                  <>
+                    <option value={financial_year_data?.name}>{financial_year_data?.name}</option>
+                  </>
+                );
+              })}
           </select>
         </div>
 

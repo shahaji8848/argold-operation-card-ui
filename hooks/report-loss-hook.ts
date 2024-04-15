@@ -10,21 +10,23 @@ import { CONSTANTS, callFormDataPOSTAPI } from '@/services/config/api-config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GETReportLossFactory from '@/services/api/loss-period/report-loss-factory-api';
+import GETFinancialYear from '@/services/api/loss-period/report-loss-financial-year-api';
 
 const useReportLoss = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const getLossPeriodValueFromURL: string | null = searchParams.get('loss_period');
   const getFactoryValueFromURL: string | null = searchParams.get('factory');
+  const getFinancialYearValueFromURL: string | null = searchParams.get('financial_year');
   const { token, username } = useSelector(get_access_token);
   const [lossPeriodList, setLossPeriodList] = useState<any>([]);
   const [reportLossData, setReportLossData] = useState([]);
   const [reportLossItem, setReportLossItem] = useState([]);
   const [selectedLossPeriodValue, setSelectedLossPeriodValue] = useState<string>('');
   const [selectedFactoryValue, setSelectedFactoryValue] = useState<string>('');
-
-  // Get Loss Report Factory List
   const [factoryList, setFactoryList] = useState<any>([]);
+  const [financialYearList, setFinancialYear] = useState<any>([]);
+
   const getLossReportFactoryFromAPI = async () => {
     const getFactoryList: any = await GETReportLossFactory(token);
     console.log('getLossReportFactoryFromAPI', getFactoryList?.status);
@@ -32,6 +34,15 @@ const useReportLoss = () => {
       setFactoryList(getFactoryList?.data?.data);
     } else {
       setFactoryList([]);
+    }
+  };
+
+  const getFinancialYearList = async () => {
+    const getLossReportFinancialYearFromAPI = await GETFinancialYear(token);
+    if (getLossReportFinancialYearFromAPI?.status === 200) {
+      setFinancialYear(getLossReportFinancialYearFromAPI?.data?.data);
+    } else {
+      setFinancialYear([]);
     }
   };
 
@@ -87,6 +98,24 @@ const useReportLoss = () => {
     router.push(`${decodeURI(newUrl)}`);
   };
 
+  const handleFinancialYearValuesChange = (financialYearValue: any) => {
+    const currentUrl = new URL(window.location.href);
+    const queryParams = new URLSearchParams(currentUrl.search);
+
+    // Check if 'financial_year' parameter exists
+    if (queryParams.has('financial_year')) {
+      // Override the existing value
+      queryParams.set('financial_year', financialYearValue);
+    }
+    queryParams.forEach((value, key) => {
+      queryParams.set(key, value.replace(/\+/g, '%20'));
+    });
+
+    // Update the URL with the modified query parameters
+    const newUrl = `${currentUrl.pathname}?${queryParams.toString()}`;
+    router.push(`${decodeURI(newUrl)}`);
+  };
+
   const handleFactoryValuesChange = (factoryValue: any) => {
     const currentUrl = new URL(window.location.href);
     const queryParams = new URLSearchParams(currentUrl.search);
@@ -111,6 +140,7 @@ const useReportLoss = () => {
   }, [searchParams]);
 
   useEffect(() => {
+    getFinancialYearList();
     getLossPeriodList();
     getLossReportFactoryFromAPI();
   }, []);
@@ -279,6 +309,9 @@ const useReportLoss = () => {
     difference_of_unrecoverableloss_and_outweight,
     totalBalanceOFLossReportItem,
     factoryList,
+    financialYearList,
+    handleFinancialYearValuesChange,
+    getFinancialYearValueFromURL,
   };
 };
 

@@ -26,6 +26,9 @@ const MasterLossReport = () => {
     ObjToStoreLossReportItem,
     difference_of_unrecoverableloss_and_outweight,
     factoryList,
+    financialYearList,
+    handleFinancialYearValuesChange,
+    getFinancialYearValueFromURL,
   } = useReportLoss();
   return (
     <div className="spacing-mt spacing-pd">
@@ -39,6 +42,9 @@ const MasterLossReport = () => {
             getLossPeriodValueFromURL={getLossPeriodValueFromURL}
             getFactoryValueFromURL={getFactoryValueFromURL}
             factoryList={factoryList}
+            financialYearList={financialYearList}
+            handleFinancialYearValuesChange={handleFinancialYearValuesChange}
+            getFinancialYearValueFromURL={getFinancialYearValueFromURL}
           />
           <LossReportTable
             reportLossData={reportLossData}
