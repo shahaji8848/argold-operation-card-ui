@@ -2,6 +2,7 @@
 import { CONSTANTS } from '@/services/config/api-config';
 import { clearToken, get_access_token } from '@/store/slice/login-slice';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname, useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,12 +43,9 @@ const CustomNavbar = () => {
           <div className="d-flex align-items-center justify-content-end  navbar-height spacing-pd">
             <div className="container-fluid ">
               <div className="">
-                <Image
-                  src="/arc-logo.png"
-                  alt="ERPNext Logo"
-                  width={40}
-                  height={42}
-                />
+                <Link href="/">
+                  <Image src="/arc-logo.png" alt="ERPNext Logo" width={40} height={42} />
+                </Link>
               </div>
             </div>
 
@@ -73,11 +71,7 @@ const CustomNavbar = () => {
             </div>
             <div className="d-flex align-items-center  ps-3 pe-3">
               <button className="btn-none  pt-1" onClick={handleLogout}>
-                <i
-                  className="fa fa-sign-out light-grey"
-                  aria-hidden="true"
-                  style={{ fontSize: '20px' }}
-                ></i>{' '}
+                <i className="fa fa-sign-out light-grey" aria-hidden="true" style={{ fontSize: '20px' }}></i>{' '}
               </button>
             </div>
           </div>
