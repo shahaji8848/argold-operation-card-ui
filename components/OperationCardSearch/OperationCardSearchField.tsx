@@ -32,9 +32,7 @@ const OperationCardSearchField = () => {
     <>
       <div className="row mt-5 ">
         <div className="col-md-3">
-          <p className="text-capitalize fs-14 light-grey">
-            search melting lot / operation card no :
-          </p>
+          <p className="text-capitalize fs-14 light-grey">search melting lot / operation card no :</p>
         </div>
         <div className="col-md-6">
           <input
@@ -48,10 +46,7 @@ const OperationCardSearchField = () => {
           />
         </div>
         <div className="col-md-3 mob-mt">
-          <button
-            className="btn btn-primary btn-blue px-4 py-2 fs-14"
-            onClick={redirectToListPage}
-          >
+          <button className="btn btn-primary btn-blue px-4 py-2 fs-14" onClick={redirectToListPage}>
             Search
           </button>
         </div>
@@ -59,9 +54,7 @@ const OperationCardSearchField = () => {
       <div className="row mt-4">
         <div className="col-md-3"></div>
         <div className="col-md-9 text-capitalize">
-          <Link href={`report/loss-report-list?loss_period=&factory=`}>
-            view loss report
-          </Link>
+          <Link href={`report/loss-report-list?financial_year=&loss_period=&factory=`}>view loss report</Link>
         </div>
       </div>
     </>
