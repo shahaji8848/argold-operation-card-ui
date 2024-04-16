@@ -13,6 +13,7 @@ const LossReport = ({
   financialYearList,
   handleFinancialYearValuesChange,
   getFinancialYearValueFromURL,
+  isFinancialYearSelected,
 }: any) => {
   const router = useRouter();
   const redirectToHomepage = () => {
@@ -21,18 +22,37 @@ const LossReport = ({
   return (
     <>
       <div className={` ${style.d_flex_report} blue text-uppercase fw-semibold fs-14 my-3  `}>
-        <div>Loss Report</div>
-        <div className="ms-3">
-          <select value={getLossPeriodValueFromURL} onChange={(e: any) => handleLossPeriodValuesChange(e.target.value)}>
+        <div className="pe-3"> Financial Year</div>
+        <div className="me-3">
+          <select value={getFinancialYearValueFromURL} onChange={(e: any) => handleFinancialYearValuesChange(e.target.value)}>
             <option value=""></option>
-            {lossPeriodList?.length > 0 &&
-              lossPeriodList?.map((loss_period_data: any, index: number) => {
+            {financialYearList?.length > 0 &&
+              financialYearList?.map((financial_year_data: any, index: number) => {
                 return (
                   <>
-                    <option value={loss_period_data?.name}>{loss_period_data?.name}</option>
+                    <option value={financial_year_data?.name}>{financial_year_data?.name}</option>
                   </>
                 );
               })}
+          </select>
+        </div>
+
+        <div>Loss Report</div>
+        <div className="ms-3">
+          <select value={getLossPeriodValueFromURL} onChange={(e: any) => handleLossPeriodValuesChange(e.target.value)}>
+            {/* {isFinancialYearSelected && ( */}
+            <>
+              <option value=""></option>
+              {lossPeriodList?.length > 0 &&
+                lossPeriodList?.map((loss_period_data: any, index: number) => {
+                  return (
+                    <>
+                      <option value={loss_period_data?.name}>{loss_period_data?.name}</option>
+                    </>
+                  );
+                })}
+            </>
+            {/* )} */}
           </select>
         </div>
 
@@ -47,21 +67,6 @@ const LossReport = ({
                 {list?.name}
               </option>
             ))}
-          </select>
-        </div>
-
-        <div className="ps-3"> Financial Year</div>
-        <div className="ms-3">
-          <select value={getFinancialYearValueFromURL} onChange={(e: any) => handleFinancialYearValuesChange(e.target.value)}>
-            <option value=""></option>
-            {financialYearList?.length > 0 &&
-              financialYearList?.map((financial_year_data: any, index: number) => {
-                return (
-                  <>
-                    <option value={financial_year_data?.name}>{financial_year_data?.name}</option>
-                  </>
-                );
-              })}
           </select>
         </div>
 

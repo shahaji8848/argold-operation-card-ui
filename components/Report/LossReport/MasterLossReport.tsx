@@ -29,6 +29,7 @@ const MasterLossReport = () => {
     financialYearList,
     handleFinancialYearValuesChange,
     getFinancialYearValueFromURL,
+    isFinancialYearSelected,
   } = useReportLoss();
   return (
     <div className="spacing-mt spacing-pd">
@@ -45,6 +46,7 @@ const MasterLossReport = () => {
             financialYearList={financialYearList}
             handleFinancialYearValuesChange={handleFinancialYearValuesChange}
             getFinancialYearValueFromURL={getFinancialYearValueFromURL}
+            isFinancialYearSelected={isFinancialYearSelected}
           />
           <LossReportTable
             reportLossData={reportLossData}

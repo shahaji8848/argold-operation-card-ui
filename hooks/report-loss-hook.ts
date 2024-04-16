@@ -11,13 +11,15 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GETReportLossFactory from '@/services/api/loss-period/report-loss-factory-api';
 import GETFinancialYear from '@/services/api/loss-period/report-loss-financial-year-api';
+import GETAfterFinancialYear from '@/services/api/loss-period/financial-loss-period-api';
 
 const useReportLoss = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const getFinancialYearValueFromURL: string | null = searchParams.get('financial_year');
   const getLossPeriodValueFromURL: string | null = searchParams.get('loss_period');
   const getFactoryValueFromURL: string | null = searchParams.get('factory');
-  const getFinancialYearValueFromURL: string | null = searchParams.get('financial_year');
+
   const { token, username } = useSelector(get_access_token);
   const [lossPeriodList, setLossPeriodList] = useState<any>([]);
   const [reportLossData, setReportLossData] = useState([]);
@@ -26,6 +28,19 @@ const useReportLoss = () => {
   const [selectedFactoryValue, setSelectedFactoryValue] = useState<string>('');
   const [factoryList, setFactoryList] = useState<any>([]);
   const [financialYearList, setFinancialYear] = useState<any>([]);
+  const [selectedFinancialYear, setSelectedFinancialYear] = useState('');
+  const [isFinancialYearSelected, setIsFinancialYearSelected] = useState(false);
+  // const [getLossPeriodValueFromURL, setGetLossPeriodValueFromURL] = useState('');
+
+  const getFinancialYearList = async () => {
+    const getLossReportFinancialYearFromAPI = await GETFinancialYear(token);
+    console.log('getLossReportFinancialYearFromAPI', getLossReportFinancialYearFromAPI);
+    if (getLossReportFinancialYearFromAPI?.status === 200) {
+      setFinancialYear(getLossReportFinancialYearFromAPI?.data?.data);
+    } else {
+      setFinancialYear([]);
+    }
+  };
 
   const getLossReportFactoryFromAPI = async () => {
     const getFactoryList: any = await GETReportLossFactory(token);
@@ -37,26 +52,24 @@ const useReportLoss = () => {
     }
   };
 
-  const getFinancialYearList = async () => {
-    const getLossReportFinancialYearFromAPI = await GETFinancialYear(token);
-    if (getLossReportFinancialYearFromAPI?.status === 200) {
-      setFinancialYear(getLossReportFinancialYearFromAPI?.data?.data);
-    } else {
-      setFinancialYear([]);
-    }
-  };
-
-  const getLossPeriodList = async () => {
-    const getLossReportListDataFromAPI = await GETLossPeriodList(token);
-    if (getLossReportListDataFromAPI?.status === 200) {
-      setLossPeriodList(getLossReportListDataFromAPI?.data?.data);
-    } else {
-      setLossPeriodList([]);
-    }
-  };
+  // const getLossPeriodList = async () => {
+  //   const getLossReportListDataFromAPI = await GETLossPeriodList(token);
+  //   console.log('getLossReportListDataFromAPI', getLossReportListDataFromAPI);
+  //   if (getLossReportListDataFromAPI?.status === 200) {
+  //     setLossPeriodList(getLossReportListDataFromAPI?.data?.data);
+  //   } else {
+  //     setLossPeriodList([]);
+  //   }
+  // };
 
   const getReportLossItem = async () => {
-    const fetchReportLossItem: any = await GETReportLossItem(getLossPeriodValueFromURL, getFactoryValueFromURL, username, token);
+    const fetchReportLossItem: any = await GETReportLossItem(
+      getFinancialYearValueFromURL,
+      getLossPeriodValueFromURL,
+      getFactoryValueFromURL,
+      username,
+      token
+    );
 
     if (fetchReportLossItem?.status === 200) {
       setReportLossItem(fetchReportLossItem?.data?.message);
@@ -67,6 +80,7 @@ const useReportLoss = () => {
 
   const getReportLossData = async () => {
     const fetchReportLossData: any = await GETOperationCardReportLoss(
+      getFinancialYearValueFromURL,
       getLossPeriodValueFromURL,
       getFactoryValueFromURL,
       username,
@@ -80,14 +94,19 @@ const useReportLoss = () => {
     }
   };
 
-  const handleLossPeriodValuesChange = (lossPeriodValue: any) => {
+  const handleFinancialYearValuesChange = (financialYearValue: any) => {
+    setSelectedFinancialYear(financialYearValue);
+    console.log('selectedFinancialYear', selectedFinancialYear);
+    setIsFinancialYearSelected(true);
+    getLossPeriodListAfterFinancialYear(financialYearValue);
+    // getLossPeriodList(selectedYear);
     const currentUrl = new URL(window.location.href);
     const queryParams = new URLSearchParams(currentUrl.search);
 
-    // Check if 'loss_period' parameter exists
-    if (queryParams.has('loss_period')) {
+    // Check if 'financial_year' parameter exists
+    if (queryParams.has('financial_year')) {
       // Override the existing value
-      queryParams.set('loss_period', lossPeriodValue);
+      queryParams.set('financial_year', financialYearValue);
     }
     queryParams.forEach((value, key) => {
       queryParams.set(key, value.replace(/\+/g, '%20'));
@@ -98,14 +117,15 @@ const useReportLoss = () => {
     router.push(`${decodeURI(newUrl)}`);
   };
 
-  const handleFinancialYearValuesChange = (financialYearValue: any) => {
+  const handleLossPeriodValuesChange = (lossPeriodValue: any, selectedPeriod: any) => {
+    // setGetLossPeriodValueFromURL(selectedPeriod);
     const currentUrl = new URL(window.location.href);
     const queryParams = new URLSearchParams(currentUrl.search);
 
-    // Check if 'financial_year' parameter exists
-    if (queryParams.has('financial_year')) {
+    // Check if 'loss_period' parameter exists
+    if (queryParams.has('loss_period')) {
       // Override the existing value
-      queryParams.set('financial_year', financialYearValue);
+      queryParams.set('loss_period', lossPeriodValue);
     }
     queryParams.forEach((value, key) => {
       queryParams.set(key, value.replace(/\+/g, '%20'));
@@ -139,11 +159,31 @@ const useReportLoss = () => {
     getReportLossItem();
   }, [searchParams]);
 
+  const getLossPeriodListAfterFinancialYear = async (selectedFinancialYear: any) => {
+    console.log('getLossReportListDataFromAPIs', selectedFinancialYear);
+    const getLossReportListDataFromAPI = await GETAfterFinancialYear(token, selectedFinancialYear);
+    console.log('getLossReportListDataFromAPIs', getLossReportListDataFromAPI);
+    if (getLossReportListDataFromAPI?.status === 200) {
+      setLossPeriodList(getLossReportListDataFromAPI?.data?.data);
+    } else {
+      setLossPeriodList([]);
+    }
+  };
   useEffect(() => {
     getFinancialYearList();
-    getLossPeriodList();
+    // getLossPeriodList();
+    getLossPeriodListAfterFinancialYear(selectedFinancialYear);
     getLossReportFactoryFromAPI();
   }, []);
+
+  // useEffect(() => {
+  //   // setIsFinancialYearSelected(true);
+  //   if (!isFinancialYearSelected) {
+  //     getLossPeriodListAfterFinancialYear(selectedFinancialYear);
+  //   } else {
+  //     getLossPeriodList();
+  //   }
+  // }, []);
 
   async function convertFunc(item_name: any) {
     const url = `${CONSTANTS.API_BASE_URL}/api/method/custom_app.custom_app.doctype.internal_transfer.create_internal_transfer_from_parent_lot_loss.create_internal_transfer_for_unrecoverable_loss`;
@@ -312,6 +352,7 @@ const useReportLoss = () => {
     financialYearList,
     handleFinancialYearValuesChange,
     getFinancialYearValueFromURL,
+    isFinancialYearSelected,
   };
 };
 
