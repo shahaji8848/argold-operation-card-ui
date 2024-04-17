@@ -22,8 +22,6 @@ const MasterLossReport = () => {
     CalculateTotalOfLossReport,
     CalculateTotalOfReportItem,
     totalBalanceOFLossReportItem,
-    ObjToStoreLossReportTable,
-    ObjToStoreLossReportItem,
     difference_of_unrecoverableloss_and_outweight,
     factoryList,
     financialYearList,
