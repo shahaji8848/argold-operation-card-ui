@@ -44,7 +44,6 @@ const LossReport = ({
         <div>Loss Report</div>
         <div className="ms-3">
           <select value={getLossPeriodValueFromURL} onChange={(e: any) => handleLossPeriodValuesChange(e.target.value)}>
-            {/* {isFinancialYearSelected && ( */}
             <>
               <option value=""></option>
               {lossPeriodList?.length > 0 &&
@@ -56,7 +55,6 @@ const LossReport = ({
                   );
                 })}
             </>
-            {/* )} */}
           </select>
         </div>
 
@@ -65,7 +63,6 @@ const LossReport = ({
         <div className="ms-3">
           <select value={getFactoryValueFromURL} onChange={(e: any) => handleFactoryValuesChange(e.target.value)}>
             <option value=""></option>
-            {/* <option value="ARG ERP Software">ARG ERP Software</option> */}
             {factoryList?.map((list: any) => (
               <option key={list?.name} value={list.name}>
                 {list?.name}

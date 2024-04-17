@@ -12,24 +12,19 @@ const LossReportItem = ({
   CalculateTotalOfReportItem,
 }: any) => {
   const { token } = useSelector(get_access_token);
-  console.log('CalculateTotalOfReportItem', CalculateTotalOfReportItem);
 
   return (
     <div className="table-responsive">
       <table className="table table-bordered mt-2">
         <thead className="card-listing-head ">
           <tr>
-            {[
-              'item',
-              'Operation Card Weight',
-              'Issued Weight',
-              'balance',
-              'Convert to Unrecoverable Loss',
-            ].map((val: any, index: any) => (
-              <th className=" text-center" scope="col" key={index}>
-                {val}
-              </th>
-            ))}
+            {['item', 'Operation Card Weight', 'Issued Weight', 'balance', 'Convert to Unrecoverable Loss'].map(
+              (val: any, index: any) => (
+                <th className=" text-center" scope="col" key={index}>
+                  {val}
+                </th>
+              )
+            )}
           </tr>
         </thead>
 
@@ -78,8 +73,7 @@ const LossReportItem = ({
                       <>
                         {lossData?.in_weight &&
                         lossData?.in_weight !== 0 &&
-                        (lossData?.in_weight < -0.001 ||
-                          lossData?.in_weight > 0.001) ? (
+                        (lossData?.in_weight < -0.001 || lossData?.in_weight > 0.001) ? (
                           <Link
                             href={`${CONSTANTS.API_BASE_URL}app/query-report/Productwise%20Parent%20Lot%20Loss?loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
                             target="_blank"
@@ -94,8 +88,7 @@ const LossReportItem = ({
                       <>
                         {lossData?.in_weight &&
                         lossData?.in_weight !== 0 &&
-                        (lossData?.in_weight < -0.001 ||
-                          lossData?.in_weight > 0.001) ? (
+                        (lossData?.in_weight < -0.001 || lossData?.in_weight > 0.001) ? (
                           <Link
                             href={`${CONSTANTS.API_BASE_URL}app/query-report/Product%20Wise%20Tounch%20Loss%20Fine?loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
                             target="_blank"
@@ -110,8 +103,7 @@ const LossReportItem = ({
                       <>
                         {lossData?.in_weight &&
                         lossData?.in_weight !== 0 &&
-                        (lossData?.in_weight < -0.001 ||
-                          lossData?.in_weight > 0.001) ? (
+                        (lossData?.in_weight < -0.001 || lossData?.in_weight > 0.001) ? (
                           <Link
                             href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
                             target="_blank"
@@ -129,8 +121,7 @@ const LossReportItem = ({
                       <>
                         {lossData?.out_weight &&
                         lossData?.out_weight !== 0 &&
-                        (lossData?.out_weight < -0.001 ||
-                          lossData?.out_weight > 0.001) ? (
+                        (lossData?.out_weight < -0.001 || lossData?.out_weight > 0.001) ? (
                           <Link href={``} target="_blank">
                             {lossData?.out_weight?.toFixed(3)}
                           </Link>
@@ -142,8 +133,7 @@ const LossReportItem = ({
                       <>
                         {lossData?.out_weight &&
                         lossData?.out_weight !== 0 &&
-                        (lossData?.out_weight < -0.001 ||
-                          lossData?.out_weight > 0.001) ? (
+                        (lossData?.out_weight < -0.001 || lossData?.out_weight > 0.001) ? (
                           <Link
                             href={`${CONSTANTS.API_BASE_URL}app/query-report/Vatav%20Report?item=${lossData?.item}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}&is_material_issue=1`}
                             target="_blank"
@@ -157,9 +147,7 @@ const LossReportItem = ({
                     )}
                   </td>
                   <td className="text-end">
-                    {lossData?.balance &&
-                    lossData?.balance !== 0 &&
-                    (lossData?.balance < -0.001 || lossData?.balance > 0.001)
+                    {lossData?.balance && lossData?.balance !== 0 && (lossData?.balance < -0.001 || lossData?.balance > 0.001)
                       ? lossData?.balance?.toFixed(3)
                       : '--'}
                   </td>
@@ -179,13 +167,11 @@ const LossReportItem = ({
           <tr className="table-text">
             <td className="font-weight-bold ">Total</td>
 
-            {['in_weight', 'out_weight', 'balance'].map(
-              (column: string, i: number) => (
-                <td className="font-weight-bold text-end" key={i}>
-                  {CalculateTotalOfReportItem(column, reportLossItem || [])}
-                </td>
-              )
-            )}
+            {['in_weight', 'out_weight', 'balance'].map((column: string, i: number) => (
+              <td className="font-weight-bold text-end" key={i}>
+                {CalculateTotalOfReportItem(column, reportLossItem || [])}
+              </td>
+            ))}
             <td></td>
           </tr>
         </tbody>

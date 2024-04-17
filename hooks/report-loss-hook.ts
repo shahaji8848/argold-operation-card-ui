@@ -17,17 +17,13 @@ const useReportLoss = () => {
   const getFinancialYearValueFromURL: string | null = searchParams.get('financial_year');
   const getLossPeriodValueFromURL: string | null = searchParams.get('loss_period');
   const getFactoryValueFromURL: string | null = searchParams.get('factory');
-
   const { token, username } = useSelector(get_access_token);
   const [lossPeriodList, setLossPeriodList] = useState<any>([]);
   const [reportLossData, setReportLossData] = useState([]);
   const [reportLossItem, setReportLossItem] = useState([]);
   const [selectedLossPeriodValue, setSelectedLossPeriodValue] = useState<string>('');
-  const [selectedFactoryValue, setSelectedFactoryValue] = useState<string>('');
   const [factoryList, setFactoryList] = useState<any>([]);
   const [financialYearList, setFinancialYear] = useState<any>([]);
-  const [selectedFinancialYear, setSelectedFinancialYear] = useState('');
-  const [isFinancialYearSelected, setIsFinancialYearSelected] = useState(false);
 
   const getFinancialYearList = async () => {
     const getLossReportFinancialYearFromAPI = await GETFinancialYear(token);
@@ -80,10 +76,7 @@ const useReportLoss = () => {
   };
 
   const handleFinancialYearValuesChange = (financialYearValue: any) => {
-    setSelectedFinancialYear(financialYearValue);
-    setIsFinancialYearSelected(true);
     getLossPeriodListAfterFinancialYear(financialYearValue);
-    // getLossPeriodList(selectedYear);
     const currentUrl = new URL(window.location.href);
     const queryParams = new URLSearchParams(currentUrl.search);
 
@@ -101,8 +94,7 @@ const useReportLoss = () => {
     router.push(`${decodeURI(newUrl)}`);
   };
 
-  const handleLossPeriodValuesChange = (lossPeriodValue: any, selectedPeriod: any) => {
-    // setGetLossPeriodValueFromURL(selectedPeriod);
+  const handleLossPeriodValuesChange = (lossPeriodValue: any) => {
     const currentUrl = new URL(window.location.href);
     const queryParams = new URLSearchParams(currentUrl.search);
 
@@ -140,6 +132,7 @@ const useReportLoss = () => {
 
   const getLossPeriodListAfterFinancialYear = async (selectedFinancialYear: any) => {
     const getLossReportListDataFromAPI = await GETAfterFinancialYear(token, selectedFinancialYear);
+
     if (getLossReportListDataFromAPI?.status === 200) {
       setLossPeriodList(getLossReportListDataFromAPI?.data?.data);
     } else {
@@ -285,6 +278,15 @@ const useReportLoss = () => {
   useEffect(() => {
     getFinancialYearList();
     getLossReportFactoryFromAPI();
+    const currentUrl = new URL(window.location.href);
+    const queryParams = new URLSearchParams(currentUrl.search);
+    const selectedFinancialYear = queryParams.get('financial_year');
+    if (selectedFinancialYear) {
+      getLossPeriodListAfterFinancialYear(selectedFinancialYear);
+    } else {
+      // If no financial year is selected
+      setLossPeriodList([]);
+    }
   }, []);
 
   useEffect(() => {
@@ -297,7 +299,6 @@ const useReportLoss = () => {
     reportLossItem,
     lossPeriodList,
     selectedLossPeriodValue,
-    selectedFactoryValue,
     setSelectedLossPeriodValue,
     handleLossPeriodValuesChange,
     handleFactoryValuesChange,
@@ -315,7 +316,6 @@ const useReportLoss = () => {
     financialYearList,
     handleFinancialYearValuesChange,
     getFinancialYearValueFromURL,
-    isFinancialYearSelected,
   };
 };
 

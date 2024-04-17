@@ -16,7 +16,6 @@ const CustomNavbar = () => {
   const pathName = usePathname();
 
   const token: any = useSelector(get_access_token);
-  console.log('loginUser', token);
 
   const redirectToHome = () => {
     router.push(`${CONSTANTS.API_BASE_URL}app`);
