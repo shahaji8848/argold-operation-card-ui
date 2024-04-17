@@ -19,6 +19,10 @@ const LossReport = ({
   const redirectToHomepage = () => {
     router.push('/');
   };
+
+  const printPage = (e: any) => {
+    window.print();
+  };
   return (
     <>
       <div className={` ${style.d_flex_report} blue text-uppercase fw-semibold fs-14 my-3  `}>
@@ -70,7 +74,9 @@ const LossReport = ({
           </select>
         </div>
 
-        <div className="ms-auto">
+        <div className="ms-auto d-flex align-items-center">
+          <i className="fa fa-print me-3  grey print-format cursor" aria-hidden="true" onClick={(e: any) => printPage(e)}></i>
+
           <button className="btn btn-grey px-4 px-1 btn-py" onClick={redirectToHomepage}>
             Back
           </button>
