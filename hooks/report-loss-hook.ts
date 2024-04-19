@@ -8,6 +8,7 @@ import GETOperationCardReportLoss from '@/services/api/operation-card-report-los
 import GETReportLossFactory from '@/services/api/loss-period/report-loss-factory-api';
 import GETFinancialYear from '@/services/api/loss-period/report-loss-financial-year-api';
 import GETAfterFinancialYear from '@/services/api/loss-period/financial-loss-period-api';
+import GETReportPerKgLossVatav from '@/services/api/operation-card-report-loss/report-loss-per-kg-loss-vatav-api';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -24,6 +25,7 @@ const useReportLoss = () => {
   const [selectedLossPeriodValue, setSelectedLossPeriodValue] = useState<string>('');
   const [factoryList, setFactoryList] = useState<any>([]);
   const [financialYearList, setFinancialYear] = useState<any>([]);
+  const [perKgLossVatav, setPerKgLossVatav] = useState<any>([]);
 
   const getFinancialYearList = async () => {
     const getLossReportFinancialYearFromAPI = await GETFinancialYear(token);
@@ -72,6 +74,20 @@ const useReportLoss = () => {
       setReportLossData(fetchReportLossData?.data?.message);
     } else {
       setReportLossData([]);
+    }
+  };
+
+  const getPerKgLossVatav = async () => {
+    const fetchPerKgLossVatav: any = await GETReportPerKgLossVatav(
+      getFinancialYearValueFromURL,
+      getLossPeriodValueFromURL,
+      getFactoryValueFromURL,
+      token
+    );
+    if (fetchPerKgLossVatav?.status === 200) {
+      setPerKgLossVatav(fetchPerKgLossVatav?.data?.message);
+    } else {
+      setPerKgLossVatav([]);
     }
   };
 
@@ -292,6 +308,7 @@ const useReportLoss = () => {
   useEffect(() => {
     getReportLossData();
     getReportLossItem();
+    getPerKgLossVatav();
   }, [searchParams]);
 
   return {
@@ -316,6 +333,7 @@ const useReportLoss = () => {
     financialYearList,
     handleFinancialYearValuesChange,
     getFinancialYearValueFromURL,
+    perKgLossVatav,
   };
 };
 

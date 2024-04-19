@@ -4,6 +4,8 @@ import LossReportTable from './LossReportTable';
 import LossReport from './LossReport';
 import useReportLoss from '@/hooks/report-loss-hook';
 import LossReportItem from './LossReportItem';
+import PerKgLossWithoutVatav from './PerKgLossWithoutVatav';
+import PerKgLossWithVatav from './PerKgLossWithVatav';
 
 const MasterLossReport = () => {
   const {
@@ -26,6 +28,7 @@ const MasterLossReport = () => {
     financialYearList,
     handleFinancialYearValuesChange,
     getFinancialYearValueFromURL,
+    perKgLossVatav,
   } = useReportLoss();
   return (
     <div className="spacing-mt spacing-pd">
@@ -64,7 +67,7 @@ const MasterLossReport = () => {
 
             {difference_of_unrecoverableloss_and_outweight != 0 && (
               <div className="col-md-7">
-                <div className="mt-2 border rounded w-75 p-3" style={{ borderColor: '#DEE2E6 !important' }}>
+                <div className="mt-2 border rounded w-75 p-3">
                   <table>
                     <tr>
                       <td>Total Unrecoverable Loss: &nbsp;</td>
@@ -75,8 +78,7 @@ const MasterLossReport = () => {
                         (totalBalanceOFLossReportItem === '--' && (
                           <td className="">
                             <button
-                              className="btn text-capitalize btn-link"
-                              style={{ fontSize: '16px' }}
+                              className="btn text-capitalize btn-link fs-16"
                               type="button"
                               onClick={() => handleTransferAPI()}
                             >
@@ -89,6 +91,16 @@ const MasterLossReport = () => {
                 </div>
               </div>
             )}
+          </div>
+
+          <div className="row mt-2">
+            <div className="col-md-5">
+              <PerKgLossWithVatav perKgLossVatav={perKgLossVatav} />
+            </div>
+            <div className="col-md-2"></div>
+            <div className="col-md-5">
+              <PerKgLossWithoutVatav perKgLossVatav={perKgLossVatav} />
+            </div>
           </div>
         </div>
       </div>
