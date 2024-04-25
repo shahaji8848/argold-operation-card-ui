@@ -32,9 +32,9 @@ const OperationCardSearchField = () => {
   return (
     <>
       <div className="row mt-4">
-        <div className="col-md-7 col-xl-7 col-xxl-8"></div>
-        <div className="col-md-4 col-xl-4 col-xxl-3 p-0">
-          <div className=" d-flex justify-content-end">
+        <div className=""></div>
+        <div className="">
+          <div className="d-flex">
             <OperationCardInputField />
           </div>
         </div>

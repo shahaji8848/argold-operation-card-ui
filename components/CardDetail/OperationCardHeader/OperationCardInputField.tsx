@@ -24,13 +24,10 @@ const OperationCardInputField = () => {
 
   return (
     <div>
-      <span>{result !== null && <> {result} = </>}</span>
-      <input
-        className=" px-2 rounded-2 input_fields"
-        type="text"
-        value={input}
-        onChange={handleInputChange}
-      />
+      {window.location.pathname !== '/' && <span>{result !== null && <> {result} = </>}</span>}
+
+      <input className=" px-2 rounded-2 input_fields" type="text" value={input} onChange={handleInputChange} />
+      {window.location.pathname === '/' && <span>{result !== null && <> = {result} </>}</span>}
     </div>
   );
 };
