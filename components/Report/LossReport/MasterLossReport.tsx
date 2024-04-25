@@ -97,7 +97,7 @@ const MasterLossReport = () => {
             <div className="col-md-5">
               <PerKgLossWithVatav perKgLossVatav={perKgLossVatav} />
             </div>
-            <div className="col-md-2"></div>
+            {/* <div className="col-md-2"></div> */}
             <div className="col-md-5">
               <PerKgLossWithoutVatav perKgLossVatav={perKgLossVatav} />
             </div>
