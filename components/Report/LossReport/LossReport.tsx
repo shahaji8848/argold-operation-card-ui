@@ -2,6 +2,7 @@ import { useRouter } from 'next/navigation';
 import style from '@/styles/report-list.module.css';
 import React from 'react';
 import OperationCardInputField from '@/components/CardDetail/OperationCardHeader/OperationCardInputField';
+import ExcelJS from 'exceljs';
 
 const LossReport = ({
   lossPeriodList,
@@ -14,7 +15,6 @@ const LossReport = ({
   financialYearList,
   handleFinancialYearValuesChange,
   getFinancialYearValueFromURL,
-  isFinancialYearSelected,
 }: any) => {
   const router = useRouter();
   const redirectToHomepage = () => {
@@ -24,6 +24,69 @@ const LossReport = ({
   const printPage = (e: any) => {
     window.print();
   };
+
+  const createExcelFile = async () => {
+    // Create a new workbook
+    const workbook = new ExcelJS.Workbook();
+    // Add a worksheet
+    const worksheet = workbook.addWorksheet('loss_report');
+    // Collect data from the DOM (example: all table data)
+    const tables = document.querySelectorAll('table');
+    tables.forEach((table: any, index: any) => {
+      const rows = table.querySelectorAll('tr');
+      rows.forEach((row: any, rowIndex: any) => {
+        const rowData: any = [];
+        const cells = row.querySelectorAll('td, th');
+        cells.forEach((cell: any) => {
+          // rowData.push(`'${cell.textContent.trim()}'`);
+          rowData.push(cell.textContent);
+        });
+        // Insert an empty row before the <thead> section
+        if (rowIndex === 0 && index > 0) {
+          worksheet.addRow([]);
+          worksheet.addRow([]);
+        }
+        worksheet.addRow(rowData);
+      });
+    });
+    worksheet.columns.forEach((column) => {
+      column.width = 25; // Set width in characters
+    });
+    // Apply styles to the worksheet (to mimic CSS styles)
+    const style = {
+      border: {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
+      },
+      alignment: {
+        vertical: 'middle',
+        horizontal: 'center',
+      },
+      font: { bold: false, size: 12 },
+    };
+    worksheet.eachRow({ includeEmpty: true }, (row) => {
+      row.eachCell((cell: any) => {
+        cell.border = style.border;
+        cell.alignment = style.alignment;
+        cell.font = style.font;
+      });
+    });
+    // Generate buffer from workbook
+    const buffer = await workbook.xlsx.writeBuffer();
+    // Create Blob from buffer
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    // Create download link and trigger download
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'loss_report.xlsx');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <div className={` ${style.d_flex_report} blue text-uppercase fw-semibold fs-14 my-3  `}>
@@ -84,6 +147,8 @@ const LossReport = ({
           <OperationCardInputField />
         </div> */}
         <div className="ms-auto d-flex align-items-center">
+          <i className="fa fa-file-excel grey print-format cursor me-3" aria-hidden="true" onClick={createExcelFile}></i>
+
           <i className="fa fa-print me-3  grey print-format cursor" aria-hidden="true" onClick={(e: any) => printPage(e)}></i>
 
           <button className="btn btn-grey px-4 px-1 btn-py" onClick={redirectToHomepage}>
