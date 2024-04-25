@@ -51,7 +51,7 @@ const PerKgLossWithVatav = ({ perKgLossVatav }: any) => {
             </td>
           </tr>
           <tr>
-            <td>Production Loss</td>
+            <td>Production </td>
             <td className="text-end">
               {perKgLossVatav?.production_loss && perKgLossVatav?.production_loss !== 0
                 ? perKgLossVatav?.production_loss?.toFixed(3)
