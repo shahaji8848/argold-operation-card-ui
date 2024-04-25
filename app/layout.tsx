@@ -17,7 +17,7 @@ import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
-  title: 'ARC',
+  title: 'ARG',
   description: 'Operation Card',
 };
 
