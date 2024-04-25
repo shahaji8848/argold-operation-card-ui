@@ -2,3 +2,17 @@
   display: flex;
   align-items: center;
 }
+
+@media only screen and (max-width: 768px) {
+  .d_flex_report {
+    display: block;
+  }
+  .mb_wrapper {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .spacing_report_header_mob {
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+}
