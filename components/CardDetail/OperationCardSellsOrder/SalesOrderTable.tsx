@@ -8,7 +8,7 @@ const hasGPCItem = (operationCardDetailData: any) => {
 };
 
 const columnsBuilder = (operationCardDetailData: any) => {
-  let columnsList: string[] = ['Sales Order', 'Item', 'Design Name', 'Production Qty', 'Size'];
+  let columnsList: string[] = ['Customer Name', 'Sales Order', 'Item', 'Design Name', 'Production Qty', 'Size'];
   if (hasGPCItem(operationCardDetailData)) {
     columnsList.push('Ready Qty');
   }
@@ -31,6 +31,11 @@ const rowsBuilder = (
           onChange={() => handleCheckboxChange(rowData?.soisd_item)}
           checked={selectedItems.includes(rowData?.soisd_item)}
         />
+      </td>
+      <td className="text-center">
+        {rowData?.customer_name && (rowData?.customer_name !== '' || rowData?.customer_name !== null)
+          ? rowData?.customer_name
+          : '--'}
       </td>
       <td className="text-center">{rowData?.sales_order}</td>
       <td className="text-center">{rowData?.item}</td>
@@ -104,7 +109,7 @@ function SalesOrderTable({
 
   const handleChangesInReadyQty = (key: any, userEnteredValue: number, soisd_item: string) => {
     let showError: boolean = false;
-    console.log('user enter', key, userEnteredValue, soisd_item);
+    // console.log('user enter', key, userEnteredValue, soisd_item);
     if (key === 'Backspace') {
       setSalesOrderList((prevData: any[]) => {
         const updatedData = prevData.map((item: any) => {
@@ -147,7 +152,7 @@ function SalesOrderTable({
       }
     }
   };
-  console.log('operationCardDetailDataValues', operationCardProductDept?.show_get_orders);
+  // console.log('salesOrderList', salesOrderList);
   return (
     <div>
       <div>
