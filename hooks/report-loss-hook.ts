@@ -26,7 +26,7 @@ const useReportLoss = () => {
   const [factoryList, setFactoryList] = useState<any>([]);
   const [financialYearList, setFinancialYear] = useState<any>([]);
   const [perKgLossVatav, setPerKgLossVatav] = useState<any>([]);
-
+  const disabledItems:any = {}
   const getFinancialYearList = async () => {
     const getLossReportFinancialYearFromAPI = await GETFinancialYear(token);
     if (getLossReportFinancialYearFromAPI?.status === 200) {
@@ -156,7 +156,7 @@ const useReportLoss = () => {
     }
   };
 
-  async function convertFunc(item_name: any) {
+  async function convertFunc(item_name: any,index:number) {
     const url = `${CONSTANTS.API_BASE_URL}/api/method/custom_app.custom_app.doctype.internal_transfer.create_internal_transfer_from_parent_lot_loss.create_internal_transfer_for_unrecoverable_loss`;
     const formData: any = new FormData();
     formData.append('item', item_name);
@@ -167,6 +167,16 @@ const useReportLoss = () => {
       if (getAPIResponse?.status === 200) {
         if (getAPIResponse?.data?.message?.msg !== 'error') {
           toast.success(`${getAPIResponse?.data?.message?.data}`);
+          const button = document.getElementById(item_name);
+        if (button instanceof HTMLButtonElement) {
+          button.disabled = true;
+          if (!disabledItems[index]) { 
+            disabledItems[index] = setTimeout(() => { 
+              delete disabledItems[index];
+              button.disabled = false;
+            }, 5 * 60 * 1000); // 5 minutes in milliseconds
+          }
+        }
           return getAPIResponse?.data?.message?.data;
         } else {
           toast.error(`${getAPIResponse?.data?.message?.data}`);

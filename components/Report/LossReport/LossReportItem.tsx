@@ -18,7 +18,7 @@ const LossReportItem = ({
       <table className="table table-bordered mt-2">
         <thead className="card-listing-head ">
           <tr>
-            {['item', 'Operation Card Weight', 'Issued Weight', 'balance', 'Convert to Unrecoverable Loss'].map(
+            {['item', 'Operation Card Weight', 'Issued Weight', 'balance', 'Convert to Unrecoverable Loss','Recover Melting Wastage'].map(
               (val: any, index: any) => (
                 <th className=" text-center" scope="col" key={index}>
                   {val}
@@ -153,12 +153,20 @@ const LossReportItem = ({
                   </td>
                   <td className="d-flex justify-content-center align-items-center">
                     <button
+                    id={lossData?.item}
                       className="btn  text-capitalize btn-link fs-13"
                       type="button"
-                      onClick={() => convertFunc(lossData?.item)}
+                      onClick={() => convertFunc(lossData?.item,idx)}
                     >
                       Convert
                     </button>
+                  </td>
+                  <td >
+                    <Link
+                    href={`${CONSTANTS.API_BASE_URL}app/material-transfer/new-material-transfer-qgmgjxfyha`}
+                    >
+                      <button className='btn btn-link fs-13'>Recover</button>
+                    </Link>
                   </td>
                 </tr>
               );
