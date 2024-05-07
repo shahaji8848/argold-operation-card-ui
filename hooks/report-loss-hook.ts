@@ -162,12 +162,7 @@ const useReportLoss = () => {
     formData.append('item', item_name);
     formData.append('loss_period', getLossPeriodValueFromURL);
     formData.append('factory', getFactoryValueFromURL);
-    try {
-      const getAPIResponse = await callFormDataPOSTAPI(url, formData, token);
-      if (getAPIResponse?.status === 200) {
-        if (getAPIResponse?.data?.message?.msg !== 'error') {
-          toast.success(`${getAPIResponse?.data?.message?.data}`);
-          const button = document.getElementById(item_name);
+    const button = document.getElementById(item_name);
         if (button instanceof HTMLButtonElement) {
           button.disabled = true;
           if (!disabledItems[index]) { 
@@ -177,6 +172,11 @@ const useReportLoss = () => {
             }, 5 * 60 * 1000); // 5 minutes in milliseconds
           }
         }
+    try {
+      const getAPIResponse = await callFormDataPOSTAPI(url, formData, token);
+      if (getAPIResponse?.status === 200) {
+        if (getAPIResponse?.data?.message?.msg !== 'error') {
+          toast.success(`${getAPIResponse?.data?.message?.data}`);
           return getAPIResponse?.data?.message?.data;
         } else {
           toast.error(`${getAPIResponse?.data?.message?.data}`);

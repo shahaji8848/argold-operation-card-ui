@@ -164,6 +164,7 @@ const LossReportItem = ({
                   <td >
                     <Link
                     href={`${CONSTANTS.API_BASE_URL}app/material-transfer/new-material-transfer-qgmgjxfyha`}
+                    target="_blank"
                     >
                       <button className='btn btn-link fs-13'>Recover</button>
                     </Link>
