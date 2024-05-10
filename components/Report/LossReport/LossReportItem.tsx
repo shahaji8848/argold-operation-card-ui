@@ -12,18 +12,25 @@ const LossReportItem = ({
   CalculateTotalOfReportItem,
 }: any) => {
   const { token } = useSelector(get_access_token);
-
   return (
     <div className="table-responsive">
       <table className="table table-bordered mt-2">
         <thead className="card-listing-head ">
           <tr>
-            {['item', 'Operation Card Weight', 'Issued Weight', 'balance', 'Convert to Unrecoverable Loss','Recover Melting Wastage'].map(
-              (val: any, index: any) => (
-                <th className=" text-center" scope="col" key={index}>
-                  {val}
+            {['item', 'Operation Card Weight', 'Issued Weight', 'balance'].map((val: any, index: any) => (
+              <th className=" text-center" scope="col" key={index}>
+                {val}
+              </th>
+            ))}
+            {getLossPeriodValueFromURL !== undefined && getLossPeriodValueFromURL !== '' && (
+              <>
+                <th className=" text-center" scope="col">
+                  Convert to Unrecoverable Loss
                 </th>
-              )
+                <th className=" text-center" scope="col">
+                  Recover Melting Wastage
+                </th>
+              </>
             )}
           </tr>
         </thead>
@@ -151,24 +158,28 @@ const LossReportItem = ({
                       ? lossData?.balance?.toFixed(3)
                       : '--'}
                   </td>
-                  <td className="d-flex justify-content-center align-items-center">
-                    <button
-                    id={lossData?.item}
-                      className="btn  text-capitalize btn-link fs-13"
-                      type="button"
-                      onClick={() => convertFunc(lossData?.item,idx)}
-                    >
-                      Convert
-                    </button>
-                  </td>
-                  <td >
-                    <Link
-                    href={`${CONSTANTS.API_BASE_URL}app/material-transfer/new-material-transfer-qgmgjxfyha`}
-                    target="_blank"
-                    >
-                      <button className='btn btn-link fs-13'>Recover</button>
-                    </Link>
-                  </td>
+                  {getLossPeriodValueFromURL !== undefined && getLossPeriodValueFromURL !== '' && (
+                    <>
+                      <td className="d-flex justify-content-center align-items-center">
+                        <button
+                          id={lossData?.item}
+                          className="btn  text-capitalize btn-link fs-13"
+                          type="button"
+                          onClick={() => convertFunc(lossData?.item, idx)}
+                        >
+                          Convert
+                        </button>
+                      </td>
+                      <td>
+                        <Link
+                          href={`${CONSTANTS.API_BASE_URL}app/material-transfer/new-material-transfer-qgmgjxfyha`}
+                          target="_blank"
+                        >
+                          <button className="btn btn-link fs-13">Recover</button>
+                        </Link>
+                      </td>
+                    </>
+                  )}
                 </tr>
               );
             })}
