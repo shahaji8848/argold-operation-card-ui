@@ -67,6 +67,8 @@ const OperationCardIssueButton = ({
   const [errMessage, setErrMessage] = useState<string>('');
   const [itemName, setItemName] = useState('');
 
+  const [initialValueForNextProductProcess, setInitialValueForNextProductProcess] = useState<any>([]);
+
   // Below State is to iterate over an array of objs to display fields inside the modal.
   const [getValues, setGetValues] = useState<any>([]);
 
@@ -333,6 +335,11 @@ const OperationCardIssueButton = ({
   const propertiesToCheck: string[] = ['label', 'show_in_weight', 'set_in_weight'];
 
   useEffect(() => {
+    setInitialValueForNextProductProcess(
+      operationCardDetailData?.operation_card_issue_details
+        ?.filter((ele: any) => ele?.next_product_process !== undefined)
+        ?.map((ele: any) => ele?.next_product_process || '')
+    );
     if (show && inputInWeightRef.current) {
       inputInWeightRef.current.focus();
     }
@@ -409,7 +416,7 @@ const OperationCardIssueButton = ({
                 return (
                   <div className="col-md-4 " key={i}>
                     {checkArray?.includes(val?.label) ? (
-                      <>
+                      <div>
                         <label
                           htmlFor="staticEmail"
                           className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
@@ -427,10 +434,11 @@ const OperationCardIssueButton = ({
                           getOperationCardProductCategory={getOperationCardProductCategory}
                           handleSubmit={handleSubmit}
                           label={val?.label}
-                          initialValue=""
+                          initialValue={initialValueForNextProductProcess}
                           isReadOnly={false}
+                          operationCardDetailData={operationCardDetailData}
                         />
-                      </>
+                      </div>
                     ) : checkboxFieldsList?.includes(val?.label) ? (
                       <div className="checkbox-wrapper-mt ">
                         <input

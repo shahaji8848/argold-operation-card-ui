@@ -1,24 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useInputAutoComplete = (
-  listOfDropdownValues?: any,
-  initialValue?: any,
-  handleSubmit?: any
-) => {
+const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, handleSubmit?: any) => {
   console.log('karigar list hook', listOfDropdownValues);
   console.log('initialValue', initialValue);
   const [optionvalue, setOptionValue] = useState<any>([]);
 
   const [inputValueAutoComplete, setInputValueAutoComplete] = useState<any>(
-    initialValue ?? {
-      name: '',
-      value: '',
-    }
+    (initialValue && {
+      name: '' || initialValue,
+      value: '' || initialValue,
+    }) ||
+      initialValue
   );
-  const [filteredSuggestionsAutoComplete, setFilteredSuggestionsAutoComplete] =
-    useState<any>([]);
-  const [showSuggestionsAutoComplete, setShowSuggestionsAutoComplete] =
-    useState<boolean>(false);
+  const [filteredSuggestionsAutoComplete, setFilteredSuggestionsAutoComplete] = useState<any>([]);
+  const [showSuggestionsAutoComplete, setShowSuggestionsAutoComplete] = useState<boolean>(false);
 
   // this login is for hide and show suggestion based on click
   useEffect(() => {
@@ -27,10 +22,7 @@ const useInputAutoComplete = (
       value: initialValue,
     });
     const handleOutsideClickAutoComplete = (event: any) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
-      ) {
+      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
         setShowSuggestionsAutoComplete(false);
       }
     };
@@ -68,15 +60,11 @@ const useInputAutoComplete = (
   const handleKeyDown: any = (e: React.KeyboardEvent) => {
     switch (e.key) {
       case 'ArrowUp':
-        setSelectedOption((prev: any) =>
-          prev >= 0 ? prev - 1 : filteredSuggestionsAutoComplete.length - 1
-        );
+        setSelectedOption((prev: any) => (prev >= 0 ? prev - 1 : filteredSuggestionsAutoComplete.length - 1));
         break;
 
       case 'ArrowDown':
-        setSelectedOption((prev: any) =>
-          prev <= filteredSuggestionsAutoComplete.length - 1 ? prev + 1 : 0
-        );
+        setSelectedOption((prev: any) => (prev <= filteredSuggestionsAutoComplete.length - 1 ? prev + 1 : 0));
         break;
 
       case 'Enter':
@@ -119,9 +107,7 @@ const useInputAutoComplete = (
     };
   }, [inputRef, handleKeyDown]);
 
-  const selectedOptionElement: any = document.getElementById(
-    `style-2-${selectedOption}`
-  );
+  const selectedOptionElement: any = document.getElementById(`style-2-${selectedOption}`);
   if (selectedOptionElement) {
     selectedOptionElement.scrollIntoView({
       behavior: 'smooth',
@@ -154,11 +140,7 @@ const useInputAutoComplete = (
 
       // setFilteredSuggestionsAutoComplete(filtered);
       // Always show all suggestions if there is no match
-      setFilteredSuggestionsAutoComplete(
-        filtered.length > 0
-          ? filtered
-          : [{ name: 'Not Found', value: 'Not Found' }]
-      );
+      setFilteredSuggestionsAutoComplete(filtered.length > 0 ? filtered : [{ name: 'Not Found', value: 'Not Found' }]);
       setShowSuggestionsAutoComplete(true);
     }
     console.log('modal', optionvalue);

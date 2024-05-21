@@ -37,7 +37,7 @@ const IssueDescriptionModal = ({ description }: any) => {
         </Modal.Header>
         <Modal.Body>{description}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={toggleModal}>
+          <Button variant="secondary" onClick={toggleModal} className="btn-grey ">
             Close
           </Button>
         </Modal.Footer>

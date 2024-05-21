@@ -114,11 +114,11 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
             operationCardDetailData?.operation_card_issue_details?.map((data: any, i: any) => (
               <tr className="table-text" key={i}>
                 <td>{data.item}</td>
-                {data?.description && (
+                {/* {data?.description && (
                   <OverlayTrigger placement="right" overlay={ToolTipData(data?.description)}>
                     <Button>*</Button>
                   </OverlayTrigger>
-                )}
+                )} */}
                 <td className="text-end">{data?.in_weight === 0 ? '--' : data?.in_weight?.toFixed(3)}</td>
                 <td className="text-end">{data?.in_gross_purity === 0 ? '--' : data?.in_gross_purity?.toFixed(3)}</td>
                 <td className="text-end">{data?.in_gross_weight === 0 ? '--' : data?.in_gross_weight?.toFixed(3)}</td>
