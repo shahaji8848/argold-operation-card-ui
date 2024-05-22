@@ -434,7 +434,8 @@ const OperationCardIssueButton = ({
                           getOperationCardProductCategory={getOperationCardProductCategory}
                           handleSubmit={handleSubmit}
                           label={val?.label}
-                          initialValue={initialValueForNextProductProcess}
+                          // initialValue={initialValueForNextProductProcess}
+                          initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}
                           isReadOnly={false}
                           operationCardDetailData={operationCardDetailData}
                         />
