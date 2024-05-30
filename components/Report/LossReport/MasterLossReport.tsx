@@ -74,7 +74,7 @@ const MasterLossReport = () => {
                       <td>
                         <b>{difference_of_unrecoverableloss_and_outweight} &nbsp;</b>
                       </td>
-                      {(parseFloat(totalBalanceOFLossReportItem) < 0.2 || parseFloat(totalBalanceOFLossReportItem) > -0.2 )||
+                      {(parseFloat(totalBalanceOFLossReportItem) < 0.2 && parseFloat(totalBalanceOFLossReportItem) > -0.2 )||
                         (totalBalanceOFLossReportItem === '--' && (
                           <td className="">
                             <button
