@@ -58,7 +58,6 @@ const OperationCardIssueButton = ({
   ];
 
   const checkboxFieldsList: string[] = ['hold_order_details'];
-
   const [show, setShow] = useState(false);
   const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false);
   const [showToastErr, setShowToastErr] = useState<boolean>(false);
@@ -478,7 +477,8 @@ const OperationCardIssueButton = ({
                             className="form-control inputFields dark-blue input_in_weight"
                             name={val?.label}
                             id={val?.label}
-                            ref={inputInWeightRef}
+                            // ref={inputInWeightRef}
+                            ref={i === 0 ? inputInWeightRef : null}
                             disabled={val[setKey] === 0}
                             value={modalFieldValuesState[val?.label]}
                             onChange={handleModalFieldsChange}
