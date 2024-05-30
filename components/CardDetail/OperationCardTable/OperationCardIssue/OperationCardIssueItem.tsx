@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IssueDescriptionModal from './IssueDescriptionModal';
 
 const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
   const router = useRouter();
@@ -14,9 +15,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
     console.log('0018', value);
     return (
       <td className="text-end">
-        {value === 0 || value === '' || value === null || value === '--'
-          ? '--'
-          : Number.parseFloat(value).toFixed(3)}
+        {value === 0 || value === '' || value === null || value === '--' ? '--' : Number.parseFloat(value).toFixed(3)}
       </td>
     );
   };
@@ -41,14 +40,8 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
       return '--';
     } else {
       if (column === 'in_gross_purity') {
-        const totalInWeight = data.reduce(
-          (total: any, item: any) => total + item['in_weight'],
-          0
-        );
-        const totalInGrossWeight = data.reduce(
-          (total: any, item: any) => total + item['in_gross_weight'],
-          0
-        );
+        const totalInWeight = data.reduce((total: any, item: any) => total + item['in_weight'], 0);
+        const totalInGrossWeight = data.reduce((total: any, item: any) => total + item['in_gross_weight'], 0);
         if (totalInGrossWeight !== 0 && totalInWeight !== 0) {
           return ((totalInGrossWeight / totalInWeight) * 100).toFixed(3);
         } else {
@@ -56,14 +49,8 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
         }
         // return ((totalInGrossWeight / totalInWeight) * 100).toFixed(3);
       } else if (column === 'in_fine_purity') {
-        const totalGrossWeight = data.reduce(
-          (total: any, item: any) => total + item['in_gross_weight'],
-          0
-        );
-        const totalFineWeight = data.reduce(
-          (total: any, item: any) => total + item['in_fine_weight'],
-          0
-        );
+        const totalGrossWeight = data.reduce((total: any, item: any) => total + item['in_gross_weight'], 0);
+        const totalFineWeight = data.reduce((total: any, item: any) => total + item['in_fine_weight'], 0);
         if (totalFineWeight !== 0 && totalGrossWeight !== 0) {
           return ((totalFineWeight / totalGrossWeight) * 100).toFixed(3);
         } else {
@@ -92,10 +79,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
       </Tooltip>
     );
   }
-  console.log(
-    'operationCardDetailData?.operation_card_issue_details',
-    operationCardDetailData?.operation_card_issue_details
-  );
+  console.log('operationCardDetailData?.operation_card_issue_details', operationCardDetailData?.operation_card_issue_details);
   return (
     <div className="table-responsive ">
       <table className="table table-bordered">
@@ -116,6 +100,8 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'Karigar',
               'Next Karigar',
               'OP',
+              'Description',
+              // 'Descr',
             ].map((val, i: any) => (
               <th className="thead-dark text-center" scope="col" key={i}>
                 {val}
@@ -125,79 +111,54 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
         </thead>
         <tbody>
           {operationCardDetailData?.operation_card_issue_details?.length > 0 &&
-            operationCardDetailData?.operation_card_issue_details?.map(
-              (data: any, i: any) => (
-                <tr className="table-text" key={i}>
-                  <td>{data.item}</td>
-                  {data?.description && (
-                    <OverlayTrigger
-                      placement="right"
-                      overlay={ToolTipData(data?.description)}
-                    >
-                      <Button>*</Button>
-                    </OverlayTrigger>
-                  )}
-                  <td className="text-end">
-                    {data?.in_weight === 0 ? '--' : data?.in_weight?.toFixed(3)}
-                  </td>
-                  <td className="text-end">
-                    {data?.in_gross_purity === 0
-                      ? '--'
-                      : data?.in_gross_purity?.toFixed(3)}
-                  </td>
-                  <td className="text-end">
-                    {data?.in_gross_weight === 0
-                      ? '--'
-                      : data?.in_gross_weight?.toFixed(3)}
-                  </td>
-                  <td className="text-end">
-                    {data?.in_fine_purity === 0
-                      ? '--'
-                      : data?.in_fine_purity?.toFixed(3)}
-                  </td>
-                  <td className="text-end">
-                    {data?.in_fine_weight === 0
-                      ? '--'
-                      : data?.in_fine_weight?.toFixed(3)}
-                  </td>
-                  <td className="text-end">
-                    {data?.in_weight === 0 || data?.tounch_no === 0
-                      ? '--'
-                      : data?.tounch_no}
-                  </td>
-                  <td className="text-end">
-                    {data?.in_weight === 0 || data?.fire_tounch_no === 0
-                      ? '--'
-                      : data?.fire_tounch_no}
-                  </td>
-                  {/* <td className="text-end">
+            operationCardDetailData?.operation_card_issue_details?.map((data: any, i: any) => (
+              <tr className="table-text" key={i}>
+                <td>{data.item}</td>
+                {/* {data?.description && (
+                  <OverlayTrigger placement="right" overlay={ToolTipData(data?.description)}>
+                    <Button>*</Button>
+                  </OverlayTrigger>
+                )} */}
+                <td className="text-end">{data?.in_weight === 0 ? '--' : data?.in_weight?.toFixed(3)}</td>
+                <td className="text-end">{data?.in_gross_purity === 0 ? '--' : data?.in_gross_purity?.toFixed(3)}</td>
+                <td className="text-end">{data?.in_gross_weight === 0 ? '--' : data?.in_gross_weight?.toFixed(3)}</td>
+                <td className="text-end">{data?.in_fine_purity === 0 ? '--' : data?.in_fine_purity?.toFixed(3)}</td>
+                <td className="text-end">{data?.in_fine_weight === 0 ? '--' : data?.in_fine_weight?.toFixed(3)}</td>
+                <td className="text-end">{data?.in_weight === 0 || data?.tounch_no === 0 ? '--' : data?.tounch_no}</td>
+                <td className="text-end">{data?.in_weight === 0 || data?.fire_tounch_no === 0 ? '--' : data?.fire_tounch_no}</td>
+                {/* <td className="text-end">
                     {data?.machine_size === 0 ? '--' : data?.machine_size}
                   </td> */}
-                  <td className="text-end">
-                    {data?.line_number === 0 ? '--' : data?.line_number}
-                  </td>
-                  <td className="text-end">
-                    {data?.next_tracking_number === ''
-                      ? '--'
-                      : data?.next_tracking_number}
-                  </td>
-                  <td className="text-end">{data?.karigar ?? '--'}</td>
-                  <td className="text-end">{data?.next_karigar ?? '--'}</td>
-                  <td className="text-end">
-                    {hasOPkey(data) ? (
-                      <Link
-                        href={`/operation-card-detail?name=${data?.operation_card}`}
-                        onClick={() => redirectToNextOC(data?.operation_card)}
-                      >
-                        {data?.operation_card?.split('-').pop()}
-                      </Link>
-                    ) : (
-                      '--'
-                    )}
-                  </td>
-                </tr>
-              )
-            )}
+                <td className="text-end">{data?.line_number === 0 ? '--' : data?.line_number}</td>
+                <td className="text-end">{data?.next_tracking_number === '' ? '--' : data?.next_tracking_number}</td>
+                <td className="text-end">{data?.karigar ?? '--'}</td>
+                <td className="text-end">{data?.next_karigar ?? '--'}</td>
+                <td className="text-end">
+                  {hasOPkey(data) ? (
+                    <Link
+                      href={`/operation-card-detail?name=${data?.operation_card}`}
+                      onClick={() => redirectToNextOC(data?.operation_card)}
+                    >
+                      {data?.operation_card?.split('-').pop()}
+                    </Link>
+                  ) : (
+                    '--'
+                  )}
+                </td>
+                <td>
+                  {data?.description && data?.description !== '' ? (
+                    <IssueDescriptionModal description={data?.description} />
+                  ) : (
+                    '--'
+                  )}
+                  {/* {data?.description && data?.description !== '' ? ( */}
+                  {/* <IssueDescriptionModal description={'dskfhdshfjudgh'} /> */}
+                  {/* ) : (
+                    '--'
+                  )} */}
+                </td>
+              </tr>
+            ))}
           <tr className="table-text">
             <td className="font-weight-bold ">Total</td>
             {[
@@ -216,10 +177,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
             ].map((data: any, i: any) => (
               <td className="font-weight-bold text-end" key={i}>
                 {/* {CalculateTotal(data)} */}
-                {CalculateTotal(
-                  data,
-                  operationCardDetailData?.operation_card_issue_details || []
-                )}
+                {CalculateTotal(data, operationCardDetailData?.operation_card_issue_details || [])}
               </td>
             ))}
             <td></td>
