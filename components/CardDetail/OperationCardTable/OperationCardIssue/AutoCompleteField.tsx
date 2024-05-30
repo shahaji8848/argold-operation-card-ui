@@ -10,6 +10,7 @@ const AutoCompleteField = ({
   isReadOnly,
   getOperationCardProductCategory,
   modalDropdownFieldsProp,
+  operationCardDetailData,
 }: any) => {
   const {
     inputValueAutoComplete,
@@ -67,54 +68,49 @@ const AutoCompleteField = ({
               // style={{ border: '2px solid red' }}
             />
 
-            {showSuggestionsAutoComplete &&
-              filteredSuggestionsAutoComplete.length > 0 && (
-                <div
-                  className="position-absolute w-100 scrollbar "
-                  style={{
-                    border: '1px solid #ccc',
-                    height: '150px',
-                    overflowY: 'auto',
-                    background: 'white',
-                    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
-                    zIndex: '4',
-                  }}
-                >
-                  {filteredSuggestionsAutoComplete?.map(
-                    (suggestion: any, index: number) => (
-                      <div
-                        key={index}
-                        onClick={() => {
-                          if (label === 'gpc_product') {
-                            getOperationCardProductCategory(suggestion.value);
-                          } else {
-                          }
-                          handleSuggestionClickAutoComplete(suggestion);
-                          handleDropDownValuesChange(label, suggestion);
-                        }}
-                        style={{
-                          cursor: 'pointer',
-                          padding: '7px',
-                          fontWeight: 'bold',
-                          textAlign: 'start',
-                          // border: '2px solid red',
-                        }}
-                        className={`fileredValue-hover force-overflow 
+            {showSuggestionsAutoComplete && filteredSuggestionsAutoComplete.length > 0 && (
+              <div
+                className="position-absolute w-100 scrollbar "
+                style={{
+                  border: '1px solid #ccc',
+                  height: '150px',
+                  overflowY: 'auto',
+                  background: 'white',
+                  boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
+                  zIndex: '4',
+                }}
+              >
+                {filteredSuggestionsAutoComplete?.map((suggestion: any, index: number) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      if (label === 'gpc_product') {
+                        getOperationCardProductCategory(suggestion.value);
+                      } else {
+                      }
+                      handleSuggestionClickAutoComplete(suggestion);
+                      handleDropDownValuesChange(label, suggestion);
+                    }}
+                    style={{
+                      cursor: 'pointer',
+                      padding: '7px',
+                      fontWeight: 'bold',
+                      textAlign: 'start',
+                      // border: '2px solid red',
+                    }}
+                    className={`fileredValue-hover force-overflow 
                         ${
                           // handleDropDownValuesChange(label, suggestion) ||
-                          index === selectedOption
-                            ? 'selected force-overflow'
-                            : ''
+                          index === selectedOption ? 'selected force-overflow' : ''
                         }
                         `}
-                        id={`style-2-${index}`}
-                      >
-                        {suggestion?.value}
-                      </div>
-                    )
-                  )}
-                </div>
-              )}
+                    id={`style-2-${index}`}
+                  >
+                    {suggestion?.value}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

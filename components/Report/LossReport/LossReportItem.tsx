@@ -154,7 +154,7 @@ const LossReportItem = ({
                     )}
                   </td>
                   <td className="text-end">
-                    {lossData?.balance && lossData?.balance !== 0 && (lossData?.balance < -0.001 || lossData?.balance > 0.001)
+                    {lossData?.balance && lossData?.balance !== 0 && (lossData?.balance < -0.1 || lossData?.balance > 0.1)
                       ? lossData?.balance?.toFixed(3)
                       : '--'}
                   </td>
