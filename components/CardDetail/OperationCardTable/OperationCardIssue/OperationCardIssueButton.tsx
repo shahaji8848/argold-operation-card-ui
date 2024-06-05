@@ -128,6 +128,10 @@ const OperationCardIssueButton = ({
       ...modalFieldValuesState,
       ...modalDropdownFields,
       item: itemName,
+      next_product_process:
+        modalDropdownFields?.next_product_process === ''
+          ? initialValueForNextProductProcess
+          : modalDropdownFields?.next_product_process,
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
@@ -334,12 +338,6 @@ const OperationCardIssueButton = ({
   const propertiesToCheck: string[] = ['label', 'show_in_weight', 'set_in_weight'];
 
   useEffect(() => {
-    if (show && inputInWeightRef.current) {
-      inputInWeightRef.current.focus();
-    }
-  }, [show]);
-
-  useEffect(() => {
     const nextProductProcessValue = operationCardDetailData?.operation_card_issue_details
       ?.filter((ele: any) => ele?.next_product_process)
       ?.map((ele: any) => ele?.next_product_process);
@@ -347,7 +345,10 @@ const OperationCardIssueButton = ({
     if (nextProductProcessValue && nextProductProcessValue.length > 0) {
       setInitialValueForNextProductProcess(nextProductProcessValue[0]);
     }
-  }, [operationCardDetailData?.operation_card_issue_details]);
+    if (show && inputInWeightRef.current) {
+      inputInWeightRef.current.focus();
+    }
+  }, [show]);
 
   return (
     <div>
