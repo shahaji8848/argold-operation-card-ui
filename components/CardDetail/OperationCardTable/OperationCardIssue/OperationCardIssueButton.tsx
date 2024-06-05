@@ -66,7 +66,7 @@ const OperationCardIssueButton = ({
   const [errMessage, setErrMessage] = useState<string>('');
   const [itemName, setItemName] = useState('');
 
-  const [initialValueForNextProductProcess, setInitialValueForNextProductProcess] = useState<any>([]);
+  const [initialValueForNextProductProcess, setInitialValueForNextProductProcess] = useState<any>('');
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
   const [getValues, setGetValues] = useState<any>([]);
@@ -128,6 +128,10 @@ const OperationCardIssueButton = ({
       ...modalFieldValuesState,
       ...modalDropdownFields,
       item: itemName,
+      next_product_process:
+        modalDropdownFields?.next_product_process === ''
+          ? initialValueForNextProductProcess
+          : modalDropdownFields?.next_product_process,
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
@@ -334,11 +338,13 @@ const OperationCardIssueButton = ({
   const propertiesToCheck: string[] = ['label', 'show_in_weight', 'set_in_weight'];
 
   useEffect(() => {
-    setInitialValueForNextProductProcess(
-      operationCardDetailData?.operation_card_issue_details
-        ?.filter((ele: any) => ele?.next_product_process !== undefined)
-        ?.map((ele: any) => ele?.next_product_process || '')
-    );
+    const nextProductProcessValue = operationCardDetailData?.operation_card_issue_details
+      ?.filter((ele: any) => ele?.next_product_process)
+      ?.map((ele: any) => ele?.next_product_process);
+
+    if (nextProductProcessValue && nextProductProcessValue.length > 0) {
+      setInitialValueForNextProductProcess(nextProductProcessValue[0]);
+    }
     if (show && inputInWeightRef.current) {
       inputInWeightRef.current.focus();
     }
