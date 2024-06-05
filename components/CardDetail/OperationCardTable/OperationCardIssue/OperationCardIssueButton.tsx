@@ -334,11 +334,12 @@ const OperationCardIssueButton = ({
   const propertiesToCheck: string[] = ['label', 'show_in_weight', 'set_in_weight'];
 
   useEffect(() => {
-    // setInitialValueForNextProductProcess(
-    //   operationCardDetailData?.operation_card_issue_details
-    //     ?.filter((ele: any) => ele?.next_product_process !== undefined)
-    //     ?.map((ele: any) => ele?.next_product_process || '')
-    // );
+    if (show && inputInWeightRef.current) {
+      inputInWeightRef.current.focus();
+    }
+  }, [show]);
+
+  useEffect(() => {
     const nextProductProcessValue = operationCardDetailData?.operation_card_issue_details
       ?.filter((ele: any) => ele?.next_product_process)
       ?.map((ele: any) => ele?.next_product_process);
@@ -346,10 +347,7 @@ const OperationCardIssueButton = ({
     if (nextProductProcessValue && nextProductProcessValue.length > 0) {
       setInitialValueForNextProductProcess(nextProductProcessValue[0]);
     }
-    if (show && inputInWeightRef.current) {
-      inputInWeightRef.current.focus();
-    }
-  }, [show]);
+  }, [operationCardDetailData?.operation_card_issue_details]);
 
   return (
     <div>
