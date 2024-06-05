@@ -351,6 +351,16 @@ const OperationCardIssueButton = ({
     }
   }, [show]);
 
+  useEffect(() => {
+    const nextProductProcessValue = operationCardDetailData?.operation_card_issue_details
+      ?.filter((ele: any) => ele?.next_product_process)
+      ?.map((ele: any) => ele?.next_product_process);
+
+    if (nextProductProcessValue && nextProductProcessValue.length > 0) {
+      setInitialValueForNextProductProcess(nextProductProcessValue[0]);
+    }
+  }, [operationCardDetailData?.operation_card_issue_details]);
+
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
