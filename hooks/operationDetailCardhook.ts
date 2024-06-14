@@ -28,6 +28,7 @@ import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/updat
 import { toast } from 'react-toastify';
 import GETSalesOrderList from '@/services/api/operation-card-detail-page/sales-order-list';
 import GETWorkerList from '@/services/api/Worker/worker';
+import POSTOperationCardApprove from '@/services/api/operation-card-detail-page/approval-api';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -476,6 +477,19 @@ const useOperationDetailCard = () => {
     }
   };
 
+  const handleOperationCardApproval = async () => {
+    try {
+      const ApproveOP = await POSTOperationCardApprove(search, token);
+      if (ApproveOP.status === 200) {
+        toast.success('Operation card approved ');
+      } else {
+        toast.error('Error approving operation card ');
+      }
+    } catch (error) {
+      toast.error('Error approving operation card');
+    }
+  };
+
   const getSalesOrder = async () => {
     const hrefValue = window.location.href;
     const operationCardName = hrefValue.split('=');
@@ -605,6 +619,7 @@ const useOperationDetailCard = () => {
     setSalesOrderList,
     getSalesOrder,
     handleUpdateSalesOrderListWithReadyQty,
+    handleOperationCardApproval,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,
