@@ -15,7 +15,6 @@ const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, ha
   const [filteredSuggestionsAutoComplete, setFilteredSuggestionsAutoComplete] = useState<any>([]);
   const [showSuggestionsAutoComplete, setShowSuggestionsAutoComplete] = useState<boolean>(false);
 
-  // this login is for hide and show suggestion based on click
   useEffect(() => {
     setInputValueAutoComplete({
       name: initialValue,
@@ -42,16 +41,11 @@ const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, ha
     }
   }, [listOfDropdownValues]);
 
-  // useEffect(() => {
-  //   showFilteredValuesHandler();
-  // }, [inputValueAutoComplete]);
-
   const handleSuggestionClickAutoComplete = (suggestion: any) => {
     setInputValueAutoComplete({
       name: suggestion.name,
       value: suggestion?.value,
     });
-    // setInputValueAutoComplete(suggestion?.value);
     setShowSuggestionsAutoComplete(false);
   };
 
@@ -82,14 +76,6 @@ const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, ha
         break;
     }
   };
-
-  // useEffect(() => {
-  //   window.addEventListener('keydown', handleKeyDown);
-  //   return () => {
-  //     window.removeEventListener('keydown', handleKeyDown);
-  //   };
-  // });
-
   useEffect(() => {
     const handleKeyDownEvent = (event: KeyboardEvent) => {
       if (inputRef.current && event.target === inputRef.current) {
