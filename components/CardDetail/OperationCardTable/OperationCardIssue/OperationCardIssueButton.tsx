@@ -183,9 +183,8 @@ const OperationCardIssueButton = ({
     let initialValuesOfSelectedItem: any = {};
     if (getSelectedItemObj) {
       // replace next_product_process with word key to get initialValues of all dropdowns.
-      if (getSelectedItemObj.hasOwnProperty('next_product_process')) {
+      if (getSelectedItemObj?.hasOwnProperty('next_product_process')) {
         initialValuesOfSelectedItem['next_product_process'] = getSelectedItemObj['next_product_process'];
-        console.log('merged next initialValuesOfSelectedItem', initialValuesOfSelectedItem);
         setModalDropdownFields((prevFields: any) => ({
           ...prevFields,
           next_product_process: getSelectedItemObj?.next_product_process,
@@ -290,7 +289,7 @@ const OperationCardIssueButton = ({
       }
 
       if (checkArray?.includes(label)) {
-        if (getSelectedItemObj.hasOwnProperty('next_product_process') && label === 'next_product_process') {
+        if (getSelectedItemObj?.hasOwnProperty('next_product_process') && label === 'next_product_process') {
           alteredObjToCreateDropDownFields[label] = getSelectedItemObj['next_product_process'];
         } else {
           alteredObjToCreateDropDownFields[label] = '';
