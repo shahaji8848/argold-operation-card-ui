@@ -6,7 +6,7 @@ const GETProductProcessDesign = async (product: any, token: any) => {
 
   // const filters: any = [['product', '=', `${product}`]];
   const filters: any = [
-    ['product', '=', `${product}`],
+    ['product', '=', `${encodeURIComponent(product)}`],
     ['disabled', '=', 0],
   ];
   const url = `${CONSTANTS.API_BASE_URL}${CONSTANTS.STANDARD_API_PATH}/Design?fields=${JSON.stringify(
