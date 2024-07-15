@@ -2,7 +2,6 @@ import Link from 'next/link';
 import React from 'react';
 
 const OperationCardListingTable = ({ data }: any) => {
-  console.log('date', data);
   const renderData = () => {
     if (data?.length !== 0) {
       return (
