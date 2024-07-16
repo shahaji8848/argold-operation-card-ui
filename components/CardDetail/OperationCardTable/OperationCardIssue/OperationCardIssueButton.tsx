@@ -19,6 +19,7 @@ const OperationCardIssueButton = ({
   operationCardThickness,
   operationCardTone,
   operationCardVariant,
+  operationCardMachine,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextProductProcess,
@@ -39,6 +40,7 @@ const OperationCardIssueButton = ({
   const checkArray = [
     'karigar',
     'next_karigar',
+    'machine',
     'machine_size',
     'variant',
     'tone',
@@ -355,6 +357,7 @@ const OperationCardIssueButton = ({
 
                 const handleField = (val: any) => {
                   const propMappings: any = {
+                    machine: operationCardMachine,
                     machine_size: operationCardMachineSize,
                     thickness: operationCardThickness,
                     variant: operationCardVariant,

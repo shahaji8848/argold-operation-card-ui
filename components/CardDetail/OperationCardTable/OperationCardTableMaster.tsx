@@ -18,6 +18,7 @@ const OperationCardTableMaster = ({
   operationCardVariant,
   operationCardTone,
   operationCardWorkerList,
+  operationCardMachine,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextDesign,
@@ -83,6 +84,7 @@ const OperationCardTableMaster = ({
           operationCardThickness={operationCardThickness}
           operationCardTone={operationCardTone}
           operationCardVariant={operationCardVariant}
+          operationCardMachine={operationCardMachine}
           operationCardMachineSize={operationCardMachineSize}
           operationCardDesignCodeCategory={operationCardDesignCodeCategory}
           operationCardNextProductProcess={operationCardNextProductProcess}

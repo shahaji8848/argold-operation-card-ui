@@ -100,6 +100,7 @@ const OperationCardDetailMaster = () => {
               operationCardTone={operationCardTone}
               operationCardConcept={operationCardConcept}
               operationCardVariant={operationCardVariant}
+              operationCardMachine={operationCardMachine}
               operationCardMachineSize={operationCardMachineSize}
               operationCardDesignCodeCategory={operationCardDesignCodeCategory}
               operationCardNextProductProcess={operationCardNextProductProcess}
