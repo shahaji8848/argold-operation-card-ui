@@ -16,6 +16,7 @@ const OperationCardListingField = ({
   handleKeyDownEnter,
   handleCheckbox,
   showZeroBalance,
+  handleButtonFilter,
 }: any) => {
   console.log('filtersData', filtersData);
   const focusRef = useRef<any>(null);
@@ -50,9 +51,7 @@ const OperationCardListingField = ({
             <form>
               <div className="">
                 <>
-                  <label className="w-100 dark-blue fw-bold text-capitalize fs-13">
-                    {data?.label}
-                  </label>
+                  <label className="w-100 dark-blue fw-bold text-capitalize fs-13">{data?.label}</label>
                   <input
                     type="text"
                     className="form-control inputFields fs-13 rounded-2"
@@ -69,17 +68,42 @@ const OperationCardListingField = ({
       </div>
 
       <div className="filter-wrapper">
-        <button
-          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2"
-          onClick={handleApplyFilters}
-        >
+        <button className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2" onClick={handleApplyFilters}>
           Apply filter
         </button>
-        <Link
-          href=""
-          className="px-3 py-0 my-0 fs-14"
-          onClick={handleClearFilters}
+
+        <button
+          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
+          onClick={() => handleButtonFilter('ka chain')}
         >
+          KA Chain
+        </button>
+        <button
+          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
+          onClick={() => handleButtonFilter('ball chain')}
+        >
+          Ball Chain
+        </button>
+        <button
+          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2 "
+          onClick={() => handleButtonFilter('pipe and para')}
+        >
+          Pipe and Para
+        </button>
+        <button
+          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
+          onClick={() => handleButtonFilter('fancy 92')}
+        >
+          Fancy 92
+        </button>
+        <button
+          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 "
+          onClick={() => handleButtonFilter('fancy 75')}
+        >
+          Fancy 75
+        </button>
+
+        <Link href="" className="px-3 py-0 my-0 fs-14" onClick={handleClearFilters}>
           Clear Filter
         </Link>
         <div>
@@ -90,11 +114,7 @@ const OperationCardListingField = ({
               checked={filtersData['show_zero_balance']}
               onChange={(e: any) => handleInputChange(e, 'show_zero_balance')}
             /> */}
-            <input
-              type="checkbox"
-              checked={showZeroBalance}
-              onChange={handleCheckbox}
-            />
+            <input type="checkbox" checked={showZeroBalance} onChange={handleCheckbox} />
             <span className="ps-2">Show zero balance record</span>
           </label>
           {/* Other components or JSX as needed */}

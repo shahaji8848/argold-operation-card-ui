@@ -22,6 +22,7 @@ const OperationCardListingMaster = () => {
     handleKeyDownEnter,
     URLForFiltersHandler,
     constructUrl,
+    handleButtonFilter,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
@@ -161,6 +162,7 @@ const OperationCardListingMaster = () => {
           constructUrl={constructUrl}
           handleCheckbox={handleCheckbox}
           showZeroBalance={showZeroBalance}
+          handleButtonFilter={handleButtonFilter}
         />
         <div className="spacing-mt">
           <OperationCardListingTable data={listData} />
