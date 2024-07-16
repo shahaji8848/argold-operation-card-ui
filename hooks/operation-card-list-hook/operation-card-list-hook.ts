@@ -27,10 +27,7 @@ const useOperationCardList = () => {
     // show_zero_balance: 0 || 1,
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    fieldName: string
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     // console.log('val', e.target.checked, fieldName);
     // if (fieldName === 'show_zero_balance') {
     //   setFiltersData((prevFiltersData: any) => ({
@@ -39,6 +36,7 @@ const useOperationCardList = () => {
     //   }));
     // } else {
     // }
+
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
       [fieldName]: e.target.value,
@@ -71,6 +69,23 @@ const useOperationCardList = () => {
   const handleApplyFilters = () => {
     URLForFiltersHandler();
   };
+
+  const handleButtonFilter = (searchValue: any) => {
+    console.log('searchValue', searchValue);
+    const currentURLValue = window.location.href;
+    console.log('searchValue', currentURLValue);
+    // Construct the new URL
+    const newURL = new URL(currentURLValue);
+    console.log('searchValue newURL', newURL);
+    // Handle spaces in searchValue
+    const encodedSearchValue = encodeURIComponent(searchValue);
+    console.log('searchValue', encodedSearchValue);
+    // newURL.searchParams.set('product', encodedSearchValue);
+    const newURLWithParam = `${newURL.pathname}?product=${encodedSearchValue}`;
+    console.log('searchValue', newURLWithParam);
+    router.push(newURLWithParam);
+  };
+
   const handelCheckbox = () => {
     URLForFiltersHandler();
   };
@@ -160,6 +175,7 @@ const useOperationCardList = () => {
     URLForFiltersHandler,
     constructUrl,
     handelCheckbox,
+    handleButtonFilter,
   };
 };
 
