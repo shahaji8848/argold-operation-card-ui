@@ -102,7 +102,6 @@ const OperationCardListingField = ({
         >
           Fancy 75
         </button>
-
         <Link href="" className="px-3 py-0 my-0 fs-14" onClick={handleClearFilters}>
           Clear Filter
         </Link>
