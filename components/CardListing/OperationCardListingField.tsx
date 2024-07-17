@@ -97,10 +97,17 @@ const OperationCardListingField = ({
           Fancy 92
         </button>
         <button
-          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 "
+          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
           onClick={() => handleButtonFilter('fancy 75')}
         >
           Fancy 75
+        </button>
+
+        <button
+          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 "
+          onClick={() => handleButtonFilter('sisma chain')}
+        >
+          Sisma Chain
         </button>
 
         <Link href="" className="px-3 py-0 my-0 fs-14" onClick={handleClearFilters}>
