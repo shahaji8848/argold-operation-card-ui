@@ -1,11 +1,7 @@
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import inputField from '../../DataSet/operationCardListingField';
-import OperationCardSearchField from '../OperationCardSearch/OperationCardSearchField';
 import { useRouter } from 'next/navigation';
-import GETOperationCardListData from '@/services/api/operation-card-list-page/operation-card-list-api';
-import { useSelector } from 'react-redux';
-import { get_access_token } from '@/store/slice/login-slice';
 
 const OperationCardListingField = ({
   filtersData,
@@ -18,7 +14,8 @@ const OperationCardListingField = ({
   showZeroBalance,
   handleButtonFilter,
 }: any) => {
-  console.log('filtersData', filtersData);
+  const permittedProducts = JSON.parse(localStorage.getItem('permittedProducts') || '[]');
+
   const focusRef = useRef<any>(null);
   const [searchField, setSearchField] = useState<string>('');
   const router = useRouter();
@@ -71,52 +68,27 @@ const OperationCardListingField = ({
         <button className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2" onClick={handleApplyFilters}>
           Apply filter
         </button>
+        {permittedProducts &&
+          permittedProducts?.length > 0 &&
+          permittedProducts?.map((ele: any, idx: any) => {
+            return (
+              <button
+                className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
+                onClick={() => handleButtonFilter(ele)}
+              >
+                {ele}
+              </button>
+            );
+          })}
 
-        <button
-          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
-          onClick={() => handleButtonFilter('ka chain')}
-        >
-          KA Chain
-        </button>
-        <button
-          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
-          onClick={() => handleButtonFilter('ball chain')}
-        >
-          Ball Chain
-        </button>
-        <button
-          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2 "
-          onClick={() => handleButtonFilter('pipe and para')}
-        >
-          Pipe and Para
-        </button>
-        <button
-          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
-          onClick={() => handleButtonFilter('fancy 92')}
-        >
-          Fancy 92
-        </button>
-        <button
-          className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 "
-          onClick={() => handleButtonFilter('fancy 75')}
-        >
-          Fancy 75
-        </button>
         <Link href="" className="px-3 py-0 my-0 fs-14" onClick={handleClearFilters}>
           Clear Filter
         </Link>
         <div>
           <label>
-            {/* <input
-              type="checkbox"
-              name="show_zero_balance"
-              checked={filtersData['show_zero_balance']}
-              onChange={(e: any) => handleInputChange(e, 'show_zero_balance')}
-            /> */}
             <input type="checkbox" checked={showZeroBalance} onChange={handleCheckbox} />
             <span className="ps-2">Show zero balance record</span>
           </label>
-          {/* Other components or JSX as needed */}
         </div>
       </div>
     </div>
