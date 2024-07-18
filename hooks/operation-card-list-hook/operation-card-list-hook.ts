@@ -1,4 +1,5 @@
 import GETOperationCardListData from '@/services/api/operation-card-list-page/operation-card-list-api';
+import GETPremittedUserAPI from '@/services/api/operation-card-list-page/premitted-user-api';
 import { get_access_token, storeToken } from '@/store/slice/login-slice';
 import { FieldTypes } from '@/types/oc-list-input-field-types';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -14,6 +15,7 @@ const useOperationCardList = () => {
 
   const [filtersClear, setFiltersClear] = useState(0);
   const [checked, setChecked] = useState(false);
+  const [premittedProducts, setPremittedProducts] = useState([]);
   const [filtersData, setFiltersData] = useState<FieldTypes>({
     search: '',
     name: '',
@@ -159,6 +161,19 @@ const useOperationCardList = () => {
     }
   }, [filtersClear]);
 
+  const PremittedProductAPI = async () => {
+    const getPremittedList = await GETPremittedUserAPI(token, username);
+    if (getPremittedList?.status === 200 && getPremittedList?.data?.message?.data?.permitted_products?.length > 0) {
+      setPremittedProducts(getPremittedList?.data?.message?.data?.permitted_products);
+    } else {
+      setPremittedProducts([]);
+    }
+  };
+
+  useEffect(() => {
+    PremittedProductAPI();
+  }, []);
+
   return {
     listData,
     filtersData,
@@ -170,6 +185,7 @@ const useOperationCardList = () => {
     constructUrl,
     handelCheckbox,
     handleButtonFilter,
+    premittedProducts,
   };
 };
 

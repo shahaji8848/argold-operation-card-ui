@@ -13,9 +13,8 @@ const OperationCardListingField = ({
   handleCheckbox,
   showZeroBalance,
   handleButtonFilter,
+  premittedProducts,
 }: any) => {
-  const permittedProducts = JSON.parse(localStorage.getItem('permittedProducts') || '[]');
-
   const focusRef = useRef<any>(null);
   const [searchField, setSearchField] = useState<string>('');
   const router = useRouter();
@@ -39,7 +38,7 @@ const OperationCardListingField = ({
   useEffect(() => {
     focusRef.current.focus();
   }, []);
-  console.log(filtersData, 'abc');
+
   return (
     <div className="spacing-mt">
       <div className="row">
@@ -68,9 +67,9 @@ const OperationCardListingField = ({
         <button className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2" onClick={handleApplyFilters}>
           Apply filter
         </button>
-        {permittedProducts &&
-          permittedProducts?.length > 0 &&
-          permittedProducts?.map((ele: any, idx: any) => {
+        {premittedProducts &&
+          premittedProducts?.length > 0 &&
+          premittedProducts?.map((ele: any, idx: any) => {
             return (
               <button
                 className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
