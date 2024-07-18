@@ -23,6 +23,7 @@ const OperationCardListingMaster = () => {
     URLForFiltersHandler,
     constructUrl,
     handleButtonFilter,
+    premittedProducts,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
@@ -163,6 +164,7 @@ const OperationCardListingMaster = () => {
           handleCheckbox={handleCheckbox}
           showZeroBalance={showZeroBalance}
           handleButtonFilter={handleButtonFilter}
+          premittedProducts={premittedProducts}
         />
         <div className="spacing-mt">
           <OperationCardListingTable data={listData} />

@@ -40,8 +40,6 @@ const Login = () => {
           username: userLoginAPI?.data?.message?.data?.username,
         })
       );
-      const products = userLoginAPI?.data?.message?.data?.permitted_products || [];
-      localStorage.setItem('permittedProducts', JSON.stringify(products));
       router.push('/operation-card-list');
     } else {
       setShowErr(true);
