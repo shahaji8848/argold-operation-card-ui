@@ -183,7 +183,7 @@ const useOperationCardList = () => {
 
   const handleApprove = async (rowData: any) => {
     console.log('clicked', rowData);
-    const saveOP = await POSTApproveAPI(rowData, token);
+    const saveApprove = await POSTApproveAPI(rowData, token);
   };
 
   return {
