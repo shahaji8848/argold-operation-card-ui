@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-const OperationCardListingTable = ({ data }: any) => {
+const OperationCardListingTable = ({ data, handleApprove }: any) => {
   const renderData = () => {
     if (data?.length !== 0) {
       return (
@@ -26,6 +26,7 @@ const OperationCardListingTable = ({ data }: any) => {
                 'gross balance',
                 'fine balance',
                 'OC',
+                'Approve',
                 'Created On',
               ].map((val: any, index: any) => (
                 <th className="thead-dark text-center" scope="col" key={index}>
@@ -83,6 +84,15 @@ const OperationCardListingTable = ({ data }: any) => {
                       <Link href={`/operation-card-detail?name=${rowData?.name}`} target="_blank">
                         {rowData?.name && rowData?.name !== null ? rowData?.name?.split('-').pop() : '--'}
                       </Link>
+                    </td>
+                    <td className="text-end">
+                      {rowData?.approve_operation_card_status === 1 ? (
+                        <button className="btn btn-blue btn-py px-2" onClick={() => handleApprove(rowData?.name)}>
+                          Approve
+                        </button>
+                      ) : (
+                        <button className="btn btn-blue btn-py px-2 disabled">Approve</button>
+                      )}
                     </td>
                     <td>
                       {rowData?.creation && rowData?.creation !== null
