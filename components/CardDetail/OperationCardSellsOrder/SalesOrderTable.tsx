@@ -33,9 +33,7 @@ const rowsBuilder = (
         />
       </td>
       <td className="text-center">
-        {rowData?.customer_name && (rowData?.customer_name !== '' || rowData?.customer_name !== null)
-          ? rowData?.customer_name
-          : '--'}
+        {rowData?.customer && (rowData?.customer !== '' || rowData?.customer !== null) ? rowData?.customer : '--'}
       </td>
       <td className="text-center">{rowData?.sales_order}</td>
       <td className="text-center">{rowData?.item}</td>
