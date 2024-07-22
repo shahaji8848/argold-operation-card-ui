@@ -510,7 +510,7 @@ const useOperationDetailCard = () => {
     console.log('updated sales order list', salesOrderList);
     const dataToSend = salesOrderList.map((order: any) => ({
       ...order,
-      customer: order.customer ?? 'N/A', // Ensure customer name is included
+      customer: order.customer ?? '', // Ensure customer name is included
     }));
     try {
       const updatedData = await UpdateSalesOrderAPI(dataToSend, operationCardDetailData?.name, token);
