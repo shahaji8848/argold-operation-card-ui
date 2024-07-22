@@ -32,12 +32,8 @@ const Login = () => {
 
   const handelSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('initialValues', initialValues);
     const userLoginAPI: any = await GETLoginAPI(initialValues);
-    if (
-      userLoginAPI?.status === 200 &&
-      userLoginAPI?.data?.message?.msg === 'success'
-    ) {
+    if (userLoginAPI?.status === 200 && userLoginAPI?.data?.message?.msg === 'success') {
       dispatch(
         storeToken({
           token: userLoginAPI?.data?.message?.data?.access_token,
@@ -57,9 +53,7 @@ const Login = () => {
   }, [showErr]);
 
   return (
-    <div
-      className={`bg-white overflow-hidden ${style.login_wrapper} shadow-lg`}
-    >
+    <div className={`bg-white overflow-hidden ${style.login_wrapper} shadow-lg`}>
       <div className="row">
         <div className="col-md-12">
           <div className="bg-white-2 h-100 p-5">
@@ -97,28 +91,16 @@ const Login = () => {
                     }}
                   />
                   <div className="mt-2">
-                    <p style={{ color: '#f00' }}>
-                      {showErr && 'Password is Incorrect'}
-                    </p>
+                    <p style={{ color: '#f00' }}>{showErr && 'Password is Incorrect'}</p>
                   </div>
-                  <button
-                    className={`${style.password_icon} `}
-                    onClick={(e: React.MouseEvent) => handlePassword(e)}
-                  >
-                    {passwordHidden ? (
-                      <i className="fas fa-eye-slash"></i>
-                    ) : (
-                      <i className="fas fa-eye"></i>
-                    )}
+                  <button className={`${style.password_icon} `} onClick={(e: React.MouseEvent) => handlePassword(e)}>
+                    {passwordHidden ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
                   </button>
                 </div>
               </div>
 
               <div className="form-group mb-8 text-center mt-5">
-                <button
-                  type="submit"
-                  className="btn btn-primary w-50 text-uppercase btn-blue py-2 fs-14"
-                >
+                <button type="submit" className="btn btn-primary w-50 text-uppercase btn-blue py-2 fs-14">
                   Log In
                 </button>
               </div>

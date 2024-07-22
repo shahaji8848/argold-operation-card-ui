@@ -1,4 +1,6 @@
+import POSTApproveAPI from '@/services/api/operation-card-list-page/approve-post-api';
 import GETOperationCardListData from '@/services/api/operation-card-list-page/operation-card-list-api';
+import GETPremittedUserAPI from '@/services/api/operation-card-list-page/premitted-user-api';
 import { get_access_token, storeToken } from '@/store/slice/login-slice';
 import { FieldTypes } from '@/types/oc-list-input-field-types';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -14,6 +16,7 @@ const useOperationCardList = () => {
 
   const [filtersClear, setFiltersClear] = useState(0);
   const [checked, setChecked] = useState(false);
+  const [premittedProducts, setPremittedProducts] = useState([]);
   const [filtersData, setFiltersData] = useState<FieldTypes>({
     search: '',
     name: '',
@@ -27,10 +30,7 @@ const useOperationCardList = () => {
     // show_zero_balance: 0 || 1,
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    fieldName: string
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     // console.log('val', e.target.checked, fieldName);
     // if (fieldName === 'show_zero_balance') {
     //   setFiltersData((prevFiltersData: any) => ({
@@ -39,6 +39,7 @@ const useOperationCardList = () => {
     //   }));
     // } else {
     // }
+
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
       [fieldName]: e.target.value,
@@ -71,6 +72,23 @@ const useOperationCardList = () => {
   const handleApplyFilters = () => {
     URLForFiltersHandler();
   };
+
+  const handleButtonFilter = (searchValue: any) => {
+    console.log('searchValue', searchValue);
+    const currentURLValue = window.location.href;
+    console.log('searchValue', currentURLValue);
+    // Construct the new URL
+    const newURL = new URL(currentURLValue);
+    console.log('searchValue newURL', newURL);
+    // Handle spaces in searchValue
+    const encodedSearchValue = encodeURIComponent(searchValue);
+    console.log('searchValue', encodedSearchValue);
+    // newURL.searchParams.set('product', encodedSearchValue);
+    const newURLWithParam = `${newURL.pathname}?product=${encodedSearchValue}`;
+    console.log('searchValue', newURLWithParam);
+    router.push(newURLWithParam);
+  };
+
   const handelCheckbox = () => {
     URLForFiltersHandler();
   };
@@ -150,6 +168,24 @@ const useOperationCardList = () => {
     }
   }, [filtersClear]);
 
+  const PremittedProductAPI = async () => {
+    const getPremittedList = await GETPremittedUserAPI(token, username);
+    if (getPremittedList?.status === 200 && getPremittedList?.data?.message?.data?.permitted_products?.length > 0) {
+      setPremittedProducts(getPremittedList?.data?.message?.data?.permitted_products);
+    } else {
+      setPremittedProducts([]);
+    }
+  };
+
+  useEffect(() => {
+    PremittedProductAPI();
+  }, []);
+
+  const handleApprove = async (rowData: any) => {
+    console.log('clicked', rowData);
+    const saveApprove = await POSTApproveAPI(rowData, token);
+  };
+
   return {
     listData,
     filtersData,
@@ -160,6 +196,9 @@ const useOperationCardList = () => {
     URLForFiltersHandler,
     constructUrl,
     handelCheckbox,
+    handleButtonFilter,
+    premittedProducts,
+    handleApprove,
   };
 };
 
