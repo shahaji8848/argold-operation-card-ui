@@ -56,6 +56,7 @@ const OperationCardDetailMaster = () => {
     getSalesOrder,
     handleUpdateSalesOrderListWithReadyQty,
     handleOperationCardApproval,
+    handleCustomerChange,
   } = useOperationDetailCard();
   console.log('operationCardNextProductProcessDepartment', operationCardProductDept);
   return (
@@ -128,6 +129,7 @@ const OperationCardDetailMaster = () => {
               getAllSalesOrderList={getSalesOrder}
               handleUpdateSalesOrderListWithReadyQty={handleUpdateSalesOrderListWithReadyQty}
               operationCardProductDept={operationCardProductDept}
+              handleCustomerChange={handleCustomerChange}
             />
             <OperationCardCreationDetail operationCardDetailData={operationCardDetailData} />
           </div>

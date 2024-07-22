@@ -455,7 +455,7 @@ const useOperationDetailCard = () => {
       setOperationCardWorkerList(
         getWorkerList?.data?.data?.map((product_category: any) => ({
           name: product_category?.name,
-          value: product_category?.worker,
+          value: product_category?.name,
         }))
       );
     } else {
@@ -509,10 +509,25 @@ const useOperationDetailCard = () => {
     }
   };
 
+  // Handle changes in customer field
+  const handleCustomerChange = (soisd_item: any, value: any) => {
+    const updatedList = salesOrderList?.map((order: any) => {
+      if (order?.soisd_item === soisd_item) {
+        return { ...order, customer: value };
+      }
+      return order;
+    });
+    setSalesOrderList(updatedList);
+  };
+
   const handleUpdateSalesOrderListWithReadyQty = async () => {
     console.log('updated sales order list', salesOrderList);
+    const dataToSend = salesOrderList.map((order: any) => ({
+      ...order,
+      customer: order.customer ?? '', // Ensure customer name is included
+    }));
     try {
-      const updatedData = await UpdateSalesOrderAPI(salesOrderList, operationCardDetailData?.name, token);
+      const updatedData = await UpdateSalesOrderAPI(dataToSend, operationCardDetailData?.name, token);
       if (updatedData?.status === 200) {
         toast.success('Sales order updated successfully');
       }
@@ -620,6 +635,7 @@ const useOperationDetailCard = () => {
     getSalesOrder,
     handleUpdateSalesOrderListWithReadyQty,
     handleOperationCardApproval,
+    handleCustomerChange,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,
