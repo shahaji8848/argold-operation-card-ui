@@ -6,6 +6,7 @@ import { FieldTypes } from '@/types/oc-list-input-field-types';
 import { useSearchParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const useOperationCardList = () => {
   const { token, username } = useSelector(get_access_token);
@@ -178,6 +179,13 @@ const useOperationCardList = () => {
   const handleApprove = async (rowData: any) => {
     console.log('clicked', rowData);
     const saveApprove = await POSTApproveAPI(rowData, token);
+    console.log('saveApprove', saveApprove);
+    if (saveApprove.status === 200) {
+      window.location.reload();
+    } else {
+      // toast.error(saveApprove?.response?.data?.exc_type);
+      toast.error(saveApprove?.message);
+    }
   };
 
   return {
