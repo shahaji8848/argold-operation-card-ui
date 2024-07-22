@@ -21,7 +21,8 @@ const rowsBuilder = (
   doGetAllOrders: boolean,
   selectedItems: any,
   handleCheckboxChange: (soisd_item: string) => void,
-  handleChangesInReadyQty: (key: any, changedValue: number, soisd_item: string) => void
+  handleChangesInReadyQty: (key: any, changedValue: number, soisd_item: string) => void,
+  handleCustomerChange: (soisd_item: any, value: any) => void
 ) => {
   return (
     <tr className="table-text" key={rowData?.soisd_item}>
@@ -33,9 +34,21 @@ const rowsBuilder = (
         />
       </td>
       <td className="text-center">
-        {rowData?.customer_name && (rowData?.customer_name !== '' || rowData?.customer_name !== null)
-          ? rowData?.customer_name
-          : '--'}
+        {/* {rowData?.customer && (rowData?.customer !== '' || rowData?.customer !== null) ? (
+          <input
+            type="text"
+            value={rowData?.customer ? rowData?.customer : ''}
+            onChange={(e) => handleCustomerChange(rowData?.soisd_item, e.target.value)}
+          />
+        ) : (
+          '--'
+        )} */}
+        <input
+          type="text"
+          value={rowData?.customer ? rowData?.customer : ''}
+          className="px-1 input_fields py-1 rounded-2 grey"
+          onChange={(e) => handleCustomerChange(rowData?.soisd_item, e.target.value)}
+        />
       </td>
       <td className="text-center">{rowData?.sales_order}</td>
       <td className="text-center">{rowData?.item}</td>
@@ -70,7 +83,7 @@ function SalesOrderTable({
   getAllSalesOrderList,
   handleUpdateSalesOrderListWithReadyQty,
   operationCardNextProductProcessDepartment,
-
+  handleCustomerChange,
   operationCardProductDept,
 }: any) {
   const [doGetAllOrders, setDoGetAllOrders] = useState<boolean>(false);
@@ -152,7 +165,7 @@ function SalesOrderTable({
       }
     }
   };
-  // console.log('salesOrderList', salesOrderList);
+
   return (
     <div>
       <div>
@@ -203,7 +216,8 @@ function SalesOrderTable({
                             doGetAllOrders,
                             selectedItems,
                             handleCheckboxChange,
-                            handleChangesInReadyQty
+                            handleChangesInReadyQty,
+                            handleCustomerChange
                           )}
                         </>
                       );

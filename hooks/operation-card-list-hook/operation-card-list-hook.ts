@@ -1,3 +1,4 @@
+import POSTApproveAPI from '@/services/api/operation-card-list-page/approve-post-api';
 import GETOperationCardListData from '@/services/api/operation-card-list-page/operation-card-list-api';
 import GETPremittedUserAPI from '@/services/api/operation-card-list-page/premitted-user-api';
 import { get_access_token, storeToken } from '@/store/slice/login-slice';
@@ -174,6 +175,11 @@ const useOperationCardList = () => {
     PremittedProductAPI();
   }, []);
 
+  const handleApprove = async (rowData: any) => {
+    console.log('clicked', rowData);
+    const saveApprove = await POSTApproveAPI(rowData, token);
+  };
+
   return {
     listData,
     filtersData,
@@ -186,6 +192,7 @@ const useOperationCardList = () => {
     handelCheckbox,
     handleButtonFilter,
     premittedProducts,
+    handleApprove,
   };
 };
 
