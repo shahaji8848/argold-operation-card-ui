@@ -36,6 +36,7 @@ const OperationCardIssueMaster = ({
   isBalanceWeightSetAsInWeight,
   balanceWeight,
   modalFieldsState,
+  operationCardMachine,
 }: any) => {
   return (
     <>
@@ -75,6 +76,7 @@ const OperationCardIssueMaster = ({
         isBalanceWeightSetAsInWeight={isBalanceWeightSetAsInWeight}
         balanceWeight={balanceWeight}
         modalFieldsState={modalFieldsState}
+        operationCardMachine={operationCardMachine}
       />
       <div className="mt-2">
         <OperationCardIssueItem operationCardDetailData={operationCardDetailData} />
