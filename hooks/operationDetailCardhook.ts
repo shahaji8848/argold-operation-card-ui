@@ -448,7 +448,7 @@ const useOperationDetailCard = () => {
       setOperationCardNextProductCategory([]);
     }
   };
-  console.log(operationCardDetailData?.product_process_department, 'monika');
+
   const getOperationCardDetailWorkerAPICallFunc = async () => {
     const getWorkerList = await GETWorkerList(token, operationCardDetailData?.product_process_department);
     if (getWorkerList?.status === 200) {
