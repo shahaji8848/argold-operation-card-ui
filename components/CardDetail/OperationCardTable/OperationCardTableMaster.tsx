@@ -38,7 +38,6 @@ const OperationCardTableMaster = ({
   isBalanceWeightSetAsInWeight,
   balanceWeight,
   modalFieldsState,
-  operationCardMachine,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -85,7 +84,6 @@ const OperationCardTableMaster = ({
           operationCardThickness={operationCardThickness}
           operationCardTone={operationCardTone}
           operationCardVariant={operationCardVariant}
-          operationCardMachine={operationCardMachine}
           operationCardMachineSize={operationCardMachineSize}
           operationCardDesignCodeCategory={operationCardDesignCodeCategory}
           operationCardNextProductProcess={operationCardNextProductProcess}

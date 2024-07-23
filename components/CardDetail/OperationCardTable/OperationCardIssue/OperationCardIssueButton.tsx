@@ -34,7 +34,6 @@ const OperationCardIssueButton = ({
   balanceWeight,
   getOperationCardProductCategory,
   modalFieldsState,
-  operationCardMachine,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -377,7 +376,6 @@ const OperationCardIssueButton = ({
                     next_product_category: operationCardNextProductCategory,
                     gpc_product: operationCardProduct,
                     worker: operationCardWorkerList,
-                    machine: operationCardMachine,
                   };
                   propToPass = propMappings[val];
                   return propToPass;

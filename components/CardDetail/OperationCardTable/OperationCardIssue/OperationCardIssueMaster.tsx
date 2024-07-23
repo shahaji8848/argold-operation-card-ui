@@ -36,7 +36,6 @@ const OperationCardIssueMaster = ({
   isBalanceWeightSetAsInWeight,
   balanceWeight,
   modalFieldsState,
-  operationCardMachine,
 }: any) => {
   return (
     <>
@@ -59,7 +58,6 @@ const OperationCardIssueMaster = ({
         operationCardTone={operationCardTone}
         operationCardVariant={operationCardVariant}
         operationCardWorkerList={operationCardWorkerList}
-        operationCardMachine={operationCardMachine}
         operationCardMachineSize={operationCardMachineSize}
         operationCardNextDesign={operationCardNextDesign}
         operationCardDesignCodeCategory={operationCardDesignCodeCategory}
