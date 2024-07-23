@@ -297,10 +297,16 @@ const useOperationDetailCard = () => {
   };
 
   const getOperationCardDetailMachineAPICall = async () => {
-    const getMachineData = await GETOperationCardDetailMachine(operationCardDetailData?.product_process_department, token);
+    const getMachineData = await GETOperationCardDetailMachine(
+      operationCardDetailData?.operation_department,
+      operationCardDetailData?.product_process_department,
+
+      token
+    );
+
     if (getMachineData?.status === 200) {
       setOperationCardMachine(
-        getMachineData?.data?.data?.map((machine_data: any) => ({
+        getMachineData?.data?.message?.map((machine_data: any) => ({
           name: machine_data?.name,
           value: machine_data?.machine_name,
         }))
@@ -323,6 +329,7 @@ const useOperationDetailCard = () => {
       setOperationCardTone([]);
     }
   };
+
   const getOperationCardDetailDesignCodeCategoryAPICall = async () => {
     const getDesignCodeCategory = await GETProductProcessDesignCodeCategory(operationCardDetailData?.product, token);
     if (getDesignCodeCategory?.status === 200) {
