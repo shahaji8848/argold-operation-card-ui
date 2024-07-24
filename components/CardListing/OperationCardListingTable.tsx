@@ -91,7 +91,8 @@ const OperationCardListingTable = ({ data, handleApprove }: any) => {
                           Approve
                         </button>
                       ) : (
-                        <button className="btn btn-blue btn-py px-2 disabled">Approve</button>
+                        // <button className="btn btn-blue btn-py px-2 disabled">Approve</button>
+                        ''
                       )}
                     </td>
                     <td>
@@ -128,6 +129,8 @@ const OperationCardListingTable = ({ data, handleApprove }: any) => {
               <td className="bold text-end">{CalculateTotal(data, 'balance_weight')}</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_gross_weight')}</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_fine_weight')}</td>
+              <td></td>
+              <td></td>
               <td></td>
             </tr>
           </tbody>
