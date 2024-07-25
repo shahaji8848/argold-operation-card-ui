@@ -98,6 +98,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'Line Number',
               'Tracking Number',
               'Karigar',
+              'Worker',
               'Next Karigar',
               'OP',
               'Description',
@@ -132,6 +133,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                 <td className="text-end">{data?.line_number === 0 ? '--' : data?.line_number}</td>
                 <td className="text-end">{data?.next_tracking_number === '' ? '--' : data?.next_tracking_number}</td>
                 <td className="text-end">{data?.karigar ?? '--'}</td>
+                <td className="text-end">{data?.worker ?? '--'}</td>
                 <td className="text-end">{data?.next_karigar ?? '--'}</td>
                 <td className="text-end">
                   {hasOPkey(data) ? (
