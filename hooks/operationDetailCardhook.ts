@@ -28,6 +28,7 @@ import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/updat
 import { toast } from 'react-toastify';
 import GETSalesOrderList from '@/services/api/operation-card-detail-page/sales-order-list';
 import GETWorkerList from '@/services/api/Worker/worker';
+import GETMeltingLotList from '@/services/api/operation-card-detail-page/melting-lot-list';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -71,6 +72,7 @@ const useOperationDetailCard = () => {
   const [salesOrderList, setSalesOrderList] = useState<any>([]);
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
+  const [meltingLotList, setMeltingLotList] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -535,6 +537,19 @@ const useOperationDetailCard = () => {
     const saveOP = await POSTOperationCardSave(search, filteredData, token);
   };
 
+  const getMeltingLotListFromAPI = async () => {
+    const getMeltingLotList = await GETMeltingLotList(token);
+    if (getMeltingLotList?.status === 200) {
+      setMeltingLotList(getMeltingLotList?.data?.message?.data);
+    } else {
+      setLossReportList([]);
+    }
+  };
+
+  useEffect(() => {
+    getMeltingLotListFromAPI();
+  }, []);
+
   useEffect(() => {
     if (balanceWeight !== '') {
       setModalFieldsState({ in_weight: balanceWeight });
@@ -629,6 +644,7 @@ const useOperationDetailCard = () => {
     getSalesOrder,
     handleUpdateSalesOrderListWithReadyQty,
     handleCustomerChange,
+    meltingLotList,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,

@@ -57,6 +57,7 @@ const OperationCardDetailMaster = () => {
     getSalesOrder,
     handleUpdateSalesOrderListWithReadyQty,
     handleCustomerChange,
+    meltingLotList,
   } = useOperationDetailCard();
   console.log('operationCardNextProductProcessDepartment', operationCardProductDept);
   return (
@@ -83,7 +84,7 @@ const OperationCardDetailMaster = () => {
               headerSave={headerSave}
               handleHeaderSave={handleHeaderSave}
             />
-            <OperationCardFiltersMaster />
+            <OperationCardFiltersMaster meltingLotList={meltingLotList} />
             <OperationCardTableMaster
               search={search}
               operationCardDetail={operationCardDetail}

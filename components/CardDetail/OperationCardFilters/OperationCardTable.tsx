@@ -1,6 +1,7 @@
 import React from 'react';
 
-const OperationCardTable = () => {
+const OperationCardTable = ({ meltingLotList }: any) => {
+  console.log('monika', meltingLotList);
   return (
     <div className="card py-2 px-2">
       <div className="d-flex justify-content-start">
@@ -41,28 +42,32 @@ const OperationCardTable = () => {
           </tr>
         </thead>
         <tbody className="card-listing-body">
-          <tr>
-            <td>box</td>
-            <td>powder</td>
-            <td>0.255</td>
-            <td></td>
-            <td>2</td>
-            <td>Laser</td>
-            <td>Single tone</td>
-            <td></td>
-            <td>1000.0000</td>
-            <td>1000.0000</td>
-            <td>tarpatta</td>
-            <td>--</td>
-            <td>--</td>
-            <td>--</td>
-            <td>--</td>
-            <td>--</td>
-            <td>--</td>
-            <td>
-              <button className="btn btn-blue btn-py  mt-1 px-3 ms-2">Edit</button>
-            </td>
-          </tr>
+          {meltingLotList &&
+            meltingLotList?.map((meltingData: any, idx: any) => {
+              return (
+                <tr>
+                  <td>{meltingData?.category_one}</td>
+                  <td>{meltingData?.type}</td>
+                  <td>{meltingData?.machine_size}</td>
+                  <td>{meltingData?.design}</td>
+                  <td>{meltingData?.line}</td>
+                  <td>{meltingData?.cutting_process}</td>
+                  <td>{meltingData?.tone}</td>
+                  <td>{meltingData?.description}</td>
+                  <td>{meltingData?.weight}</td>
+                  <td>{meltingData?.balance_weight}</td>
+                  <td>{meltingData?.current_dept}</td>
+                  <td>{meltingData?.in_weight}</td>
+                  <td>{meltingData?.out_lot_purity}</td>
+                  <td>{meltingData?.tounch_purity}</td>
+                  <td>{meltingData?.fire_tounch_purity}</td>
+                  <td>{meltingData?.waistage}</td>
+                  <td>
+                    <button className="btn btn-blue btn-py  mt-1 px-3 ms-2">Edit</button>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

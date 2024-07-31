@@ -3,12 +3,12 @@ import OperationCardFilters from './OperationCardFilters';
 import OperationCardTable from './OperationCardTable';
 import OperationCardFiltersOption from './OperationCardFIlterOption';
 
-const OperationCardFiltersMaster = () => {
+const OperationCardFiltersMaster = ({ meltingLotList }: any) => {
   return (
     <>
       {/* <OperationCardFilters /> */}
       <OperationCardFiltersOption />
-      <OperationCardTable />
+      <OperationCardTable meltingLotList={meltingLotList} />
     </>
   );
 };
