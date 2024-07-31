@@ -17,6 +17,7 @@ const OperationCardIssueMaster = ({
   operationCardConcept,
   operationCardTone,
   operationCardVariant,
+  operationCardMachine,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextDesign,
@@ -35,7 +36,6 @@ const OperationCardIssueMaster = ({
   isBalanceWeightSetAsInWeight,
   balanceWeight,
   modalFieldsState,
-  operationCardMachine,
 }: any) => {
   return (
     <>

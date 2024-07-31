@@ -56,6 +56,7 @@ const OperationCardDetailMaster = () => {
     setSalesOrderList,
     getSalesOrder,
     handleUpdateSalesOrderListWithReadyQty,
+    handleOperationCardApproval,
     handleCustomerChange,
     meltingLotList,
   } = useOperationDetailCard();
@@ -68,6 +69,7 @@ const OperationCardDetailMaster = () => {
             <OperationCardHeaderMaster
               operationCardDetailData={operationCardDetailData}
               handleOperationCardSave={handleOperationCardSave}
+              handleOperationCardApproval={handleOperationCardApproval}
             />
 
             <OperationCardDataSummaryMaster operationCardDetailData={operationCardDetailData} />
@@ -102,6 +104,7 @@ const OperationCardDetailMaster = () => {
               operationCardTone={operationCardTone}
               operationCardConcept={operationCardConcept}
               operationCardVariant={operationCardVariant}
+              operationCardMachine={operationCardMachine}
               operationCardMachineSize={operationCardMachineSize}
               operationCardDesignCodeCategory={operationCardDesignCodeCategory}
               operationCardNextProductProcess={operationCardNextProductProcess}
@@ -122,7 +125,6 @@ const OperationCardDetailMaster = () => {
               balanceWeight={balanceWeight}
               modalFieldsState={modalFieldsState}
               headerSave={headerSave}
-              operationCardMachine={operationCardMachine}
             />
             <SalesOrderTable
               operationCardDetailData={operationCardDetailData}

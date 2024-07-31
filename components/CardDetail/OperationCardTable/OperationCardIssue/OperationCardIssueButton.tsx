@@ -19,6 +19,7 @@ const OperationCardIssueButton = ({
   operationCardThickness,
   operationCardTone,
   operationCardVariant,
+  operationCardMachine,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextProductProcess,
@@ -33,13 +34,13 @@ const OperationCardIssueButton = ({
   balanceWeight,
   getOperationCardProductCategory,
   modalFieldsState,
-  operationCardMachine,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
   const checkArray = [
     'karigar',
     'next_karigar',
+    'machine',
     'machine_size',
     'variant',
     'tone',
@@ -60,7 +61,6 @@ const OperationCardIssueButton = ({
   ];
 
   const checkboxFieldsList: string[] = ['hold_order_details'];
-
   const [show, setShow] = useState(false);
   const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false);
   const [showToastErr, setShowToastErr] = useState<boolean>(false);
@@ -69,7 +69,7 @@ const OperationCardIssueButton = ({
   const [errMessage, setErrMessage] = useState<string>('');
   const [itemName, setItemName] = useState('');
 
-  const [initialValueForNextProductProcess, setInitialValueForNextProductProcess] = useState<any>([]);
+  const [initialValueForActiveField, setInitialValueForActiveField] = useState<any>({});
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
   const [getValues, setGetValues] = useState<any>([]);
@@ -134,6 +134,7 @@ const OperationCardIssueButton = ({
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
+    console.log('mergedObjs modal', modalDropdownFields);
     console.log('mergedObjs', mergedObjs, decodeURI(splitValue[1]));
     // const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
     //   ([key, value]) =>
@@ -169,56 +170,31 @@ const OperationCardIssueButton = ({
     }
   };
 
-  // const mergedObjs = {
-  //   ...modalFieldValuesState,
-  //   ...modalDropdownFields,
-  //   item: itemName,
-  // };
-
-  // const hasEmptyValue = Object.values(mergedObjs).some(
-  //   (value) => value !== '' && value !== undefined
-  // );
-
-  // console.log('hasEmptyValues', mergedObjs);
-  // const handleKeyPress = (event: any) => {
-  //   if (event.key === 'Enter') {
-  //     // const mergedObjs = {
-  //     //   ...modalFieldValuesState,
-  //     //   ...modalDropdownFields,
-  //     //   item: itemName,
-  //     // };
-
-  //     // const hasEmptyValue = Object.values(mergedObjs).some(
-  //     //   (value) => value === ''
-  //     // );
-
-  //     if (hasEmptyValue) {
-  //       console.log('Empty values ');
-  //       setEmptyFieldsErr(true);
-  //     } else {
-  //       console.log('No empty values');
-  //       handleSubmit();
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   document.addEventListener('keydown', handleKeyPress);
-
-  //   return () => {
-  //     document.removeEventListener('keydown', handleKeyPress);
-  //   };
-  // }, [modalFieldValuesState, modalDropdownFields]);
-
   const handleClose = () => {
     setEmptyFieldsErr(false);
     setShow(false);
   };
   const handleShow = (value: any) => {
-    console.log('value', value);
     setShow(true);
     setItemName(value);
     const operationCardValue = operationCardProductDept?.issue_items?.filter((issueVal: any) => issueVal.item === value);
+    const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find(
+      (issueItem: any) => issueItem?.item === value
+    );
+
+    console.log('merged next', getSelectedItemObj);
+    let initialValuesOfSelectedItem: any = {};
+    if (getSelectedItemObj) {
+      // replace next_product_process with word key to get initialValues of all dropdowns.
+      if (getSelectedItemObj?.hasOwnProperty('next_product_process')) {
+        initialValuesOfSelectedItem['next_product_process'] = getSelectedItemObj['next_product_process'];
+        setModalDropdownFields((prevFields: any) => ({
+          ...prevFields,
+          next_product_process: getSelectedItemObj?.next_product_process,
+        }));
+      }
+    }
+    setInitialValueForActiveField(initialValuesOfSelectedItem);
 
     const showKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('show'));
     const setKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('set'));
@@ -235,7 +211,7 @@ const OperationCardIssueButton = ({
           groupedKeys[keyword] = {};
         }
 
-        groupedKeys[keyword][key] = operationCardValue[0][key]; // Access value correctly
+        groupedKeys[keyword][key] = operationCardValue[0][key];
       });
 
       return Object.values(groupedKeys);
@@ -274,8 +250,6 @@ const OperationCardIssueButton = ({
       });
       return updatedObj;
     });
-
-    console.log('modal filterArray', mergedObjsState);
 
     // Below changes are just for Product KA Chain and Dept Hammering 2 as requested by Vijay Sir from AR Gold.
     // (This is some condition according to factory for KA Chain only).
@@ -318,7 +292,11 @@ const OperationCardIssueButton = ({
       }
 
       if (checkArray?.includes(label)) {
-        alteredObjToCreateDropDownFields[label] = '';
+        if (getSelectedItemObj?.hasOwnProperty('next_product_process') && label === 'next_product_process') {
+          alteredObjToCreateDropDownFields[label] = getSelectedItemObj['next_product_process'];
+        } else {
+          alteredObjToCreateDropDownFields[label] = '';
+        }
       }
     });
     console.log('altered', alteredObjToCreateDataFields);
@@ -326,25 +304,13 @@ const OperationCardIssueButton = ({
     setModalFieldValuesState(alteredObjToCreateDataFields);
 
     setModalDropdownFields(alteredObjToCreateDropDownFields);
-    // console.log('getvalues', getValues);
-    // console.log(
-    //   'alteredObjToCreateDropDownFields',
-    //   alteredObjToCreateDropDownFields
-    // );
   };
   let funcData: any;
   let setKey: any;
   const propertiesToCheck: string[] = ['label', 'show_in_weight', 'set_in_weight'];
 
   useEffect(() => {
-    setInitialValueForNextProductProcess(
-      operationCardDetailData?.operation_card_issue_details
-        ?.filter((ele: any) => ele?.next_product_process !== undefined)
-        ?.map((ele: any) => ele?.next_product_process || '')
-    );
-    if (show && inputInWeightRef.current) {
-      inputInWeightRef.current.focus();
-    }
+    inputInWeightRef.current?.focus();
   }, [show]);
 
   return (
@@ -392,6 +358,7 @@ const OperationCardIssueButton = ({
 
                 const handleField = (val: any) => {
                   const propMappings: any = {
+                    machine: operationCardMachine,
                     machine_size: operationCardMachineSize,
                     thickness: operationCardThickness,
                     variant: operationCardVariant,
@@ -409,7 +376,6 @@ const OperationCardIssueButton = ({
                     next_product_category: operationCardNextProductCategory,
                     gpc_product: operationCardProduct,
                     worker: operationCardWorkerList,
-                    machine: operationCardMachine,
                   };
                   propToPass = propMappings[val];
                   return propToPass;
@@ -437,8 +403,9 @@ const OperationCardIssueButton = ({
                           getOperationCardProductCategory={getOperationCardProductCategory}
                           handleSubmit={handleSubmit}
                           label={val?.label}
-                          // initialValue={initialValueForNextProductProcess}
-                          initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}
+                          initialValue={initialValueForActiveField[val?.label]}
+                          // // initialValue={initialValueForNextProductProcess}
+                          // initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}
                           isReadOnly={false}
                           operationCardDetailData={operationCardDetailData}
                         />
@@ -481,7 +448,8 @@ const OperationCardIssueButton = ({
                             className="form-control inputFields dark-blue input_in_weight"
                             name={val?.label}
                             id={val?.label}
-                            ref={inputInWeightRef}
+                            // ref={inputInWeightRef}
+                            ref={i === 0 ? inputInWeightRef : null}
                             disabled={val[setKey] === 0}
                             value={modalFieldValuesState[val?.label]}
                             onChange={handleModalFieldsChange}

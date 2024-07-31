@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import OperationCardInputField from './OperationCardInputField';
 import Link from 'next/link';
 import { CONSTANTS } from '@/services/config/api-config';
-const OperationCardHeader = ({ operationCardDetailData, handleOperationCardSave }: any) => {
+const OperationCardHeader = ({ operationCardDetailData, handleOperationCardSave, handleOperationCardApproval }: any) => {
   const router = useRouter();
   const redirectToHomepage = () => {
     router.push('/');
@@ -24,24 +24,36 @@ const OperationCardHeader = ({ operationCardDetailData, handleOperationCardSave 
           </Link>
         </p>
       </div>
-      <div className="col-md-7 text-end btn-actions-wrapper  p-0">
+      <div className="col-md-7 text-end btn-actions-wrapper p-0 ">
         <div className="row w-100 ">
-          <div className="col-xxl-9 col-xl-9 col-lg-8 col-md-6 btn-header-mob header-content-mob">
+          <div
+            className={`${
+              operationCardDetailData?.balance_weight !== 0 && operationCardDetailData?.approve_operation_card === 1
+                ? 'col-xxl-7 col-xl-7 col-lg-6 col-md-6'
+                : 'col-xxl-7 col-xl-7 col-lg-5 col-md-4 '
+            } btn-header-mob header-content-mob`}
+          >
             <OperationCardInputField />
           </div>
-          <div className="col-xxl-3 col-xl-3 col-lg-4  col-md-6 text-end  pe-0 btn-header-mob header-content-mob">
+          <div
+            className={`${
+              operationCardDetailData?.balance_weight !== 0 && operationCardDetailData?.approve_operation_card === 1
+                ? 'col-xxl-5 col-xl-5 col-lg-6  col-md-6  '
+                : 'col-xxl-5 col-xl-5 col-lg-7  col-md-8 '
+            } text-end pe-0 btn-header-mob header-content-mob `}
+          >
+            {/* <div className="d-flex "> */}
             <button className="btn btn-grey px-4 px-1 btn-py " onClick={redirectToHomepage}>
               Back
             </button>
             <button className="btn btn-blue  px-4 ms-2 px-1 btn-py " onClick={handleOperationCardSave}>
               Save
             </button>
-            {/* <button
-              className="btn btn-blue  px-4 px-1 ms-2 btn-py "
-              onClick={redirectToHome}
-            >
-              Home
-            </button> */}
+            {operationCardDetailData?.balance_weight !== 0 && operationCardDetailData?.approve_operation_card === 1 && (
+              <button className="btn btn-blue px-4 ms-2 px-1 btn-py " onClick={handleOperationCardApproval}>
+                Approve
+              </button>
+            )}
           </div>
         </div>
       </div>

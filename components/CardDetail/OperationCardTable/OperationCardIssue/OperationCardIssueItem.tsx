@@ -26,8 +26,10 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
     'next_karigar',
     'tounch_no',
     'fire_tounch_no',
-    // 'machine_size',
+    'machine',
+    'worker',
     'line_number',
+    'next_tracking_number',
   ];
 
   const redirectToNextOC = (oc_id: string) => {
@@ -79,7 +81,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
       </Tooltip>
     );
   }
-  console.log('operationCardDetailData?.operation_card_issue_details', operationCardDetailData?.operation_card_issue_details);
+
   return (
     <div className="table-responsive ">
       <table className="table table-bordered">
@@ -94,7 +96,6 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'Fine Weight',
               'Touch No',
               'Fire Touch No ',
-              // 'Machine Size',
               'Line Number',
               'Tracking Number',
               'Machine',
@@ -103,7 +104,6 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'Next Karigar',
               'OP',
               'Description',
-              // 'Descr',
             ].map((val, i: any) => (
               <th className="thead-dark text-center" scope="col" key={i}>
                 {val}
@@ -116,11 +116,6 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
             operationCardDetailData?.operation_card_issue_details?.map((data: any, i: any) => (
               <tr className="table-text" key={i}>
                 <td>{data.item}</td>
-                {/* {data?.description && (
-                  <OverlayTrigger placement="right" overlay={ToolTipData(data?.description)}>
-                    <Button>*</Button>
-                  </OverlayTrigger>
-                )} */}
                 <td className="text-end">{data?.in_weight === 0 ? '--' : data?.in_weight?.toFixed(3)}</td>
                 <td className="text-end">{data?.in_gross_purity === 0 ? '--' : data?.in_gross_purity?.toFixed(3)}</td>
                 <td className="text-end">{data?.in_gross_weight === 0 ? '--' : data?.in_gross_weight?.toFixed(3)}</td>
@@ -128,9 +123,6 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                 <td className="text-end">{data?.in_fine_weight === 0 ? '--' : data?.in_fine_weight?.toFixed(3)}</td>
                 <td className="text-end">{data?.in_weight === 0 || data?.tounch_no === 0 ? '--' : data?.tounch_no}</td>
                 <td className="text-end">{data?.in_weight === 0 || data?.fire_tounch_no === 0 ? '--' : data?.fire_tounch_no}</td>
-                {/* <td className="text-end">
-                    {data?.machine_size === 0 ? '--' : data?.machine_size}
-                  </td> */}
                 <td className="text-end">{data?.line_number === 0 ? '--' : data?.line_number}</td>
                 <td className="text-end">{data?.next_tracking_number === '' ? '--' : data?.next_tracking_number}</td>
                 <td className="text-end">{data?.machine ?? '--'}</td>
@@ -155,11 +147,6 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                   ) : (
                     '--'
                   )}
-                  {/* {data?.description && data?.description !== '' ? ( */}
-                  {/* <IssueDescriptionModal description={'dskfhdshfjudgh'} /> */}
-                  {/* ) : (
-                    '--'
-                  )} */}
                 </td>
               </tr>
             ))}
@@ -173,14 +160,15 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'in_fine_weight',
               'tounch_no',
               'fire_tounch_no',
-              // 'machine_size',
               'line_number',
+              'next_tracking_number',
+              'machine',
               'karigar',
+              'worker',
               'next_karigar',
               'old_operation_card',
             ].map((data: any, i: any) => (
               <td className="font-weight-bold text-end" key={i}>
-                {/* {CalculateTotal(data)} */}
                 {CalculateTotal(data, operationCardDetailData?.operation_card_issue_details || [])}
               </td>
             ))}

@@ -26,7 +26,7 @@ const useReportLoss = () => {
   const [factoryList, setFactoryList] = useState<any>([]);
   const [financialYearList, setFinancialYear] = useState<any>([]);
   const [perKgLossVatav, setPerKgLossVatav] = useState<any>([]);
-  const disabledItems:any = {}
+  const disabledItems: any = {};
   const getFinancialYearList = async () => {
     const getLossReportFinancialYearFromAPI = await GETFinancialYear(token);
     if (getLossReportFinancialYearFromAPI?.status === 200) {
@@ -156,22 +156,25 @@ const useReportLoss = () => {
     }
   };
 
-  async function convertFunc(item_name: any,index:number) {
+  async function convertFunc(item_name: any, index: number) {
     const url = `${CONSTANTS.API_BASE_URL}/api/method/custom_app.custom_app.doctype.internal_transfer.create_internal_transfer_from_parent_lot_loss.create_internal_transfer_for_unrecoverable_loss`;
     const formData: any = new FormData();
     formData.append('item', item_name);
     formData.append('loss_period', getLossPeriodValueFromURL);
     formData.append('factory', getFactoryValueFromURL);
     const button = document.getElementById(item_name);
-        if (button instanceof HTMLButtonElement) {
-          button.disabled = true;
-          if (!disabledItems[index]) { 
-            disabledItems[index] = setTimeout(() => { 
-              delete disabledItems[index];
-              button.disabled = false;
-            }, 5 * 60 * 1000); // 5 minutes in milliseconds
-          }
-        }
+    if (button instanceof HTMLButtonElement) {
+      button.disabled = true;
+      if (!disabledItems[index]) {
+        disabledItems[index] = setTimeout(
+          () => {
+            delete disabledItems[index];
+            button.disabled = false;
+          },
+          5 * 60 * 1000
+        ); // 5 minutes in milliseconds
+      }
+    }
     try {
       const getAPIResponse = await callFormDataPOSTAPI(url, formData, token);
       if (getAPIResponse?.status === 200) {
@@ -294,6 +297,9 @@ const useReportLoss = () => {
     difference_of_unrecoverableloss_and_outweight = 0;
   } else if (totalBalance === '--') {
     totalBalance = 0;
+    difference_of_unrecoverableloss_and_outweight = parseFloat(totalUnrecoverableLoss) + parseFloat(totalBalance);
+  } else if (totalUnrecoverableLoss === '--') {
+    totalUnrecoverableLoss = 0;
     difference_of_unrecoverableloss_and_outweight = parseFloat(totalUnrecoverableLoss) + parseFloat(totalBalance);
   } else {
     difference_of_unrecoverableloss_and_outweight = parseFloat(totalUnrecoverableLoss) + parseFloat(totalBalance);
