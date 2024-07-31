@@ -10,6 +10,7 @@ import OperationCardCreationDetail from './OperationCardCreationDetail/Operation
 import Link from 'next/link';
 import MasterOperationCardSellsOrder from './OperationCardSellsOrder/MasterOperationCardSellsOrder';
 import SalesOrderTable from './OperationCardSellsOrder/SalesOrderTable';
+import OperationCardFiltersMaster from './OperationCardFilters/OperationCardFiltersMaster';
 const OperationCardDetailMaster = () => {
   const {
     search,
@@ -84,6 +85,7 @@ const OperationCardDetailMaster = () => {
               headerSave={headerSave}
               handleHeaderSave={handleHeaderSave}
             />
+            <OperationCardFiltersMaster />
             <OperationCardTableMaster
               search={search}
               operationCardDetail={operationCardDetail}
