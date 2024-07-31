@@ -1,7 +1,6 @@
 import React from 'react';
 
 const OperationCardTable = ({ meltingLotList }: any) => {
-  console.log('monika', meltingLotList);
   return (
     <div className="card py-2 px-2">
       <div className="d-flex justify-content-start">

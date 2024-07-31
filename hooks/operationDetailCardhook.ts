@@ -74,7 +74,11 @@ const useOperationDetailCard = () => {
   const [salesOrderList, setSalesOrderList] = useState<any>([]);
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
-  const [meltingFilterList, setMeltingFiltersList] = <any>useState([]);
+  const [categoryOneOption, setCategoryOneOption] = useState('');
+  const [machineSizeOption, setMachineSizeOption] = useState('');
+  const [chainMakingOption, setChainMakingOption] = useState('');
+  const [filterPurityOption, setFilterPurityOption] = useState('');
+  const [meltingFiltersList, setMeltingFiltersList] = <any>useState([]);
   const [meltingLotList, setMeltingLotList] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
@@ -555,13 +559,31 @@ const useOperationDetailCard = () => {
 
   const getMeltingFiltersFromAPI = async () => {
     const getMeltingFiltersData = await GETMeltingFilters(token);
-    console.log('monika', getMeltingFiltersData);
     setMeltingFiltersList;
     if (getMeltingFiltersData?.status === 200) {
-      setMeltingFiltersList(getMeltingFiltersData?.data?.message?.data);
+      setMeltingFiltersList(getMeltingFiltersData?.data?.message);
     } else {
       setMeltingFiltersList([]);
     }
+  };
+
+  // const handleSelectFilterMeltingChange = (e: any) => {
+  //   setFilterMeltingOptionValue(e.target.value);
+  // };
+  const handleCategoryOneChange = (e: any) => {
+    setCategoryOneOption(e.target.value);
+  };
+
+  const handleMachineSizeChange = (e: any) => {
+    setMachineSizeOption(e.target.value);
+  };
+
+  const handleChainMakingChange = (e: any) => {
+    setChainMakingOption(e.target.value);
+  };
+
+  const handleFilterPurityChange = (e: any) => {
+    setFilterPurityOption(e.target.value);
   };
 
   const getMeltingLotListFromAPI = async () => {
@@ -674,6 +696,16 @@ const useOperationDetailCard = () => {
     handleOperationCardApproval,
     handleCustomerChange,
     meltingLotList,
+    meltingFiltersList,
+    categoryOneOption,
+    machineSizeOption,
+    chainMakingOption,
+    filterPurityOption,
+    handleCategoryOneChange,
+    handleMachineSizeChange,
+    handleChainMakingChange,
+    handleFilterPurityChange,
+
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,

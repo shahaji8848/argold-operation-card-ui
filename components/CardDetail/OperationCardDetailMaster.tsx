@@ -59,6 +59,15 @@ const OperationCardDetailMaster = () => {
     handleOperationCardApproval,
     handleCustomerChange,
     meltingLotList,
+    meltingFiltersList,
+    categoryOneOption,
+    machineSizeOption,
+    chainMakingOption,
+    filterPurityOption,
+    handleCategoryOneChange,
+    handleMachineSizeChange,
+    handleChainMakingChange,
+    handleFilterPurityChange,
   } = useOperationDetailCard();
   console.log('operationCardNextProductProcessDepartment', operationCardProductDept);
   return (
@@ -86,7 +95,18 @@ const OperationCardDetailMaster = () => {
               headerSave={headerSave}
               handleHeaderSave={handleHeaderSave}
             />
-            <OperationCardFiltersMaster meltingLotList={meltingLotList} />
+            <OperationCardFiltersMaster
+              meltingFiltersList={meltingFiltersList}
+              meltingLotList={meltingLotList}
+              categoryOneOption={categoryOneOption}
+              machineSizeOption={machineSizeOption}
+              chainMakingOption={chainMakingOption}
+              filterPurityOption={filterPurityOption}
+              handleCategoryOneChange={handleCategoryOneChange}
+              handleMachineSizeChange={handleMachineSizeChange}
+              handleChainMakingChange={handleChainMakingChange}
+              handleFilterPurityChang={handleFilterPurityChange}
+            />
             <OperationCardTableMaster
               search={search}
               operationCardDetail={operationCardDetail}

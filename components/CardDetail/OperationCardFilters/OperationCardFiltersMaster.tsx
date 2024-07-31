@@ -3,11 +3,20 @@ import OperationCardFilters from './OperationCardFilters';
 import OperationCardTable from './OperationCardTable';
 import OperationCardFiltersOption from './OperationCardFIlterOption';
 
-const OperationCardFiltersMaster = ({ meltingLotList }: any) => {
+const OperationCardFiltersMaster = ({
+  meltingFiltersList,
+  meltingLotList,
+  filterMeltingOptionValue,
+  handleSelectFilterMeltingChange,
+}: any) => {
   return (
     <>
       {/* <OperationCardFilters /> */}
-      <OperationCardFiltersOption />
+      <OperationCardFiltersOption
+        meltingFiltersList={meltingFiltersList}
+        filterMeltingOptionValue={filterMeltingOptionValue}
+        handleSelectFilterMeltingChange={handleSelectFilterMeltingChange}
+      />
       <OperationCardTable meltingLotList={meltingLotList} />
     </>
   );
