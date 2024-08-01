@@ -19,6 +19,7 @@ const OperationCardIssueButton = ({
   operationCardThickness,
   operationCardTone,
   operationCardVariant,
+  operationCardMachine,
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextProductProcess,
@@ -33,13 +34,13 @@ const OperationCardIssueButton = ({
   balanceWeight,
   getOperationCardProductCategory,
   modalFieldsState,
-  operationCardMachine,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
   const checkArray = [
     'karigar',
     'next_karigar',
+    'machine',
     'machine_size',
     'variant',
     'tone',
@@ -183,14 +184,15 @@ const OperationCardIssueButton = ({
 
     console.log('merged next', getSelectedItemObj);
     let initialValuesOfSelectedItem: any = {};
-    // replace next_product_process with word key to get initialValues of all dropdowns.
-    if (getSelectedItemObj.hasOwnProperty('next_product_process')) {
-      initialValuesOfSelectedItem['next_product_process'] = getSelectedItemObj['next_product_process'];
-      console.log('merged next initialValuesOfSelectedItem', initialValuesOfSelectedItem);
-      setModalDropdownFields((prevFields: any) => ({
-        ...prevFields,
-        next_product_process: getSelectedItemObj?.next_product_process,
-      }));
+    if (getSelectedItemObj) {
+      // replace next_product_process with word key to get initialValues of all dropdowns.
+      if (getSelectedItemObj?.hasOwnProperty('next_product_process')) {
+        initialValuesOfSelectedItem['next_product_process'] = getSelectedItemObj['next_product_process'];
+        setModalDropdownFields((prevFields: any) => ({
+          ...prevFields,
+          next_product_process: getSelectedItemObj?.next_product_process,
+        }));
+      }
     }
     setInitialValueForActiveField(initialValuesOfSelectedItem);
 
@@ -290,7 +292,7 @@ const OperationCardIssueButton = ({
       }
 
       if (checkArray?.includes(label)) {
-        if (getSelectedItemObj.hasOwnProperty('next_product_process') && label === 'next_product_process') {
+        if (getSelectedItemObj?.hasOwnProperty('next_product_process') && label === 'next_product_process') {
           alteredObjToCreateDropDownFields[label] = getSelectedItemObj['next_product_process'];
         } else {
           alteredObjToCreateDropDownFields[label] = '';
@@ -356,6 +358,7 @@ const OperationCardIssueButton = ({
 
                 const handleField = (val: any) => {
                   const propMappings: any = {
+                    machine: operationCardMachine,
                     machine_size: operationCardMachineSize,
                     thickness: operationCardThickness,
                     variant: operationCardVariant,
@@ -373,7 +376,6 @@ const OperationCardIssueButton = ({
                     next_product_category: operationCardNextProductCategory,
                     gpc_product: operationCardProduct,
                     worker: operationCardWorkerList,
-                    machine: operationCardMachine,
                   };
                   propToPass = propMappings[val];
                   return propToPass;

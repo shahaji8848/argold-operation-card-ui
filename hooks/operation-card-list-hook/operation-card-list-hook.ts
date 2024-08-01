@@ -69,24 +69,18 @@ const useOperationCardList = () => {
       URLForFiltersHandler();
     }
   };
-
   const handleApplyFilters = () => {
     URLForFiltersHandler();
   };
 
   const handleButtonFilter = (searchValue: any) => {
-    console.log('searchValue', searchValue);
     const currentURLValue = window.location.href;
-    console.log('searchValue', currentURLValue);
     // Construct the new URL
     const newURL = new URL(currentURLValue);
-    console.log('searchValue newURL', newURL);
     // Handle spaces in searchValue
     const encodedSearchValue = encodeURIComponent(searchValue);
-    console.log('searchValue', encodedSearchValue);
     // newURL.searchParams.set('product', encodedSearchValue);
     const newURLWithParam = `${newURL.pathname}?product=${encodedSearchValue}`;
-    console.log('searchValue', newURLWithParam);
     router.push(newURLWithParam);
   };
 

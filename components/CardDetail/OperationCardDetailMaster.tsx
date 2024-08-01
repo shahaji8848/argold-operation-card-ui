@@ -10,6 +10,7 @@ import OperationCardCreationDetail from './OperationCardCreationDetail/Operation
 import Link from 'next/link';
 import MasterOperationCardSellsOrder from './OperationCardSellsOrder/MasterOperationCardSellsOrder';
 import SalesOrderTable from './OperationCardSellsOrder/SalesOrderTable';
+
 const OperationCardDetailMaster = () => {
   const {
     search,
@@ -84,6 +85,7 @@ const OperationCardDetailMaster = () => {
               headerSave={headerSave}
               handleHeaderSave={handleHeaderSave}
             />
+
             <OperationCardTableMaster
               search={search}
               operationCardDetail={operationCardDetail}
@@ -101,6 +103,7 @@ const OperationCardDetailMaster = () => {
               operationCardTone={operationCardTone}
               operationCardConcept={operationCardConcept}
               operationCardVariant={operationCardVariant}
+              operationCardMachine={operationCardMachine}
               operationCardMachineSize={operationCardMachineSize}
               operationCardDesignCodeCategory={operationCardDesignCodeCategory}
               operationCardNextProductProcess={operationCardNextProductProcess}
@@ -121,7 +124,6 @@ const OperationCardDetailMaster = () => {
               balanceWeight={balanceWeight}
               modalFieldsState={modalFieldsState}
               headerSave={headerSave}
-              operationCardMachine={operationCardMachine}
             />
             <SalesOrderTable
               operationCardDetailData={operationCardDetailData}
