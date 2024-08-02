@@ -29,6 +29,7 @@ import { toast } from 'react-toastify';
 import GETSalesOrderList from '@/services/api/operation-card-detail-page/sales-order-list';
 import GETWorkerList from '@/services/api/Worker/worker';
 import POSTOperationCardApprove from '@/services/api/operation-card-detail-page/approval-api';
+import GETCarryForwardSalesOrder from '@/services/api/operation-card-detail-page/custom-op-sales-order';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -71,6 +72,7 @@ const useOperationDetailCard = () => {
   const [lossReportList, setLossReportList] = useState<any>([]);
   const [salesOrderList, setSalesOrderList] = useState<any>([]);
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
+  const [carryForwardSalesOrder, setCarryForwardSalesOrder] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
@@ -93,16 +95,102 @@ const useOperationDetailCard = () => {
       });
     }
   };
+  const getCarryForwardSalesOrderList = async () => {
+    try {
+      const hrefValue = window.location.href;
+      const operationCardName = hrefValue.split('=');
+      const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
 
+      console.log('API Response:', callCarryForwardSalesOrderAPI);
+
+      if (callCarryForwardSalesOrderAPI?.status === 200) {
+        const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
+        console.log('Sales Order List:', salesOrderList);
+
+        if (Array.isArray(salesOrderList)) {
+          setCarryForwardSalesOrder(salesOrderList);
+          console.log('Updated State:', salesOrderList);
+        } else {
+          console.error('Sales order list is not an array:', salesOrderList);
+        }
+      } else {
+        console.error('API call failed with status:', callCarryForwardSalesOrderAPI?.status);
+      }
+    } catch (error) {
+      console.error('Error in API call:', error);
+    }
+  };
+
+  useEffect(() => {
+    getCarryForwardSalesOrderList();
+  }, []);
+  // const operationCardDetail = async () => {
+  //   const hrefValue = window.location.href;
+  //   const splitVal = hrefValue.split('=');
+  //   const operationCardDetailVal = await GETOperationCardDetail(splitVal[1], token);
+  //   if (operationCardDetailVal?.status === 200 && Object.keys(operationCardDetailVal?.data?.data)?.length > 0) {
+  //     setOperationCardDetailData(operationCardDetailVal?.data?.data);
+
+  //     try {
+  //       const hrefValue = window.location.href;
+  //       const operationCardName = hrefValue.split('=');
+  //       const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
+
+  //       console.log('API Response:', callCarryForwardSalesOrderAPI);
+
+  //       if (callCarryForwardSalesOrderAPI?.status === 200) {
+  //         const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
+  //         console.log('Sales Order List:', salesOrderList);
+
+  //         if (Array.isArray(salesOrderList)) {
+  //           setCarryForwardSalesOrder(salesOrderList);
+  //           setSalesOrderList(carryForwardSalesOrder);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error('Error in API call:', error);
+  //     }
+  //     // setSalesOrderList(carryForwardSalesOrder);
+  //     console.log('Updated States:', salesOrderList);
+  //     // setSalesOrderList(carryForwardSalesOrder);
+  //     // setSalesOrderList([...operationCardDetailVal?.data?.data?.operation_card_order_details]);
+  //   } else {
+  //     setOperationCardDetailData({});
+  //     setSalesOrderList(carryForwardSalesOrder);
+  //   }
+  // };
   const operationCardDetail = async () => {
     const hrefValue = window.location.href;
     const splitVal = hrefValue.split('=');
     const operationCardDetailVal = await GETOperationCardDetail(splitVal[1], token);
+
     if (operationCardDetailVal?.status === 200 && Object.keys(operationCardDetailVal?.data?.data)?.length > 0) {
       setOperationCardDetailData(operationCardDetailVal?.data?.data);
-      setSalesOrderList([...operationCardDetailVal?.data?.data?.operation_card_order_details]);
+
+      try {
+        const hrefValue = window.location.href;
+        const operationCardName = hrefValue.split('=');
+        const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
+
+        console.log('API Response:', callCarryForwardSalesOrderAPI);
+
+        if (callCarryForwardSalesOrderAPI?.status === 200) {
+          const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
+          console.log('Sales Order List:', salesOrderList);
+
+          if (Array.isArray(salesOrderList)) {
+            setCarryForwardSalesOrder(salesOrderList);
+            setSalesOrderList(salesOrderList); // Use the value directly
+          }
+        }
+      } catch (error) {
+        console.error('Error in API call:', error);
+      }
+
+      console.log('Updated States:', carryForwardSalesOrder);
     } else {
       setOperationCardDetailData({});
+      setSalesOrderList([]); // Reset to empty array if no data
     }
   };
 
@@ -498,29 +586,48 @@ const useOperationDetailCard = () => {
     }
   };
 
+  // const getCarryForwardSalesOrderList = async () => {
+  //   const hrefValue = window.location.href;
+  //   const operationCardName = hrefValue.split('=');
+  //   const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
+
+  //   if (callCarryForwardSalesOrderAPI?.status === 200) {
+  //     setCarryForwardSalesOrder([...callCarryForwardSalesOrderAPI?.data?.message]);
+
+  //   }
+  // };
+
   const getSalesOrder = async () => {
     const hrefValue = window.location.href;
     const operationCardName = hrefValue.split('=');
     const callSalesOrderAPI = await GETSalesOrderList(operationCardName[1], token);
-    console.log('list sales ord', callSalesOrderAPI);
+
     if (callSalesOrderAPI?.status === 200 && callSalesOrderAPI?.data?.message?.data?.length > 0) {
       setSalesOrderList([...callSalesOrderAPI?.data?.message?.data]);
       console.log('salesOrderList', salesOrderList);
     } else if (
-      operationCardDetailData?.opertion_card_order_details &&
-      operationCardDetailData?.opertion_card_order_details?.length > 0
+      // operationCardDetailData?.opertion_card_order_details &&
+      // operationCardDetailData?.opertion_card_order_details?.length > 0
+      carryForwardSalesOrder?.length > 0
     ) {
-      setSalesOrderList([...operationCardDetailData?.opertion_card_order_details]);
+      // setSalesOrderList([...operationCardDetailData?.opertion_card_order_details]);
+      // const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
+
+      // if (callCarryForwardSalesOrderAPI?.status === 200) {
+      setSalesOrderList([...carryForwardSalesOrder]);
+      console.log('monikamauryanar', salesOrderList);
+      // }
     } else {
       setSalesOrderList([]);
       toast.error('No data found');
     }
   };
 
+  console.log('monikass', operationCardDetailData);
   // Handle changes in customer field
-  const handleCustomerChange = (soisd_item: any, value: any) => {
+  const handleCustomerChange = (order_id: any, value: any) => {
     const updatedList = salesOrderList?.map((order: any) => {
-      if (order?.soisd_item === soisd_item) {
+      if (order?.order_id === order_id) {
         return { ...order, customer: value };
       }
       return order;
@@ -530,12 +637,44 @@ const useOperationDetailCard = () => {
 
   const handleUpdateSalesOrderListWithReadyQty = async () => {
     console.log('updated sales order list', salesOrderList);
-    const dataToSend = salesOrderList.map((order: any) => ({
-      ...order,
-      customer: order.customer ?? '', // Ensure customer name is included
-    }));
+    let transformedDataList: any[] = [];
+
+    salesOrderList.forEach((order: any) => {
+      if (order.qty_size_list && order.qty_size_list.length > 0) {
+        order.qty_size_list.forEach((qtyItem: any) => {
+          let newOrder = {
+            order_id: order.order_id,
+            sales_order: order.sales_order,
+            customer: order.customer ?? '',
+            item: order.item,
+            item_name: order.item_name,
+            size: qtyItem.size,
+            production_qty: qtyItem.production_qty,
+            ready_qty: qtyItem.ready_qty,
+            soisd_item: qtyItem.soisd_item,
+          };
+          transformedDataList.push(newOrder);
+        });
+      } else {
+        let newOrder = {
+          order_id: order.order_id,
+          sales_order: order.sales_order,
+          customer: order.customer ?? '',
+          item: order.item,
+          item_name: order.item_name,
+          size: null,
+          production_qty: null,
+          ready_qty: null,
+          soisd_item: null,
+        };
+        transformedDataList.push(newOrder);
+      }
+    });
+
+    console.log(transformedDataList);
+
     try {
-      const updatedData = await UpdateSalesOrderAPI(dataToSend, operationCardDetailData?.name, token);
+      const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
       if (updatedData?.status === 200) {
         toast.success('Sales order updated successfully');
       }
@@ -559,6 +698,7 @@ const useOperationDetailCard = () => {
 
   useEffect(() => {
     operationCardDetail();
+    getCarryForwardSalesOrderList();
   }, [search]);
   useEffect(() => {
     if (Object.keys(operationCardDetailData).length > 0) {
