@@ -10,7 +10,7 @@ import OperationCardCreationDetail from './OperationCardCreationDetail/Operation
 import Link from 'next/link';
 import MasterOperationCardSellsOrder from './OperationCardSellsOrder/MasterOperationCardSellsOrder';
 import SalesOrderTable from './OperationCardSellsOrder/SalesOrderTable';
-import OperationCardFiltersMaster from './OperationCardFilters/OperationCardFiltersMaster';
+
 const OperationCardDetailMaster = () => {
   const {
     search,
@@ -94,18 +94,6 @@ const OperationCardDetailMaster = () => {
               operationCardKarigarQuantitySettings={operationCardKarigarQuantitySettings}
               headerSave={headerSave}
               handleHeaderSave={handleHeaderSave}
-            />
-            <OperationCardFiltersMaster
-              meltingFiltersList={meltingFiltersList}
-              meltingLotList={meltingLotList}
-              categoryOneOption={categoryOneOption}
-              machineSizeOption={machineSizeOption}
-              chainMakingOption={chainMakingOption}
-              filterPurityOption={filterPurityOption}
-              handleCategoryOneChange={handleCategoryOneChange}
-              handleMachineSizeChange={handleMachineSizeChange}
-              handleChainMakingChange={handleChainMakingChange}
-              handleFilterPurityChang={handleFilterPurityChange}
             />
             <OperationCardTableMaster
               search={search}
