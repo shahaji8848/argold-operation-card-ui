@@ -130,7 +130,7 @@ function SalesOrderTable({
   console.log('monika', salesOrderList);
   const handleChangesInReadyQty = (key: any, userEnteredValue: number, order_id: string) => {
     let showError: boolean = false;
-    // console.log('user enter', key, userEnteredValue, order_id);
+    console.log('user enter', key, userEnteredValue, order_id);
     if (key === 'Backspace') {
       setSalesOrderList((prevData: any[]) => {
         const updatedData = prevData.map((item: any) => {
@@ -152,7 +152,8 @@ function SalesOrderTable({
         setSalesOrderList((prevData: any[]) => {
           const updatedData = prevData.map((item: any) => {
             if (item?.order_id === order_id) {
-              if (!isNaN(userEnteredValue) && userEnteredValue <= item.production_qty) {
+              const totalQty = parseFloat(item.total_qty);
+              if (!isNaN(userEnteredValue) && userEnteredValue === totalQty) {
                 return { ...item, ready_qty: userEnteredValue };
               } else {
                 if (!showError) {

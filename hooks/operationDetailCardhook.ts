@@ -615,7 +615,7 @@ const useOperationDetailCard = () => {
 
       // if (callCarryForwardSalesOrderAPI?.status === 200) {
       setSalesOrderList([...carryForwardSalesOrder]);
-      console.log('monikamauryanar', salesOrderList);
+
       // }
     } else {
       setSalesOrderList([]);
@@ -623,7 +623,6 @@ const useOperationDetailCard = () => {
     }
   };
 
-  console.log('monikass', operationCardDetailData);
   // Handle changes in customer field
   const handleCustomerChange = (order_id: any, value: any) => {
     const updatedList = salesOrderList?.map((order: any) => {
@@ -650,7 +649,7 @@ const useOperationDetailCard = () => {
             item_name: order.item_name,
             size: qtyItem.size,
             production_qty: qtyItem.production_qty,
-            ready_qty: qtyItem.ready_qty,
+            ready_qty: qtyItem.production_qty,
             soisd_item: qtyItem.soisd_item,
           };
           transformedDataList.push(newOrder);
