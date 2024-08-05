@@ -2,7 +2,6 @@ import Link from 'next/link';
 import React from 'react';
 
 const OperationCardFiltersOption = ({ meltingFiltersList, filterMeltingOptionValue, handleSelectFilterMeltingChange }: any) => {
-  console.log('monika', meltingFiltersList?.data?.category_one);
   return (
     <>
       <div className="row mt-3">
@@ -17,19 +16,19 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterMeltingOptionVal
       <div className="row">
         <div className="col-12 py-3">
           <div className="d-inline-block me-3">
-            <div className="me-2 bold">Category One:</div>
+            <div className="me-2 bold">Product Category</div>
             <select
               className="form-select d-inline w-auto"
               value={filterMeltingOptionValue}
               onChange={handleSelectFilterMeltingChange}
             >
-              {meltingFiltersList?.data?.category_one &&
-                meltingFiltersList?.data?.category_one?.map((list: any, idx: any) => {
+              <option key={''} value={''}>
+                All
+              </option>
+              {meltingFiltersList?.data?.product_category &&
+                meltingFiltersList?.data?.product_category?.map((list: any, idx: any) => {
                   return (
                     <>
-                      {/* <option key={''} value={''}>
-                        All
-                      </option> */}
                       <option key={idx} value={list?.name}>
                         {list?.name}
                       </option>
@@ -40,20 +39,20 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterMeltingOptionVal
           </div>
 
           <div className="d-inline-block me-3">
-            <div className="me-2 bold">Machine Size:</div>
+            <div className="me-2 bold">Machine Size</div>
             <select
               className="form-select d-inline w-auto"
               value={filterMeltingOptionValue}
               onChange={handleSelectFilterMeltingChange}
             >
+              <option key={''} value={''}>
+                All
+              </option>
               {meltingFiltersList?.data?.machine_size &&
                 meltingFiltersList?.data?.machine_size?.map((list: any, idx: any) => {
                   return (
                     <>
                       <option key={''} value={''}>
-                        All
-                      </option>
-                      <option key={''} value={''}>
                         {list?.name}
                       </option>
                     </>
@@ -63,24 +62,32 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterMeltingOptionVal
           </div>
 
           <div className="d-inline-block me-3">
-            <div className="me-2 bold">Design Code:</div>
+            <div className="me-2 bold">Design </div>
             <select className="form-select d-inline w-auto">
               <option>All</option>
-              <option>Without Design Code</option>
-              <option>With Design Code</option>
+              {meltingFiltersList?.data?.design_code &&
+                meltingFiltersList?.data?.design_code?.map((list: any, idx: any) => {
+                  return (
+                    <>
+                      <option key={idx} value={list?.name}>
+                        {list?.name}
+                      </option>
+                    </>
+                  );
+                })}
             </select>
           </div>
 
           <div className="d-inline-block me-3" value={filterMeltingOptionValue} onChange={handleSelectFilterMeltingChange}>
-            <div className="me-2 bold">Chain Making:</div>
+            <div className="me-2 bold">Cutting Process:</div>
             <select className="form-select d-inline w-auto">
+              <option key={''} value={''}>
+                All
+              </option>
               {meltingFiltersList?.data?.chain_making &&
                 meltingFiltersList?.data?.chain_making?.map((list: any, idx: any) => {
                   return (
                     <>
-                      <option key={''} value={''}>
-                        All
-                      </option>
                       <option key={idx} value={list?.name}>
                         {list?.name}
                       </option>
@@ -91,7 +98,7 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterMeltingOptionVal
           </div>
 
           <div className="d-inline-block me-3">
-            <div className="me-2 bold">Status:</div>
+            <div className="me-2 bold">Status</div>
             <select className="form-select d-inline w-auto">
               <option>All</option>
               <option>Pending (Melting)</option>
@@ -101,19 +108,19 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterMeltingOptionVal
           </div>
 
           <div className="d-inline-block me-3">
-            <div className="me-2 bold">Purity:</div>
+            <div className="me-2 bold">Purity</div>
             <select
               className="form-select d-inline w-auto"
               value={filterMeltingOptionValue}
               onChange={handleSelectFilterMeltingChange}
             >
+              <option key={''} value={''}>
+                All
+              </option>
               {meltingFiltersList?.data?.purity &&
                 meltingFiltersList?.data?.purity?.map((list: any, idx: any) => {
                   return (
                     <>
-                      <option key={''} value={''}>
-                        All
-                      </option>
                       <option key={idx} value={list?.name}>
                         {list?.name}
                       </option>
