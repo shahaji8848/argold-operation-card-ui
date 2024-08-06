@@ -20,41 +20,49 @@ const rowsBuilder = (
   rowData: any,
   doGetAllOrders: boolean,
   selectedItems: any,
-  handleCheckboxChange: (soisd_item: string) => void,
-  handleChangesInReadyQty: (key: any, changedValue: number, soisd_item: string) => void,
-  handleCustomerChange: (soisd_item: any, value: any) => void
+  handleCheckboxChange: (order_id: string) => void,
+  handleChangesInReadyQty: (key: any, changedValue: number, order_id: string) => void,
+  handleCustomerChange: (order_id: any, value: any) => void
 ) => {
   return (
-    <tr className="table-text" key={rowData?.soisd_item}>
+    <tr className="table-text" key={rowData?.order_id}>
       <td className="text-center">
         <input
           type="checkbox"
-          onChange={() => handleCheckboxChange(rowData?.soisd_item)}
-          checked={selectedItems.includes(rowData?.soisd_item)}
+          onChange={() => handleCheckboxChange(rowData?.order_id)}
+          checked={selectedItems.includes(rowData?.order_id)}
         />
       </td>
       <td className="text-center">
-        {/* {rowData?.customer && (rowData?.customer !== '' || rowData?.customer !== null) ? (
-          <input
-            type="text"
-            value={rowData?.customer ? rowData?.customer : ''}
-            onChange={(e) => handleCustomerChange(rowData?.soisd_item, e.target.value)}
-          />
-        ) : (
-          '--'
-        )} */}
         <input
           type="text"
           value={rowData?.customer ? rowData?.customer : ''}
           className="px-1 input_fields py-1 rounded-2 grey"
-          onChange={(e) => handleCustomerChange(rowData?.soisd_item, e.target.value)}
+          onChange={(e) => handleCustomerChange(rowData?.order_id, e.target.value)}
         />
       </td>
       <td className="text-center">{rowData?.sales_order}</td>
       <td className="text-center">{rowData?.item}</td>
       <td className="text-center">{doGetAllOrders ? rowData?.item_name : rowData?.design}</td>
-      <td className="text-center">{rowData?.production_qty}</td>
-      <td className="text-center">{rowData?.size}</td>
+      <td className="text-center">
+        {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
+          return (
+            <>
+              <div key={idx}>{qtyList?.production_qty}</div>
+            </>
+          );
+        })}
+      </td>
+      <td className="text-center">
+        {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
+          return (
+            <>
+              <div key={idx}>{qtyList?.size}</div>
+            </>
+          );
+        })}
+      </td>
+
       {hasGPCItem(operationCardDetailData) && (
         <td className="text-center d-flex justify-content-center">
           <input
@@ -62,11 +70,11 @@ const rowsBuilder = (
             className="input_fields px-2 py-1 rounded-2 text-center"
             style={{ width: '100%', maxWidth: '120px' }}
             value={rowData?.ready_qty ?? 0}
-            onChange={(e: any) => handleChangesInReadyQty(e.key, parseInt(e.target.value), rowData?.soisd_item)}
+            onChange={(e: any) => handleChangesInReadyQty(e.key, parseInt(e.target.value), rowData?.order_id)}
             onKeyDown={(e: any) => {
               if (e.key === 'Backspace') {
                 // Clear the value of the input field
-                handleChangesInReadyQty(e.key, e.target.value, rowData?.soisd_item);
+                handleChangesInReadyQty(e.key, e.target.value, rowData?.order_id);
               }
             }}
           />
@@ -92,7 +100,7 @@ function SalesOrderTable({
 
   const handleHeaderCheckboxChange = () => {
     setIsHeaderCheckboxChecked(!isHeaderCheckboxChecked);
-    setSelectedItems(isHeaderCheckboxChecked ? [] : salesOrderList.map((data: any) => data.soisd_item));
+    setSelectedItems(isHeaderCheckboxChecked ? [] : salesOrderList.map((data: any) => data.order_id));
   };
 
   const handleCheckboxChange = (itemId: string) => {
@@ -106,7 +114,7 @@ function SalesOrderTable({
   const handleDeleteSelectedItems = () => {
     const updatedData: any = [];
     salesOrderList.forEach((item: any) => {
-      if (!selectedItems.includes(item.soisd_item)) {
+      if (!selectedItems.includes(item.order_id)) {
         updatedData.push(item);
       }
     });
@@ -119,14 +127,14 @@ function SalesOrderTable({
     setSelectedItems([]);
     setIsHeaderCheckboxChecked(false);
   };
-
-  const handleChangesInReadyQty = (key: any, userEnteredValue: number, soisd_item: string) => {
+  console.log('monika', salesOrderList);
+  const handleChangesInReadyQty = (key: any, userEnteredValue: number, order_id: string) => {
     let showError: boolean = false;
-    // console.log('user enter', key, userEnteredValue, soisd_item);
+    console.log('user enter', key, userEnteredValue, order_id);
     if (key === 'Backspace') {
       setSalesOrderList((prevData: any[]) => {
         const updatedData = prevData.map((item: any) => {
-          if (item?.soisd_item === soisd_item) {
+          if (item?.order_id === order_id) {
             return { ...item, ready_qty: '' };
           }
           return item;
@@ -143,8 +151,9 @@ function SalesOrderTable({
       } else {
         setSalesOrderList((prevData: any[]) => {
           const updatedData = prevData.map((item: any) => {
-            if (item?.soisd_item === soisd_item) {
-              if (!isNaN(userEnteredValue) && userEnteredValue <= item.production_qty) {
+            if (item?.order_id === order_id) {
+              const totalQty = parseFloat(item.total_qty);
+              if (!isNaN(userEnteredValue) && userEnteredValue === totalQty) {
                 return { ...item, ready_qty: userEnteredValue };
               } else {
                 if (!showError) {
