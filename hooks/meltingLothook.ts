@@ -27,7 +27,6 @@ const useMeltingLot = () => {
   };
 
   const handleProductChange = (e: any) => {
-    console.log('hello');
     setProductOption(e.target.value);
   };
 
@@ -36,7 +35,6 @@ const useMeltingLot = () => {
   };
 
   const handleMachineSizeChange = (e: any) => {
-    console.log('monika');
     setMachineSizeOption(e.target.value);
   };
   const handleDesignChange = (e: any) => {

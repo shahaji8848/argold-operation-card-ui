@@ -2,7 +2,6 @@ import Image from 'next/image';
 import React from 'react';
 
 const OperationCardTable = ({ meltingLotList }: any) => {
-  console.log('monika', meltingLotList);
   return (
     <div className="card py-2 px-2">
       {meltingLotList &&
@@ -51,7 +50,6 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                   </tr>
                 </thead>
                 <tbody className="card-listing-body">
-                  {console.log(meltingData?.linked_operations, 'maurya')}
                   {meltingData?.linked_operations && meltingData?.linked_operations.length > 0 ? (
                     meltingData?.linked_operations?.map((meltingData: any, idx: any) => {
                       return (

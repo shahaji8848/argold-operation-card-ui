@@ -18,7 +18,6 @@ const OperationCardFiltersOption = ({
   handleStatusChange,
   handlePurityChange,
 }: any) => {
-  console.log('monika', meltingFiltersList?.product_category);
   return (
     <>
       <div className="row mt-3">
