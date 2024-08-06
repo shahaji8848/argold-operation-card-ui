@@ -34,6 +34,7 @@ const OperationCardIssueButton = ({
   balanceWeight,
   getOperationCardProductCategory,
   modalFieldsState,
+  salesOrderList,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -73,6 +74,7 @@ const OperationCardIssueButton = ({
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
   const [getValues, setGetValues] = useState<any>([]);
+  const [selectedIssueBtnData, setSelectedIssueBtnData] = useState<any>({});
 
   const [mergedObjsState, setMergedObjsState] = useState<any>({});
 
@@ -182,7 +184,7 @@ const OperationCardIssueButton = ({
       (issueItem: any) => issueItem?.item === value
     );
 
-    console.log('merged next', getSelectedItemObj);
+    setSelectedIssueBtnData(getSelectedItemObj);
     let initialValuesOfSelectedItem: any = {};
     if (getSelectedItemObj) {
       // replace next_product_process with word key to get initialValues of all dropdowns.
@@ -313,6 +315,7 @@ const OperationCardIssueButton = ({
     inputInWeightRef.current?.focus();
   }, [show]);
 
+  console.log('salesOrderList', salesOrderList);
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
@@ -340,7 +343,6 @@ const OperationCardIssueButton = ({
 
       <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
-          {' '}
           <h6 className="">Item: {itemName}</h6>
         </Modal.Header>
         <Modal.Body>
@@ -466,6 +468,53 @@ const OperationCardIssueButton = ({
                 );
               })}
           </div>
+          {selectedIssueBtnData.item === 'Customer' && (
+            <div className="row mt-2">
+              <div className="col-md-12">
+                <div className="table-responsive mt-2">
+                  <table className="table table-bordered">
+                    <thead>
+                      <tr className="table-text">
+                        <th className="thead-dark text-center" scope="col"></th>
+                        <th className="thead-dark text-center" scope="col">
+                          Sales Order
+                        </th>
+                        <th className="thead-dark text-center" scope="col">
+                          Market Design
+                        </th>
+                        <th className="thead-dark text-center" scope="col">
+                          Production Qty
+                        </th>
+                        <th className="thead-dark text-center" scope="col">
+                          Size
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {salesOrderList?.length > 0 &&
+                        salesOrderList.map((orderData: any, index: any) => {
+                          return (
+                            <tr className="table-text" key={index}>
+                              <td className="text-center">
+                                <input
+                                  type="checkbox"
+                                  // onChange={handleHeaderCheckboxChange} checked={isHeaderCheckboxChecked}
+                                />
+                              </td>
+                              <td className="text-center">{orderData.sales_order}</td>
+                              <td className="text-center">{orderData.market_design_name}</td>
+                              <td className="text-center">{orderData.production_qty}</td>
+                              <td className="text-center">{orderData.size}</td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
           {getValues?.length > 0 ? (
             <div className="d-flex justify-content-start mt-3">
               <button
