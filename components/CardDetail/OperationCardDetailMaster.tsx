@@ -60,7 +60,7 @@ const OperationCardDetailMaster = () => {
     handleOperationCardApproval,
     handleCustomerChange,
   } = useOperationDetailCard();
-  console.log('operationCardNextProductProcessDepartment', operationCardProductDept);
+  console.log('operationCardNextProductProcessDepartment', operationCardDetailData);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (

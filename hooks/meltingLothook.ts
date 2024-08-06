@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import GETMeltingFilters from '@/services/api/melting-lot-dashboard-page/melting-filters';
 import GETMeltingLotList from '@/services/api/melting-lot-dashboard-page/melting-lot-list';
 import { get_access_token } from '@/store/slice/login-slice';
 import { useSelector } from 'react-redux';
 
 const useMeltingLot = () => {
-  const [categoryOneOption, setCategoryOneOption] = useState('');
+  const [productOption, setProductOption] = useState('');
+  const [categoryOption, setCategoryOption] = useState('');
   const [machineSizeOption, setMachineSizeOption] = useState('');
-  const [chainMakingOption, setChainMakingOption] = useState('');
-  const [filterPurityOption, setFilterPurityOption] = useState('');
+  const [designOption, setDesignOption] = useState('');
+  const [cuttingProcessOption, setCuttingProcessOption] = useState('');
+  const [statusOption, setStatusOption] = useState('');
+  const [purityOption, setPurityOption] = useState('');
   const [meltingFiltersList, setMeltingFiltersList] = <any>useState([]);
   const [meltingLotList, setMeltingLotList] = useState<any>([]);
   const { token } = useSelector(get_access_token);
@@ -23,47 +26,74 @@ const useMeltingLot = () => {
     }
   };
 
-  const handleCategoryOneChange = (e: any) => {
-    setCategoryOneOption(e.target.value);
+  const handleProductChange = (e: any) => {
+    console.log('hello');
+    setProductOption(e.target.value);
+  };
+
+  const handleCategoryChange = (e: any) => {
+    setCategoryOption(e.target.value);
   };
 
   const handleMachineSizeChange = (e: any) => {
+    console.log('monika');
     setMachineSizeOption(e.target.value);
   };
-
-  const handleChainMakingChange = (e: any) => {
-    setChainMakingOption(e.target.value);
+  const handleDesignChange = (e: any) => {
+    setDesignOption(e.target.value);
+  };
+  const handleCuttingProcessChange = (e: any) => {
+    setCuttingProcessOption(e.target.value);
+  };
+  const handleStatusChange = (e: any) => {
+    setStatusOption(e.target.value);
   };
 
-  const handleFilterPurityChange = (e: any) => {
-    setFilterPurityOption(e.target.value);
+  const handlePurityChange = (e: any) => {
+    setPurityOption(e.target.value);
   };
 
   const getMeltingLotListFromAPI = async () => {
-    const getMeltingLotList = await GETMeltingLotList(token);
+    const getMeltingLotList = await GETMeltingLotList({
+      token,
+      productOption,
+      categoryOption,
+      machineSizeOption,
+      designOption,
+      cuttingProcessOption,
+      purityOption,
+      statusOption,
+    });
     if (getMeltingLotList?.status === 200) {
       setMeltingLotList(getMeltingLotList?.data?.message?.data);
     } else {
       setMeltingLotList([]);
     }
   };
-
   useEffect(() => {
     getMeltingFiltersFromAPI();
-    getMeltingLotListFromAPI();
   }, []);
+  useEffect(() => {
+    getMeltingLotListFromAPI();
+  }, [productOption, categoryOption, machineSizeOption, designOption, cuttingProcessOption, statusOption, purityOption]);
 
   return {
     meltingLotList,
     meltingFiltersList,
-    categoryOneOption,
+    productOption,
+    categoryOption,
     machineSizeOption,
-    chainMakingOption,
-    filterPurityOption,
-    handleCategoryOneChange,
+    designOption,
+    cuttingProcessOption,
+    statusOption,
+    purityOption,
+    handleProductChange,
+    handleCategoryChange,
     handleMachineSizeChange,
-    handleChainMakingChange,
-    handleFilterPurityChange,
+    handleDesignChange,
+    handleCuttingProcessChange,
+    handleStatusChange,
+    handlePurityChange,
   };
 };
 

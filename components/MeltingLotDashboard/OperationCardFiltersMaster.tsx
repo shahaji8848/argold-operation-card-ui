@@ -8,14 +8,20 @@ const MeltingLotDashboardMaster = () => {
   const {
     meltingFiltersList,
     meltingLotList,
-    categoryOneOption,
+    productOption,
+    categoryOption,
     machineSizeOption,
-    chainMakingOption,
-    filterPurityOption,
-    handleCategoryOneChange,
+    designOption,
+    cuttingProcessOption,
+    statusOption,
+    purityOption,
+    handleProductChange,
+    handleCategoryChange,
     handleMachineSizeChange,
-    handleChainMakingChange,
-    handleFilterPurityChange,
+    handleDesignChange,
+    handleCuttingProcessChange,
+    handleStatusChange,
+    handlePurityChange,
   } = useMeltingLot();
   return (
     <div className="container-fluid">
@@ -23,14 +29,20 @@ const MeltingLotDashboardMaster = () => {
         {/* <OperationCardFilters /> */}
         <OperationCardFiltersOption
           meltingFiltersList={meltingFiltersList}
-          categoryOneOption={categoryOneOption}
+          productOption={productOption}
+          categoryOption={categoryOption}
           machineSizeOption={machineSizeOption}
-          chainMakingOption={chainMakingOption}
-          filterPurityOption={filterPurityOption}
-          handleCategoryOneChange={handleCategoryOneChange}
+          designOption={designOption}
+          cuttingProcessOption={cuttingProcessOption}
+          statusOption={statusOption}
+          purityOption={purityOption}
+          handleProductChange={handleProductChange}
+          handleCategoryChange={handleCategoryChange}
           handleMachineSizeChange={handleMachineSizeChange}
-          handleChainMakingChange={handleChainMakingChange}
-          handleFilterPurityChange={handleFilterPurityChange}
+          handleDesignChange={handleDesignChange}
+          handleCuttingProcessChange={handleCuttingProcessChange}
+          handleStatusChange={handleStatusChange}
+          handlePurityChange={handlePurityChange}
         />
         <OperationCardTable meltingLotList={meltingLotList} />
       </div>
