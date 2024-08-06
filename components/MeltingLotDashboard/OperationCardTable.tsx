@@ -18,7 +18,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                   <span>(purity: {meltingData?.purity}) &nbsp;</span>
                   <span>(hook purity: {meltingData?.hook_purity}) &nbsp;</span>
                   <span>
-                    (balance order weight:{' '}
+                    (balance order weight:
                     {meltingData?.balance_order_weight || meltingData?.balance_order_weight === null
                       ? '--'
                       : meltingData?.balance_order_weight}
