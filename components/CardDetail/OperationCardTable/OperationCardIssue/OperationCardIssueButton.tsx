@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from '../../../../styles/operationDetail.module.css';
-import Modal from 'react-bootstrap/Modal';
-import AutoCompleteField from './AutoCompleteField';
 import POSTModalData from '@/services/api/operation-card-detail-page/modal-save';
-import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
-import { Toast, ToastContainer } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 import { get_access_token } from '@/store/slice/login-slice';
+import { useEffect, useRef, useState } from 'react';
+import { Toast, ToastContainer } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+import { useSelector } from 'react-redux';
+import styles from '../../../../styles/operationDetail.module.css';
+import AutoCompleteField from './AutoCompleteField';
+import ModalSalesTable from './ModalSalesTable';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -315,7 +315,7 @@ const OperationCardIssueButton = ({
     inputInWeightRef.current?.focus();
   }, [show]);
 
-  console.log('salesOrderList', salesOrderList);
+  console.log('operationCardProductDept', operationCardProductDept);
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
@@ -468,52 +468,6 @@ const OperationCardIssueButton = ({
                 );
               })}
           </div>
-          {selectedIssueBtnData.item === 'Customer' && (
-            <div className="row mt-2">
-              <div className="col-md-12">
-                <div className="table-responsive mt-2">
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr className="table-text">
-                        <th className="thead-dark text-center" scope="col"></th>
-                        <th className="thead-dark text-center" scope="col">
-                          Sales Order
-                        </th>
-                        <th className="thead-dark text-center" scope="col">
-                          Market Design
-                        </th>
-                        <th className="thead-dark text-center" scope="col">
-                          Production Qty
-                        </th>
-                        <th className="thead-dark text-center" scope="col">
-                          Size
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {salesOrderList?.length > 0 &&
-                        salesOrderList.map((orderData: any, index: any) => {
-                          return (
-                            <tr className="table-text" key={index}>
-                              <td className="text-center">
-                                <input
-                                  type="checkbox"
-                                  // onChange={handleHeaderCheckboxChange} checked={isHeaderCheckboxChecked}
-                                />
-                              </td>
-                              <td className="text-center">{orderData.sales_order}</td>
-                              <td className="text-center">{orderData.market_design_name}</td>
-                              <td className="text-center">{orderData.production_qty}</td>
-                              <td className="text-center">{orderData.size}</td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          )}
 
           {getValues?.length > 0 ? (
             <div className="d-flex justify-content-start mt-3">
@@ -530,6 +484,12 @@ const OperationCardIssueButton = ({
             ''
           )}
           {emptyFieldsErr && <p className="mt-3 text-danger">Please fill all the fields</p>}
+
+          {selectedIssueBtnData.item === 'Customer' && (
+            <>
+           <ModalSalesTable salesOrderList={salesOrderList} operationCardDetailData={operationCardDetailData}/>
+            </>
+          )}
         </Modal.Body>
       </Modal>
 
