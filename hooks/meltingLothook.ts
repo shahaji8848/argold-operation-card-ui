@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import GETMeltingFilters from '@/services/api/melting-lot-dashboard-page/melting-filters';
 import GETMeltingLotList from '@/services/api/melting-lot-dashboard-page/melting-lot-list';
 import { get_access_token } from '@/store/slice/login-slice';

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React from 'react';
 
 const OperationCardFiltersOption = ({
@@ -20,37 +19,6 @@ const OperationCardFiltersOption = ({
 }: any) => {
   return (
     <>
-      <div className="row mt-3">
-        <div className="col-12">
-          {/* <div className="me-2 bold">Product </div>
-          <select
-            className="form-select d-inline w-auto"
-            value={filterMeltingOptionValue}
-            onChange={handleSelectFilterMeltingChange}
-          >
-            <option key={''} value={''}>
-              All
-            </option>
-            {meltingFiltersList?.product &&
-              meltingFiltersList?.product?.map((list: any, idx: any) => {
-                return (
-                  <>
-                    <option key={idx} value={list}>
-                      {list}
-                    </option>
-                  </>
-                );
-              })}
-          </select> */}
-          {/* <button className="me-4 text-uppercase btn btn-blue btn-py">Add Ka Chain Order</button>
-          <button className="me-4 text-uppercase btn btn-blue btn-py">Add Ka Chain Single Order</button>
-          <button className="me-4 text-uppercase btn btn-blue btn-py">Add Ka Chain Dhoom Order</button> */}
-          {/* <div className="d-flex justify-content-end">
-            <button className="text-end btn btn-blue btn-py me-4">Edit</button>
-          </div> */}
-        </div>
-      </div>
-
       <div className="row">
         <div className="col-12 py-3">
           <div className="d-inline-block me-3">

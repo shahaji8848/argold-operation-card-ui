@@ -1,5 +1,4 @@
 import React from 'react';
-// import OperationCardFilters from './OperationCardFilters';
 import OperationCardTable from './OperationCardTable';
 import OperationCardFiltersOption from './OperationCardFIlterOption';
 import useMeltingLot from '@/hooks/meltingLothook';
@@ -26,7 +25,6 @@ const MeltingLotDashboardMaster = () => {
   return (
     <div className="container-fluid">
       <div className="spacing-pd">
-        {/* <OperationCardFilters /> */}
         <OperationCardFiltersOption
           meltingFiltersList={meltingFiltersList}
           productOption={productOption}

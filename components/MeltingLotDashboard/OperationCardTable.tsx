@@ -41,7 +41,6 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                       'touch purity',
                       'fire touch purity',
                       'wastage',
-                      // '',
                     ].map((val: any, index: any) => (
                       <th className="thead-dark text-center" scope="col" key={index}>
                         {val}
@@ -117,9 +116,6 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                           <td>
                             {meltingData?.waistage === '' || meltingData?.waistage === null ? '--' : meltingData?.waistage}{' '}
                           </td>
-                          {/* <td>
-                            <button className="btn btn-blue btn-py  mt-1 px-3 ms-2">Edit</button>
-                          </td> */}
                         </tr>
                       );
                     })
