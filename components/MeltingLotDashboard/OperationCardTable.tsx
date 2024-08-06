@@ -1,23 +1,41 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const OperationCardTable = ({ meltingLotList }: any) => {
+  console.log('monika', meltingLotList);
   return (
     <div className="card py-2 px-2">
-      {meltingLotList &&
+      {meltingLotList && meltingLotList?.length > 0 ? (
         meltingLotList?.map((meltingData: any, idx: any) => {
           return (
             <div>
               <div className="d-flex justify-content-between">
                 <div>
-                  <span className="text-uppercase text-danger bold pe-2 fs-14">{meltingData?.id}</span>
+                  <span className="text-uppercase text-danger bold pe-2 fs-14">
+                    {meltingData?.melting_lot === '' || meltingData?.melting_lot === null ? '--' : meltingData?.melting_lot}
+                  </span>
                   <span>(purity: {meltingData?.purity}) &nbsp;</span>
                   <span>(hook purity: {meltingData?.hook_purity}) &nbsp;</span>
-                  <span>(balance order weight: --) &nbsp;</span>
-                  <p className="text-uppercase text-success bold mt-1 fs-14">box powder --</p>
+                  <span>
+                    (balance order weight:{' '}
+                    {meltingData?.balance_order_weight || meltingData?.balance_order_weight === null
+                      ? '--'
+                      : meltingData?.balance_order_weight}
+                    ) &nbsp;
+                  </span>
+                  <p className="text-uppercase text-success bold mt-1 fs-14">
+                    {meltingData?.title === '' || meltingData?.title === null ? '--' : meltingData?.title}
+                  </p>
                 </div>
                 <div>
-                  <button className="text-end btn btn-blue btn-py ">Edit</button>
+                  {meltingData?.docstatus !== 1 && (
+                    <button className="text-end btn btn-blue btn-py ">
+                      <Link href={meltingData?.edit_url} className="text-white">
+                        Edit
+                      </Link>
+                    </button>
+                  )}
                 </div>
               </div>
               <table className="table table-bordered">
@@ -131,7 +149,15 @@ const OperationCardTable = ({ meltingLotList }: any) => {
               </table>
             </div>
           );
-        })}
+        })
+      ) : (
+        <div className="d-flex justify-content-center">
+          <div className="text-center w-100 my-4">
+            <Image src="/grid-empty-state.png" alt="empty Logo" width={40} height={42} className="my-2" />
+            <div className="fs-14 grey">No Data </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
