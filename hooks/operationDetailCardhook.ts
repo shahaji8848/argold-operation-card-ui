@@ -28,8 +28,8 @@ import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/updat
 import { toast } from 'react-toastify';
 import GETSalesOrderList from '@/services/api/operation-card-detail-page/sales-order-list';
 import GETWorkerList from '@/services/api/Worker/worker';
-import GETMeltingLotList from '@/services/api/operation-card-detail-page/melting-lot-list';
-import GETMeltingFilters from '@/services/api/operation-card-detail-page/melting-filters';
+import GETMeltingLotList from '@/services/api/melting-lot-dashboard-page/melting-lot-list';
+import GETMeltingFilters from '@/services/api/melting-lot-dashboard-page/melting-filters';
 import POSTOperationCardApprove from '@/services/api/operation-card-detail-page/approval-api';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
@@ -74,12 +74,6 @@ const useOperationDetailCard = () => {
   const [salesOrderList, setSalesOrderList] = useState<any>([]);
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
-  const [categoryOneOption, setCategoryOneOption] = useState('');
-  const [machineSizeOption, setMachineSizeOption] = useState('');
-  const [chainMakingOption, setChainMakingOption] = useState('');
-  const [filterPurityOption, setFilterPurityOption] = useState('');
-  const [meltingFiltersList, setMeltingFiltersList] = <any>useState([]);
-  const [meltingLotList, setMeltingLotList] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -557,49 +551,6 @@ const useOperationDetailCard = () => {
     const saveOP = await POSTOperationCardSave(search, filteredData, token);
   };
 
-  const getMeltingFiltersFromAPI = async () => {
-    const getMeltingFiltersData = await GETMeltingFilters(token);
-    setMeltingFiltersList;
-    if (getMeltingFiltersData?.status === 200) {
-      setMeltingFiltersList(getMeltingFiltersData?.data?.message);
-    } else {
-      setMeltingFiltersList([]);
-    }
-  };
-
-  // const handleSelectFilterMeltingChange = (e: any) => {
-  //   setFilterMeltingOptionValue(e.target.value);
-  // };
-  const handleCategoryOneChange = (e: any) => {
-    setCategoryOneOption(e.target.value);
-  };
-
-  const handleMachineSizeChange = (e: any) => {
-    setMachineSizeOption(e.target.value);
-  };
-
-  const handleChainMakingChange = (e: any) => {
-    setChainMakingOption(e.target.value);
-  };
-
-  const handleFilterPurityChange = (e: any) => {
-    setFilterPurityOption(e.target.value);
-  };
-
-  const getMeltingLotListFromAPI = async () => {
-    const getMeltingLotList = await GETMeltingLotList(token);
-    if (getMeltingLotList?.status === 200) {
-      setMeltingLotList(getMeltingLotList?.data?.message?.data);
-    } else {
-      setMeltingLotList([]);
-    }
-  };
-
-  useEffect(() => {
-    getMeltingFiltersFromAPI();
-    getMeltingLotListFromAPI();
-  }, []);
-
   useEffect(() => {
     if (balanceWeight !== '') {
       setModalFieldsState({ in_weight: balanceWeight });
@@ -695,16 +646,6 @@ const useOperationDetailCard = () => {
     handleUpdateSalesOrderListWithReadyQty,
     handleOperationCardApproval,
     handleCustomerChange,
-    meltingLotList,
-    meltingFiltersList,
-    categoryOneOption,
-    machineSizeOption,
-    chainMakingOption,
-    filterPurityOption,
-    handleCategoryOneChange,
-    handleMachineSizeChange,
-    handleChainMakingChange,
-    handleFilterPurityChange,
 
     // getOperationCardSellsOrder,
     // sellsOrderData,
