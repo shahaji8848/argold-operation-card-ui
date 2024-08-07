@@ -60,7 +60,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         'touch purity',
                         'fire touch purity',
                         'wastage',
-                        'order details',
+                        'add order details',
                       ].map((val: any, index: any) => (
                         <th className="thead-dark text-center" scope="col" key={index}>
                           {val}
