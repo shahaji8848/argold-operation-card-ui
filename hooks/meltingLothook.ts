@@ -33,7 +33,7 @@ const useMeltingLot = () => {
   const getButtonMeltingLabelFromAPI = async () => {
     const getButtonMeltingLabelData = await GETMeltingButton(token);
     if (getButtonMeltingLabelData?.status === 200) {
-      setButtonLabel(getButtonMeltingLabelData?.data?.message);
+      setButtonLabel(getButtonMeltingLabelData?.data?.message?.data);
     } else {
       setButtonLabel([]);
     }

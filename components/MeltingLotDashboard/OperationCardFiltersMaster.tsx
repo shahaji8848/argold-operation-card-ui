@@ -9,7 +9,7 @@ const MeltingLotDashboardMaster = () => {
   return (
     <div className="container-fluid">
       <div className="spacing-pd">
-        {/* <MeltingLotHeaderButton buttonLabel={buttonLabel} /> */}
+        <MeltingLotHeaderButton buttonLabel={buttonLabel} />
         <OperationCardFiltersOption
           meltingFiltersList={meltingFiltersList}
           filterOptions={filterOptions}

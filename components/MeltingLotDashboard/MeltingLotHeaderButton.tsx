@@ -5,166 +5,17 @@ const MeltingLotHeaderButton = ({ buttonLabel }: any) => {
   return (
     <div className="row mt-3">
       <div className="col-12">
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
-        <button className="text-end btn btn-blue btn-py me-3 mt-2">
-          <Link href="" className="text-white">
-            Ka chain
-          </Link>
-        </button>
+        {buttonLabel &&
+          buttonLabel?.length > 0 &&
+          buttonLabel?.map((products: any) => {
+            return (
+              <button className="text-end btn btn-blue btn-py me-3 mt-2">
+                <Link href="" className="text-white">
+                  {products?.button}
+                </Link>
+              </button>
+            );
+          })}
       </div>
     </div>
   );
