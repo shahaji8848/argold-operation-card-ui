@@ -69,7 +69,7 @@ const OperationCardIssueButton = ({
 
   const [errMessage, setErrMessage] = useState<string>('');
   const [itemName, setItemName] = useState('');
-
+  const [selectedSalesOrderData, setSelectedSalesOrderData] = useState<any>([]);
   const [initialValueForActiveField, setInitialValueForActiveField] = useState<any>({});
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
@@ -129,21 +129,27 @@ const OperationCardIssueButton = ({
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
+
+    const updateSalesTableData: any =
+      selectedSalesOrderData?.length > 0 &&
+      selectedSalesOrderData.map((orderData: any) => ({
+        sales_order: orderData.sales_order,
+        design: orderData.item_name,
+      }));
+
     const mergedObjs = {
       ...modalFieldValuesState,
       ...modalDropdownFields,
       item: itemName,
+      ...(selectedSalesOrderData?.length > 0 && { order_detail: updateSalesTableData }),
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
     console.log('mergedObjs modal', modalDropdownFields);
     console.log('mergedObjs', mergedObjs, decodeURI(splitValue[1]));
-    // const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
-    //   ([key, value]) =>
-    //     key === 'line_number' ||
-    //     (value !== '' && value !== null && value !== undefined)
-    // );
-    // console.log('post data all', allNonEmptyExceptLineNumber);
+
+    console.log('selectedSalesOrderData', selectedSalesOrderData, mergedObjs);
+
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
 
@@ -156,7 +162,7 @@ const OperationCardIssueButton = ({
         } else {
           handleClose();
           const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
-          // Access the "message" property
+
           const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
           setErrMessage(messageValue);
           setShowToastErr(true);
@@ -301,7 +307,6 @@ const OperationCardIssueButton = ({
         }
       }
     });
-    console.log('altered', alteredObjToCreateDataFields);
 
     setModalFieldValuesState(alteredObjToCreateDataFields);
 
@@ -315,7 +320,6 @@ const OperationCardIssueButton = ({
     inputInWeightRef.current?.focus();
   }, [show]);
 
-  console.log('operationCardProductDept', operationCardProductDept);
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
@@ -468,6 +472,16 @@ const OperationCardIssueButton = ({
                 );
               })}
           </div>
+          {selectedIssueBtnData.item === 'Customer' && salesOrderList?.length > 0 && (
+            <>
+              <ModalSalesTable
+                salesOrderList={salesOrderList}
+                selectedSalesOrderData={selectedSalesOrderData}
+                setSelectedSalesOrderData={setSelectedSalesOrderData}
+                operationCardDetailData={operationCardDetailData}
+              />
+            </>
+          )}
 
           {getValues?.length > 0 ? (
             <div className="d-flex justify-content-start mt-3">
@@ -484,12 +498,6 @@ const OperationCardIssueButton = ({
             ''
           )}
           {emptyFieldsErr && <p className="mt-3 text-danger">Please fill all the fields</p>}
-
-          {selectedIssueBtnData.item === 'Customer' && (
-            <>
-           <ModalSalesTable salesOrderList={salesOrderList} operationCardDetailData={operationCardDetailData}/>
-            </>
-          )}
         </Modal.Body>
       </Modal>
 
