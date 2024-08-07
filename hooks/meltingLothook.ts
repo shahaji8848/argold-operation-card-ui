@@ -3,28 +3,39 @@ import GETMeltingFilters from '@/services/api/melting-lot-dashboard-page/melting
 import GETMeltingLotList from '@/services/api/melting-lot-dashboard-page/melting-lot-list';
 import { get_access_token } from '@/store/slice/login-slice';
 import { useSelector } from 'react-redux';
+import GETMeltingButton from '@/services/api/melting-lot-dashboard-page/melting-button';
 
 const useMeltingLot = () => {
   const [meltingFiltersList, setMeltingFiltersList] = <any>useState([]);
+  const [buttonLabel, setButtonLabel] = useState([]);
   const [meltingLotList, setMeltingLotList] = useState<any>([]);
   const { token } = useSelector(get_access_token);
   const [filterOptions, setFilterOptions] = useState({
     productOption: '',
     categoryOption: '',
     machineSizeOption: '',
-    designOption: '',
+    designCodeOption: '',
     cuttingProcessOption: '',
     statusOption: '',
     purityOption: '',
+    designOption: '',
   });
 
   const getMeltingFiltersFromAPI = async () => {
     const getMeltingFiltersData = await GETMeltingFilters(token);
-    setMeltingFiltersList;
     if (getMeltingFiltersData?.status === 200) {
       setMeltingFiltersList(getMeltingFiltersData?.data?.message);
     } else {
       setMeltingFiltersList([]);
+    }
+  };
+
+  const getButtonMeltingLabelFromAPI = async () => {
+    const getButtonMeltingLabelData = await GETMeltingButton(token);
+    if (getButtonMeltingLabelData?.status === 200) {
+      setButtonLabel(getButtonMeltingLabelData?.data?.message);
+    } else {
+      setButtonLabel([]);
     }
   };
 
@@ -47,7 +58,9 @@ const useMeltingLot = () => {
       setMeltingLotList([]);
     }
   };
+
   useEffect(() => {
+    getButtonMeltingLabelFromAPI();
     getMeltingFiltersFromAPI();
     getMeltingLotListFromAPI();
   }, []);
@@ -60,6 +73,7 @@ const useMeltingLot = () => {
     meltingFiltersList,
     filterOptions,
     handleFilterChange,
+    buttonLabel,
   };
 };
 

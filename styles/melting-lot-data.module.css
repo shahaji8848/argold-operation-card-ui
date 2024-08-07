@@ -1,3 +1,9 @@
+.dropdown_width {
+  width: 220px !important;
+}
+.edit_order_details_btn {
+  width: 130px !important;
+}
 @media screen and (max-width: 767px) {
   .mg_x_3 {
     /* margin: 0px 8px; */
