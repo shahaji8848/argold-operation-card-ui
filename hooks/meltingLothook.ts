@@ -3,23 +3,41 @@ import GETMeltingFilters from '@/services/api/melting-lot-dashboard-page/melting
 import GETMeltingLotList from '@/services/api/melting-lot-dashboard-page/melting-lot-list';
 import { get_access_token } from '@/store/slice/login-slice';
 import { useSelector } from 'react-redux';
-import GETMeltingButton from '@/services/api/melting-lot-dashboard-page/melting-button';
+import GETProductList from '@/services/api/melting-lot-dashboard-page/get-product-list';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const useMeltingLot = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [meltingFiltersList, setMeltingFiltersList] = <any>useState([]);
   const [buttonLabel, setButtonLabel] = useState([]);
   const [meltingLotList, setMeltingLotList] = useState<any>([]);
   const { token } = useSelector(get_access_token);
-  const [filterOptions, setFilterOptions] = useState({
-    productOption: '',
-    categoryOption: '',
-    machineSizeOption: '',
-    designCodeOption: '',
-    cuttingProcessOption: '',
-    statusOption: '',
-    purityOption: '',
-    designOption: '',
-  });
+  const initialFilterOptions = {
+    product: searchParams.get('product') || '',
+    product_category: searchParams.get('product_category') || '',
+    machine_size: searchParams.get('machine_size') || '',
+    design_code: searchParams.get('design_code') || '',
+    cutting_process: searchParams.get('cutting_process') || '',
+    status: searchParams.get('status') || '',
+    purity: searchParams.get('purity') || '',
+    design: searchParams.get('design') || '',
+  };
+  const [filterOptions, setFilterOptions] = useState(initialFilterOptions);
+
+  const constructUrl = (filterOptions: any) => {
+    const currentUrl = new URL(window.location.href);
+    const queryString = Object.entries(filterOptions)
+      .filter(([key, value]: any) => value !== '')
+      .map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
+      .join('&');
+    return `${currentUrl.pathname}?${queryString}`;
+  };
+
+  const updateUrlWithFilters = () => {
+    const constructedUrl = constructUrl(filterOptions);
+    router.push(constructedUrl);
+  };
 
   const getMeltingFiltersFromAPI = async () => {
     const getMeltingFiltersData = await GETMeltingFilters(token);
@@ -30,10 +48,10 @@ const useMeltingLot = () => {
     }
   };
 
-  const getButtonMeltingLabelFromAPI = async () => {
-    const getButtonMeltingLabelData = await GETMeltingButton(token);
-    if (getButtonMeltingLabelData?.status === 200) {
-      setButtonLabel(getButtonMeltingLabelData?.data?.message);
+  const getProductListFromAPI = async () => {
+    const getProductListData = await GETProductList(token);
+    if (getProductListData?.status === 200) {
+      setButtonLabel(getProductListData?.data?.message?.data);
     } else {
       setButtonLabel([]);
     }
@@ -60,11 +78,13 @@ const useMeltingLot = () => {
   };
 
   useEffect(() => {
-    getButtonMeltingLabelFromAPI();
+    getProductListFromAPI();
     getMeltingFiltersFromAPI();
     getMeltingLotListFromAPI();
   }, []);
+
   useEffect(() => {
+    updateUrlWithFilters();
     getMeltingLotListFromAPI();
   }, [filterOptions]);
 

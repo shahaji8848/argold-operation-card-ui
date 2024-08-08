@@ -74,72 +74,102 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         return (
                           <tr>
                             <td>
-                              {meltingData?.product_category === '' || meltingData?.product_category === null
-                                ? '--'
-                                : meltingData?.product_category}
+                              {meltingData?.product_category &&
+                              meltingData?.product_category !== '' &&
+                              meltingData?.product_category !== null
+                                ? meltingData?.product_category
+                                : '--'}
                             </td>
-                            <td>{meltingData?.type === '' || meltingData?.type === null ? '--' : meltingData?.type} </td>
                             <td>
-                              {meltingData?.machine_size === '' || meltingData?.machine_size === null
-                                ? '--'
-                                : meltingData?.machine_size}{' '}
+                              {meltingData?.type && meltingData?.type !== '' && meltingData?.type !== null
+                                ? meltingData?.type
+                                : '--'}
                             </td>
-                            <td>{meltingData?.design === '' || meltingData?.design === null ? '--' : meltingData?.design} </td>
-                            <td>{meltingData?.line === '' || meltingData?.line === null ? '--' : meltingData?.line} </td>
                             <td>
-                              {meltingData?.cutting_process === '' || meltingData?.cutting_process === null
-                                ? '--'
-                                : meltingData?.cutting_process}{' '}
+                              {meltingData?.machine_size && meltingData?.machine_size !== '' && meltingData?.machine_size !== null
+                                ? meltingData?.machine_size
+                                : '--'}
                             </td>
-                            <td>{meltingData?.tone === '' || meltingData?.tone === null ? '--' : meltingData?.tone} </td>
                             <td>
-                              {meltingData?.description === '' || meltingData?.description === null
-                                ? '--'
-                                : meltingData?.description}{' '}
+                              {meltingData?.design && meltingData?.design !== '' && meltingData?.design !== null
+                                ? meltingData?.design
+                                : '--'}
+                            </td>
+                            <td>
+                              {meltingData?.line && meltingData?.line !== '' && meltingData?.line !== null
+                                ? meltingData?.line
+                                : '--'}
+                            </td>
+                            <td>
+                              {meltingData?.cutting_process &&
+                              meltingData?.cutting_process !== '' &&
+                              meltingData?.cutting_process !== null
+                                ? meltingData?.cutting_process
+                                : '--'}
+                            </td>
+                            <td>
+                              {meltingData?.tone && meltingData?.tone !== '' && meltingData?.tone !== null
+                                ? meltingData?.tone
+                                : '--'}{' '}
+                            </td>
+                            <td>
+                              {meltingData?.description && meltingData?.description !== '' && meltingData?.description !== null
+                                ? meltingData?.description
+                                : '--'}
                             </td>
                             <td className="text-end">
-                              {meltingData?.weight === 0 || meltingData?.weight === null ? '--' : meltingData?.weight?.toFixed(3)}{' '}
+                              {meltingData?.weight && meltingData?.weight !== null ? meltingData?.weight : '--'}
                             </td>
                             <td className="text-end">
-                              {meltingData?.balance_weight === '' || meltingData?.balance_weight === null
-                                ? '--'
-                                : meltingData?.balance_weight}{' '}
+                              {meltingData?.balance_weight &&
+                              meltingData?.balance_weight !== '' &&
+                              meltingData?.balance_weight !== null
+                                ? meltingData?.balance_weight
+                                : '--'}
                             </td>
                             <td>
-                              {meltingData?.split_level === '' || meltingData?.split_level === null
-                                ? '--'
-                                : meltingData?.split_level}{' '}
+                              {meltingData?.split_level && meltingData?.split_level !== '' && meltingData?.split_level !== null
+                                ? meltingData?.split_level
+                                : '--'}
                             </td>
                             <td>
-                              {meltingData?.current_dept === '' || meltingData?.current_dept === null
-                                ? '--'
-                                : meltingData?.current_dept}{' '}
+                              {meltingData?.current_dept && meltingData?.current_dept !== '' && meltingData?.current_dept !== null
+                                ? meltingData?.current_dept
+                                : '--'}
+                            </td>
+                            <td className="text-end">
+                              {meltingData?.in_weight && meltingData?.in_weight !== null ? meltingData?.in_weight : '--'}
+                            </td>
+                            <td className="text-end">
+                              {meltingData?.out_lot_purity &&
+                              meltingData?.out_lot_purity !== '' &&
+                              meltingData?.out_lot_purity !== null
+                                ? meltingData?.out_lot_purity
+                                : '--'}
+                            </td>
+                            <td className="text-end">
+                              {meltingData?.tounch_purity &&
+                              meltingData?.tounch_purity !== '' &&
+                              meltingData?.tounch_purity !== null
+                                ? meltingData?.tounch_purity
+                                : '--'}
+                            </td>
+                            <td className="text-end">
+                              {meltingData?.fire_tounch_purity &&
+                              meltingData?.fire_tounch_purity !== '' &&
+                              meltingData?.fire_tounch_purity !== null
+                                ? meltingData?.fire_tounch_purity
+                                : '--'}
                             </td>
                             <td>
-                              {meltingData?.in_weight === 0 || meltingData?.in_weight === null ? '--' : meltingData?.in_weight}
+                              {meltingData?.waistage && meltingData?.waistage !== '' && meltingData?.waistage !== null
+                                ? meltingData?.waistage
+                                : '--'}
                             </td>
                             <td>
-                              {meltingData?.out_lot_purity === '' || meltingData?.out_lot_purity === null
-                                ? '--'
-                                : meltingData?.out_lot_purity}{' '}
-                            </td>
-                            <td>
-                              {meltingData?.tounch_purity === '' || meltingData?.tounch_purity === null
-                                ? '--'
-                                : meltingData?.tounch_purity}{' '}
-                            </td>
-                            <td>
-                              {meltingData?.fire_tounch_purity === '' || meltingData?.fire_tounch_purity === null
-                                ? '--'
-                                : meltingData?.fire_tounch_purity}{' '}
-                            </td>
-                            <td>
-                              {meltingData?.waistage === '' || meltingData?.waistage === null ? '--' : meltingData?.waistage}{' '}
-                            </td>
-                            <td>
-                              {meltingData?.operation_card === '' || meltingData?.operation_card === null ? (
-                                '--'
-                              ) : (
+                              {meltingData?.operation_card &&
+                              meltingData?.operation_card !== '' &&
+                              meltingData?.operation_card !== null ? (
                                 <button className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}>
                                   <Link
                                     href={`operation-card-detail?name=${meltingData?.operation_card}`}
@@ -149,14 +179,14 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                                     Edit Order Details
                                   </Link>
                                 </button>
-                              )}
+                              ) : null}
                             </td>
                           </tr>
                         );
                       })
                     ) : (
                       <tr>
-                        <td colSpan={17} className="text-center w-100 my-4">
+                        <td colSpan={18} className="text-center w-100 my-4">
                           <Image src="/grid-empty-state.png" alt="empty Logo" width={40} height={42} className="my-2" />
                           <div className="fs-14 grey">No Data </div>
                         </td>
