@@ -11,8 +11,9 @@ const ModalSalesTable: any = ({
     if (isDisabled) return;
 
     setSelectedSalesOrderData((prevData: any) => {
+      console.log('prevData', prevData);
       if (isChecked) {
-        return [...prevData, data];
+        return [data];
       } else {
         return prevData.filter((item: any) => item !== data);
       }
@@ -50,7 +51,7 @@ const ModalSalesTable: any = ({
                   salesOrderList.map((orderData: any, index: any) => {
                     const isChecked = selectedSalesOrderData.some((item: any) => item === orderData);
                     const isDisabled = !!orderData?.assigned_order_id;
-
+                    console.log('is checked', isChecked);
                     return (
                       <tr className="table-text" key={index}>
                         <td className="text-center">
