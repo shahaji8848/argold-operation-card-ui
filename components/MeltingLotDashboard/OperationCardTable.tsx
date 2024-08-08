@@ -137,9 +137,9 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                               {meltingData?.waistage === '' || meltingData?.waistage === null ? '--' : meltingData?.waistage}{' '}
                             </td>
                             <td>
-                              {meltingData?.operation_card === '' || meltingData?.operation_card === null ? (
-                                '--'
-                              ) : (
+                              {meltingData?.operation_card &&
+                              meltingData?.operation_card !== '' &&
+                              meltingData?.operation_card !== null ? (
                                 <button className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}>
                                   <Link
                                     href={`operation-card-detail?name=${meltingData?.operation_card}`}
@@ -149,7 +149,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                                     Edit Order Details
                                   </Link>
                                 </button>
-                              )}
+                              ) : null}
                             </td>
                           </tr>
                         );
