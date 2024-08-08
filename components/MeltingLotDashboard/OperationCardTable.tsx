@@ -89,13 +89,13 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                             <td>
                               {meltingData?.cutting_process === '' || meltingData?.cutting_process === null
                                 ? '--'
-                                : meltingData?.cutting_process}{' '}
+                                : meltingData?.cutting_process}
                             </td>
                             <td>{meltingData?.tone === '' || meltingData?.tone === null ? '--' : meltingData?.tone} </td>
                             <td>
                               {meltingData?.description === '' || meltingData?.description === null
                                 ? '--'
-                                : meltingData?.description}{' '}
+                                : meltingData?.description}
                             </td>
                             <td className="text-end">
                               {meltingData?.weight === 0 || meltingData?.weight === null ? '--' : meltingData?.weight?.toFixed(3)}{' '}
@@ -115,20 +115,20 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                                 ? '--'
                                 : meltingData?.current_dept}{' '}
                             </td>
-                            <td>
+                            <td className="text-end">
                               {meltingData?.in_weight === 0 || meltingData?.in_weight === null ? '--' : meltingData?.in_weight}
                             </td>
-                            <td>
+                            <td className="text-end">
                               {meltingData?.out_lot_purity === '' || meltingData?.out_lot_purity === null
                                 ? '--'
                                 : meltingData?.out_lot_purity}{' '}
                             </td>
-                            <td>
+                            <td className="text-end">
                               {meltingData?.tounch_purity === '' || meltingData?.tounch_purity === null
                                 ? '--'
                                 : meltingData?.tounch_purity}{' '}
                             </td>
-                            <td>
+                            <td className="text-end">
                               {meltingData?.fire_tounch_purity === '' || meltingData?.fire_tounch_purity === null
                                 ? '--'
                                 : meltingData?.fire_tounch_purity}{' '}
@@ -156,7 +156,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                       })
                     ) : (
                       <tr>
-                        <td colSpan={17} className="text-center w-100 my-4">
+                        <td colSpan={18} className="text-center w-100 my-4">
                           <Image src="/grid-empty-state.png" alt="empty Logo" width={40} height={42} className="my-2" />
                           <div className="fs-14 grey">No Data </div>
                         </td>

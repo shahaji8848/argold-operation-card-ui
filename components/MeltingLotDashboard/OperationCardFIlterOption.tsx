@@ -10,8 +10,8 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterOptions, handleF
             <div className="me-2 bold fs-14">Product </div>
             <select
               className={`form-select d-inline w-auto ${meltingStyle.dropdown_width}`}
-              name="productOption"
-              value={filterOptions?.productOption}
+              name="product"
+              value={filterOptions?.product}
               onChange={handleFilterChange}
             >
               <option key={''} value={''}>
@@ -33,8 +33,8 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterOptions, handleF
             <div className="me-2 bold fs-14">Product Category</div>
             <select
               className={`form-select d-inline w-auto ${meltingStyle.dropdown_width}`}
-              name="categoryOption"
-              value={filterOptions?.categoryOption}
+              name="product_category"
+              value={filterOptions?.product_category}
               onChange={handleFilterChange}
             >
               <option key={''} value={''}>
@@ -57,8 +57,8 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterOptions, handleF
             <div className="me-2 bold fs-14">Machine Size</div>
             <select
               className={`form-select d-inline w-auto ${meltingStyle.dropdown_width}`}
-              name="machineSizeOption"
-              value={filterOptions?.machineSizeOption}
+              name="machine_size"
+              value={filterOptions?.machine_size}
               onChange={handleFilterChange}
             >
               <option key={''} value={''}>
@@ -81,8 +81,8 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterOptions, handleF
             <div className="me-2 bold fs-14">Design Code </div>
             <select
               className={`form-select d-inline w-auto ${meltingStyle.dropdown_width}`}
-              name="designCodeOption"
-              value={filterOptions?.designCodeOption}
+              name="design_code"
+              value={filterOptions?.design_code}
               onChange={handleFilterChange}
             >
               <option>All</option>
@@ -101,8 +101,8 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterOptions, handleF
             <div className="me-2 bold fs-14">Cutting Process</div>
             <select
               className={`form-select d-inline w-auto ${meltingStyle.dropdown_width}`}
-              name="cuttingProcessOption"
-              value={filterOptions?.cuttingProcessOption}
+              name="cutting_process"
+              value={filterOptions?.cutting_process}
               onChange={handleFilterChange}
             >
               <option key={''} value={''}>
@@ -125,8 +125,8 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterOptions, handleF
             <div className="me-2 bold fs-14">Status</div>
             <select
               className={`form-select d-inline w-auto ${meltingStyle.dropdown_width}`}
-              name="statusOption"
-              value={filterOptions?.statusOption}
+              name="status"
+              value={filterOptions?.status}
               onChange={handleFilterChange}
             >
               <option>All</option>
@@ -147,8 +147,8 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterOptions, handleF
             <div className="me-2 bold fs-14">Purity</div>
             <select
               className={`form-select d-inline w-auto ${meltingStyle.dropdown_width}`}
-              name="purityOption"
-              value={filterOptions?.purityOption}
+              name="purity"
+              value={filterOptions?.purity}
               onChange={handleFilterChange}
             >
               <option key={''} value={''}>
@@ -171,8 +171,8 @@ const OperationCardFiltersOption = ({ meltingFiltersList, filterOptions, handleF
             <div className="me-2 bold fs-14">Design </div>
             <select
               className={`form-select d-inline w-auto ${meltingStyle.dropdown_width}`}
-              name="designOption"
-              value={filterOptions?.designOption}
+              name="design"
+              value={filterOptions?.design}
               onChange={handleFilterChange}
             >
               <option>All</option>
