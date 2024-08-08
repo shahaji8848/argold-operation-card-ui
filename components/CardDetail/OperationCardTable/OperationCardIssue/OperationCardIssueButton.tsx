@@ -162,7 +162,6 @@ const OperationCardIssueButton = ({
         } else {
           handleClose();
           const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
-
           const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
           setErrMessage(messageValue);
           setShowToastErr(true);
