@@ -38,6 +38,7 @@ const OperationCardTableMaster = ({
   isBalanceWeightSetAsInWeight,
   balanceWeight,
   modalFieldsState,
+  salesOrderList,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -102,6 +103,7 @@ const OperationCardTableMaster = ({
           balanceWeight={balanceWeight}
           modalFieldsState={modalFieldsState}
           operationCardMachine={operationCardMachine}
+          salesOrderList={salesOrderList}
         />
       </div>
     </div>

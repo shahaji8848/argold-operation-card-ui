@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from '../../../../styles/operationDetail.module.css';
-import Modal from 'react-bootstrap/Modal';
-import AutoCompleteField from './AutoCompleteField';
 import POSTModalData from '@/services/api/operation-card-detail-page/modal-save';
-import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
-import { Toast, ToastContainer } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 import { get_access_token } from '@/store/slice/login-slice';
+import { useEffect, useRef, useState } from 'react';
+import { Toast, ToastContainer } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+import { useSelector } from 'react-redux';
+import styles from '../../../../styles/operationDetail.module.css';
+import AutoCompleteField from './AutoCompleteField';
+import ModalSalesTable from './ModalSalesTable';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -34,6 +34,7 @@ const OperationCardIssueButton = ({
   balanceWeight,
   getOperationCardProductCategory,
   modalFieldsState,
+  salesOrderList,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -68,11 +69,12 @@ const OperationCardIssueButton = ({
 
   const [errMessage, setErrMessage] = useState<string>('');
   const [itemName, setItemName] = useState('');
-
+  const [selectedSalesOrderData, setSelectedSalesOrderData] = useState<any>([]);
   const [initialValueForActiveField, setInitialValueForActiveField] = useState<any>({});
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
   const [getValues, setGetValues] = useState<any>([]);
+  const [selectedIssueBtnData, setSelectedIssueBtnData] = useState<any>({});
 
   const [mergedObjsState, setMergedObjsState] = useState<any>({});
 
@@ -127,21 +129,27 @@ const OperationCardIssueButton = ({
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
+
+    const updateSalesTableData: any =
+      selectedSalesOrderData?.length > 0 &&
+      selectedSalesOrderData.map((orderData: any) => ({
+        sales_order: orderData.sales_order,
+        design: orderData.item_name,
+      }));
+
     const mergedObjs = {
       ...modalFieldValuesState,
       ...modalDropdownFields,
       item: itemName,
+      ...(selectedSalesOrderData?.length > 0 && { order_detail: updateSalesTableData }),
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
     console.log('mergedObjs modal', modalDropdownFields);
     console.log('mergedObjs', mergedObjs, decodeURI(splitValue[1]));
-    // const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
-    //   ([key, value]) =>
-    //     key === 'line_number' ||
-    //     (value !== '' && value !== null && value !== undefined)
-    // );
-    // console.log('post data all', allNonEmptyExceptLineNumber);
+
+    console.log('selectedSalesOrderData', selectedSalesOrderData, mergedObjs);
+
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
 
@@ -154,7 +162,7 @@ const OperationCardIssueButton = ({
         } else {
           handleClose();
           const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
-          // Access the "message" property
+
           const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
           setErrMessage(messageValue);
           setShowToastErr(true);
@@ -182,7 +190,7 @@ const OperationCardIssueButton = ({
       (issueItem: any) => issueItem?.item === value
     );
 
-    console.log('merged next', getSelectedItemObj);
+    setSelectedIssueBtnData(getSelectedItemObj);
     let initialValuesOfSelectedItem: any = {};
     if (getSelectedItemObj) {
       // replace next_product_process with word key to get initialValues of all dropdowns.
@@ -299,7 +307,6 @@ const OperationCardIssueButton = ({
         }
       }
     });
-    console.log('altered', alteredObjToCreateDataFields);
 
     setModalFieldValuesState(alteredObjToCreateDataFields);
 
@@ -340,7 +347,6 @@ const OperationCardIssueButton = ({
 
       <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
-          {' '}
           <h6 className="">Item: {itemName}</h6>
         </Modal.Header>
         <Modal.Body>
@@ -466,6 +472,17 @@ const OperationCardIssueButton = ({
                 );
               })}
           </div>
+          {selectedIssueBtnData.item === 'Customer' && salesOrderList?.length > 0 && (
+            <>
+              <ModalSalesTable
+                salesOrderList={salesOrderList}
+                selectedSalesOrderData={selectedSalesOrderData}
+                setSelectedSalesOrderData={setSelectedSalesOrderData}
+                operationCardDetailData={operationCardDetailData}
+              />
+            </>
+          )}
+
           {getValues?.length > 0 ? (
             <div className="d-flex justify-content-start mt-3">
               <button
