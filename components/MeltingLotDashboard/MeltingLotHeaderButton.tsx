@@ -10,7 +10,7 @@ const MeltingLotHeaderButton = ({ buttonLabel }: any) => {
           buttonLabel?.map((products: any) => {
             return (
               <button className="text-end btn btn-blue btn-py me-3 mt-2">
-                <Link href="" className="text-white">
+                <Link href={products?.redirect_url} className="text-white" target="_blank">
                   {products?.button}
                 </Link>
               </button>
