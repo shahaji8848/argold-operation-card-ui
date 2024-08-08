@@ -9,8 +9,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 const useMeltingLot = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [meltingFiltersList, setMeltingFiltersList] = <any>useState([]);
-  const [buttonLabel, setButtonLabel] = useState([]);
+  const [meltingFiltersList, setMeltingFiltersList] = useState<any>([]);
+  const [buttonLabel, setButtonLabel] = useState<any>([]);
   const [meltingLotList, setMeltingLotList] = useState<any>([]);
   const { token } = useSelector(get_access_token);
   const initialFilterOptions = {
