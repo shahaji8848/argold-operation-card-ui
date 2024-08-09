@@ -127,51 +127,100 @@ function SalesOrderTable({
     setSelectedItems([]);
     setIsHeaderCheckboxChecked(false);
   };
-  console.log('monika', salesOrderList);
-  const handleChangesInReadyQty = (key: any, userEnteredValue: number, order_id: string) => {
-    let showError: boolean = false;
-    console.log('user enter', key, userEnteredValue, order_id);
+
+  // const handleChangesInReadyQty = (key: any, userEnteredValue: number, order_id: string) => {
+  //   let showError: boolean = false;
+  //   console.log('user enter', key, userEnteredValue, order_id);
+  //   if (key === 'Backspace') {
+  //     setSalesOrderList((prevData: any[]) => {
+  //       const updatedData = prevData.map((item: any) => {
+  //         if (item?.order_id === order_id) {
+  //           return { ...item, ready_qty: '' };
+  //         }
+  //         return item;
+  //       });
+  //       return updatedData;
+  //     });
+  //   } else {
+  //     if (isNaN(userEnteredValue)) {
+  //       if (!showError) {
+  //         // Show error message only if it hasn't been shown before
+  //         showError = true;
+  //         toast.error('Please enter correct data.');
+  //       }
+  //     } else {
+  //       setSalesOrderList((prevData: any[]) => {
+  //         const updatedData = prevData.map((item: any) => {
+  //           if (item?.order_id === order_id) {
+  //             const totalQty = parseFloat(item.total_qty);
+  //             if (!isNaN(userEnteredValue) && userEnteredValue === totalQty) {
+  //               return { ...item, ready_qty: userEnteredValue };
+  //             } else {
+  //               if (!showError) {
+  //                 // Show error message only if it hasn't been shown before
+  //                 showError = true;
+  //                 toast.error(
+  //                   // 'Entered value should be a number and less than or equal to production quantity.'
+  //                   'Ready quantity should be less than or equal to production quantity.'
+  //                 );
+  //               }
+  //               return item;
+  //             }
+  //           }
+  //           return item;
+  //         });
+  //         return updatedData;
+  //       });
+  //     }
+  //   }
+  // };
+
+  const [showError, setShowError] = useState(false);
+
+  const handleChangesInReadyQty = (key: any, userEnteredValue: string, order_id: string) => {
+    console.log('User entered:', key, userEnteredValue, order_id);
+
+    // Convert the entered value to a string
+    const userValueStr = userEnteredValue.toString();
+
     if (key === 'Backspace') {
       setSalesOrderList((prevData: any[]) => {
-        const updatedData = prevData.map((item: any) => {
+        return prevData.map((item: any) => {
           if (item?.order_id === order_id) {
             return { ...item, ready_qty: '' };
           }
           return item;
         });
-        return updatedData;
       });
     } else {
-      if (isNaN(userEnteredValue)) {
-        if (!showError) {
-          // Show error message only if it hasn't been shown before
-          showError = true;
-          toast.error('Please enter correct data.');
-        }
-      } else {
-        setSalesOrderList((prevData: any[]) => {
-          const updatedData = prevData.map((item: any) => {
-            if (item?.order_id === order_id) {
-              const totalQty = parseFloat(item.total_qty);
-              if (!isNaN(userEnteredValue) && userEnteredValue === totalQty) {
+      setSalesOrderList((prevData: any[]) => {
+        const updatedData = prevData.map((item: any) => {
+          if (item?.order_id === order_id) {
+            // Convert totalQty to string
+            const totalQtyStr = item.total_qty.toString();
+
+            // Check if userValue matches totalQty exactly as a string
+            if (userValueStr.length === totalQtyStr.length) {
+              if (userValueStr === totalQtyStr) {
+                setShowError(false); // Reset error state if value is correct
                 return { ...item, ready_qty: userEnteredValue };
               } else {
                 if (!showError) {
-                  // Show error message only if it hasn't been shown before
-                  showError = true;
-                  toast.error(
-                    // 'Entered value should be a number and less than or equal to production quantity.'
-                    'Ready quantity should be less than or equal to production quantity.'
-                  );
+                  setShowError(true); // Set error state if value is incorrect
+                  toast.error('Ready Quantity must exactly match the total Quantity for this order!');
                 }
-                return item;
+                // Return item without updating ready_qty
+                return { ...item, ready_qty: '' };
               }
+            } else {
+              // If the length does not match, do not show an error, just return the item
+              return { ...item, ready_qty: userEnteredValue };
             }
-            return item;
-          });
-          return updatedData;
+          }
+          return item;
         });
-      }
+        return updatedData;
+      });
     }
   };
 
