@@ -1,7 +1,7 @@
 import React from 'react';
 import useMeltingLot from '@/hooks/meltingLothook';
 import MeltingLotHeaderButton from './MeltingLotHeaderButton';
-import OperationCardFiltersOption from './OperationCardFilterOption';
+import OperationCardFiltersOption from './OperationCardFIlterOption';
 import OperationCardTable from './OperationCardTable';
 
 const MeltingLotDashboardMaster = () => {
