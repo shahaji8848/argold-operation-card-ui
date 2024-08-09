@@ -10,7 +10,7 @@ const useMeltingLot = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [meltingFiltersList, setMeltingFiltersList] = useState<any>([]);
-  const [buttonLabel, setButtonLabel] = useState<any>([]);
+  const [productList, setProductList] = useState<any>([]);
   const [meltingLotList, setMeltingLotList] = useState<any>([]);
   const { token } = useSelector(get_access_token);
   const initialFilterOptions = {
@@ -39,6 +39,7 @@ const useMeltingLot = () => {
     router.push(constructedUrl);
   };
 
+  // Dropdown
   const getMeltingFiltersFromAPI = async () => {
     const getMeltingFiltersData = await GETMeltingFilters(token);
     if (getMeltingFiltersData?.status === 200) {
@@ -48,12 +49,13 @@ const useMeltingLot = () => {
     }
   };
 
+  // Header button
   const getProductListFromAPI = async () => {
     const getProductListData = await GETProductList(token);
     if (getProductListData?.status === 200) {
-      setButtonLabel(getProductListData?.data?.message?.data);
+      setProductList(getProductListData?.data?.message);
     } else {
-      setButtonLabel([]);
+      setProductList([]);
     }
   };
 
@@ -65,6 +67,7 @@ const useMeltingLot = () => {
     }));
   };
 
+  // Table Data
   const getMeltingLotListFromAPI = async () => {
     const getMeltingLotList = await GETMeltingLotList({
       token,
@@ -75,6 +78,13 @@ const useMeltingLot = () => {
     } else {
       setMeltingLotList([]);
     }
+  };
+
+  const handleProductBtnClicked = (products: any) => {
+    setFilterOptions((prevState) => ({
+      ...prevState,
+      product: products,
+    }));
   };
 
   useEffect(() => {
@@ -93,7 +103,8 @@ const useMeltingLot = () => {
     meltingFiltersList,
     filterOptions,
     handleFilterChange,
-    buttonLabel,
+    productList,
+    handleProductBtnClicked,
   };
 };
 

@@ -4,6 +4,10 @@
 .edit_order_details_btn {
   width: 130px !important;
 }
+.btn_width {
+  min-width: 86px;
+  text-align: center;
+}
 @media screen and (max-width: 767px) {
   .mg_x_3 {
     /* margin: 0px 8px; */
