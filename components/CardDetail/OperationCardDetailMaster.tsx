@@ -125,6 +125,7 @@ const OperationCardDetailMaster = () => {
               balanceWeight={balanceWeight}
               modalFieldsState={modalFieldsState}
               headerSave={headerSave}
+              salesOrderList={salesOrderList}
             />
             <SalesOrderTable
               operationCardDetailData={operationCardDetailData}
