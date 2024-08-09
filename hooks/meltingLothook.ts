@@ -39,6 +39,19 @@ const useMeltingLot = () => {
     router.push(constructedUrl);
   };
 
+  const handleFilterChange = (e: any) => {
+    const { name, value } = e.target;
+    setFilterOptions((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+  const handleProductBtnClicked = (products: any) => {
+    setFilterOptions((prevState) => ({
+      ...prevState,
+      product: products,
+    }));
+  };
   // Dropdown
   const getMeltingFiltersFromAPI = async () => {
     const getMeltingFiltersData = await GETMeltingFilters(token);
@@ -59,14 +72,6 @@ const useMeltingLot = () => {
     }
   };
 
-  const handleFilterChange = (e: any) => {
-    const { name, value } = e.target;
-    setFilterOptions((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
   // Table Data
   const getMeltingLotListFromAPI = async () => {
     const getMeltingLotList = await GETMeltingLotList({
@@ -78,13 +83,6 @@ const useMeltingLot = () => {
     } else {
       setMeltingLotList([]);
     }
-  };
-
-  const handleProductBtnClicked = (products: any) => {
-    setFilterOptions((prevState) => ({
-      ...prevState,
-      product: products,
-    }));
   };
 
   useEffect(() => {
