@@ -48,7 +48,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                   {meltingData?.edit_url && (
                     <button className="text-end btn btn-blue btn-py ">
                       <Link href={meltingData?.edit_url} className="text-white" target="_blank">
-                        Edit
+                        Edit Melting Lot
                       </Link>
                     </button>
                   )}
