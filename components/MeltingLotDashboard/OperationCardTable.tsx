@@ -66,6 +66,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                   <thead className="card-listing-head">
                     <tr>
                       {[
+                        'Melting lot',
                         'chain',
                         'type',
                         'size',
@@ -96,6 +97,11 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                       meltingData?.linked_operations?.map((meltingData: any, idx: any) => {
                         return (
                           <tr>
+                            <td>
+                              {meltingData?.melting_lot && meltingData?.melting_lot !== '' && meltingData?.melting_lot !== null
+                                ? meltingData?.melting_lot
+                                : '--'}
+                            </td>
                             <td>
                               {meltingData?.product_category &&
                               meltingData?.product_category !== '' &&
@@ -209,7 +215,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                       })
                     ) : (
                       <tr>
-                        <td colSpan={18} className="text-center w-100 my-4">
+                        <td colSpan={19} className="text-center w-100 my-4">
                           <Image src="/grid-empty-state.png" alt="empty Logo" width={40} height={42} className="my-2" />
                           <div className="fs-14 grey">No Data </div>
                         </td>
