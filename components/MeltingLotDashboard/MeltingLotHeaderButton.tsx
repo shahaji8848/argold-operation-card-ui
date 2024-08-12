@@ -9,7 +9,7 @@ const MeltingLotHeaderButton = ({ productList, meltingFiltersList, handleProduct
         <div>
           <button className="text-end btn btn-blue btn-py me-3 mt-2">
             <Link href={productList} className="text-white" target="_blank">
-              Add Order
+              Add Melting Plan
             </Link>
           </button>
         </div>
@@ -18,6 +18,7 @@ const MeltingLotHeaderButton = ({ productList, meltingFiltersList, handleProduct
           meltingFiltersList?.product?.map((products: any, idx: any) => {
             return (
               <button
+                key={idx}
                 className={`text-center btn btn-blue btn-py me-3 mt-2 ${idx === 0 ? btnHeaderStyle.btn_width : ''}`}
                 onClick={() => handleProductBtnClicked(products)}
               >

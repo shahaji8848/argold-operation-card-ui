@@ -5,8 +5,8 @@
   width: 130px !important;
 }
 .btn_width {
-  min-width: 86px;
-  text-align: center;
+  /* min-width: 86px;
+  text-align: center; */
 }
 @media screen and (max-width: 767px) {
   .mg_x_3 {

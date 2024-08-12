@@ -13,15 +13,31 @@ const OperationCardTable = ({ meltingLotList }: any) => {
               <div className="d-flex justify-content-between">
                 <div>
                   <span className="text-uppercase text-danger bold pe-2 fs-14">
-                    {meltingData?.melting_lot === '' || meltingData?.melting_lot === null ? '--' : meltingData?.melting_lot}
+                    {meltingData?.melting_plan && meltingData?.melting_plan !== '' && meltingData?.melting_plan !== null
+                      ? meltingData?.melting_plan
+                      : '--'}
                   </span>
-                  <span>(purity: {meltingData?.purity}) &nbsp;</span>
-                  <span>(hook purity: {meltingData?.hook_purity}) &nbsp;</span>
+                  <span>
+                    (purity:{' '}
+                    {meltingData?.purity && meltingData?.purity !== '' && meltingData?.purity !== null
+                      ? meltingData?.purity
+                      : '--'}
+                    ) &nbsp;
+                  </span>
+                  <span>
+                    (hook purity:{' '}
+                    {meltingData?.hook_purity && meltingData?.hook_purity !== '' && meltingData?.hook_purity !== null
+                      ? meltingData?.hook_purity
+                      : '--'}
+                    ) &nbsp;
+                  </span>
                   <span>
                     (balance order weight:
-                    {meltingData?.balance_order_weight === '' || meltingData?.balance_order_weight === null
-                      ? ' -- '
-                      : meltingData?.balance_order_weight}
+                    {meltingData?.balance_order_weight &&
+                    meltingData?.balance_order_weight !== '' &&
+                    meltingData?.balance_order_weight !== null
+                      ? meltingData?.balance_order_weight
+                      : ' -- '}
                     ) &nbsp;
                   </span>
                   <p className="text-uppercase text-success bold mt-1 fs-14">
@@ -29,10 +45,17 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                   </p>
                 </div>
                 <div>
-                  {meltingData?.docstatus !== 1 && (
+                  {meltingData?.edit_url && (
                     <button className="text-end btn btn-blue btn-py ">
                       <Link href={meltingData?.edit_url} className="text-white" target="_blank">
                         Edit
+                      </Link>
+                    </button>
+                  )}
+                  {meltingData?.create_url && (
+                    <button className="text-end btn btn-blue btn-py ">
+                      <Link href={meltingData?.create_url} className="text-white" target="_blank">
+                        Create Melting Lot
                       </Link>
                     </button>
                   )}
