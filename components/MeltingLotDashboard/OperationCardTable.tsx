@@ -59,6 +59,13 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                       </Link>
                     </button>
                   )}
+                  {meltingData?.view_url && (
+                    <button className="text-end btn btn-blue btn-py ">
+                      <Link href={meltingData?.view_url} className="text-white" target="_blank">
+                        View Melting Lot
+                      </Link>
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="table-responsive">
