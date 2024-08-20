@@ -60,11 +60,22 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                     </button>
                   )}
                   {meltingData?.view_url && (
-                    <button className="text-end btn btn-blue btn-py ">
-                      <Link href={meltingData?.view_url} className="text-white" target="_blank">
-                        View Melting Lot
-                      </Link>
-                    </button>
+                    <>
+                      <button className="text-end btn btn-blue btn-py me-2">
+                        <Link
+                          href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
+                          className="text-white"
+                          target="_blank"
+                        >
+                          Add Sales Order
+                        </Link>
+                      </button>
+                      <button className="text-end btn btn-blue btn-py ">
+                        <Link href={meltingData?.view_url} className="text-white" target="_blank">
+                          View Melting Lot
+                        </Link>
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
@@ -79,7 +90,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         'size',
                         'design',
                         'line',
-                        'chain making',
+                        'cutting process',
                         'tone',
                         'description',
                         'weight',
