@@ -54,7 +54,7 @@ const useMeltingLot = () => {
   };
   // Dropdown
   const getMeltingFiltersFromAPI = async () => {
-    const getMeltingFiltersData = await GETMeltingFilters(token);
+    const getMeltingFiltersData = await GETMeltingFilters({ token, filterOptions: filterOptions });
     if (getMeltingFiltersData?.status === 200) {
       setMeltingFiltersList(getMeltingFiltersData?.data?.message);
     } else {
@@ -87,12 +87,13 @@ const useMeltingLot = () => {
 
   useEffect(() => {
     getProductListFromAPI();
-    getMeltingFiltersFromAPI();
-    getMeltingLotListFromAPI();
+    // getMeltingFiltersFromAPI();
+    // getMeltingLotListFromAPI();
   }, []);
 
   useEffect(() => {
     updateUrlWithFilters();
+    getMeltingFiltersFromAPI();
     getMeltingLotListFromAPI();
   }, [filterOptions]);
 

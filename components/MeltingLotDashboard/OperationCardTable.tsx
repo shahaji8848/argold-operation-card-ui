@@ -2,8 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import meltingStyles from '../../styles/melting-lot-data.module.css';
+import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 
 const OperationCardTable = ({ meltingLotList }: any) => {
+  const { handleMeltingLotShowOrder }: any = useOperationDetailCard();
   return (
     <div className="card py-2 px-2">
       {meltingLotList && meltingLotList?.length > 0 ? (
@@ -217,7 +219,10 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                               {meltingData?.operation_card &&
                               meltingData?.operation_card !== '' &&
                               meltingData?.operation_card !== null ? (
-                                <button className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}>
+                                <button
+                                  className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
+                                  onClick={handleMeltingLotShowOrder}
+                                >
                                   <Link
                                     href={`operation-card-detail?name=${meltingData?.operation_card}`}
                                     className="text-white"

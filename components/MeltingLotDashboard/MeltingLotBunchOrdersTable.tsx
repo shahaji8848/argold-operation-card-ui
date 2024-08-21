@@ -37,7 +37,11 @@ const MeltingLotBunchOrdersTable = ({ salesOrderData, selectedOrders, handleChec
                     return (
                       <tr>
                         <td className="text-center">
-                          <input type="checkbox" checked={!!selectedOrders[idx]} onChange={() => handleCheckboxChange(idx)} />
+                          <input
+                            type="checkbox"
+                            checked={!!selectedOrders[ordersData?.sales_order]}
+                            onChange={() => handleCheckboxChange(ordersData?.sales_order)}
+                          />
                         </td>
                         <td className="text-center">
                           {ordersData?.order_date !== ' ' && ordersData?.order_date !== null ? ordersData?.order_date : '--'}

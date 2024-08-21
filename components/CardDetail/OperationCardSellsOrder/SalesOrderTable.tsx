@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
+import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 
 const hasGPCItem = (operationCardDetailData: any) => {
   const findGPCItem = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => issueItem?.item === 'GPC');
@@ -8,7 +9,7 @@ const hasGPCItem = (operationCardDetailData: any) => {
 };
 
 const columnsBuilder = (operationCardDetailData: any) => {
-  let columnsList: string[] = ['Customer Name', 'Sales Order', 'Item', 'Design Name', 'Production Qty', 'Size'];
+  let columnsList: string[] = ['Customer Name', 'Sales Order', 'Market Design Name', 'Design Name', 'Production Qty', 'Size'];
   if (hasGPCItem(operationCardDetailData)) {
     columnsList.push('Ready Qty');
   }
@@ -42,7 +43,7 @@ const rowsBuilder = (
         />
       </td>
       <td className="text-center">{rowData?.sales_order}</td>
-      <td className="text-center">{rowData?.item}</td>
+      <td className="text-center">{rowData?.market_design_name}</td>
       <td className="text-center">{doGetAllOrders ? rowData?.item_name : rowData?.design}</td>
       <td className="text-center">
         {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {

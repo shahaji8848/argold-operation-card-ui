@@ -43,7 +43,12 @@ const MeltingLotAddSalesOrder = () => {
           </div>
           <div className="col-md-3 mb-2">
             <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Design</label>
-            <input type="text" className="form-control inputFields fs-13 rounded-2" value={meltingPlanFilters?.design} readOnly />
+            <input
+              type="text"
+              className="form-control inputFields fs-13 rounded-2"
+              value={meltingPlanFilters?.design || ' '}
+              readOnly
+            />
           </div>
         </div>
         <div>

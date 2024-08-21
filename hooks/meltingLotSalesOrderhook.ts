@@ -12,7 +12,7 @@ const useMeltingLotSalesOrder = () => {
   const [meltingPlan, setMeltingPlan] = useState('');
   const [meltingPlanFilters, setMeltingPlanFilters] = useState({});
   const [salesOrderData, setSalesOrderData] = useState([]);
-  const [selectedOrders, setSelectedOrders] = useState<{ [key: number]: boolean }>({});
+  const [selectedOrders, setSelectedOrders] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const url = window.location.href;
@@ -44,9 +44,16 @@ const useMeltingLotSalesOrder = () => {
     );
 
     if (getMeltingPlanBasedOnFiltersData?.status === 200) {
+      // if (
+      //   getMeltingPlanBasedOnFiltersData?.data?.message?.bunch_orders > 0 ||
+      //   getMeltingPlanBasedOnFiltersData?.data?.message?.single_orders > 0
+      // ) {
       setSalesOrderData(getMeltingPlanBasedOnFiltersData?.data?.message);
+      // }
+      // toast.error('No Data Found');
     } else {
       setSalesOrderData([]);
+      toast.error('No Data Found');
     }
   };
 
@@ -54,10 +61,10 @@ const useMeltingLotSalesOrder = () => {
     fetchMeltingPlanBasedOnFilters();
   };
 
-  const handleCheckboxChange = (index: number) => {
+  const handleCheckboxChange = (sales_order: any) => {
     setSelectedOrders((prev) => ({
       ...prev,
-      [index]: !prev[index],
+      [sales_order]: !prev[sales_order],
     }));
   };
 

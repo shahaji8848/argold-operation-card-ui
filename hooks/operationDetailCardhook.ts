@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
 import { useSearchParams } from 'next/navigation';
 import GETOperationCardProductProcessDepartmentData from '@/services/api/operation-card-detail-page/operation-card-product-process-data';
@@ -32,6 +32,7 @@ import GETMeltingLotList from '@/services/api/melting-lot-dashboard-page/melting
 import GETMeltingFilters from '@/services/api/melting-lot-dashboard-page/melting-filters';
 import POSTOperationCardApprove from '@/services/api/operation-card-detail-page/approval-api';
 import GETCarryForwardSalesOrder from '@/services/api/operation-card-detail-page/custom-op-sales-order';
+import GETMeltingLotOPDetailSalesOrder from '@/services/api/operation-card-detail-page/melting-lot-op-detail-sales-order';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -76,6 +77,7 @@ const useOperationDetailCard = () => {
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
   const [carryForwardSalesOrder, setCarryForwardSalesOrder] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
+  const [meltingLotShowOrder, setMeltingLotShowOrder] = useState<any>('');
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -161,6 +163,19 @@ const useOperationDetailCard = () => {
   //     setSalesOrderList(carryForwardSalesOrder);
   //   }
   // };
+  // Initialize the ref
+  const meltingLotShowOrderRef = useRef();
+  const [isClicked, setIsClicked] = useState(false);
+
+  const handleMeltingLotShowOrder = () => {
+    // setMeltingLotShowOrder(value);
+    setIsClicked(true);
+    localStorage.setItem('meltingLotShowOrder', '1'); // Store value in localStorage
+    // Store the value in localStorage
+    // localStorage.setItem('meltingLotShowOrder', value);
+    // meltingLotShowOrderRef.current = value; // Update the ref
+  };
+
   const operationCardDetail = async () => {
     const hrefValue = window.location.href;
     const splitVal = hrefValue.split('=');
@@ -183,6 +198,28 @@ const useOperationDetailCard = () => {
           if (Array.isArray(salesOrderList)) {
             setCarryForwardSalesOrder(salesOrderList);
             setSalesOrderList(salesOrderList); // Use the value directly
+          }
+        }
+
+        const meltingLotShowOrder = localStorage.getItem('meltingLotShowOrder') || '';
+        console.log('monika', meltingLotShowOrder);
+        // Second API call to get melting lot sales order
+        const callMeltingLotSalesOrderAPI = await GETMeltingLotOPDetailSalesOrder(
+          operationCardName[1],
+          // meltingLotValue,
+          meltingLotShowOrder,
+          // meltingLotShowOrderRef.current, // Access the value from ref
+          token
+        );
+
+        console.log('Melting Lot Sales Order API Response:', callMeltingLotSalesOrderAPI);
+
+        if (callMeltingLotSalesOrderAPI?.status === 200) {
+          const meltingLotSalesOrderList = callMeltingLotSalesOrderAPI?.data?.message;
+
+          if (Array.isArray(meltingLotSalesOrderList)) {
+            // Combine the existing sales order list with the new melting lot sales order data
+            setSalesOrderList((prevSalesOrderList: any) => [...prevSalesOrderList, ...meltingLotSalesOrderList]);
           }
         }
       } catch (error) {
@@ -786,7 +823,7 @@ const useOperationDetailCard = () => {
     handleUpdateSalesOrderListWithReadyQty,
     handleOperationCardApproval,
     handleCustomerChange,
-
+    handleMeltingLotShowOrder,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,
