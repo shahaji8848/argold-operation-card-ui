@@ -202,7 +202,7 @@ const useOperationDetailCard = () => {
         }
 
         const meltingLotShowOrder = localStorage.getItem('meltingLotShowOrder') || '';
-        console.log('monika', meltingLotShowOrder);
+
         // Second API call to get melting lot sales order
         const callMeltingLotSalesOrderAPI = await GETMeltingLotOPDetailSalesOrder(
           operationCardName[1],
