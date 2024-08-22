@@ -33,6 +33,7 @@ import GETMeltingFilters from '@/services/api/melting-lot-dashboard-page/melting
 import POSTOperationCardApprove from '@/services/api/operation-card-detail-page/approval-api';
 import GETCarryForwardSalesOrder from '@/services/api/operation-card-detail-page/custom-op-sales-order';
 import GETMeltingLotOPDetailSalesOrder from '@/services/api/operation-card-detail-page/melting-lot-op-detail-sales-order';
+import GETValidationInWeight from '@/services/api/operation-card-detail-page/validation-in-weight';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -77,7 +78,7 @@ const useOperationDetailCard = () => {
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
   const [carryForwardSalesOrder, setCarryForwardSalesOrder] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
-  const [meltingLotShowOrder, setMeltingLotShowOrder] = useState<any>('');
+  const [validateInWeight, setValidateInWeight] = useState<any>('');
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -163,17 +164,9 @@ const useOperationDetailCard = () => {
   //     setSalesOrderList(carryForwardSalesOrder);
   //   }
   // };
-  // Initialize the ref
-  const meltingLotShowOrderRef = useRef();
-  const [isClicked, setIsClicked] = useState(false);
 
   const handleMeltingLotShowOrder = () => {
-    // setMeltingLotShowOrder(value);
-    setIsClicked(true);
     localStorage.setItem('meltingLotShowOrder', '1'); // Store value in localStorage
-    // Store the value in localStorage
-    // localStorage.setItem('meltingLotShowOrder', value);
-    // meltingLotShowOrderRef.current = value; // Update the ref
   };
 
   const operationCardDetail = async () => {
@@ -728,6 +721,22 @@ const useOperationDetailCard = () => {
     const saveOP = await POSTOperationCardSave(search, filteredData, token);
   };
 
+  // Validation for in_weight input filed in modal
+  const GETValidationInWeightField = async () => {
+    const hrefValue = window.location.href;
+    const operationCardName = hrefValue.split('=');
+    const fetchValidationInWeight = await GETValidationInWeight(operationCardName[1], token);
+    if (fetchValidationInWeight?.status === 200) {
+      setValidateInWeight(fetchValidationInWeight?.data?.message);
+    } else {
+      setValidateInWeight('');
+    }
+  };
+
+  useEffect(() => {
+    GETValidationInWeightField();
+  }, []);
+
   useEffect(() => {
     if (balanceWeight !== '') {
       setModalFieldsState({ in_weight: balanceWeight });
@@ -772,6 +781,7 @@ const useOperationDetailCard = () => {
       createGoldAccessoryTable();
 
       getIssueReferenceAPICallFunc();
+      GETValidationInWeightField();
     }
   }, [operationCardDetailData]);
 
@@ -825,6 +835,7 @@ const useOperationDetailCard = () => {
     handleOperationCardApproval,
     handleCustomerChange,
     handleMeltingLotShowOrder,
+    validateInWeight,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,

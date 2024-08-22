@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import styles from '../../../../styles/operationDetail.module.css';
 import AutoCompleteField from './AutoCompleteField';
 import ModalSalesTable from './ModalSalesTable';
+import { toast } from 'react-toastify';
+import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -93,9 +95,10 @@ const OperationCardIssueButton = ({
       item: itemName,
     };
   };
-
+  const { validateInWeight } = useOperationDetailCard();
   const handleModalFieldsChange = (e: any) => {
-    console.log('merged e.target.value', e.target.name, e.target.checked);
+    // console.log('merged e.target.value', e.target.name, e.target.checked);
+    console.log('merged e.target.value', e.target.name);
     const { name, value, checked } = e.target;
     if (name === 'hold_order_details') {
       setModalFieldValuesState({
@@ -103,10 +106,21 @@ const OperationCardIssueButton = ({
         [name]: checked ? 1 : 0,
       });
     } else {
-      setModalFieldValuesState({
-        ...modalFieldValuesState,
-        [name]: value,
-      });
+      if (name === 'in_weight') {
+        if (validateInWeight?.order_status === 0) {
+          toast.error(validateInWeight?.message);
+        } else {
+          setModalFieldValuesState({
+            ...modalFieldValuesState,
+            [name]: value,
+          });
+        }
+      } else {
+        setModalFieldValuesState({
+          ...modalFieldValuesState,
+          [name]: value,
+        });
+      }
     }
   };
 
@@ -425,6 +439,7 @@ const OperationCardIssueButton = ({
                           name={val?.label}
                           value={modalFieldValuesState[val?.label]}
                           onChange={handleModalFieldsChange}
+                          disabled={validateInWeight?.order_status === 0}
                         />
                         <label
                           htmlFor="staticEmail"
