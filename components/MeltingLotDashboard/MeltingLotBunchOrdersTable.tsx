@@ -100,7 +100,7 @@ const MeltingLotBunchOrdersTable = ({
                           {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
                             const items = itemGroupData[marketDesignName];
                             return (
-                              items && items?.map((items: any, idx: any) => <div>{items?.weight_per_unit_qty?.toFixed(3)}</div>)
+                              items && items?.map((items: any, idx: any) => <div>{items?.estimate_bunch_weight?.toFixed(3)}</div>)
                             );
                           })}
                         </td>

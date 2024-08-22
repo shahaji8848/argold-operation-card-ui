@@ -145,6 +145,7 @@ const useMeltingLotSalesOrder = () => {
                   bunch_length: qtyItem?.bunch_length,
                   per_inch_weight: qtyItem?.per_inch_weight,
                   estimate_bunch_weight: qtyItem?.estimate_bunch_weight,
+                  bunch_weight: qtyItem?.estimate_bunch_weight,
                 };
                 // Push the new order to the transformed data list
                 transformedDataList.push(newOrder);
