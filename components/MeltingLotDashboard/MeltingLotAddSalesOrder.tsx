@@ -12,6 +12,7 @@ const MeltingLotAddSalesOrder = () => {
     salesOrderData,
     selectedOrders,
     handleCheckboxChange,
+    formatDate,
     handleSaveSalesOrder,
   }: any = useMeltingLotSalesOrder();
 
@@ -60,12 +61,14 @@ const MeltingLotAddSalesOrder = () => {
           salesOrderData={salesOrderData}
           selectedOrders={selectedOrders}
           handleCheckboxChange={handleCheckboxChange}
+          formatDate={formatDate}
           handleSaveSalesOrder={handleSaveSalesOrder}
         />
         <MeltingLotBunchOrdersTable
           salesOrderData={salesOrderData}
           selectedOrders={selectedOrders}
           handleCheckboxChange={handleCheckboxChange}
+          formatDate={formatDate}
           handleSaveSalesOrder={handleSaveSalesOrder}
         />
       </div>

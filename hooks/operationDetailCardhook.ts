@@ -219,20 +219,20 @@ const useOperationDetailCard = () => {
 
           if (Array.isArray(meltingLotSalesOrderList)) {
             // Combine the existing sales order list with the new melting lot sales order data
-            setSalesOrderList((prevSalesOrderList: any) => [...prevSalesOrderList, ...meltingLotSalesOrderList]);
+            // setSalesOrderList((prevSalesOrderList: any) => [...prevSalesOrderList, ...meltingLotSalesOrderList]);
+            setSalesOrderList(meltingLotSalesOrderList);
           }
         }
       } catch (error) {
         console.error('Error in API call:', error);
       }
-
       console.log('Updated States:', carryForwardSalesOrder);
     } else {
       setOperationCardDetailData({});
       setSalesOrderList([]); // Reset to empty array if no data
     }
   };
-
+  console.log('Updated Melting Lot States:', salesOrderList);
   const getOperationCardProcessDepartment = async () => {
     const operationCardProductProcessDepartmentData = await GETOperationCardProductProcessDepartmentData(
       operationCardDetailData?.product_process_department,
@@ -513,6 +513,7 @@ const useOperationDetailCard = () => {
         token
       );
     }
+
     if (getNextProductProcess?.status === 200) {
       setOperationCardNextProductProcess(
         getNextProductProcess?.data?.data?.map((nextProductProcess: any) => ({

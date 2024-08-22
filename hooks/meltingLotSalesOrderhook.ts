@@ -50,7 +50,7 @@ const useMeltingLotSalesOrder = () => {
       // ) {
       setSalesOrderData(getMeltingPlanBasedOnFiltersData?.data?.message);
       // }
-      // toast.error('No Data Found');
+      toast.error(getMeltingPlanBasedOnFiltersData?.data?.message?.message);
     } else {
       setSalesOrderData([]);
       toast.error('No Data Found');
@@ -77,7 +77,7 @@ const useMeltingLotSalesOrder = () => {
 
     // Iterate over single_orders
     salesOrderData?.single_orders?.forEach((order: any, index: any) => {
-      if (selectedOrders[index]) {
+      if (selectedOrders[order?.sales_order]) {
         const marketDesignName = order?.market_design_name;
 
         // Ensure item_group_data exists and iterate over it
@@ -116,38 +116,39 @@ const useMeltingLotSalesOrder = () => {
 
     // Iterate over bunch_orders
     salesOrderData?.bunch_orders?.forEach((order: any) => {
-      const marketDesignName = order?.market_design_name;
+      if (selectedOrders[order?.sales_order]) {
+        const marketDesignName = order?.market_design_name;
+        // Ensure item_group_data exists and iterate over it
+        if (order?.item_group_data && order?.item_group_data.length > 0) {
+          order?.item_group_data.forEach((itemGroupData: any) => {
+            // Access the correct items array
+            const items = itemGroupData[marketDesignName];
 
-      // Ensure item_group_data exists and iterate over it
-      if (order?.item_group_data && order?.item_group_data.length > 0) {
-        order?.item_group_data.forEach((itemGroupData: any) => {
-          // Access the correct items array
-          const items = itemGroupData[marketDesignName];
-
-          // Ensure items exist and iterate over them
-          if (items && items.length > 0) {
-            items.forEach((qtyItem: any) => {
-              let newOrder = {
-                sales_order: order?.sales_order,
-                order_date: order?.order_date,
-                delivery_date: order?.delivery_date,
-                customer: order?.customer,
-                description: order?.description,
-                order_weight: order?.order_weight,
-                market_design_name: order?.market_design_name,
-                soi_name: qtyItem?.soi_name,
-                item: qtyItem?.item,
-                product: qtyItem?.product,
-                size: qtyItem?.size,
-                quantity: qtyItem?.quantity,
-                is_bunch: qtyItem?.is_bunch,
-                weight_per_unit_qty: qtyItem?.weight_per_unit_qty,
-              };
-              // Push the new order to the transformed data list
-              transformedDataList.push(newOrder);
-            });
-          }
-        });
+            // Ensure items exist and iterate over them
+            if (items && items.length > 0) {
+              items.forEach((qtyItem: any) => {
+                let newOrder = {
+                  sales_order: order?.sales_order,
+                  order_date: order?.order_date,
+                  delivery_date: order?.delivery_date,
+                  customer: order?.customer,
+                  description: order?.description,
+                  order_weight: order?.order_weight,
+                  market_design_name: order?.market_design_name,
+                  soi_name: qtyItem?.soi_name,
+                  item: qtyItem?.item,
+                  product: qtyItem?.product,
+                  size: qtyItem?.size,
+                  quantity: qtyItem?.quantity,
+                  is_bunch: qtyItem?.is_bunch,
+                  weight_per_unit_qty: qtyItem?.weight_per_unit_qty,
+                };
+                // Push the new order to the transformed data list
+                transformedDataList.push(newOrder);
+              });
+            }
+          });
+        }
       }
     });
 
@@ -167,6 +168,25 @@ const useMeltingLotSalesOrder = () => {
     }
   };
 
+  // Function to format date
+  const formatDate = (dateString: any) => {
+    if (!dateString || dateString === ' ' || dateString === null) {
+      return '--';
+    }
+
+    // Attempt to parse and format the date
+    try {
+      const date = new Date(dateString);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because getMonth() returns 0-11
+      const year = date.getFullYear();
+
+      return `${day}-${month}-${year}`;
+    } catch (error) {
+      return '--';
+    }
+  };
+
   return {
     meltingPlan,
     meltingPlanFilters,
@@ -174,6 +194,7 @@ const useMeltingLotSalesOrder = () => {
     salesOrderData,
     selectedOrders,
     handleCheckboxChange,
+    formatDate,
     handleSaveSalesOrder,
   };
 };

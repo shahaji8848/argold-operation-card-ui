@@ -59,6 +59,7 @@ const OperationCardIssueButton = ({
     'next_design_code_type',
     'worker',
     'machine',
+    'product',
   ];
 
   const checkboxFieldsList: string[] = ['hold_order_details'];
@@ -350,7 +351,7 @@ const OperationCardIssueButton = ({
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-between "></div>
-          <div className="row">
+          <div className="row" style={{ backgroundColor: '2px solid red' }}>
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
                 console.log('val label', val);
@@ -381,6 +382,7 @@ const OperationCardIssueButton = ({
                     next_product_category: operationCardNextProductCategory,
                     gpc_product: operationCardProduct,
                     worker: operationCardWorkerList,
+                    product: operationCardProduct,
                   };
                   propToPass = propMappings[val];
                   return propToPass;

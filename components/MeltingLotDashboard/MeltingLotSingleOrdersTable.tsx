@@ -1,6 +1,12 @@
 import React from 'react';
 
-const MeltingLotSingleOrdersTable = ({ salesOrderData, selectedOrders, handleCheckboxChange, handleSaveSalesOrder }: any) => {
+const MeltingLotSingleOrdersTable = ({
+  salesOrderData,
+  selectedOrders,
+  handleCheckboxChange,
+  formatDate,
+  handleSaveSalesOrder,
+}: any) => {
   return (
     <>
       {salesOrderData?.single_orders?.length > 0 && (
@@ -45,11 +51,13 @@ const MeltingLotSingleOrdersTable = ({ salesOrderData, selectedOrders, handleChe
                           />
                         </td>
                         <td className="text-center">
-                          {ordersData?.order_date !== ' ' && ordersData?.order_date !== null ? ordersData?.order_date : '--'}
+                          {ordersData?.order_date !== ' ' && ordersData?.order_date !== null
+                            ? formatDate(ordersData?.order_date)
+                            : '--'}
                         </td>
                         <td className="text-center">
                           {ordersData?.delivery_date !== ' ' && ordersData?.delivery_date !== null
-                            ? ordersData?.delivery_date
+                            ? formatDate(ordersData?.delivery_date)
                             : '--'}
                         </td>
                         <td className="text-center">
