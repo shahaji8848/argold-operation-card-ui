@@ -488,7 +488,7 @@ const OperationCardIssueButton = ({
                 );
               })}
           </div>
-          {selectedIssueBtnData.item === 'Customer' && salesOrderList?.length > 0 && (
+          {selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Customer' && salesOrderList?.length > 0 && (
             <>
               <ModalSalesTable
                 salesOrderList={salesOrderList}
