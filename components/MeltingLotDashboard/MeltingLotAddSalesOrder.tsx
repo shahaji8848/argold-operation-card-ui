@@ -71,6 +71,12 @@ const MeltingLotAddSalesOrder = () => {
           formatDate={formatDate}
           handleSaveSalesOrder={handleSaveSalesOrder}
         />
+
+        {(salesOrderData?.single_orders?.length > 0 || salesOrderData?.bunch_orders?.length > 0) && (
+          <button className="text-end btn btn-blue btn-py mt-1" onClick={handleSaveSalesOrder}>
+            Save
+          </button>
+        )}
       </div>
     </div>
   );

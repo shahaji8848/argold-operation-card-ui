@@ -98,10 +98,6 @@ const MeltingLotBunchOrdersTable = ({
               </tbody>
             </table>
           </div>
-
-          <button className="text-end btn btn-blue btn-py mt-1" onClick={handleSaveSalesOrder}>
-            Save
-          </button>
         </>
       )}
     </>

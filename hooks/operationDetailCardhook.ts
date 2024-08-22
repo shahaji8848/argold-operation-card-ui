@@ -201,28 +201,28 @@ const useOperationDetailCard = () => {
           }
         }
 
-        const meltingLotShowOrder = localStorage.getItem('meltingLotShowOrder') || '';
+        // const meltingLotShowOrder = localStorage.getItem('meltingLotShowOrder') || '';
 
         // Second API call to get melting lot sales order
-        const callMeltingLotSalesOrderAPI = await GETMeltingLotOPDetailSalesOrder(
-          operationCardName[1],
-          // meltingLotValue,
-          meltingLotShowOrder,
-          // meltingLotShowOrderRef.current, // Access the value from ref
-          token
-        );
+        // const callMeltingLotSalesOrderAPI = await GETMeltingLotOPDetailSalesOrder(
+        //   operationCardName[1],
+        //   // meltingLotValue,
+        //   meltingLotShowOrder,
+        //   // meltingLotShowOrderRef.current, // Access the value from ref
+        //   token
+        // );
 
-        console.log('Melting Lot Sales Order API Response:', callMeltingLotSalesOrderAPI);
+        // console.log('Melting Lot Sales Order API Response:', callMeltingLotSalesOrderAPI);
 
-        if (callMeltingLotSalesOrderAPI?.status === 200) {
-          const meltingLotSalesOrderList = callMeltingLotSalesOrderAPI?.data?.message;
+        // if (callMeltingLotSalesOrderAPI?.status === 200) {
+        //   const meltingLotSalesOrderList = callMeltingLotSalesOrderAPI?.data?.message;
 
-          if (Array.isArray(meltingLotSalesOrderList)) {
-            // Combine the existing sales order list with the new melting lot sales order data
-            // setSalesOrderList((prevSalesOrderList: any) => [...prevSalesOrderList, ...meltingLotSalesOrderList]);
-            setSalesOrderList(meltingLotSalesOrderList);
-          }
-        }
+        //   if (Array.isArray(meltingLotSalesOrderList)) {
+        //     // Combine the existing sales order list with the new melting lot sales order data
+        //     // setSalesOrderList((prevSalesOrderList: any) => [...prevSalesOrderList, ...meltingLotSalesOrderList]);
+        //     setSalesOrderList(meltingLotSalesOrderList);
+        //   }
+        // }
       } catch (error) {
         console.error('Error in API call:', error);
       }
