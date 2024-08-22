@@ -73,7 +73,7 @@ const MeltingLotSingleOrdersTable = ({
                         </td>
                         <td className="text-center">
                           {ordersData?.order_weight !== ' ' && ordersData?.order_weight !== null
-                            ? ordersData?.order_weight
+                            ? ordersData?.order_weight?.toFixed(3)
                             : '--'}
                         </td>
                         <td className="text-center">

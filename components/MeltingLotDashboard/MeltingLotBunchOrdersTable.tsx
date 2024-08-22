@@ -29,6 +29,10 @@ const MeltingLotBunchOrdersTable = ({
                     'market design name',
                     'size',
                     'quantity',
+                    'Bunch Weight',
+                    'Bunch Length',
+                    'Per Inch Weight',
+                    'Estimate Bunch Weight',
                   ].map((val: any, index: any) => (
                     <th className="thead-dark text-center" scope="col" key={index}>
                       {val}
@@ -72,7 +76,7 @@ const MeltingLotBunchOrdersTable = ({
                         </td>
                         <td className="text-center">
                           {ordersData?.order_weight !== ' ' && ordersData?.order_weight !== null
-                            ? ordersData?.order_weight
+                            ? ordersData?.order_weight?.toFixed(3)
                             : '--'}
                         </td>
                         <td className="text-center">
@@ -90,6 +94,34 @@ const MeltingLotBunchOrdersTable = ({
                           {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
                             const items = itemGroupData[marketDesignName];
                             return items && items?.map((items: any, idx: any) => <div>{items.quantity}</div>);
+                          })}
+                        </td>
+                        <td className="text-end">
+                          {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
+                            const items = itemGroupData[marketDesignName];
+                            return (
+                              items && items?.map((items: any, idx: any) => <div>{items?.weight_per_unit_qty?.toFixed(3)}</div>)
+                            );
+                          })}
+                        </td>
+                        <td className="text-end">
+                          {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
+                            const items = itemGroupData[marketDesignName];
+                            return items && items?.map((items: any, idx: any) => <div>{items?.bunch_length?.toFixed(3)}</div>);
+                          })}
+                        </td>
+                        <td className="text-end">
+                          {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
+                            const items = itemGroupData[marketDesignName];
+                            return items && items?.map((items: any, idx: any) => <div>{items?.per_inch_weight?.toFixed(3)}</div>);
+                          })}
+                        </td>
+                        <td className="text-end">
+                          {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
+                            const items = itemGroupData[marketDesignName];
+                            return (
+                              items && items?.map((items: any, idx: any) => <div>{items?.estimate_bunch_weight?.toFixed(3)}</div>)
+                            );
                           })}
                         </td>
                       </tr>
