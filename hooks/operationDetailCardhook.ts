@@ -760,12 +760,16 @@ const useOperationDetailCard = () => {
       operationCardDetailData?.product_process_department,
       token
     );
+
     if (fetchDesignInputField?.status === 200) {
       setdesignInputValue(fetchDesignInputField?.data?.message);
     } else {
       setdesignInputValue([]);
     }
   };
+  useEffect(() => {
+    getDesignInputField;
+  }, [designInputValue]);
 
   const postSaveDesignInOP = async () => {
     try {
