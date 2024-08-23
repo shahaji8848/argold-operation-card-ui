@@ -528,7 +528,7 @@ const OperationCardIssueButton = ({
           {validityForDesign?.message && (
             <p>
               <span className="mt-3 text-danger">{validityForDesign?.message}</span>
-              <Link href={validityForDesign?.url} className="text-decoration-underline">
+              <Link href={validityForDesign?.url} className="text-decoration-underline" target="_blank">
                 Go to Melting Plan
               </Link>
             </p>

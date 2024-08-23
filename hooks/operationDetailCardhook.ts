@@ -772,7 +772,7 @@ const useOperationDetailCard = () => {
       const saveDesignInOP = await POSTDesignValue(search, designInputValue?.design, token);
 
       if (saveDesignInOP?.status === 200) {
-        window.location.reload();
+        // window.location.reload();
       } else {
         // toast.error('Error approving operation card ');
       }
