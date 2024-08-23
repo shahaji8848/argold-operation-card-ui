@@ -47,15 +47,29 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                   </p>
                 </div>
                 <div>
+                  {meltingData?.docstatus === 0 && (
+                    <button className="text-end btn btn-blue btn-py me-2">
+                      <Link href={meltingData?.melting_plan_url} className="text-white" target="_blank">
+                        Edit Melting Plan
+                      </Link>
+                    </button>
+                  )}
+                  {meltingData?.docstatus === 1 && (
+                    <button className="text-end btn btn-blue btn-py me-2">
+                      <Link href={meltingData?.melting_plan_url} className="text-white" target="_blank">
+                        View Melting Plan
+                      </Link>
+                    </button>
+                  )}
                   {meltingData?.edit_url && (
-                    <button className="text-end btn btn-blue btn-py ">
+                    <button className="text-end btn btn-blue btn-py me-2">
                       <Link href={meltingData?.edit_url} className="text-white" target="_blank">
                         Edit Melting Lot
                       </Link>
                     </button>
                   )}
                   {meltingData?.create_url && (
-                    <button className="text-end btn btn-blue btn-py ">
+                    <button className="text-end btn btn-blue btn-py me-2">
                       <Link href={meltingData?.create_url} className="text-white" target="_blank">
                         Create Melting Lot
                       </Link>
@@ -64,17 +78,18 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                   {meltingData?.view_url && (
                     <>
                       <button className="text-end btn btn-blue btn-py me-2">
+                        <Link href={meltingData?.view_url} className="text-white" target="_blank">
+                          View Melting Lot
+                        </Link>
+                      </button>
+
+                      <button className="text-end btn btn-blue btn-py ">
                         <Link
                           href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
                           className="text-white"
                           target="_blank"
                         >
                           Add Sales Order
-                        </Link>
-                      </button>
-                      <button className="text-end btn btn-blue btn-py ">
-                        <Link href={meltingData?.view_url} className="text-white" target="_blank">
-                          View Melting Lot
                         </Link>
                       </button>
                     </>

@@ -34,6 +34,9 @@ import POSTOperationCardApprove from '@/services/api/operation-card-detail-page/
 import GETCarryForwardSalesOrder from '@/services/api/operation-card-detail-page/custom-op-sales-order';
 import GETMeltingLotOPDetailSalesOrder from '@/services/api/operation-card-detail-page/melting-lot-op-detail-sales-order';
 import GETValidationInWeight from '@/services/api/operation-card-detail-page/validation-in-weight';
+import GETValidationForDesign from '@/services/api/operation-card-detail-page/validation-for-design';
+import GETDesignInputField from '@/services/api/operation-card-detail-page/design-input-field';
+import POSTDesignValue from '@/services/api/operation-card-detail-page/post-design-value';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -79,6 +82,8 @@ const useOperationDetailCard = () => {
   const [carryForwardSalesOrder, setCarryForwardSalesOrder] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
   const [validateInWeight, setValidateInWeight] = useState<any>('');
+  const [validityForDesign, setValidityForDesign] = useState<any>('');
+  const [designInputValue, setdesignInputValue] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -733,6 +738,49 @@ const useOperationDetailCard = () => {
     }
   };
 
+  const getValidationForDesign = async () => {
+    const fetchValidationForDesign = await GETValidationForDesign(
+      operationCardDetailData?.name,
+      operationCardDetailData?.product_process_department,
+      operationCardDetailData?.design || '',
+      operationCardDetailData?.melting_lot,
+      token
+    );
+
+    if (fetchValidationForDesign?.status === 200) {
+      setValidityForDesign(fetchValidationForDesign?.data?.message);
+    } else {
+      setValidityForDesign('');
+    }
+  };
+
+  const getDesignInputField = async () => {
+    const fetchDesignInputField = await GETDesignInputField(
+      operationCardDetailData?.melting_lot,
+      operationCardDetailData?.product_process_department,
+      token
+    );
+    if (fetchDesignInputField?.status === 200) {
+      setdesignInputValue(fetchDesignInputField?.data?.message);
+    } else {
+      setdesignInputValue([]);
+    }
+  };
+
+  const postSaveDesignInOP = async () => {
+    try {
+      const saveDesignInOP = await POSTDesignValue(search, designInputValue?.design, token);
+
+      if (saveDesignInOP?.status === 200) {
+        window.location.reload();
+      } else {
+        // toast.error('Error approving operation card ');
+      }
+    } catch (error) {
+      // toast.error('Error approving operation card');
+    }
+  };
+
   useEffect(() => {
     GETValidationInWeightField();
   }, []);
@@ -782,6 +830,7 @@ const useOperationDetailCard = () => {
 
       getIssueReferenceAPICallFunc();
       GETValidationInWeightField();
+      getDesignInputField();
     }
   }, [operationCardDetailData]);
 
@@ -836,6 +885,10 @@ const useOperationDetailCard = () => {
     handleCustomerChange,
     handleMeltingLotShowOrder,
     validateInWeight,
+    getValidationForDesign,
+    validityForDesign,
+    designInputValue,
+    postSaveDesignInOP,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,

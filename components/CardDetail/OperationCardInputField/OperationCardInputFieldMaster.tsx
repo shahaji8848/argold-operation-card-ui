@@ -18,21 +18,13 @@ const OperationCardInputFieldMaster = ({
   const operationCardFields: any = Object?.entries(operationCardProductDept)
     .filter(([key, value]) => key.includes('show') && value === 1)
     .map(([key, value]) => key.replace('show_', ''));
-  console.log('operationCardFields', operationCardFields);
+  console.log('operationCardFieldss', operationCardFields);
 
-  const operationCardFieldValue = Object.entries(
-    operationCardDetailData
-  ).filter(([key, value]) => operationCardFields?.includes(key));
+  const operationCardFieldValue = Object.entries(operationCardDetailData).filter(
+    ([key, value]) => operationCardFields?.includes(key)
+  );
 
-  const editableFieldsList = [
-    'karigar',
-    'quantity',
-    'machine',
-    'tone',
-    'product_category',
-    'description',
-    'loss_period',
-  ];
+  const editableFieldsList = ['karigar', 'quantity', 'machine', 'tone', 'product_category', 'description', 'loss_period'];
   const editableFieldsWithDropdownData = [
     { name: 'karigar', label: 'Karigar', data: operationCardKarigar },
     { name: 'machine', label: 'Machine', data: operationCardMachine },
@@ -48,37 +40,26 @@ const OperationCardInputFieldMaster = ({
       data: lossReportList,
     },
   ];
-  const dropdownEditable: IDropdownEditable[] =
-    editableFieldsWithDropdownData.filter((fieldObj: any) =>
-      operationCardFields.includes(fieldObj.name)
-    );
+  const dropdownEditable: IDropdownEditable[] = editableFieldsWithDropdownData.filter((fieldObj: any) =>
+    operationCardFields.includes(fieldObj.name)
+  );
 
   const dataEditable: string[] = operationCardFields?.filter(
     (field: string) =>
-      editableFieldsList?.includes(field) &&
-      !editableFieldsWithDropdownData.some(
-        (fieldObj: any) => fieldObj.name === field
-      )
+      editableFieldsList?.includes(field) && !editableFieldsWithDropdownData.some((fieldObj: any) => fieldObj.name === field)
   );
   return (
     <div className="d-flex  spacing-mt ">
-      <div
-        className="col-md-12 border  rounded-3"
-        style={{ border: '2px solid red' }}
-      >
+      <div className="col-md-12 border  rounded-3" style={{ border: '2px solid red' }}>
         <div className={`row text-center py-2 mx-2 gap-3`}>
-          {operationCardFields.some(
-            (field: string) => editableFieldsList?.includes(field)
-          ) && (
+          {operationCardFields.some((field: string) => editableFieldsList?.includes(field)) && (
             <EditableOperationCardFields
               dropdownEditable={dropdownEditable}
               dataEditable={dataEditable}
               headerSave={headerSave}
               handleHeaderSave={handleHeaderSave}
               operationCardDetailData={operationCardDetailData}
-              operationCardKarigarQuantitySettings={
-                operationCardKarigarQuantitySettings
-              }
+              operationCardKarigarQuantitySettings={operationCardKarigarQuantitySettings}
             />
           )}
 

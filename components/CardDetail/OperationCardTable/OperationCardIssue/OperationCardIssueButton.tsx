@@ -9,6 +9,7 @@ import AutoCompleteField from './AutoCompleteField';
 import ModalSalesTable from './ModalSalesTable';
 import { toast } from 'react-toastify';
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
+import Link from 'next/link';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -140,7 +141,7 @@ const OperationCardIssueButton = ({
   };
 
   console.log('modal updated data', getValues);
-
+  const { getValidationForDesign, validityForDesign, designInputValue, postSaveDesignInOP }: any = useOperationDetailCard();
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
@@ -164,11 +165,22 @@ const OperationCardIssueButton = ({
     console.log('mergedObjs', mergedObjs, decodeURI(splitValue[1]));
 
     console.log('selectedSalesOrderData', selectedSalesOrderData, mergedObjs);
+    await postSaveDesignInOP();
 
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
 
       try {
+        await getValidationForDesign();
+        // Check if the validityForDesign message is the specific message
+        if (validityForDesign?.message === 'Please Fill Design in the Melting Plan.') {
+          setErrMessage(validityForDesign.message);
+
+          setShowToastErr(true);
+          setDisableSubmitBtn(false); // Re-enable the submit button after error
+          return; // Exit the function early if the condition is met
+        }
+
         const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
         console.log('api', callSaveAPI);
         if (callSaveAPI?.status === 200) {
@@ -512,6 +524,14 @@ const OperationCardIssueButton = ({
             </div>
           ) : (
             ''
+          )}
+          {validityForDesign?.message && (
+            <p>
+              <span className="mt-3 text-danger">{validityForDesign?.message}</span>
+              <Link href={validityForDesign?.url} className="text-decoration-underline">
+                Go to Melting Plan
+              </Link>
+            </p>
           )}
           {emptyFieldsErr && <p className="mt-3 text-danger">Please fill all the fields</p>}
         </Modal.Body>
