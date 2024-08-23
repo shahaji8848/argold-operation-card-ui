@@ -181,17 +181,19 @@ const OperationCardIssueButton = ({
           return; // Exit the function early if the condition is met
         }
 
-        const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-        console.log('api', callSaveAPI);
-        if (callSaveAPI?.status === 200) {
-          operationCardDetail();
-          handleClose();
-        } else {
-          handleClose();
-          const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
-          const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
-          setErrMessage(messageValue);
-          setShowToastErr(true);
+        if (validityForDesign?.message !== 'Please Fill Design in the Melting Plan.') {
+          const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+          console.log('api', callSaveAPI);
+          if (callSaveAPI?.status === 200) {
+            operationCardDetail();
+            handleClose();
+          } else {
+            handleClose();
+            const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+            const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+            setErrMessage(messageValue);
+            setShowToastErr(true);
+          }
         }
       } catch (error) {
         setErrMessage('Some error occured while saving the entry');
