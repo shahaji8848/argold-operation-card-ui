@@ -175,7 +175,7 @@ const OperationCardIssueButton = ({
         // Check if the validityForDesign message is the specific message
         if (validityForDesign?.message === 'Please Fill Design in the Melting Plan.') {
           setErrMessage(validityForDesign.message);
-
+          setShow(true);
           setShowToastErr(true);
           setDisableSubmitBtn(false); // Re-enable the submit button after error
           return; // Exit the function early if the condition is met
