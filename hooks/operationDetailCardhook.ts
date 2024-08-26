@@ -524,6 +524,20 @@ const useOperationDetailCard = () => {
     }
   };
 
+  const onChangeOfProductFetchNextProductProcess = async (product: any) => {
+    const getNextProductProcess = await GETOperationCardDetailNextProductProcess(product, 1, token);
+    if (getNextProductProcess?.status === 200) {
+      setOperationCardNextProductProcess(
+        getNextProductProcess?.data?.data?.map((nextProductProcess: any) => ({
+          name: nextProductProcess?.name,
+          value: nextProductProcess?.title,
+        }))
+      );
+    } else {
+      setOperationCardNextProductProcess([]);
+    }
+  };
+
   const getOperationCardDetailNextProductProcessDepartmentAPICallFunc = async () => {
     const getNextProductProcessDepartment = await GETOperationCardDetailNextProductProcessDepartment(
       operationCardDetailData?.product_process,
@@ -746,9 +760,9 @@ const useOperationDetailCard = () => {
       operationCardDetailData?.melting_lot,
       token
     );
-
+    console.log('fetchValidationForDesign', fetchValidationForDesign);
     if (fetchValidationForDesign?.status === 200) {
-      setValidityForDesign(fetchValidationForDesign?.data?.message);
+      setValidityForDesign(fetchValidationForDesign?.data?.message?.message);
     } else {
       setValidityForDesign('');
     }
@@ -879,6 +893,7 @@ const useOperationDetailCard = () => {
     isBalanceWeightSetAsInWeight,
     balanceWeight,
     modalFieldsState,
+    onChangeOfProductFetchNextProductProcess,
 
     // Below variables are of Sales Order List
     salesOrderList,

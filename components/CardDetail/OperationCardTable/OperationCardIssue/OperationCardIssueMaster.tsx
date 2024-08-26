@@ -23,6 +23,7 @@ const OperationCardIssueMaster = ({
   operationCardNextDesign,
   operationCardNextProductProcess,
   operationCardWorkerList,
+  onChangeOfProductFetchNextProductProcess,
   operationCardNextProductProcessDepartment,
   getOperationCardDetailDesignCodeCategoryAPICall,
   getOperationCardDetailDesignAPICall,
@@ -63,6 +64,7 @@ const OperationCardIssueMaster = ({
         operationCardNextDesign={operationCardNextDesign}
         operationCardDesignCodeCategory={operationCardDesignCodeCategory}
         operationCardNextProductProcess={operationCardNextProductProcess}
+        onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
         operationCardProduct={operationCardProduct}
         operationCardNextProductProcessDepartment={operationCardNextProductProcessDepartment}
         getOperationCardDetailDesignCodeCategoryAPICall={getOperationCardDetailDesignCodeCategoryAPICall}

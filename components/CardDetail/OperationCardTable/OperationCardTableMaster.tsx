@@ -23,6 +23,7 @@ const OperationCardTableMaster = ({
   operationCardDesignCodeCategory,
   operationCardNextDesign,
   operationCardNextProductProcess,
+  onChangeOfProductFetchNextProductProcess,
   operationCardNextProductCategory,
   operationCardNextProductProcessDepartment,
   getOperationCardDetailDesignCodeCategoryAPICall,
@@ -87,6 +88,7 @@ const OperationCardTableMaster = ({
           operationCardVariant={operationCardVariant}
           operationCardMachineSize={operationCardMachineSize}
           operationCardDesignCodeCategory={operationCardDesignCodeCategory}
+          onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
           operationCardNextProductProcess={operationCardNextProductProcess}
           operationCardNextProductProcessDepartment={operationCardNextProductProcessDepartment}
           operationCardWorkerList={operationCardWorkerList}

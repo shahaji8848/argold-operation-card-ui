@@ -10,6 +10,7 @@ import ModalSalesTable from './ModalSalesTable';
 import { toast } from 'react-toastify';
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Link from 'next/link';
+import GETValidationForDesign from '@/services/api/operation-card-detail-page/validation-for-design';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -26,6 +27,7 @@ const OperationCardIssueButton = ({
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextProductProcess,
+  onChangeOfProductFetchNextProductProcess,
   operationCardNextDesign,
   operationCardNextProductProcessDepartment,
   operationCardWorkerList,
@@ -70,6 +72,7 @@ const OperationCardIssueButton = ({
   const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false);
   const [showToastErr, setShowToastErr] = useState<boolean>(false);
   const [emptyFieldsErr, setEmptyFieldsErr] = useState<boolean>(false);
+  const [validationForDesignErr, setvalidationForDesignErr] = useState({ message: '', url: '' });
 
   const [errMessage, setErrMessage] = useState<string>('');
   const [itemName, setItemName] = useState('');
@@ -161,27 +164,31 @@ const OperationCardIssueButton = ({
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
-    console.log('mergedObjs modal', modalDropdownFields);
-    console.log('mergedObjs', mergedObjs, decodeURI(splitValue[1]));
 
-    console.log('selectedSalesOrderData', selectedSalesOrderData, mergedObjs);
     await postSaveDesignInOP();
 
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
 
       try {
-        await getValidationForDesign();
-        // Check if the validityForDesign message is the specific message
-        if (validityForDesign?.message === 'Please Fill Design in the Melting Plan.') {
-          setErrMessage(validityForDesign.message);
-          setShow(true);
-          setShowToastErr(true);
-          setDisableSubmitBtn(false); // Re-enable the submit button after error
-          return; // Exit the function early if the condition is met
-        }
-
-        if (validityForDesign?.message !== 'Please Fill Design in the Melting Plan.') {
+        const fetchValidationForDesign = await GETValidationForDesign(
+          operationCardDetailData?.name,
+          operationCardDetailData?.product_process_department,
+          operationCardDetailData?.design || '',
+          operationCardDetailData?.melting_lot,
+          token
+        );
+        if (
+          fetchValidationForDesign?.status === 200 &&
+          Object.keys(fetchValidationForDesign?.data).length > 0 &&
+          fetchValidationForDesign?.data?.message?.message === 'Please Fill Design in the Melting Plan.'
+        ) {
+          setvalidationForDesignErr(fetchValidationForDesign?.data?.message);
+          // setErrMessage(fetchValidationForDesign?.data?.message?.message);
+          // setShow(true);
+          // setShowToastErr(true);
+          setDisableSubmitBtn(true);
+        } else {
           const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
           console.log('api', callSaveAPI);
           if (callSaveAPI?.status === 200) {
@@ -195,6 +202,32 @@ const OperationCardIssueButton = ({
             setShowToastErr(true);
           }
         }
+        // await getValidationForDesign();
+        // console.log('validity for design', validityForDesign);
+        // // Check if the validityForDesign message is the specific message
+        // if (validityForDesign === 'Please Fill Design in the Melting Plan.') {
+        // setErrMessage(validityForDesign);
+        // setShow(true);
+        // setShowToastErr(true);
+        // setDisableSubmitBtn(false); // Re-enable the submit button after error
+        // return; // Exit the function early if the condition is met
+        // }
+
+        // if (validityForDesign !== 'Please Fill Design in the Melting Plan.') {
+        //   console.log('validity for design else', validityForDesign);
+        // const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+        // console.log('api', callSaveAPI);
+        // if (callSaveAPI?.status === 200) {
+        //   operationCardDetail();
+        //   handleClose();
+        // } else {
+        //   handleClose();
+        //   const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+        //   const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+        //   setErrMessage(messageValue);
+        //   setShowToastErr(true);
+        // }
+        // }
       } catch (error) {
         setErrMessage('Some error occured while saving the entry');
       } finally {
@@ -435,6 +468,7 @@ const OperationCardIssueButton = ({
                           listOfDropdownObjs={funcData}
                           modalDropdownFieldsProp={modalDropdownFields}
                           handleDropDownValuesChange={handleDropDownValuesChange}
+                          getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
                           getOperationCardProductCategory={getOperationCardProductCategory}
                           handleSubmit={handleSubmit}
                           label={val?.label}
@@ -527,10 +561,13 @@ const OperationCardIssueButton = ({
           ) : (
             ''
           )}
-          {validityForDesign?.message && (
-            <p>
-              <span className="mt-3 text-danger">{validityForDesign?.message}</span>
-              <Link href={validityForDesign?.url} className="text-decoration-underline" target="_blank">
+          {validationForDesignErr.message !== '' && (
+            <p className="mt-3">
+              <span className="mt-5 text-danger">
+                {validationForDesignErr?.message}After filling it please refresh the Operation Card.
+              </span>
+              <p></p>
+              <Link href={`${validationForDesignErr?.url}`} className="text-decoration-underline" target="_blank">
                 Go to Melting Plan
               </Link>
             </p>
