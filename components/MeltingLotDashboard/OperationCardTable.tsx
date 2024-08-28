@@ -14,7 +14,11 @@ const OperationCardTable = ({ meltingLotList }: any) => {
             <div className="mb-2">
               <div className="d-flex justify-content-between">
                 <div>
-                  <span className="text-uppercase text-danger bold pe-2 fs-14">
+                  <span
+                    className={`text-uppercase ${meltingData?.orders_added === 0 ? 'text-danger' : ''} ${
+                      meltingData?.orders_added === 1 ? 'text-success' : ''
+                    }  bold pe-2 fs-14`}
+                  >
                     {meltingData?.melting_plan && meltingData?.melting_plan !== '' && meltingData?.melting_plan !== null
                       ? meltingData?.melting_plan
                       : '--'}
