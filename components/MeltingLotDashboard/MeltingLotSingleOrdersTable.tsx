@@ -29,7 +29,8 @@ const MeltingLotSingleOrdersTable = ({
                     'order weight',
                     'market design name',
                     'size',
-                    'quantity',
+                    // 'quantity',
+                    'qty',
                   ].map((val: any, index: any) => (
                     <th className="thead-dark text-center" scope="col" key={index}>
                       {val}
@@ -72,8 +73,11 @@ const MeltingLotSingleOrdersTable = ({
                             : '--'}
                         </td>
                         <td className="text-center">
-                          {ordersData?.order_weight !== ' ' && ordersData?.order_weight !== null
+                          {/* {ordersData?.order_weight !== ' ' && ordersData?.order_weight !== null
                             ? ordersData?.order_weight?.toFixed(3)
+                            : '--'} */}
+                          {ordersData?.total_order_weight !== ' ' && ordersData?.total_order_weight !== null
+                            ? ordersData?.total_order_weight?.toFixed(3)
                             : '--'}
                         </td>
                         <td className="text-center">
@@ -81,13 +85,13 @@ const MeltingLotSingleOrdersTable = ({
                             ? ordersData?.market_design_name
                             : '--'}
                         </td>
-                        <td className="text-end">
+                        <td className="text-center">
                           {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
                             const items = itemGroupData[marketDesignName];
                             return items && items?.map((items: any, idx: any) => <div>{items.size}</div>);
                           })}
                         </td>
-                        <td className="text-end">
+                        <td className="text-center">
                           {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
                             const items = itemGroupData[marketDesignName];
                             return items && items?.map((items: any, idx: any) => <div>{items.quantity}</div>);

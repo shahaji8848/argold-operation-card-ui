@@ -27,8 +27,8 @@ const MeltingLotBunchOrdersTable = ({
                     'sales order number',
                     'order weight',
                     'market design name',
-                    'size',
-                    'quantity',
+                    // 'size',
+                    // 'quantity',
                     'Bunch Weight',
                     'Bunch Length',
                     'Per Inch Weight',
@@ -75,8 +75,11 @@ const MeltingLotBunchOrdersTable = ({
                             : '--'}
                         </td>
                         <td className="text-center">
-                          {ordersData?.order_weight !== ' ' && ordersData?.order_weight !== null
+                          {/* {ordersData?.order_weight !== ' ' && ordersData?.order_weight !== null
                             ? ordersData?.order_weight?.toFixed(3)
+                            : '--'} */}
+                          {ordersData?.total_estimate_bunch_weight !== ' ' && ordersData?.total_estimate_bunch_weight !== null
+                            ? ordersData?.total_estimate_bunch_weight?.toFixed(3)
                             : '--'}
                         </td>
                         <td className="text-center">
@@ -84,18 +87,18 @@ const MeltingLotBunchOrdersTable = ({
                             ? ordersData?.market_design_name
                             : '--'}
                         </td>
-                        <td className="text-end">
+                        {/* <td className="text-end">
                           {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
                             const items = itemGroupData[marketDesignName];
                             return items && items?.map((items: any, idx: any) => <div>{items.size}</div>);
                           })}
-                        </td>
-                        <td className="text-end">
+                        </td> */}
+                        {/* <td className="text-end">
                           {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
                             const items = itemGroupData[marketDesignName];
                             return items && items?.map((items: any, idx: any) => <div>{items.quantity}</div>);
                           })}
-                        </td>
+                        </td> */}
                         <td className="text-end">
                           {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
                             const items = itemGroupData[marketDesignName];
