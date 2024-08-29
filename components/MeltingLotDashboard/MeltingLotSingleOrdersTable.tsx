@@ -29,7 +29,6 @@ const MeltingLotSingleOrdersTable = ({
                     'order weight',
                     'market design name',
                     'size',
-                    // 'quantity',
                     'qty',
                   ].map((val: any, index: any) => (
                     <th className="thead-dark text-center" scope="col" key={index}>
@@ -73,9 +72,6 @@ const MeltingLotSingleOrdersTable = ({
                             : '--'}
                         </td>
                         <td className="text-center">
-                          {/* {ordersData?.order_weight !== ' ' && ordersData?.order_weight !== null
-                            ? ordersData?.order_weight?.toFixed(3)
-                            : '--'} */}
                           {ordersData?.total_order_weight !== ' ' && ordersData?.total_order_weight !== null
                             ? ordersData?.total_order_weight?.toFixed(3)
                             : '--'}

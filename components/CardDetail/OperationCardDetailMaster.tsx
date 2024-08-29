@@ -59,6 +59,7 @@ const OperationCardDetailMaster = () => {
     handleUpdateSalesOrderListWithReadyQty,
     handleOperationCardApproval,
     handleCustomerChange,
+    bunchSalesOrderList,
   } = useOperationDetailCard();
   console.log('operationCardNextProductProcessDepartment', operationCardDetailData);
   return (
@@ -127,6 +128,7 @@ const OperationCardDetailMaster = () => {
               modalFieldsState={modalFieldsState}
               headerSave={headerSave}
               salesOrderList={salesOrderList}
+              bunchSalesOrderList={bunchSalesOrderList}
             />
             <SalesOrderTable
               operationCardDetailData={operationCardDetailData}

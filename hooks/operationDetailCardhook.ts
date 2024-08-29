@@ -37,6 +37,7 @@ import GETValidationInWeight from '@/services/api/operation-card-detail-page/val
 import GETValidationForDesign from '@/services/api/operation-card-detail-page/validation-for-design';
 import GETDesignInputField from '@/services/api/operation-card-detail-page/design-input-field';
 import POSTDesignValue from '@/services/api/operation-card-detail-page/post-design-value';
+import GETBunchSalesOrder from '@/services/api/operation-card-detail-page/get-bunch-order';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -84,6 +85,8 @@ const useOperationDetailCard = () => {
   const [validateInWeight, setValidateInWeight] = useState<any>('');
   const [validityForDesign, setValidityForDesign] = useState<any>('');
   const [designInputValue, setdesignInputValue] = useState<any>([]);
+  // for bunch pop up
+  const [bunchSalesOrderList, setbunchSalesOrderList] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -781,6 +784,17 @@ const useOperationDetailCard = () => {
       setdesignInputValue([]);
     }
   };
+
+  // for bunch pop up
+  const getBunchSalesOrderList = async () => {
+    const fetchBunchSalesOrder = await GETBunchSalesOrder(search, token);
+    if (fetchBunchSalesOrder?.status === 200) {
+      setbunchSalesOrderList(fetchBunchSalesOrder?.data?.message);
+    } else {
+      setbunchSalesOrderList([]);
+    }
+  };
+
   useEffect(() => {
     getDesignInputField;
   }, [designInputValue]);
@@ -849,6 +863,7 @@ const useOperationDetailCard = () => {
       getIssueReferenceAPICallFunc();
       GETValidationInWeightField();
       getDesignInputField();
+      getBunchSalesOrderList();
     }
   }, [operationCardDetailData]);
 
@@ -908,6 +923,7 @@ const useOperationDetailCard = () => {
     validityForDesign,
     designInputValue,
     postSaveDesignInOP,
+    bunchSalesOrderList,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,

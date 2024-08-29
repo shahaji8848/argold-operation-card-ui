@@ -40,6 +40,7 @@ const OperationCardIssueButton = ({
   getOperationCardProductCategory,
   modalFieldsState,
   salesOrderList,
+  bunchSalesOrderList,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -77,6 +78,7 @@ const OperationCardIssueButton = ({
   const [errMessage, setErrMessage] = useState<string>('');
   const [itemName, setItemName] = useState('');
   const [selectedSalesOrderData, setSelectedSalesOrderData] = useState<any>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<string>('');
   const [initialValueForActiveField, setInitialValueForActiveField] = useState<any>({});
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
@@ -473,8 +475,6 @@ const OperationCardIssueButton = ({
                           handleSubmit={handleSubmit}
                           label={val?.label}
                           initialValue={initialValueForActiveField[val?.label]}
-                          // // initialValue={initialValueForNextProductProcess}
-                          // initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}
                           isReadOnly={false}
                           operationCardDetailData={operationCardDetailData}
                         />
@@ -521,7 +521,7 @@ const OperationCardIssueButton = ({
                             // ref={inputInWeightRef}
                             ref={i === 0 ? inputInWeightRef : null}
                             disabled={val[setKey] === 0}
-                            value={modalFieldValuesState[val?.label]}
+                            value={val?.label === 'customer' ? selectedCustomer : modalFieldValuesState[val?.label]}
                             onChange={handleModalFieldsChange}
                             onKeyDown={(e: any) => {
                               if (e.key === 'Enter') {
@@ -536,12 +536,28 @@ const OperationCardIssueButton = ({
                 );
               })}
           </div>
+
           {selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Customer' && salesOrderList?.length > 0 && (
             <>
               <ModalSalesTable
                 salesOrderList={salesOrderList}
                 selectedSalesOrderData={selectedSalesOrderData}
                 setSelectedSalesOrderData={setSelectedSalesOrderData}
+                selectedCustomer={selectedCustomer}
+                setSelectedCustomer={setSelectedCustomer}
+                operationCardDetailData={operationCardDetailData}
+              />
+            </>
+          )}
+
+          {selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Bunch' && bunchSalesOrderList?.length > 0 && (
+            <>
+              <ModalSalesTable
+                salesOrderList={bunchSalesOrderList}
+                selectedSalesOrderData={selectedSalesOrderData}
+                setSelectedSalesOrderData={setSelectedSalesOrderData}
+                selectedCustomer={selectedCustomer}
+                setSelectedCustomer={setSelectedCustomer}
                 operationCardDetailData={operationCardDetailData}
               />
             </>
