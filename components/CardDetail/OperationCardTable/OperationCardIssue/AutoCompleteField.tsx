@@ -9,6 +9,7 @@ const AutoCompleteField = ({
   initialValue,
   isReadOnly,
   getOperationCardProductCategory,
+  getOperationCardNextProductProcess,
   modalDropdownFieldsProp,
   operationCardDetailData,
 }: any) => {
@@ -86,7 +87,8 @@ const AutoCompleteField = ({
                     onClick={() => {
                       if (label === 'gpc_product') {
                         getOperationCardProductCategory(suggestion.value);
-                      } else {
+                      } else if (label === 'product') {
+                        getOperationCardNextProductProcess(suggestion.value);
                       }
                       handleSuggestionClickAutoComplete(suggestion);
                       handleDropDownValuesChange(label, suggestion);
