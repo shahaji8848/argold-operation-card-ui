@@ -473,11 +473,12 @@ const useOperationDetailCard = () => {
 
   const getOperationCardDetailWorkerAPICallFunc = async () => {
     const getWorkerList = await GETWorkerList(token, operationCardDetailData?.product_process_department);
+
     if (getWorkerList?.status === 200) {
       setOperationCardWorkerList(
         getWorkerList?.data?.data?.map((product_category: any) => ({
-          name: product_category?.name,
-          value: product_category?.name,
+          name: product_category?.worker,
+          value: product_category?.worker,
         }))
       );
     } else {
