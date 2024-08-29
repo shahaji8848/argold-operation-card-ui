@@ -121,6 +121,11 @@ const OperationCardIssueButton = ({
             [name]: value,
           });
         }
+      } else if (name === 'customer') {
+        setModalFieldValuesState({
+          ...modalFieldValuesState,
+          [name]: selectedCustomer,
+        });
       } else {
         setModalFieldValuesState({
           ...modalFieldValuesState,
@@ -163,8 +168,9 @@ const OperationCardIssueButton = ({
       ...modalDropdownFields,
       item: itemName,
       ...(selectedSalesOrderData?.length > 0 && { order_detail: updateSalesTableData }),
+      ...(modalFieldValuesState.hasOwnProperty('customer') && { customer: selectedCustomer }), // Conditionally include 'customer'
     };
-
+    console.log('mergedObjs data from modal to post', mergedObjs);
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
 
     await postSaveDesignInOP();

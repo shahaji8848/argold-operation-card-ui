@@ -163,7 +163,8 @@ const useMeltingLotSalesOrder = () => {
     try {
       const updatedData = await POSTAddOrders(transformedDataList, token);
       if (updatedData?.status === 200) {
-        toast.success('Sales order updated successfully');
+        toast.success(updatedData?.data?.message?.message);
+        toast.error(updatedData?.data?.message);
       } else {
         toast.error('Failed to update sales order');
       }
