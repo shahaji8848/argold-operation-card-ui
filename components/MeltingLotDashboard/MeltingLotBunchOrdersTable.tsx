@@ -78,9 +78,10 @@ const MeltingLotBunchOrdersTable = ({
                             : '--'}
                         </td>
                         <td className="text-center">
-                          {ordersData?.market_design_name !== ' ' && ordersData?.market_design_name !== null
-                            ? ordersData?.market_design_name
-                            : '--'}
+                          {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
+                            const items = itemGroupData[marketDesignName];
+                            return items && items?.map((items: any, idx: any) => <div>{items?.market_design_name}</div>);
+                          })}
                         </td>
 
                         <td className="text-end">

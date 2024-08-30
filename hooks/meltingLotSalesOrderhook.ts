@@ -44,12 +44,7 @@ const useMeltingLotSalesOrder = () => {
     );
 
     if (getMeltingPlanBasedOnFiltersData?.status === 200) {
-      // if (
-      //   getMeltingPlanBasedOnFiltersData?.data?.message?.bunch_orders > 0 ||
-      //   getMeltingPlanBasedOnFiltersData?.data?.message?.single_orders > 0
-      // ) {
       setSalesOrderData(getMeltingPlanBasedOnFiltersData?.data?.message);
-      // }
       toast.error(getMeltingPlanBasedOnFiltersData?.data?.message?.message);
     } else {
       setSalesOrderData([]);
