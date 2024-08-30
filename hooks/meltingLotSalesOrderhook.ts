@@ -13,6 +13,7 @@ const useMeltingLotSalesOrder = () => {
   const [meltingPlanFilters, setMeltingPlanFilters] = useState({});
   const [salesOrderData, setSalesOrderData] = useState([]);
   const [selectedOrders, setSelectedOrders] = useState<{ [key: string]: boolean }>({});
+  const [selectedDesign, setSelectedDesign] = useState(null); // New state to track selected design
 
   useEffect(() => {
     const url = window.location.href;
@@ -56,11 +57,37 @@ const useMeltingLotSalesOrder = () => {
     fetchMeltingPlanBasedOnFilters();
   };
 
-  const handleCheckboxChange = (sales_order: any) => {
-    setSelectedOrders((prev) => ({
-      ...prev,
-      [sales_order]: !prev[sales_order],
-    }));
+  const handleCheckboxChange = (soi_name: string, design: string, isChecked: boolean, isDisabled: boolean) => {
+    if (isDisabled) return; // Do nothing if the checkbox is disabled
+
+    setSelectedOrders((prevData) => {
+      if (isChecked) {
+        // If the checkbox is already checked and is being unchecked
+        const updatedData = { ...prevData };
+        delete updatedData[soi_name]; // Remove the unchecked order from the selected orders
+
+        // If all checkboxes are unchecked, reset selectedDesign
+        if (Object.keys(updatedData).length === 0) {
+          setSelectedDesign(null);
+        }
+
+        return updatedData;
+      } else {
+        // If the checkbox is being checked
+        if (selectedDesign && selectedDesign !== design) {
+          toast.error('You can only select orders with the same design.');
+          return prevData; // Do not update state if different design
+        }
+
+        // Set selectedDesign if none is selected
+        if (!selectedDesign) {
+          setSelectedDesign(design);
+        }
+
+        // Add the checked order to the selected orders
+        return { ...prevData, [soi_name]: true };
+      }
+    });
   };
 
   const handleSaveSalesOrder = async () => {
@@ -71,96 +98,131 @@ const useMeltingLotSalesOrder = () => {
     });
 
     // Iterate over single_orders
-    salesOrderData?.single_orders?.forEach((order: any, index: any) => {
-      if (selectedOrders[order?.sales_order]) {
-        const marketDesignName = order?.market_design_name;
+    // salesOrderData?.single_orders?.forEach((order: any, index: any) => {
+    //   if (selectedOrders[order?.sales_order]) {
+    //     const marketDesignName = order?.market_design_name;
 
-        // Ensure item_group_data exists and iterate over it
-        if (order?.item_group_data && order?.item_group_data.length > 0) {
-          order?.item_group_data.forEach((itemGroupData: any) => {
-            // Access the correct items array
-            const items = itemGroupData[marketDesignName];
+    //     // Ensure item_group_data exists and iterate over it
+    //     if (order?.item_group_data && order?.item_group_data.length > 0) {
+    //       order?.item_group_data.forEach((itemGroupData: any) => {
+    //         // Access the correct items array
+    //         const items = itemGroupData[marketDesignName];
 
-            // Ensure items exist and iterate over them
-            if (items && items.length > 0) {
-              items.forEach((qtyItem: any) => {
-                let newOrder = {
-                  design: order?.design,
-                  sales_order: order?.sales_order,
-                  order_date: order?.order_date,
-                  delivery_date: order?.delivery_date,
-                  customer: order?.customer,
-                  description: order?.description,
-                  total_order_weight: order?.total_order_weight,
-                  total_estimate_bunch_weight: order?.total_estimate_bunch_weight,
-                  total_bunch_weight: order?.total_bunch_weight,
-                  soi_name: qtyItem?.soi_name,
-                  item: qtyItem?.item,
-                  market_design_name: qtyItem?.market_design_name,
-                  product: qtyItem?.product,
-                  size: qtyItem?.size,
-                  quantity: qtyItem?.quantity,
-                  is_bunch: qtyItem?.is_bunch,
-                  weight_per_unit_qty: qtyItem?.weight_per_unit_qty,
-                  product_category: qtyItem?.product_category,
-                  bunch_length: qtyItem?.bunch_length,
-                  per_inch_weight: qtyItem?.per_inch_weight,
-                  estimate_bunch_weight: qtyItem?.estimate_bunch_weight,
-                  order_weight: qtyItem?.order_weight,
-                };
-                // Push the new order to the transformed data list
-                transformedDataList.push(newOrder);
-              });
-            }
-          });
-        }
-      }
+    //         // Ensure items exist and iterate over them
+    //         if (items && items.length > 0) {
+    //           items.forEach((qtyItem: any) => {
+    //             let newOrder = {
+    //               design: order?.design,
+    //               sales_order: order?.sales_order,
+    //               order_date: order?.order_date,
+    //               delivery_date: order?.delivery_date,
+    //               customer: order?.customer,
+    //               description: order?.description,
+    //               total_order_weight: order?.total_order_weight,
+    //               total_estimate_bunch_weight: order?.total_estimate_bunch_weight,
+    //               total_bunch_weight: order?.total_bunch_weight,
+    //               soi_name: qtyItem?.soi_name,
+    //               item: qtyItem?.item,
+    //               market_design_name: qtyItem?.market_design_name,
+    //               product: qtyItem?.product,
+    //               size: qtyItem?.size,
+    //               quantity: qtyItem?.quantity,
+    //               is_bunch: qtyItem?.is_bunch,
+    //               weight_per_unit_qty: qtyItem?.weight_per_unit_qty,
+    //               product_category: qtyItem?.product_category,
+    //               bunch_length: qtyItem?.bunch_length,
+    //               per_inch_weight: qtyItem?.per_inch_weight,
+    //               estimate_bunch_weight: qtyItem?.estimate_bunch_weight,
+    //               order_weight: qtyItem?.order_weight,
+    //             };
+    //             // Push the new order to the transformed data list
+    //             transformedDataList.push(newOrder);
+    //           });
+    //         }
+    //       });
+    //     }
+    //   }
+    // });
+
+    // Iterate over the single orders in salesOrderData
+
+    salesOrderData?.single_orders?.forEach((order: any) => {
+      // Iterate over item group data in the current order
+      order?.item_group_data?.forEach((itemGroupData: any) => {
+        // Iterate over market design name values in the current item group
+        itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
+          // Check if the current design item is selected
+          if (selectedOrders[marketDesign?.soi_name]) {
+            // Create a new order object with the necessary details
+            const newOrder = {
+              design: itemGroupData?.design,
+              sales_order: order?.sales_order,
+              order_date: order?.order_date,
+              delivery_date: order?.delivery_date,
+              customer: order?.customer,
+              description: order?.description,
+              total_order_weight: order?.total_order_weight,
+              total_estimate_bunch_weight: order?.total_estimate_bunch_weight,
+              total_bunch_weight: order?.total_bunch_weight,
+              soi_name: marketDesign?.soi_name,
+              item: marketDesign?.item,
+              market_design_name: marketDesign?.market_design_name,
+              product: marketDesign?.product,
+              size: marketDesign?.size,
+              quantity: marketDesign?.quantity,
+              is_bunch: marketDesign?.is_bunch,
+              weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
+              product_category: marketDesign?.product_category,
+              bunch_length: marketDesign?.bunch_length,
+              per_inch_weight: marketDesign?.per_inch_weight,
+              estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
+              order_weight: marketDesign?.order_weight,
+            };
+
+            // Add the new order object to the transformed data list
+            transformedDataList.push(newOrder);
+          }
+        });
+      });
     });
 
-    // Iterate over bunch_orders
+    // Iterate over the salesOrderData bunch orders
     salesOrderData?.bunch_orders?.forEach((order: any) => {
-      if (selectedOrders[order?.sales_order]) {
-        const marketDesignName = order?.market_design_name;
-        // Ensure item_group_data exists and iterate over it
-        if (order?.item_group_data && order?.item_group_data.length > 0) {
-          order?.item_group_data.forEach((itemGroupData: any) => {
-            // Access the correct items array
-            const items = itemGroupData[marketDesignName];
+      order?.item_group_data?.forEach((itemGroupData: any) => {
+        itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
+          // Check if the current design item is selected
+          if (selectedOrders[marketDesign?.soi_name]) {
+            // Create a new order object with the necessary details
+            const newOrder = {
+              design: itemGroupData?.design,
+              sales_order: order?.sales_order,
+              order_date: order?.order_date,
+              delivery_date: order?.delivery_date,
+              customer: order?.customer,
+              description: order?.description,
+              total_order_weight: order?.total_order_weight,
+              total_estimate_bunch_weight: order?.total_estimate_bunch_weight,
+              total_bunch_weight: order?.total_bunch_weight,
+              soi_name: marketDesign?.soi_name,
+              item: marketDesign?.item,
+              market_design_name: marketDesign?.market_design_name,
+              product: marketDesign?.product,
+              size: marketDesign?.size,
+              quantity: marketDesign?.quantity,
+              is_bunch: marketDesign?.is_bunch,
+              weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
+              product_category: marketDesign?.product_category,
+              bunch_length: marketDesign?.bunch_length,
+              per_inch_weight: marketDesign?.per_inch_weight,
+              estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
+              order_weight: marketDesign?.order_weight,
+            };
 
-            // Ensure items exist and iterate over them
-            if (items && items.length > 0) {
-              items.forEach((qtyItem: any) => {
-                let newOrder = {
-                  design: order?.design,
-                  sales_order: order?.sales_order,
-                  order_date: order?.order_date,
-                  delivery_date: order?.delivery_date,
-                  customer: order?.customer,
-                  description: order?.description,
-                  total_order_weight: order?.total_order_weight,
-                  total_estimate_bunch_weight: order?.total_estimate_bunch_weight,
-                  total_bunch_weight: order?.total_bunch_weight,
-                  soi_name: qtyItem?.soi_name,
-                  item: qtyItem?.item,
-                  market_design_name: qtyItem?.market_design_name,
-                  product: qtyItem?.product,
-                  size: qtyItem?.size,
-                  quantity: qtyItem?.quantity,
-                  is_bunch: qtyItem?.is_bunch,
-                  weight_per_unit_qty: qtyItem?.weight_per_unit_qty,
-                  product_category: qtyItem?.product_category,
-                  bunch_length: qtyItem?.bunch_length,
-                  per_inch_weight: qtyItem?.per_inch_weight,
-                  estimate_bunch_weight: qtyItem?.estimate_bunch_weight,
-                  order_weight: qtyItem?.order_weight,
-                };
-                // Push the new order to the transformed data list
-                transformedDataList.push(newOrder);
-              });
-            }
-          });
-        }
-      }
+            // Add the new order object to the transformed data list
+            transformedDataList.push(newOrder);
+          }
+        });
+      });
     });
 
     // Debugging: Check the transformed data list
@@ -208,6 +270,7 @@ const useMeltingLotSalesOrder = () => {
     handleCheckboxChange,
     formatDate,
     handleSaveSalesOrder,
+    selectedDesign,
   };
 };
 
