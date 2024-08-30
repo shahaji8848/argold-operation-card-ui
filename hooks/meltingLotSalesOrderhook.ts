@@ -90,20 +90,28 @@ const useMeltingLotSalesOrder = () => {
             if (items && items.length > 0) {
               items.forEach((qtyItem: any) => {
                 let newOrder = {
+                  design: order?.design,
                   sales_order: order?.sales_order,
                   order_date: order?.order_date,
                   delivery_date: order?.delivery_date,
                   customer: order?.customer,
                   description: order?.description,
-                  order_weight: order?.order_weight,
-                  market_design_name: order?.market_design_name,
+                  total_order_weight: order?.total_order_weight,
+                  total_estimate_bunch_weight: order?.total_estimate_bunch_weight,
+                  total_bunch_weight: order?.total_bunch_weight,
                   soi_name: qtyItem?.soi_name,
                   item: qtyItem?.item,
+                  market_design_name: qtyItem?.market_design_name,
                   product: qtyItem?.product,
                   size: qtyItem?.size,
                   quantity: qtyItem?.quantity,
                   is_bunch: qtyItem?.is_bunch,
                   weight_per_unit_qty: qtyItem?.weight_per_unit_qty,
+                  product_category: qtyItem?.product_category,
+                  bunch_length: qtyItem?.bunch_length,
+                  per_inch_weight: qtyItem?.per_inch_weight,
+                  estimate_bunch_weight: qtyItem?.estimate_bunch_weight,
+                  order_weight: qtyItem?.order_weight,
                 };
                 // Push the new order to the transformed data list
                 transformedDataList.push(newOrder);
@@ -128,24 +136,28 @@ const useMeltingLotSalesOrder = () => {
             if (items && items.length > 0) {
               items.forEach((qtyItem: any) => {
                 let newOrder = {
+                  design: order?.design,
                   sales_order: order?.sales_order,
                   order_date: order?.order_date,
                   delivery_date: order?.delivery_date,
                   customer: order?.customer,
                   description: order?.description,
-                  order_weight: order?.order_weight,
-                  market_design_name: order?.market_design_name,
+                  total_order_weight: order?.total_order_weight,
+                  total_estimate_bunch_weight: order?.total_estimate_bunch_weight,
+                  total_bunch_weight: order?.total_bunch_weight,
                   soi_name: qtyItem?.soi_name,
                   item: qtyItem?.item,
+                  market_design_name: qtyItem?.market_design_name,
                   product: qtyItem?.product,
                   size: qtyItem?.size,
                   quantity: qtyItem?.quantity,
                   is_bunch: qtyItem?.is_bunch,
                   weight_per_unit_qty: qtyItem?.weight_per_unit_qty,
+                  product_category: qtyItem?.product_category,
                   bunch_length: qtyItem?.bunch_length,
                   per_inch_weight: qtyItem?.per_inch_weight,
                   estimate_bunch_weight: qtyItem?.estimate_bunch_weight,
-                  bunch_weight: qtyItem?.estimate_bunch_weight,
+                  order_weight: qtyItem?.order_weight,
                 };
                 // Push the new order to the transformed data list
                 transformedDataList.push(newOrder);
