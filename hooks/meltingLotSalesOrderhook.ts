@@ -57,7 +57,7 @@ const useMeltingLotSalesOrder = () => {
     fetchMeltingPlanBasedOnFilters();
   };
 
-  const handleCheckboxChange = (soi_name: string, design: string, isChecked: boolean, isDisabled: boolean) => {
+  const handleCheckboxChange = (soi_name: any, design: string, isChecked: boolean, isDisabled: boolean) => {
     if (isDisabled) return; // Do nothing if the checkbox is disabled
 
     setSelectedOrders((prevData) => {
