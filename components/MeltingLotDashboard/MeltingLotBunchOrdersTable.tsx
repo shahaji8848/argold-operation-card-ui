@@ -45,10 +45,7 @@ const MeltingLotBunchOrdersTable = ({
                     return (
                       <>
                         {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
-                          // return itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
-                          // Check if the current marketDesign item is checked
-                          const soi_name = itemGroupData?.market_design_name_values?.map((md: any) => md.soi_name);
-                          const isChecked = !!selectedOrders[soi_name];
+                          const isChecked = !!selectedOrders[itemGroupData?.unique_key];
                           // Determine if the checkbox should be disabled
                           const isDisabled = selectedDesign && selectedDesign !== itemGroupData?.design;
 
@@ -59,7 +56,9 @@ const MeltingLotBunchOrdersTable = ({
                                   type="checkbox"
                                   checked={isChecked} // Set the checkbox checked state
                                   disabled={isDisabled} // Disable if a different design is selected
-                                  onChange={() => handleCheckboxChange(soi_name, itemGroupData?.design, isChecked, isDisabled)}
+                                  onChange={() =>
+                                    handleCheckboxChange(itemGroupData?.unique_key, itemGroupData?.design, isChecked, isDisabled)
+                                  }
                                 />
                               </td>
                               <td className="text-center">
@@ -131,7 +130,6 @@ const MeltingLotBunchOrdersTable = ({
                               </td>
                             </tr>
                           );
-                          // });
                         })}
                       </>
                     );

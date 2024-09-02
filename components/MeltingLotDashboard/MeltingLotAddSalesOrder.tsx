@@ -3,7 +3,6 @@ import React from 'react';
 import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
 import MeltingLotBunchOrdersTable from './MeltingLotBunchOrdersTable';
 import MeltingLotSingleOrdersTable from './MeltingLotSingleOrdersTable';
-import StaticDevelopment from './StaticDevelopment';
 
 const MeltingLotAddSalesOrder = () => {
   const {
@@ -75,8 +74,6 @@ const MeltingLotAddSalesOrder = () => {
           handleSaveSalesOrder={handleSaveSalesOrder}
           selectedDesign={selectedDesign}
         />
-
-        {/* <StaticDevelopment handleCheckboxChange={handleCheckboxChange} formatDate={formatDate} selectedOrders={selectedOrders} /> */}
 
         {(salesOrderData?.single_orders?.length > 0 || salesOrderData?.bunch_orders?.length > 0) && (
           <button className="text-end btn btn-blue btn-py mt-1" onClick={handleSaveSalesOrder}>

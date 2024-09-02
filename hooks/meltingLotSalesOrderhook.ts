@@ -57,14 +57,14 @@ const useMeltingLotSalesOrder = () => {
     fetchMeltingPlanBasedOnFilters();
   };
 
-  const handleCheckboxChange = (soi_name: any, design: string, isChecked: boolean, isDisabled: boolean) => {
+  const handleCheckboxChange = (unique_key: any, design: string, isChecked: boolean, isDisabled: boolean) => {
     if (isDisabled) return; // Do nothing if the checkbox is disabled
 
     setSelectedOrders((prevData) => {
       if (isChecked) {
         // If the checkbox is already checked and is being unchecked
         const updatedData = { ...prevData };
-        delete updatedData[soi_name]; // Remove the unchecked order from the selected orders
+        delete updatedData[unique_key]; // Remove the unchecked order from the selected orders
 
         // If all checkboxes are unchecked, reset selectedDesign
         if (Object.keys(updatedData).length === 0) {
@@ -85,7 +85,7 @@ const useMeltingLotSalesOrder = () => {
         }
 
         // Add the checked order to the selected orders
-        return { ...prevData, [soi_name]: true };
+        return { ...prevData, [unique_key]: true };
       }
     });
   };
@@ -97,62 +97,18 @@ const useMeltingLotSalesOrder = () => {
       melting_plan: meltingPlan,
     });
 
-    // Iterate over single_orders
-    // salesOrderData?.single_orders?.forEach((order: any, index: any) => {
-    //   if (selectedOrders[order?.sales_order]) {
-    //     const marketDesignName = order?.market_design_name;
-
-    //     // Ensure item_group_data exists and iterate over it
-    //     if (order?.item_group_data && order?.item_group_data.length > 0) {
-    //       order?.item_group_data.forEach((itemGroupData: any) => {
-    //         // Access the correct items array
-    //         const items = itemGroupData[marketDesignName];
-
-    //         // Ensure items exist and iterate over them
-    //         if (items && items.length > 0) {
-    //           items.forEach((qtyItem: any) => {
-    //             let newOrder = {
-    //               design: order?.design,
-    //               sales_order: order?.sales_order,
-    //               order_date: order?.order_date,
-    //               delivery_date: order?.delivery_date,
-    //               customer: order?.customer,
-    //               description: order?.description,
-    //               total_order_weight: order?.total_order_weight,
-    //               total_estimate_bunch_weight: order?.total_estimate_bunch_weight,
-    //               total_bunch_weight: order?.total_bunch_weight,
-    //               soi_name: qtyItem?.soi_name,
-    //               item: qtyItem?.item,
-    //               market_design_name: qtyItem?.market_design_name,
-    //               product: qtyItem?.product,
-    //               size: qtyItem?.size,
-    //               quantity: qtyItem?.quantity,
-    //               is_bunch: qtyItem?.is_bunch,
-    //               weight_per_unit_qty: qtyItem?.weight_per_unit_qty,
-    //               product_category: qtyItem?.product_category,
-    //               bunch_length: qtyItem?.bunch_length,
-    //               per_inch_weight: qtyItem?.per_inch_weight,
-    //               estimate_bunch_weight: qtyItem?.estimate_bunch_weight,
-    //               order_weight: qtyItem?.order_weight,
-    //             };
-    //             // Push the new order to the transformed data list
-    //             transformedDataList.push(newOrder);
-    //           });
-    //         }
-    //       });
-    //     }
-    //   }
-    // });
-
     // Iterate over the single orders in salesOrderData
 
     salesOrderData?.single_orders?.forEach((order: any) => {
       // Iterate over item group data in the current order
       order?.item_group_data?.forEach((itemGroupData: any) => {
-        // Iterate over market design name values in the current item group
-        itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
-          // Check if the current design item is selected
-          if (selectedOrders[marketDesign?.soi_name]) {
+        // Check if the current item group is selected
+        console.log('selectedOrders', selectedOrders);
+        console.log('selectedOrders', itemGroupData?.unique_key);
+        console.log('selectedOrders', selectedOrders[itemGroupData?.unique_key]);
+        if (selectedOrders[itemGroupData?.unique_key]) {
+          // Iterate over market design name values in the current item group
+          itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
             // Create a new order object with the necessary details
             const newOrder = {
               design: itemGroupData?.design,
@@ -181,17 +137,23 @@ const useMeltingLotSalesOrder = () => {
 
             // Add the new order object to the transformed data list
             transformedDataList.push(newOrder);
-          }
-        });
+          });
+        }
       });
     });
 
     // Iterate over the salesOrderData bunch orders
     salesOrderData?.bunch_orders?.forEach((order: any) => {
+      // Iterate over item group data in the current order
       order?.item_group_data?.forEach((itemGroupData: any) => {
-        itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
-          // Check if the current design item is selected
-          if (selectedOrders[marketDesign?.soi_name]) {
+        // Check if the current item group is selected
+        console.log('selectedOrders', selectedOrders);
+        console.log('itemGroupData unique_key', itemGroupData?.unique_key);
+        console.log('selectedOrders[itemGroupData.unique_key]', selectedOrders[itemGroupData?.unique_key]);
+
+        if (selectedOrders[itemGroupData?.unique_key]) {
+          // Iterate over market design name values in the current item group
+          itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
             // Create a new order object with the necessary details
             const newOrder = {
               design: itemGroupData?.design,
@@ -220,8 +182,8 @@ const useMeltingLotSalesOrder = () => {
 
             // Add the new order object to the transformed data list
             transformedDataList.push(newOrder);
-          }
-        });
+          });
+        }
       });
     });
 

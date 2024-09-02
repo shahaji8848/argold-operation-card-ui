@@ -41,16 +41,11 @@ const MeltingLotSingleOrdersTable = ({
               <tbody>
                 {salesOrderData?.single_orders &&
                   salesOrderData?.single_orders?.map((ordersData: any, idx: any) => {
-                    const marketDesignName = ordersData?.market_design_name;
                     return (
                       <>
                         {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
-                          // Aggregate sizes and quantities
-
-                          const soi_name = itemGroupData?.market_design_name_values?.map((md: any) => md.soi_name);
-                          // return itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
                           // Check if the current marketDesign item is checked
-                          const isChecked = !!selectedOrders[soi_name];
+                          const isChecked = !!selectedOrders[itemGroupData?.unique_key];
                           // Determine if the checkbox should be disabled
                           const isDisabled = selectedDesign && selectedDesign !== itemGroupData?.design;
 
@@ -61,7 +56,9 @@ const MeltingLotSingleOrdersTable = ({
                                   type="checkbox"
                                   checked={isChecked} // Set the checkbox checked state
                                   disabled={isDisabled} // Disable if a different design is selected
-                                  onChange={() => handleCheckboxChange(soi_name, itemGroupData?.design, isChecked, isDisabled)}
+                                  onChange={() =>
+                                    handleCheckboxChange(itemGroupData?.unique_key, itemGroupData?.design, isChecked, isDisabled)
+                                  }
                                 />
                               </td>
                               <td className="text-center">
@@ -114,27 +111,8 @@ const MeltingLotSingleOrdersTable = ({
                                   );
                                 })}
                               </td>
-                              {/* <td>
-                                  {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
-                                    return (
-                                      <>
-                                        <div>{marketDesign?.size}</div>
-                                      </>
-                                    );
-                                  })}
-                                </td>
-                                <td>
-                                  {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
-                                    return (
-                                      <>
-                                        <div>{marketDesign?.quantity}</div>
-                                      </>
-                                    );
-                                  })}
-                                </td> */}
                             </tr>
                           );
-                          // });
                         })}
                       </>
                     );
