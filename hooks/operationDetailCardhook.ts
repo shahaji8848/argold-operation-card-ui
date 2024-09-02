@@ -38,6 +38,7 @@ import GETValidationForDesign from '@/services/api/operation-card-detail-page/va
 import GETDesignInputField from '@/services/api/operation-card-detail-page/design-input-field';
 import POSTDesignValue from '@/services/api/operation-card-detail-page/post-design-value';
 import GETBunchSalesOrder from '@/services/api/operation-card-detail-page/get-bunch-order';
+import GETMeltingPlanReferenceFromLot from '@/services/api/operation-card-detail-page/melting-plan-reference';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -87,6 +88,8 @@ const useOperationDetailCard = () => {
   const [designInputValue, setdesignInputValue] = useState<any>([]);
   // for bunch pop up
   const [bunchSalesOrderList, setbunchSalesOrderList] = useState<any>([]);
+  // for Melting plan Reference from lot
+  const [mpReferenceList, setMpReferenceList] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -795,6 +798,16 @@ const useOperationDetailCard = () => {
     }
   };
 
+  // MPReference Modal Data
+  const getMPReferenceList = async () => {
+    const fetchMPReferenceList = await GETMeltingPlanReferenceFromLot(operationCardDetailData?.melting_lot, token);
+    if (fetchMPReferenceList?.status === 200) {
+      setMpReferenceList(fetchMPReferenceList?.data?.message);
+    } else {
+      setMpReferenceList([]);
+    }
+  };
+
   useEffect(() => {
     getDesignInputField;
   }, [designInputValue]);
@@ -864,6 +877,7 @@ const useOperationDetailCard = () => {
       GETValidationInWeightField();
       getDesignInputField();
       getBunchSalesOrderList();
+      getMPReferenceList();
     }
   }, [operationCardDetailData]);
 
@@ -924,6 +938,7 @@ const useOperationDetailCard = () => {
     designInputValue,
     postSaveDesignInOP,
     bunchSalesOrderList,
+    mpReferenceList,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,

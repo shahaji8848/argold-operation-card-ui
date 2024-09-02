@@ -108,6 +108,11 @@ function SalesOrderTable({
   handleCustomerChange,
   operationCardProductDept,
 }: any) {
+  // Step 1: Filter data where is_bunch is 1
+  const bunchOrders = salesOrderList.filter((order: any) => order.qty_size_list.some((sizeItem: any) => sizeItem.is_bunch === 1));
+
+  // Step 2: Log the filtered list
+  console.log('bunchOrders', bunchOrders);
   const [doGetAllOrders, setDoGetAllOrders] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [isHeaderCheckboxChecked, setIsHeaderCheckboxChecked] = useState<boolean>(false);

@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Link from 'next/link';
 import GETValidationForDesign from '@/services/api/operation-card-detail-page/validation-for-design';
+import MPReferenceModal from './MPReferenceModal';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -41,6 +42,7 @@ const OperationCardIssueButton = ({
   modalFieldsState,
   salesOrderList,
   bunchSalesOrderList,
+  mpReferenceList,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -568,6 +570,12 @@ const OperationCardIssueButton = ({
               />
             </>
           )}
+
+          {selectedIssueBtnData?.item &&
+            selectedIssueBtnData?.item_type === 'Gold Accessory' &&
+            operationCardProductDept?.show_melting_plan_reference_details === 1 && (
+              <MPReferenceModal mpReferenceList={mpReferenceList} />
+            )}
 
           {getValues?.length > 0 ? (
             <div className="d-flex justify-content-start mt-3">

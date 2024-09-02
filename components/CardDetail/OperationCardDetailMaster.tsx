@@ -60,6 +60,7 @@ const OperationCardDetailMaster = () => {
     handleOperationCardApproval,
     handleCustomerChange,
     bunchSalesOrderList,
+    mpReferenceList,
   } = useOperationDetailCard();
   console.log('operationCardNextProductProcessDepartment', operationCardDetailData);
   return (
@@ -129,6 +130,7 @@ const OperationCardDetailMaster = () => {
               headerSave={headerSave}
               salesOrderList={salesOrderList}
               bunchSalesOrderList={bunchSalesOrderList}
+              mpReferenceList={mpReferenceList}
             />
             <SalesOrderTable
               operationCardDetailData={operationCardDetailData}

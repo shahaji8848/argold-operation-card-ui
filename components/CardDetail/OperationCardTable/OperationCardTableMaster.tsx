@@ -41,6 +41,7 @@ const OperationCardTableMaster = ({
   modalFieldsState,
   salesOrderList,
   bunchSalesOrderList,
+  mpReferenceList,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -108,6 +109,7 @@ const OperationCardTableMaster = ({
           operationCardMachine={operationCardMachine}
           salesOrderList={salesOrderList}
           bunchSalesOrderList={bunchSalesOrderList}
+          mpReferenceList={mpReferenceList}
         />
       </div>
     </div>

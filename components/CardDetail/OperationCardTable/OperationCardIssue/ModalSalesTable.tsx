@@ -16,8 +16,8 @@ const ModalSalesTable: any = ({
     let totalProductionQty = 0;
     let totalOrderWeight = 0;
 
-    salesOrderList.forEach((orderData: any) => {
-      orderData.qty_size_list.forEach((values: any) => {
+    salesOrderList?.forEach((orderData: any) => {
+      orderData?.qty_size_list?.forEach((values: any) => {
         totalProductionQty += values.production_qty || 0;
       });
       // totalOrderWeight += orderData.total_weight || 0;

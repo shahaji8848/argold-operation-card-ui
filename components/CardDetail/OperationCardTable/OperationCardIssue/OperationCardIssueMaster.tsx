@@ -39,6 +39,7 @@ const OperationCardIssueMaster = ({
   modalFieldsState,
   salesOrderList,
   bunchSalesOrderList,
+  mpReferenceList,
 }: any) => {
   return (
     <>
@@ -81,6 +82,7 @@ const OperationCardIssueMaster = ({
         operationCardMachine={operationCardMachine}
         salesOrderList={salesOrderList}
         bunchSalesOrderList={bunchSalesOrderList}
+        mpReferenceList={mpReferenceList}
       />
       <div className="mt-2">
         <OperationCardIssueItem operationCardDetailData={operationCardDetailData} />
