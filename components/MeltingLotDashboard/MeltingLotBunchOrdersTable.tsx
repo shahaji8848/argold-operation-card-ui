@@ -91,8 +91,8 @@ const MeltingLotBunchOrdersTable = ({
                                   : '--'}
                               </td>
 
-                              <td>{itemGroupData?.market_design_name}</td>
-                              <td>
+                              <td className="text-center">{itemGroupData?.market_design_name}</td>
+                              <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
                                   return (
                                     <>
@@ -101,7 +101,7 @@ const MeltingLotBunchOrdersTable = ({
                                   );
                                 })}
                               </td>
-                              <td>
+                              <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
                                   return (
                                     <>
@@ -110,7 +110,7 @@ const MeltingLotBunchOrdersTable = ({
                                   );
                                 })}
                               </td>
-                              <td>
+                              <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
                                   return (
                                     <>
@@ -119,7 +119,7 @@ const MeltingLotBunchOrdersTable = ({
                                   );
                                 })}
                               </td>
-                              <td>
+                              <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
                                   return (
                                     <>
