@@ -91,6 +91,7 @@ const OperationCardIssueButton = ({
 
   // Below State is to set the value of input fields inside the modal. These values are coming from OC Detail API.
   const [modalFieldValuesState, setModalFieldValuesState] = useState<any>({});
+  const [meltingPlanReference, setMeltingPlanReference] = useState<any>('');
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
@@ -253,13 +254,30 @@ const OperationCardIssueButton = ({
     setEmptyFieldsErr(false);
     setShow(false);
   };
-  const handleShow = (value: any) => {
+  const handleShow = (value: any, show_melting_plan_reference_details: any) => {
     setShow(true);
     setItemName(value);
+
     const operationCardValue = operationCardProductDept?.issue_items?.filter((issueVal: any) => issueVal.item === value);
-    const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find(
-      (issueItem: any) => issueItem?.item === value
-    );
+
+    setMeltingPlanReference(show_melting_plan_reference_details);
+
+    // Find a specific item object in operationCardDetailData, with specific logic for "hook"
+    const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => {
+      // Check if the value is "hook"
+      console.log('value', value);
+      if (value === 'Hook') {
+        // If value is "hook", check if the item starts with "Hook"
+        return issueItem?.item?.startsWith('Hook');
+      } else {
+        // For all other values, perform the standard equality check
+        return issueItem?.item === value;
+      }
+    });
+    console.log('getSelectedItemObj', getSelectedItemObj);
+    // const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find(
+    //   (issueItem: any) => issueItem?.item === value
+    // );
 
     setSelectedIssueBtnData(getSelectedItemObj);
     let initialValuesOfSelectedItem: any = {};
@@ -279,6 +297,7 @@ const OperationCardIssueButton = ({
     const setKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('set'));
 
     const resultArray = groupByKeyWords(showKeys, setKeys);
+    console.log('resultArray', resultArray);
 
     function groupByKeyWords(showKeys: any, setKeys: any) {
       const groupedKeys: any = {};
@@ -295,7 +314,7 @@ const OperationCardIssueButton = ({
 
       return Object.values(groupedKeys);
     }
-    // console.log('result array', resultArray);
+    console.log('result array', resultArray);
 
     let filterArray: any[];
     let storeNonZeroSetAndShow: any;
@@ -405,7 +424,7 @@ const OperationCardIssueButton = ({
                   <button
                     type="button"
                     className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
-                    onClick={() => handleShow(val.item)}
+                    onClick={() => handleShow(val.item, val?.show_melting_plan_reference_details)}
                     key={i}
                   >
                     {val?.item}
@@ -571,11 +590,9 @@ const OperationCardIssueButton = ({
             </>
           )}
 
-          {selectedIssueBtnData?.item &&
-            selectedIssueBtnData?.item_type === 'Gold Accessory' &&
-            operationCardProductDept?.show_melting_plan_reference_details === 1 && (
-              <MPReferenceModal mpReferenceList={mpReferenceList} />
-            )}
+          {selectedIssueBtnData?.item && selectedIssueBtnData?.item_type === 'Gold Accessory' && meltingPlanReference === 1 && (
+            <MPReferenceModal mpReferenceList={mpReferenceList} />
+          )}
 
           {getValues?.length > 0 ? (
             <div className="d-flex justify-content-start mt-3">
