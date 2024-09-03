@@ -108,10 +108,13 @@ function SalesOrderTable({
   handleCustomerChange,
   operationCardProductDept,
 }: any) {
+  const [doGetAllOrders, setDoGetAllOrders] = useState<boolean>(false);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [isHeaderCheckboxChecked, setIsHeaderCheckboxChecked] = useState<boolean>(false);
   const singleOrdersWithItems = salesOrderList
     .map((order: any) => ({
       ...order,
-      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 1),
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 0),
     }))
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
@@ -124,90 +127,81 @@ function SalesOrderTable({
       qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 1),
     }))
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+  // const handleHeaderCheckboxChange = () => {
+  //   setIsHeaderCheckboxChecked(!isHeaderCheckboxChecked);
+  //   setSelectedItems(isHeaderCheckboxChecked ? [] : salesOrderList.map((data: any) => data.order_id));
+  // };
+  const [selectedSingleOrderItems, setSelectedSingleOrderItems] = useState<string[]>([]);
+  const [selectedBunchOrderItems, setSelectedBunchOrderItems] = useState<string[]>([]);
+  const [isSingleHeaderChecked, setIsSingleHeaderChecked] = useState(false);
+  const [isBunchHeaderChecked, setIsBunchHeaderChecked] = useState(false);
 
-  // Log the filtered bunch orders with items
-  console.log('bunchOrdersWithItems', bunchOrdersWithItems);
-
-  const [doGetAllOrders, setDoGetAllOrders] = useState<boolean>(false);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [isHeaderCheckboxChecked, setIsHeaderCheckboxChecked] = useState<boolean>(false);
-
-  const handleHeaderCheckboxChange = () => {
-    setIsHeaderCheckboxChecked(!isHeaderCheckboxChecked);
-    setSelectedItems(isHeaderCheckboxChecked ? [] : salesOrderList.map((data: any) => data.order_id));
-  };
-
-  const handleCheckboxChange = (itemId: string) => {
-    const isChecked = selectedItems.includes(itemId);
-    if (isChecked) {
-      setSelectedItems(selectedItems.filter((item) => item !== itemId));
-    } else {
-      setSelectedItems([...selectedItems, itemId]);
-    }
-  };
-  const handleDeleteSelectedItems = () => {
-    const updatedData: any = [];
-    salesOrderList.forEach((item: any) => {
-      if (!selectedItems.includes(item.order_id)) {
-        updatedData.push(item);
-      }
-    });
-
-    // Update the state with the filtered data
-    // sellsOrderData(updatedData);
-    setSalesOrderList(updatedData);
-
-    // Clear selected items
-    setSelectedItems([]);
-    setIsHeaderCheckboxChecked(false);
-  };
-
-  // const handleChangesInReadyQty = (key: any, userEnteredValue: number, order_id: string) => {
-  //   let showError: boolean = false;
-  //   console.log('user enter', key, userEnteredValue, order_id);
-  //   if (key === 'Backspace') {
-  //     setSalesOrderList((prevData: any[]) => {
-  //       const updatedData = prevData.map((item: any) => {
-  //         if (item?.order_id === order_id) {
-  //           return { ...item, ready_qty: '' };
-  //         }
-  //         return item;
-  //       });
-  //       return updatedData;
-  //     });
+  // const handleCheckboxChange = (itemId: string) => {
+  //   const isChecked = selectedItems.includes(itemId);
+  //   if (isChecked) {
+  //     setSelectedItems(selectedItems.filter((item) => item !== itemId));
   //   } else {
-  //     if (isNaN(userEnteredValue)) {
-  //       if (!showError) {
-  //         // Show error message only if it hasn't been shown before
-  //         showError = true;
-  //         toast.error('Please enter correct data.');
-  //       }
-  //     } else {
-  //       setSalesOrderList((prevData: any[]) => {
-  //         const updatedData = prevData.map((item: any) => {
-  //           if (item?.order_id === order_id) {
-  //             const totalQty = parseFloat(item.total_qty);
-  //             if (!isNaN(userEnteredValue) && userEnteredValue === totalQty) {
-  //               return { ...item, ready_qty: userEnteredValue };
-  //             } else {
-  //               if (!showError) {
-  //                 // Show error message only if it hasn't been shown before
-  //                 showError = true;
-  //                 toast.error(
-  //                   // 'Entered value should be a number and less than or equal to production quantity.'
-  //                   'Ready quantity should be less than or equal to production quantity.'
-  //                 );
-  //               }
-  //               return item;
-  //             }
-  //           }
-  //           return item;
-  //         });
-  //         return updatedData;
-  //       });
-  //     }
+  //     setSelectedItems([...selectedItems, itemId]);
   //   }
   // };
+
+  const handleHeaderCheckboxChange = (type: any, checked: any) => {
+    if (type === 'single') {
+      const newSelectedSingleOrders = checked ? singleOrdersWithItems?.map((order: any) => order.order_id) : [];
+      setSelectedSingleOrderItems(newSelectedSingleOrders);
+      setIsSingleHeaderChecked(checked);
+    } else if (type === 'bunch') {
+      const newSelectedBunchOrders = checked ? bunchOrdersWithItems?.map((order: any) => order.order_id) : [];
+      setSelectedBunchOrderItems(newSelectedBunchOrders);
+      setIsBunchHeaderChecked(checked);
+    }
+  };
+
+  const handleCheckboxChange = (itemId: string, isBunchTable: boolean) => {
+    if (isBunchTable) {
+      const isChecked = selectedBunchOrderItems.includes(itemId);
+      if (isChecked) {
+        setSelectedBunchOrderItems(selectedBunchOrderItems.filter((item) => item !== itemId));
+      } else {
+        setSelectedBunchOrderItems([...selectedBunchOrderItems, itemId]);
+      }
+    } else {
+      const isChecked = selectedSingleOrderItems.includes(itemId);
+      if (isChecked) {
+        setSelectedSingleOrderItems(selectedSingleOrderItems.filter((item) => item !== itemId));
+      } else {
+        setSelectedSingleOrderItems([...selectedSingleOrderItems, itemId]);
+      }
+    }
+  };
+
+  // const handleDeleteSelectedItems = () => {
+  //   const updatedData: any = [];
+  //   salesOrderList.forEach((item: any) => {
+  //     if (!selectedItems.includes(item.order_id)) {
+  //       updatedData.push(item);
+  //     }
+  //   });
+
+  //   // Update the state with the filtered data
+  //   // sellsOrderData(updatedData);
+  //   setSalesOrderList(updatedData);
+
+  //   // Clear selected items
+  //   setSelectedItems([]);
+  //   setIsHeaderCheckboxChecked(false);
+  // };
+
+  const handleDeleteSelectedItems = () => {
+    const updatedData = salesOrderList.filter(
+      (item: any) => !selectedSingleOrderItems.includes(item.order_id) && !selectedBunchOrderItems.includes(item.order_id)
+    );
+
+    setSalesOrderList(updatedData);
+    setSelectedSingleOrderItems([]);
+    setSelectedBunchOrderItems([]);
+    setIsHeaderCheckboxChecked(false);
+  };
 
   const [showError, setShowError] = useState(false);
 
@@ -279,9 +273,8 @@ function SalesOrderTable({
         )}
       </div>
 
-      <div className="row mt-2">
-        <div className="col-md-12">
-          {/* {operationCardProductDept?.show_get_orders !== 0 && ( */}
+      {/* <div className="row mt-2">
+        <div className="col-md-12">      
           <div className="table-responsive mt-2">
             <table className="table table-bordered">
               <thead>
@@ -334,9 +327,135 @@ function SalesOrderTable({
               Save
             </button>
           </div>
-          {/* )} */}
+        </div>
+      </div> */}
+
+      {/* Table for Single Orders */}
+      <div className="row mt-2">
+        <div className="col-md-12">
+          <h6 className="bold">Single Orders</h6>
+          <div className="table-responsive mt-2">
+            <table className="table table-bordered">
+              <thead>
+                <tr className="table-text">
+                  <th className="text-center thead-dark">
+                    <input
+                      type="checkbox"
+                      // onChange={handleHeaderCheckboxChange}
+                      onChange={(e) => handleHeaderCheckboxChange('single', e.target.checked)}
+                      // checked={isHeaderCheckboxChecked}
+                      checked={isSingleHeaderChecked}
+                    />
+                  </th>
+                  {columnsBuilder(operationCardDetailData)?.map((val, i: any) => (
+                    <th className="thead-dark text-center" scope="col" key={i}>
+                      {val}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {singleOrdersWithItems?.length > 0 ? (
+                  <>
+                    {singleOrdersWithItems?.map((salesOrder: any) => {
+                      return (
+                        <>
+                          {rowsBuilder(
+                            operationCardDetailData,
+                            salesOrder,
+                            doGetAllOrders,
+                            // selectedItems,
+                            // handleCheckboxChange,
+                            selectedSingleOrderItems,
+                            (order_id: string) => handleCheckboxChange(order_id, false),
+                            handleChangesInReadyQty,
+                            handleCustomerChange
+                          )}
+                        </>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="text-center w-100 my-4">
+                      <Image src="/grid-empty-state.png" alt="empty Logo" width={40} height={42} className="my-2" />
+                      <div className="fs-14 grey">No Data </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+
+      {/* Table for Bunch Orders */}
+      <div className="row mt-2">
+        <div className="col-md-12">
+          <h6 className="bold">Bunch Orders</h6>
+          <div className="table-responsive mt-2">
+            <table className="table table-bordered">
+              <thead>
+                <tr className="table-text">
+                  <th className="text-center thead-dark">
+                    <input
+                      type="checkbox"
+                      // onChange={handleHeaderCheckboxChange}
+                      onChange={(e) => handleHeaderCheckboxChange('bunch', e.target.checked)}
+                      // checked={isHeaderCheckboxChecked}
+                      checked={isBunchHeaderChecked}
+                    />
+                  </th>
+                  {columnsBuilder(operationCardDetailData)?.map((val, i: any) => (
+                    <th className="thead-dark text-center" scope="col" key={i}>
+                      {val}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {bunchOrdersWithItems?.length > 0 ? (
+                  <>
+                    {bunchOrdersWithItems?.map((salesOrder: any) => {
+                      return (
+                        <>
+                          {rowsBuilder(
+                            operationCardDetailData,
+                            salesOrder,
+                            doGetAllOrders,
+                            // selectedItems,
+                            // handleCheckboxChange,
+                            selectedBunchOrderItems,
+                            (order_id: string) => handleCheckboxChange(order_id, true),
+                            handleChangesInReadyQty,
+                            handleCustomerChange
+                          )}
+                        </>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="text-center w-100 my-4">
+                      <Image src="/grid-empty-state.png" alt="empty Logo" width={40} height={42} className="my-2" />
+                      <div className="fs-14 grey">No Data </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {selectedItems?.length > 0 && (
+        <button className="btn btn-danger btn-py fs-13 me-2" onClick={handleDeleteSelectedItems}>
+          Delete
+        </button>
+      )}
+      <button className="btn btn-blue btn-py" onClick={handleUpdateSalesOrderListWithReadyQty}>
+        Save
+      </button>
     </div>
   );
 }

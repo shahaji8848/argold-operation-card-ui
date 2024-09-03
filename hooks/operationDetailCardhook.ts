@@ -693,51 +693,95 @@ const useOperationDetailCard = () => {
     setSalesOrderList(updatedList);
   };
 
-  const handleUpdateSalesOrderListWithReadyQty = async () => {
-    console.log('updated sales order list', salesOrderList);
-    let transformedDataList: any[] = [];
+  // const handleUpdateSalesOrderListWithReadyQty = async () => {
+  //   console.log('updated sales order list', salesOrderList);
+  //   let transformedDataList: any[] = [];
 
-    salesOrderList.forEach((order: any) => {
-      if (order.qty_size_list && order.qty_size_list.length > 0) {
-        order.qty_size_list.forEach((qtyItem: any) => {
-          let newOrder = {
-            order_id: order.order_id,
-            sales_order: order.sales_order,
-            customer: order.customer ?? '',
-            item: order.item,
-            item_name: order.item_name,
-            size: qtyItem.size,
-            production_qty: qtyItem.production_qty,
-            ready_qty: qtyItem.production_qty,
-            soisd_item: qtyItem.soisd_item,
-          };
-          transformedDataList.push(newOrder);
-        });
-      } else {
-        let newOrder = {
-          order_id: order.order_id,
-          sales_order: order.sales_order,
-          customer: order.customer ?? '',
-          item: order.item,
-          item_name: order.item_name,
-          size: null,
-          production_qty: null,
-          ready_qty: null,
-          soisd_item: null,
-        };
-        transformedDataList.push(newOrder);
-      }
-    });
+  //   salesOrderList.forEach((order: any) => {
+  //     if (order.qty_size_list && order.qty_size_list.length > 0) {
+  //       order.qty_size_list.forEach((qtyItem: any) => {
+  //         let newOrder = {
+  //           order_id: order.order_id,
+  //           sales_order: order.sales_order,
+  //           customer: order.customer ?? '',
+  //           item: order.item,
+  //           item_name: order.item_name,
+  //           size: qtyItem.size,
+  //           production_qty: qtyItem.production_qty,
+  //           ready_qty: qtyItem.production_qty,
+  //           soisd_item: qtyItem.soisd_item,
+  //           is_bunch: qtyItem.is_bunch,
+  //           order_weight: qtyItem.order_weight,
+  //           estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+  //         };
+  //         transformedDataList.push(newOrder);
+  //       });
+  //     } else {
+  //       let newOrder = {
+  //         order_id: order.order_id,
+  //         sales_order: order.sales_order,
+  //         customer: order.customer ?? '',
+  //         item: order.item,
+  //         item_name: order.item_name,
+  //         size: null,
+  //         production_qty: null,
+  //         ready_qty: null,
+  //         soisd_item: null,
+  //       };
+  //       transformedDataList.push(newOrder);
+  //     }
+  //   });
 
-    console.log(transformedDataList);
+  //   console.log(transformedDataList);
 
-    try {
-      const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
-      if (updatedData?.status === 200) {
-        toast.success('Sales order updated successfully');
-      }
-    } catch (error) {
-      toast.error('Failed to update sales order');
+  //   try {
+  //     const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+  //     if (updatedData?.status === 200) {
+  //       toast.success('Sales order updated successfully');
+  //     }
+  //   } catch (error) {
+  //     toast.error('Failed to update sales order');
+  //   }
+  // };
+
+  const singleOrdersWithItems = salesOrderList
+    .map((order: any) => ({
+      ...order,
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 0),
+    }))
+    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+
+  // Log the filtered bunch orders with items
+  console.log('singleOrdersWithItems', singleOrdersWithItems);
+
+  const bunchOrdersWithItems = salesOrderList
+    .map((order: any) => ({
+      ...order,
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 1),
+    }))
+    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+
+  // Log the filtered bunch orders with items
+  console.log('bunchOrdersWithItems', bunchOrdersWithItems);
+  const [selectedSingleOrderItems, setSelectedSingleOrderItems] = useState<string[]>([]);
+  const [selectedBunchOrderItems, setSelectedBunchOrderItems] = useState<string[]>([]);
+
+  const handleUpdateSalesOrderListWithReadyQty = () => {
+    // Filter only the selected single orders and bunch orders
+    const filteredSingleOrders = singleOrdersWithItems.filter((order: any) => selectedSingleOrderItems.includes(order.order_id));
+    const filteredBunchOrders = bunchOrdersWithItems.filter((order: any) => selectedBunchOrderItems.includes(order.order_id));
+
+    // Combine both single and bunch orders into one payload
+    const payload = [...filteredSingleOrders, ...filteredBunchOrders];
+
+    // Perform the API call or state update with the filtered data
+    if (payload.length > 0) {
+      // Add your API call here, e.g., send payload to the server
+      console.log('Sending selected orders:', payload);
+      // Example API call
+      // updateSalesOrdersWithReadyQty(payload);
+    } else {
+      toast.warn('No orders selected to save.');
     }
   };
 

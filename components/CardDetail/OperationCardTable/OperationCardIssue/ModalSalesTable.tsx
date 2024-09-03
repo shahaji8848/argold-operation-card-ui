@@ -19,6 +19,7 @@ const ModalSalesTable: any = ({
     salesOrderList?.forEach((orderData: any) => {
       orderData?.qty_size_list?.forEach((values: any) => {
         totalProductionQty += values.production_qty || 0;
+        totalOrderWeight += values.order_weight || 0;
       });
       // totalOrderWeight += orderData.total_weight || 0;
     });
@@ -28,7 +29,7 @@ const ModalSalesTable: any = ({
 
   const handleCheckboxChange = (data: any, isChecked: boolean, isDisabled: boolean) => {
     if (isDisabled) return;
-
+    console.log('monika', data?.order_id);
     setSelectedSalesOrderData((prevData: any) => {
       if (isChecked) {
         if (selectedCustomer && selectedCustomer !== data.customer) {
@@ -70,7 +71,7 @@ const ModalSalesTable: any = ({
                     Production Qty
                   </th>
                   <th className="thead-dark text-center" scope="col">
-                    Order Qty
+                    Order Weight
                   </th>
                   <th className="thead-dark text-center" scope="col">
                     Size
@@ -80,7 +81,9 @@ const ModalSalesTable: any = ({
               <tbody>
                 {salesOrderList?.length > 0 &&
                   salesOrderList.map((orderData: any, index: any) => {
-                    const isChecked = selectedSalesOrderData.some((item: any) => item === orderData);
+                    // const isChecked = selectedSalesOrderData.some((item: any) => item === orderData);
+                    const isChecked = selectedSalesOrderData.some((item: any) => item.order_id === orderData.order_id);
+
                     // const isDisabled = !!orderData?.assigned_order_id;
                     const isDisabled = selectedCustomer && selectedCustomer !== orderData?.customer;
                     console.log('is checked', isDisabled);
@@ -101,7 +104,10 @@ const ModalSalesTable: any = ({
                           {orderData.qty_size_list.length > 0 &&
                             orderData.qty_size_list.map((values: any, id: any) => <div key={id}>{values.production_qty}</div>)}
                         </td>
-                        <td></td>
+                        <td className="text-center">
+                          {orderData.qty_size_list.length > 0 &&
+                            orderData.qty_size_list.map((values: any, id: any) => <div key={id}>{values.order_weight}</div>)}
+                        </td>
                         <td className="text-center">
                           {orderData.qty_size_list.length > 0 &&
                             orderData.qty_size_list.map((values: any, id: any) => <div key={id}>{values.size}</div>)}

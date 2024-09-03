@@ -410,6 +410,26 @@ const OperationCardIssueButton = ({
     inputInWeightRef.current?.focus();
   }, [show]);
 
+  const singleOrdersWithItems = salesOrderList
+    .map((order: any) => ({
+      ...order,
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 0),
+    }))
+    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+
+  // Log the filtered bunch orders with items
+  console.log('singleOrdersWithItems', singleOrdersWithItems);
+
+  const bunchOrdersWithItems = salesOrderList
+    .map((order: any) => ({
+      ...order,
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 1),
+    }))
+    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+
+  // Log the filtered bunch orders with items
+  console.log('bunchOrdersWithItems', bunchOrdersWithItems);
+
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
@@ -564,10 +584,10 @@ const OperationCardIssueButton = ({
               })}
           </div>
 
-          {selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Customer' && salesOrderList?.length > 0 && (
+          {selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Customer' && singleOrdersWithItems?.length > 0 && (
             <>
               <ModalSalesTable
-                salesOrderList={salesOrderList}
+                salesOrderList={singleOrdersWithItems}
                 selectedSalesOrderData={selectedSalesOrderData}
                 setSelectedSalesOrderData={setSelectedSalesOrderData}
                 selectedCustomer={selectedCustomer}
@@ -576,11 +596,11 @@ const OperationCardIssueButton = ({
               />
             </>
           )}
-
-          {selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Bunch' && bunchSalesOrderList?.length > 0 && (
+          {/* bunchSalesOrderList  */}
+          {selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Bunch' && bunchOrdersWithItems?.length > 0 && (
             <>
               <ModalSalesTable
-                salesOrderList={bunchSalesOrderList}
+                salesOrderList={bunchOrdersWithItems}
                 selectedSalesOrderData={selectedSalesOrderData}
                 setSelectedSalesOrderData={setSelectedSalesOrderData}
                 selectedCustomer={selectedCustomer}
