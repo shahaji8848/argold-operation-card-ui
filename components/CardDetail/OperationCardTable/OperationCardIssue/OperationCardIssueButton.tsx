@@ -254,13 +254,13 @@ const OperationCardIssueButton = ({
     setEmptyFieldsErr(false);
     setShow(false);
   };
-  const handleShow = (value: any, show_melting_plan_reference_details: any) => {
+  const handleShow = (value: any, add_melting_plan_reference_details: any) => {
     setShow(true);
     setItemName(value);
 
     const operationCardValue = operationCardProductDept?.issue_items?.filter((issueVal: any) => issueVal.item === value);
 
-    setMeltingPlanReference(show_melting_plan_reference_details);
+    setMeltingPlanReference(add_melting_plan_reference_details);
 
     // Find a specific item object in operationCardDetailData, with specific logic for "hook"
     const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => {
@@ -424,7 +424,7 @@ const OperationCardIssueButton = ({
                   <button
                     type="button"
                     className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
-                    onClick={() => handleShow(val.item, val?.show_melting_plan_reference_details)}
+                    onClick={() => handleShow(val.item, val?.add_melting_plan_reference_details)}
                     key={i}
                   >
                     {val?.item}
