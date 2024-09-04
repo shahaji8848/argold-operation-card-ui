@@ -206,12 +206,12 @@ const OperationCardIssueButton = ({
           console.log('mergedObjs data from modal to post', mergedObjs?.item === 'Bunch');
           if (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch') {
             const selectedOrderIds = [...selectedSingleOrderItems, ...selectedBunchOrderItems];
-            console.log('monika', selectedOrderIds);
+            console.log('selectedOrderIds', selectedOrderIds);
 
             // Filter the salesOrderList to include only the selected orders
             const filteredSalesOrderList = salesOrderList.filter((order: any) => selectedOrderIds.includes(order.order_id));
 
-            console.log('monika', filteredSalesOrderList);
+            console.log('filteredSalesOrderList', filteredSalesOrderList);
 
             let transformedDataList: any[] = [];
 

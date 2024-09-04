@@ -29,7 +29,7 @@ const ModalSalesTable: any = ({
 
   const handleCheckboxChange = (data: any, isChecked: boolean, isDisabled: boolean) => {
     if (isDisabled) return;
-    console.log('monika', data?.order_id);
+
     setSelectedSalesOrderData((prevData: any) => {
       if (isChecked) {
         if (selectedCustomer && selectedCustomer !== data.customer) {
