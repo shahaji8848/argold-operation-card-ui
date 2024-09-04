@@ -90,6 +90,11 @@ const useOperationDetailCard = () => {
   const [bunchSalesOrderList, setbunchSalesOrderList] = useState<any>([]);
   // for Melting plan Reference from lot
   const [mpReferenceList, setMpReferenceList] = useState<any>([]);
+  // sales order table according to single and bunch order
+  const [selectedSingleOrderItems, setSelectedSingleOrderItems] = useState<string[]>([]);
+  const [selectedBunchOrderItems, setSelectedBunchOrderItems] = useState<string[]>([]);
+  const [isSingleHeaderChecked, setIsSingleHeaderChecked] = useState(false);
+  const [isBunchHeaderChecked, setIsBunchHeaderChecked] = useState(false);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -763,10 +768,6 @@ const useOperationDetailCard = () => {
 
   // Log the filtered bunch orders with items
   console.log('bunchOrdersWithItems', bunchOrdersWithItems);
-  const [selectedSingleOrderItems, setSelectedSingleOrderItems] = useState<string[]>([]);
-  const [selectedBunchOrderItems, setSelectedBunchOrderItems] = useState<string[]>([]);
-  const [isSingleHeaderChecked, setIsSingleHeaderChecked] = useState(false);
-  const [isBunchHeaderChecked, setIsBunchHeaderChecked] = useState(false);
 
   const handleSalesOrderHeaderCheckboxChange = (type: any, checked: any) => {
     if (type === 'single') {
