@@ -176,8 +176,24 @@ const useOperationCardList = () => {
     PremittedProductAPI();
   }, []);
 
+  const disabledItems: any = {};
   const handleApprove = async (rowData: any) => {
     console.log('clicked', rowData);
+    const formData: any = new FormData();
+    formData.append('item', rowData);
+    const button = document.getElementById(rowData);
+    if (button instanceof HTMLButtonElement) {
+      button.disabled = true;
+      if (!disabledItems[rowData]) {
+        disabledItems[rowData] = setTimeout(
+          () => {
+            delete disabledItems[rowData];
+            button.disabled = false;
+          },
+          5 * 60 * 1000
+        ); // 5 minutes in milliseconds
+      }
+    }
     const saveApprove = await POSTApproveAPI(rowData, token);
     console.log('saveApprove', saveApprove);
     if (saveApprove.status === 200) {
@@ -187,7 +203,6 @@ const useOperationCardList = () => {
       toast.error(saveApprove?.message);
     }
   };
-
   return {
     listData,
     filtersData,
