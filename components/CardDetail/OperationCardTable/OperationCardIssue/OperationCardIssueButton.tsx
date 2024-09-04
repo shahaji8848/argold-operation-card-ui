@@ -156,7 +156,8 @@ const OperationCardIssueButton = ({
   };
 
   console.log('modal updated data', getValues);
-  const { postSaveDesignInOP, selectedSingleOrderItems, selectedBunchOrderItems }: any = useOperationDetailCard();
+  const { postSaveDesignInOP, selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any =
+    useOperationDetailCard();
 
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
@@ -205,18 +206,17 @@ const OperationCardIssueButton = ({
         } else {
           console.log('mergedObjs data from modal to post', mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch');
           console.log('mergedObjs data from modal to post', mergedObjs?.item === 'Bunch');
+
           if (operationCardDetailData?.operation_card_order_details?.length === 0) {
             if (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch') {
-              const selectedOrderIds = [...selectedSingleOrderItems, ...selectedBunchOrderItems];
-              console.log('selectedOrderIds', selectedOrderIds);
-
-              // Filter the salesOrderList to include only the selected orders
-              const filteredSalesOrderList = salesOrderList.filter((order: any) => selectedOrderIds.includes(order.order_id));
-
-              console.log('filteredSalesOrderList', filteredSalesOrderList);
-
               let transformedDataList: any[] = [];
+              // Filter the salesOrderList to include only selected orders
 
+              console.log('selectedSalesOrderData', selectedSalesOrderData);
+              const filteredSalesOrderList = salesOrderList?.filter((order: any) =>
+                selectedSalesOrderData.some((selectedOrder: any) => selectedOrder?.order_id === order?.order_id)
+              );
+              console.log('filteredSalesOrderList', filteredSalesOrderList);
               filteredSalesOrderList?.forEach((order: any) => {
                 if (order.qty_size_list && order.qty_size_list.length > 0) {
                   order.qty_size_list.forEach((qtyItem: any) => {
