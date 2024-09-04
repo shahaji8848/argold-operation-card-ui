@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
-import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 
 const hasGPCItem = (operationCardDetailData: any) => {
   const findGPCItem = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => issueItem?.item === 'GPC');
@@ -103,10 +102,17 @@ function SalesOrderTable({
   salesOrderList,
   setSalesOrderList,
   getAllSalesOrderList,
-  handleUpdateSalesOrderListWithReadyQty,
+  HandleSalesOrderSave,
   operationCardNextProductProcessDepartment,
   handleCustomerChange,
   operationCardProductDept,
+  selectedSingleOrderItems,
+  selectedBunchOrderItems,
+  isSingleHeaderChecked,
+  isBunchHeaderChecked,
+  handleSalesOrderCheckboxChange,
+  handleSalesOrderHeaderCheckboxChange,
+  handleSalesOrderDeleteSelectedItems,
 }: any) {
   const [doGetAllOrders, setDoGetAllOrders] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -131,10 +137,6 @@ function SalesOrderTable({
   //   setIsHeaderCheckboxChecked(!isHeaderCheckboxChecked);
   //   setSelectedItems(isHeaderCheckboxChecked ? [] : salesOrderList.map((data: any) => data.order_id));
   // };
-  const [selectedSingleOrderItems, setSelectedSingleOrderItems] = useState<string[]>([]);
-  const [selectedBunchOrderItems, setSelectedBunchOrderItems] = useState<string[]>([]);
-  const [isSingleHeaderChecked, setIsSingleHeaderChecked] = useState(false);
-  const [isBunchHeaderChecked, setIsBunchHeaderChecked] = useState(false);
 
   // const handleCheckboxChange = (itemId: string) => {
   //   const isChecked = selectedItems.includes(itemId);
@@ -144,36 +146,6 @@ function SalesOrderTable({
   //     setSelectedItems([...selectedItems, itemId]);
   //   }
   // };
-
-  const handleHeaderCheckboxChange = (type: any, checked: any) => {
-    if (type === 'single') {
-      const newSelectedSingleOrders = checked ? singleOrdersWithItems?.map((order: any) => order.order_id) : [];
-      setSelectedSingleOrderItems(newSelectedSingleOrders);
-      setIsSingleHeaderChecked(checked);
-    } else if (type === 'bunch') {
-      const newSelectedBunchOrders = checked ? bunchOrdersWithItems?.map((order: any) => order.order_id) : [];
-      setSelectedBunchOrderItems(newSelectedBunchOrders);
-      setIsBunchHeaderChecked(checked);
-    }
-  };
-
-  const handleCheckboxChange = (itemId: string, isBunchTable: boolean) => {
-    if (isBunchTable) {
-      const isChecked = selectedBunchOrderItems.includes(itemId);
-      if (isChecked) {
-        setSelectedBunchOrderItems(selectedBunchOrderItems.filter((item) => item !== itemId));
-      } else {
-        setSelectedBunchOrderItems([...selectedBunchOrderItems, itemId]);
-      }
-    } else {
-      const isChecked = selectedSingleOrderItems.includes(itemId);
-      if (isChecked) {
-        setSelectedSingleOrderItems(selectedSingleOrderItems.filter((item) => item !== itemId));
-      } else {
-        setSelectedSingleOrderItems([...selectedSingleOrderItems, itemId]);
-      }
-    }
-  };
 
   // const handleDeleteSelectedItems = () => {
   //   const updatedData: any = [];
@@ -192,20 +164,9 @@ function SalesOrderTable({
   //   setIsHeaderCheckboxChecked(false);
   // };
 
-  const handleDeleteSelectedItems = () => {
-    const updatedData = salesOrderList.filter(
-      (item: any) => !selectedSingleOrderItems.includes(item.order_id) && !selectedBunchOrderItems.includes(item.order_id)
-    );
-
-    setSalesOrderList(updatedData);
-    setSelectedSingleOrderItems([]);
-    setSelectedBunchOrderItems([]);
-    setIsHeaderCheckboxChecked(false);
-  };
-
   const [showError, setShowError] = useState(false);
 
-  const handleChangesInReadyQty = (key: any, userEnteredValue: string, order_id: string) => {
+  const handleChangesInReadyQty: any = (key: any, userEnteredValue: string, order_id: string) => {
     console.log('User entered:', key, userEnteredValue, order_id);
 
     // Convert the entered value to a string
@@ -323,7 +284,7 @@ function SalesOrderTable({
                 Delete
               </button>
             )}
-            <button className="btn btn-blue btn-py " onClick={handleUpdateSalesOrderListWithReadyQty}>
+            <button className="btn btn-blue btn-py " onClick={HandleSalesOrderSave}>
               Save
             </button>
           </div>
@@ -342,7 +303,7 @@ function SalesOrderTable({
                     <input
                       type="checkbox"
                       // onChange={handleHeaderCheckboxChange}
-                      onChange={(e) => handleHeaderCheckboxChange('single', e.target.checked)}
+                      onChange={(e) => handleSalesOrderHeaderCheckboxChange('single', e.target.checked)}
                       // checked={isHeaderCheckboxChecked}
                       checked={isSingleHeaderChecked}
                     />
@@ -367,7 +328,7 @@ function SalesOrderTable({
                             // selectedItems,
                             // handleCheckboxChange,
                             selectedSingleOrderItems,
-                            (order_id: string) => handleCheckboxChange(order_id, false),
+                            (order_id: string) => handleSalesOrderCheckboxChange(order_id, false),
                             handleChangesInReadyQty,
                             handleCustomerChange
                           )}
@@ -401,7 +362,7 @@ function SalesOrderTable({
                     <input
                       type="checkbox"
                       // onChange={handleHeaderCheckboxChange}
-                      onChange={(e) => handleHeaderCheckboxChange('bunch', e.target.checked)}
+                      onChange={(e) => handleSalesOrderHeaderCheckboxChange('bunch', e.target.checked)}
                       // checked={isHeaderCheckboxChecked}
                       checked={isBunchHeaderChecked}
                     />
@@ -426,7 +387,7 @@ function SalesOrderTable({
                             // selectedItems,
                             // handleCheckboxChange,
                             selectedBunchOrderItems,
-                            (order_id: string) => handleCheckboxChange(order_id, true),
+                            (order_id: string) => handleSalesOrderCheckboxChange(order_id, true),
                             handleChangesInReadyQty,
                             handleCustomerChange
                           )}
@@ -448,12 +409,12 @@ function SalesOrderTable({
         </div>
       </div>
 
-      {selectedItems?.length > 0 && (
-        <button className="btn btn-danger btn-py fs-13 me-2" onClick={handleDeleteSelectedItems}>
+      {(selectedSingleOrderItems?.length > 0 || selectedBunchOrderItems?.length > 0) && (
+        <button className="btn btn-danger btn-py fs-13 me-2" onClick={handleSalesOrderDeleteSelectedItems}>
           Delete
         </button>
       )}
-      <button className="btn btn-blue btn-py" onClick={handleUpdateSalesOrderListWithReadyQty}>
+      <button className="btn btn-blue btn-py" onClick={HandleSalesOrderSave}>
         Save
       </button>
     </div>

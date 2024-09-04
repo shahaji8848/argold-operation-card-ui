@@ -56,11 +56,18 @@ const OperationCardDetailMaster = () => {
     salesOrderList,
     setSalesOrderList,
     getSalesOrder,
-    handleUpdateSalesOrderListWithReadyQty,
+    HandleSalesOrderSave,
     handleOperationCardApproval,
     handleCustomerChange,
     bunchSalesOrderList,
     mpReferenceList,
+    selectedSingleOrderItems,
+    selectedBunchOrderItems,
+    isSingleHeaderChecked,
+    isBunchHeaderChecked,
+    handleSalesOrderCheckboxChange,
+    handleSalesOrderHeaderCheckboxChange,
+    handleSalesOrderDeleteSelectedItems,
   } = useOperationDetailCard();
   console.log('operationCardNextProductProcessDepartment', operationCardDetailData);
   return (
@@ -137,9 +144,16 @@ const OperationCardDetailMaster = () => {
               salesOrderList={salesOrderList}
               setSalesOrderList={setSalesOrderList}
               getAllSalesOrderList={getSalesOrder}
-              handleUpdateSalesOrderListWithReadyQty={handleUpdateSalesOrderListWithReadyQty}
+              HandleSalesOrderSave={HandleSalesOrderSave}
               operationCardProductDept={operationCardProductDept}
               handleCustomerChange={handleCustomerChange}
+              selectedSingleOrderItems={selectedSingleOrderItems}
+              selectedBunchOrderItems={selectedBunchOrderItems}
+              isSingleHeaderChecked={isSingleHeaderChecked}
+              isBunchHeaderChecked={isBunchHeaderChecked}
+              handleSalesOrderCheckboxChange={handleSalesOrderCheckboxChange}
+              handleSalesOrderHeaderCheckboxChange={handleSalesOrderHeaderCheckboxChange}
+              handleSalesOrderDeleteSelectedItems={handleSalesOrderDeleteSelectedItems}
             />
             <OperationCardCreationDetail operationCardDetailData={operationCardDetailData} />
           </div>

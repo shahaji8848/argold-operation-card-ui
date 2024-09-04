@@ -693,7 +693,7 @@ const useOperationDetailCard = () => {
     setSalesOrderList(updatedList);
   };
 
-  // const handleUpdateSalesOrderListWithReadyQty = async () => {
+  // const HandleSalesOrderSave = async () => {
   //   console.log('updated sales order list', salesOrderList);
   //   let transformedDataList: any[] = [];
 
@@ -765,23 +765,91 @@ const useOperationDetailCard = () => {
   console.log('bunchOrdersWithItems', bunchOrdersWithItems);
   const [selectedSingleOrderItems, setSelectedSingleOrderItems] = useState<string[]>([]);
   const [selectedBunchOrderItems, setSelectedBunchOrderItems] = useState<string[]>([]);
+  const [isSingleHeaderChecked, setIsSingleHeaderChecked] = useState(false);
+  const [isBunchHeaderChecked, setIsBunchHeaderChecked] = useState(false);
 
-  const handleUpdateSalesOrderListWithReadyQty = () => {
-    // Filter only the selected single orders and bunch orders
-    const filteredSingleOrders = singleOrdersWithItems.filter((order: any) => selectedSingleOrderItems.includes(order.order_id));
-    const filteredBunchOrders = bunchOrdersWithItems.filter((order: any) => selectedBunchOrderItems.includes(order.order_id));
+  const handleSalesOrderHeaderCheckboxChange = (type: any, checked: any) => {
+    if (type === 'single') {
+      const newSelectedSingleOrders = checked ? singleOrdersWithItems?.map((order: any) => order.order_id) : [];
+      setSelectedSingleOrderItems(newSelectedSingleOrders);
+      setIsSingleHeaderChecked(checked);
+    } else if (type === 'bunch') {
+      const newSelectedBunchOrders = checked ? bunchOrdersWithItems?.map((order: any) => order.order_id) : [];
+      setSelectedBunchOrderItems(newSelectedBunchOrders);
+      setIsBunchHeaderChecked(checked);
+    }
+  };
 
-    // Combine both single and bunch orders into one payload
-    const payload = [...filteredSingleOrders, ...filteredBunchOrders];
-
-    // Perform the API call or state update with the filtered data
-    if (payload.length > 0) {
-      // Add your API call here, e.g., send payload to the server
-      console.log('Sending selected orders:', payload);
-      // Example API call
-      // updateSalesOrdersWithReadyQty(payload);
+  const handleSalesOrderCheckboxChange = (itemId: string, isBunchTable: boolean) => {
+    if (isBunchTable) {
+      const isChecked = selectedBunchOrderItems.includes(itemId);
+      if (isChecked) {
+        setSelectedBunchOrderItems(selectedBunchOrderItems.filter((item) => item !== itemId));
+      } else {
+        setSelectedBunchOrderItems([...selectedBunchOrderItems, itemId]);
+      }
     } else {
-      toast.warn('No orders selected to save.');
+      const isChecked = selectedSingleOrderItems.includes(itemId);
+      if (isChecked) {
+        setSelectedSingleOrderItems(selectedSingleOrderItems.filter((item) => item !== itemId && isBunchTable));
+      } else {
+        setSelectedSingleOrderItems([...selectedSingleOrderItems, itemId]);
+      }
+    }
+  };
+
+  const handleSalesOrderDeleteSelectedItems = () => {
+    const updatedData = salesOrderList.filter(
+      (item: any) => !selectedSingleOrderItems.includes(item.order_id) && !selectedBunchOrderItems.includes(item.order_id)
+    );
+
+    setSalesOrderList(updatedData);
+    setSelectedSingleOrderItems([]);
+    setSelectedBunchOrderItems([]);
+    // setIsHeaderCheckboxChecked(false);
+  };
+
+  const HandleSalesOrderSave = async () => {
+    // Combine the selected single and bunch order items
+    const selectedOrderIds = [...selectedSingleOrderItems, ...selectedBunchOrderItems];
+    console.log('monika', selectedOrderIds);
+
+    // Filter the salesOrderList to include only the selected orders
+    const filteredSalesOrderList = salesOrderList.filter((order: any) => selectedOrderIds.includes(order.order_id));
+
+    console.log('monika', filteredSalesOrderList);
+
+    let transformedDataList: any[] = [];
+
+    filteredSalesOrderList?.forEach((order: any) => {
+      if (order.qty_size_list && order.qty_size_list.length > 0) {
+        order.qty_size_list.forEach((qtyItem: any) => {
+          let newOrder = {
+            order_id: order.order_id,
+            sales_order: order.sales_order,
+            customer: order.customer ?? '',
+            item: order.item,
+            item_name: order.item_name,
+            size: qtyItem.size,
+            production_qty: qtyItem.production_qty,
+            ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
+            soisd_item: qtyItem.soisd_item,
+            is_bunch: qtyItem.is_bunch,
+          };
+          transformedDataList.push(newOrder);
+        });
+      }
+    });
+
+    console.log('Data to be sent in POST API:', transformedDataList);
+
+    try {
+      const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+      if (updatedData?.status === 200) {
+        toast.success('Sales order updated successfully');
+      }
+    } catch (error) {
+      toast.error('Failed to update sales order');
     }
   };
 
@@ -972,7 +1040,7 @@ const useOperationDetailCard = () => {
     salesOrderList,
     setSalesOrderList,
     getSalesOrder,
-    handleUpdateSalesOrderListWithReadyQty,
+    HandleSalesOrderSave,
     handleOperationCardApproval,
     handleCustomerChange,
     handleMeltingLotShowOrder,
@@ -983,6 +1051,13 @@ const useOperationDetailCard = () => {
     postSaveDesignInOP,
     bunchSalesOrderList,
     mpReferenceList,
+    selectedSingleOrderItems,
+    selectedBunchOrderItems,
+    isSingleHeaderChecked,
+    isBunchHeaderChecked,
+    handleSalesOrderCheckboxChange,
+    handleSalesOrderHeaderCheckboxChange,
+    handleSalesOrderDeleteSelectedItems,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,
