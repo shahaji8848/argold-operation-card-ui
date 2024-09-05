@@ -128,7 +128,7 @@ const ModalSalesTable: any = ({
                   </td>
 
                   <td className="text-center">
-                    <strong>{totalOrderWeight}</strong>
+                    <strong>{totalOrderWeight.toFixed(2)}</strong>
                   </td>
                   <td></td>
                 </tr>
