@@ -14,6 +14,7 @@ import GETValidationForDesign from '@/services/api/operation-card-detail-page/va
 import MPReferenceModal from './MPReferenceModal';
 import POSTOperationCardSave from '@/services/api/operation-card-detail-page/operation-card-save';
 import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/update-sales-order-api';
+import UpdateSalesOrderWithBooleanValueAPI from '@/services/api/operation-card-detail-page/update-sales-order-with-boolen-value';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -157,7 +158,8 @@ const OperationCardIssueButton = ({
 
   console.log('modal updated data', getValues);
   const { selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any = useOperationDetailCard();
-
+  // console.log('operationCardDetailData', operationCardDetailData?.operation_card_order_details?.map((ele: any) => ele.soisd_item));
+  // console.log('selectedSalesOrderData', selectedSalesOrderData?.map((ele: any) => ele.qty_size_list?.map((eleItem: any) => eleItem.soisd_item)));
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
@@ -206,19 +208,76 @@ const OperationCardIssueButton = ({
           console.log('mergedObjs data from modal to post', mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch');
           console.log('mergedObjs data from modal to post', mergedObjs?.item === 'Bunch');
 
-          if (operationCardDetailData?.operation_card_order_details?.length === 0) {
-            if (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch') {
-              let transformedDataList: any[] = [];
-              // Filter the salesOrderList to include only selected orders
+          if (
+            operationCardDetailData?.operation_card_order_details?.length === 0 &&
+            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch')
+          ) {
+            let transformedDataList: any[] = [];
+            // Filter the salesOrderList to include only selected orders
 
-              console.log('selectedSalesOrderData', selectedSalesOrderData);
-              const filteredSalesOrderList = salesOrderList?.filter((order: any) =>
-                selectedSalesOrderData.some((selectedOrder: any) => selectedOrder?.order_id === order?.order_id)
-              );
-              console.log('filteredSalesOrderList', filteredSalesOrderList);
-              filteredSalesOrderList?.forEach((order: any) => {
-                if (order.qty_size_list && order.qty_size_list.length > 0) {
-                  order.qty_size_list.forEach((qtyItem: any) => {
+            console.log('selectedSalesOrderData', selectedSalesOrderData);
+            const filteredSalesOrderList = salesOrderList?.filter((order: any) =>
+              selectedSalesOrderData.some((selectedOrder: any) => selectedOrder?.order_id === order?.order_id)
+            );
+            console.log('filteredSalesOrderList', filteredSalesOrderList);
+            filteredSalesOrderList?.forEach((order: any) => {
+              if (order.qty_size_list && order.qty_size_list.length > 0) {
+                order.qty_size_list.forEach((qtyItem: any) => {
+                  let newOrder = {
+                    order_id: order.order_id,
+                    sales_order: order.sales_order,
+                    customer: order.customer ?? '',
+                    item: order.item,
+                    item_name: order.item_name,
+                    size: qtyItem.size,
+                    production_qty: qtyItem.production_qty,
+                    ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
+                    soisd_item: qtyItem.soisd_item,
+                    is_bunch: qtyItem.is_bunch,
+                    order_weight: qtyItem.order_weight,
+                    estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+                  };
+                  transformedDataList.push(newOrder);
+                });
+              }
+            });
+
+            console.log('Data to be sent in POST API:', transformedDataList);
+            const callSalesOrderAPI: any = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+            if (callSalesOrderAPI?.status === 200) {
+              const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+              console.log('api', callSaveAPI);
+              if (callSaveAPI?.status === 200) {
+                operationCardDetail();
+                handleClose();
+              } else {
+                handleClose();
+                const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+                const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+                setErrMessage(messageValue);
+                setShowToastErr(true);
+              }
+            }
+          } else if (
+            operationCardDetailData?.operation_card_order_details?.length > 0 &&
+            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch')
+          ) {
+            let transformedDataList: any[] = [];
+            // Extract all `soisd_item` from operationCardDetailData
+            const operationCardSoisdItems =
+              operationCardDetailData?.operation_card_order_details?.map((ele: any) => ele?.soisd_item) || [];
+            console.log('operationCardSoisdItems', operationCardSoisdItems);
+            // Filter the salesOrderList to include only selected orders
+            console.log('selectedSalesOrderData', selectedSalesOrderData);
+            const filteredSalesOrderList = salesOrderList?.filter((order: any) =>
+              selectedSalesOrderData.some((selectedOrder: any) => selectedOrder?.order_id === order?.order_id)
+            );
+            console.log('filteredSalesOrderList', filteredSalesOrderList);
+            filteredSalesOrderList?.forEach((order: any) => {
+              if (order.qty_size_list && order.qty_size_list.length > 0) {
+                order.qty_size_list.forEach((qtyItem: any) => {
+                  // Check if the `soisd_item` exists in the operationCardSoisdItems array
+                  if (!operationCardSoisdItems.includes(qtyItem.soisd_item)) {
                     let newOrder = {
                       order_id: order.order_id,
                       sales_order: order.sales_order,
@@ -230,46 +289,54 @@ const OperationCardIssueButton = ({
                       ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
                       soisd_item: qtyItem.soisd_item,
                       is_bunch: qtyItem.is_bunch,
+                      order_weight: qtyItem.order_weight,
+                      estimate_bunch_weight: qtyItem.estimate_bunch_weight,
                     };
                     transformedDataList.push(newOrder);
-                  });
-                }
-              });
+                  }
+                });
+              }
+            });
 
-              console.log('Data to be sent in POST API:', transformedDataList);
-              const callSalesOrderAPI: any = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
-              if (callSalesOrderAPI?.status === 200) {
-                const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-                console.log('api', callSaveAPI);
-                if (callSaveAPI?.status === 200) {
-                  operationCardDetail();
-                  handleClose();
-                } else {
-                  handleClose();
-                  const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
-                  const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
-                  setErrMessage(messageValue);
-                  setShowToastErr(true);
-                }
+            console.log('Data to be sent in POST API:', transformedDataList);
+            const update_orders: boolean = true;
+            // Call the API only with unmatched `soisd_item` values
+            const callSalesOrderAPI: any = await UpdateSalesOrderWithBooleanValueAPI(
+              transformedDataList,
+              operationCardDetailData?.name,
+              update_orders,
+              token
+            );
+            if (callSalesOrderAPI?.status === 200) {
+              const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+              console.log('api', callSaveAPI);
+              if (callSaveAPI?.status === 200) {
+                operationCardDetail();
+                handleClose();
+              } else {
+                handleClose();
+                const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+                const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+                setErrMessage(messageValue);
+                setShowToastErr(true);
               }
             }
-          }
-          // else {
-          console.log('monika');
-          const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-          console.log('callSaveAPI', callSaveAPI);
-          if (callSaveAPI?.status === 200) {
-            operationCardDetail();
-            handleClose();
           } else {
-            handleClose();
-            const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
-            const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
-            setErrMessage(messageValue);
-            setShowToastErr(true);
+            console.log('hello');
+            const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+            console.log('callSaveAPI', callSaveAPI);
+            if (callSaveAPI?.status === 200) {
+              operationCardDetail();
+              handleClose();
+            } else {
+              handleClose();
+              const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+              const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+              setErrMessage(messageValue);
+              setShowToastErr(true);
+            }
           }
         }
-        // }
         // await getValidationForDesign();
         // console.log('validity for design', validityForDesign);
         // // Check if the validityForDesign message is the specific message
@@ -310,6 +377,9 @@ const OperationCardIssueButton = ({
   const handleClose = () => {
     setEmptyFieldsErr(false);
     setShow(false);
+    // in order to remove selected checkbox of customer and bunch sales order table in modal
+    setSelectedSalesOrderData([]); // Reset selected items
+    setSelectedCustomer(''); // Reset customer as well
   };
   const handleShow = (value: any, add_melting_plan_reference_details: any) => {
     setShow(true);

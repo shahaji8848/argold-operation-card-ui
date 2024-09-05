@@ -836,6 +836,8 @@ const useOperationDetailCard = () => {
             ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
             soisd_item: qtyItem.soisd_item,
             is_bunch: qtyItem.is_bunch,
+            order_weight: qtyItem.order_weight,
+            estimate_bunch_weight: qtyItem.estimate_bunch_weight,
           };
           transformedDataList.push(newOrder);
         });
@@ -928,7 +930,6 @@ const useOperationDetailCard = () => {
   // const postSaveDesignInOP = async () => {
   //   try {
   //     const saveDesignInOP = await POSTDesignValue(search, designInputValue?.design, token);
-  //     console.log('monika', saveDesignInOP);
   //     if (saveDesignInOP?.status === 200) {
   //       // window.location.reload();
   //     } else {

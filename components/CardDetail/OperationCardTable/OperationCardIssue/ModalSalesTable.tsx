@@ -93,9 +93,9 @@ const ModalSalesTable: any = ({
                           <input
                             type="checkbox"
                             onChange={() => handleCheckboxChange(orderData, !isChecked, isDisabled)}
-                            checked={isChecked || isDisabled}
+                            checked={isChecked || isDisabled || !!orderData?.assigned_order_id}
                             // disabled={orderData?.assigned_order_id}
-                            disabled={isDisabled}
+                            disabled={isDisabled || orderData?.assigned_order_id}
                           />
                         </td>
                         <td className="text-center">{orderData.sales_order}</td>
