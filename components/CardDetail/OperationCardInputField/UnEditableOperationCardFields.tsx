@@ -2,7 +2,7 @@ import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import React from 'react';
 
 const UnEditableOperationCardFields = ({ operationCardFieldValue, editableFieldsList }: any) => {
-  const { designInputValue } = useOperationDetailCard();
+  // const { designInputValue } = useOperationDetailCard();
 
   return (
     <>
@@ -27,8 +27,8 @@ const UnEditableOperationCardFields = ({ operationCardFieldValue, editableFields
                           type="text"
                           className="form-control dark-blue operationCardinputFields"
                           id="inputText"
-                          // value={values}
-                          value={key === 'design' ? designInputValue?.design : values}
+                          value={values}
+                          // value={key === 'design' ? designInputValue?.design : values}
                           readOnly
                         />
                       </div>

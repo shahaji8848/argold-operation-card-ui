@@ -887,19 +887,19 @@ const useOperationDetailCard = () => {
     }
   };
 
-  const getDesignInputField = async () => {
-    const fetchDesignInputField = await GETDesignInputField(
-      operationCardDetailData?.melting_lot,
-      operationCardDetailData?.product_process_department,
-      token
-    );
+  // const getDesignInputField = async () => {
+  //   const fetchDesignInputField = await GETDesignInputField(
+  //     operationCardDetailData?.melting_lot,
+  //     operationCardDetailData?.product_process_department,
+  //     token
+  //   );
 
-    if (fetchDesignInputField?.status === 200) {
-      setdesignInputValue(fetchDesignInputField?.data?.message);
-    } else {
-      setdesignInputValue([]);
-    }
-  };
+  //   if (fetchDesignInputField?.status === 200) {
+  //     setdesignInputValue(fetchDesignInputField?.data?.message);
+  //   } else {
+  //     setdesignInputValue([]);
+  //   }
+  // };
 
   // for bunch pop up
   const getBunchSalesOrderList = async () => {
@@ -921,23 +921,23 @@ const useOperationDetailCard = () => {
     }
   };
 
-  useEffect(() => {
-    getDesignInputField;
-  }, [designInputValue]);
+  // useEffect(() => {
+  //   getDesignInputField;
+  // }, [designInputValue]);
 
-  const postSaveDesignInOP = async () => {
-    try {
-      const saveDesignInOP = await POSTDesignValue(search, designInputValue?.design, token);
-
-      if (saveDesignInOP?.status === 200) {
-        // window.location.reload();
-      } else {
-        // toast.error('Error approving operation card ');
-      }
-    } catch (error) {
-      // toast.error('Error approving operation card');
-    }
-  };
+  // const postSaveDesignInOP = async () => {
+  //   try {
+  //     const saveDesignInOP = await POSTDesignValue(search, designInputValue?.design, token);
+  //     console.log('monika', saveDesignInOP);
+  //     if (saveDesignInOP?.status === 200) {
+  //       // window.location.reload();
+  //     } else {
+  //       // toast.error('Error approving operation card ');
+  //     }
+  //   } catch (error) {
+  //     // toast.error('Error approving operation card');
+  //   }
+  // };
 
   useEffect(() => {
     GETValidationInWeightField();
@@ -988,7 +988,7 @@ const useOperationDetailCard = () => {
 
       getIssueReferenceAPICallFunc();
       GETValidationInWeightField();
-      getDesignInputField();
+      // getDesignInputField();
       getBunchSalesOrderList();
       getMPReferenceList();
     }
@@ -1049,7 +1049,7 @@ const useOperationDetailCard = () => {
     getValidationForDesign,
     validityForDesign,
     designInputValue,
-    postSaveDesignInOP,
+    // postSaveDesignInOP,
     bunchSalesOrderList,
     mpReferenceList,
     selectedSingleOrderItems,

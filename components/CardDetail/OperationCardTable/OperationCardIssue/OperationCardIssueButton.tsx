@@ -156,8 +156,7 @@ const OperationCardIssueButton = ({
   };
 
   console.log('modal updated data', getValues);
-  const { postSaveDesignInOP, selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any =
-    useOperationDetailCard();
+  const { selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any = useOperationDetailCard();
 
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
@@ -180,7 +179,7 @@ const OperationCardIssueButton = ({
     console.log('mergedObjs data from modal to post', mergedObjs);
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
 
-    await postSaveDesignInOP();
+    // await postSaveDesignInOP();
 
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
@@ -254,21 +253,23 @@ const OperationCardIssueButton = ({
                 }
               }
             }
+          }
+          // else {
+          console.log('monika');
+          const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+          console.log('callSaveAPI', callSaveAPI);
+          if (callSaveAPI?.status === 200) {
+            operationCardDetail();
+            handleClose();
           } else {
-            const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-            console.log('api', callSaveAPI);
-            if (callSaveAPI?.status === 200) {
-              operationCardDetail();
-              handleClose();
-            } else {
-              handleClose();
-              const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
-              const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
-              setErrMessage(messageValue);
-              setShowToastErr(true);
-            }
+            handleClose();
+            const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+            const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+            setErrMessage(messageValue);
+            setShowToastErr(true);
           }
         }
+        // }
         // await getValidationForDesign();
         // console.log('validity for design', validityForDesign);
         // // Check if the validityForDesign message is the specific message

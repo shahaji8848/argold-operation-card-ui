@@ -106,7 +106,9 @@ const ModalSalesTable: any = ({
                         </td>
                         <td className="text-center">
                           {orderData.qty_size_list.length > 0 &&
-                            orderData.qty_size_list.map((values: any, id: any) => <div key={id}>{values.order_weight}</div>)}
+                            orderData.qty_size_list.map((values: any, id: any) => (
+                              <div key={id}>{values.order_weight.toFixed(2)}</div>
+                            ))}
                         </td>
                         <td className="text-center">
                           {orderData.qty_size_list.length > 0 &&
