@@ -14,7 +14,7 @@ const UnEditableOperationCardFields = ({ operationCardFieldValue, editableFields
                 <>
                   <div className="col-md-2 p-0 m-0" key={index}>
                     <div>
-                      <div className="fs-14 bold text-start">
+                      <div className="fs-14 bold text-start text-capitalize">
                         {key
                           .split('_')
                           .map((val: any, index: any) => {
