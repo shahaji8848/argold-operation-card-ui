@@ -3,6 +3,7 @@ import React from 'react';
 import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
 import MeltingLotBunchOrdersTable from './MeltingLotBunchOrdersTable';
 import MeltingLotSingleOrdersTable from './MeltingLotSingleOrdersTable';
+import ExistingMelingLotMaster from './ExistingMelingLotMaster';
 
 const MeltingLotAddSalesOrder = () => {
   const {
@@ -15,6 +16,8 @@ const MeltingLotAddSalesOrder = () => {
     formatDate,
     handleSaveSalesOrder,
     selectedDesign,
+    existingSalesOrderData,
+    handleDeleteSalesOrder,
   }: any = useMeltingLotSalesOrder();
 
   return (
@@ -52,6 +55,15 @@ const MeltingLotAddSalesOrder = () => {
               readOnly
             />
           </div>
+        </div>
+        <div>
+          <ExistingMelingLotMaster
+            existingSalesOrderData={existingSalesOrderData}
+            formatDate={formatDate}
+            handleDeleteSalesOrder={handleDeleteSalesOrder}
+            selectedOrders={selectedOrders}
+            handleCheckboxChange={handleCheckboxChange}
+          />
         </div>
         <div>
           <button className="text-end btn btn-blue btn-py mt-1" onClick={handleGetSalesOrders}>

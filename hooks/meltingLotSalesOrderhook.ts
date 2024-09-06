@@ -1,5 +1,6 @@
 'use client';
 import GETMeltingPlanBasedOnFilters from '@/services/api/melting-lot-dashboard-page/get-data-base-on-filters';
+import GETMeltingPlanOrders from '@/services/api/melting-lot-dashboard-page/get-melting-plan-order';
 import GETMeltingPlanFilters from '@/services/api/melting-lot-dashboard-page/melting-plan-filters';
 import POSTAddOrders from '@/services/api/melting-lot-dashboard-page/post-add-orders';
 import { get_access_token } from '@/store/slice/login-slice';
@@ -9,11 +10,12 @@ import { toast } from 'react-toastify';
 
 const useMeltingLotSalesOrder = () => {
   const { token } = useSelector(get_access_token);
-  const [meltingPlan, setMeltingPlan] = useState('');
-  const [meltingPlanFilters, setMeltingPlanFilters] = useState({});
-  const [salesOrderData, setSalesOrderData] = useState([]);
+  const [meltingPlan, setMeltingPlan] = useState<any>('');
+  const [meltingPlanFilters, setMeltingPlanFilters] = useState<any>({});
+  const [salesOrderData, setSalesOrderData] = useState<any>([]);
   const [selectedOrders, setSelectedOrders] = useState<{ [key: string]: boolean }>({});
-  const [selectedDesign, setSelectedDesign] = useState(null); // New state to track selected design
+  const [selectedDesign, setSelectedDesign] = useState<any>(null); // New state to track selected design
+  const [existingSalesOrderData, setExistingSalesOrderData] = useState<any>([]);
 
   useEffect(() => {
     const url = window.location.href;
@@ -22,6 +24,7 @@ const useMeltingLotSalesOrder = () => {
     setMeltingPlan(meltingPlanValue || '');
     if (meltingPlanValue) {
       fetchMeltingPlanFilter(meltingPlanValue);
+      fetchExistingMeltingPlanOrder(meltingPlanValue);
     }
   }, [meltingPlan]);
 
@@ -89,6 +92,38 @@ const useMeltingLotSalesOrder = () => {
       }
     });
   };
+
+  // Function to format date formate
+  const formatDate = (dateString: any) => {
+    if (!dateString || dateString === ' ' || dateString === null) {
+      return '--';
+    }
+
+    // Attempt to parse and format the date
+    try {
+      const date = new Date(dateString);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because getMonth() returns 0-11
+      const year = date.getFullYear();
+
+      return `${day}-${month}-${year}`;
+    } catch (error) {
+      return '--';
+    }
+  };
+
+  //function to get  Selected add melting lot sales order data
+  const fetchExistingMeltingPlanOrder = async (meltingPlanValue: any) => {
+    const getMeltingPlanOrders = await GETMeltingPlanOrders(meltingPlanValue, token);
+    if (getMeltingPlanOrders?.status === 200) {
+      setExistingSalesOrderData(getMeltingPlanOrders?.data?.message);
+    } else {
+      setExistingSalesOrderData([]);
+    }
+  };
+  console.log('monika', existingSalesOrderData);
+
+  const [deletedSingleOrders, setDeletedSingleOrders] = useState<any[]>([]);
 
   const handleSaveSalesOrder = async () => {
     let transformedDataList: any[] = [];
@@ -187,6 +222,68 @@ const useMeltingLotSalesOrder = () => {
       });
     });
 
+    // Now, also include deleted orders for single in the POST request
+    existingSalesOrderData?.single_orders?.forEach((deletedOrder: any) => {
+      deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
+        itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
+          const deletedOrderData = {
+            design: itemGroupData?.design,
+            sales_order: deletedOrder?.sales_order,
+            order_date: deletedOrder?.order_date,
+            delivery_date: deletedOrder?.delivery_date,
+            customer: deletedOrder?.customer,
+            description: deletedOrder?.description,
+            total_order_weight: deletedOrder?.total_order_weight,
+            soi_name: marketDesign?.soi_name,
+            item: marketDesign?.item,
+            market_design_name: marketDesign?.market_design_name,
+            product: marketDesign?.product,
+            size: marketDesign?.size,
+            quantity: marketDesign?.quantity,
+            is_bunch: marketDesign?.is_bunch,
+            weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
+            product_category: marketDesign?.product_category,
+            bunch_length: marketDesign?.bunch_length,
+            per_inch_weight: marketDesign?.per_inch_weight,
+            estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
+            order_weight: marketDesign?.order_weight,
+          };
+          transformedDataList.push(deletedOrderData);
+        });
+      });
+    });
+
+    // Now, also include deleted orders for bunch in the POST request
+    existingSalesOrderData?.bunch_orders?.forEach((deletedOrder: any) => {
+      deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
+        itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
+          const deletedOrderData = {
+            design: itemGroupData?.design,
+            sales_order: deletedOrder?.sales_order,
+            order_date: deletedOrder?.order_date,
+            delivery_date: deletedOrder?.delivery_date,
+            customer: deletedOrder?.customer,
+            description: deletedOrder?.description,
+            total_order_weight: deletedOrder?.total_order_weight,
+            soi_name: marketDesign?.soi_name,
+            item: marketDesign?.item,
+            market_design_name: marketDesign?.market_design_name,
+            product: marketDesign?.product,
+            size: marketDesign?.size,
+            quantity: marketDesign?.quantity,
+            is_bunch: marketDesign?.is_bunch,
+            weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
+            product_category: marketDesign?.product_category,
+            bunch_length: marketDesign?.bunch_length,
+            per_inch_weight: marketDesign?.per_inch_weight,
+            estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
+            order_weight: marketDesign?.order_weight,
+          };
+          transformedDataList.push(deletedOrderData);
+        });
+      });
+    });
+
     // Debugging: Check the transformed data list
     console.log('transformedDataList', transformedDataList);
 
@@ -204,23 +301,68 @@ const useMeltingLotSalesOrder = () => {
     }
   };
 
-  // Function to format date
-  const formatDate = (dateString: any) => {
-    if (!dateString || dateString === ' ' || dateString === null) {
-      return '--';
-    }
+  // State to manage selected orders
+  const [existingSelectedOrders, setExistingSelectedOrders] = useState<any>({});
 
-    // Attempt to parse and format the date
-    try {
-      const date = new Date(dateString);
-      const day = date.getDate().toString().padStart(2, '0');
-      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because getMonth() returns 0-11
-      const year = date.getFullYear();
+  // Handle checkbox change
+  const handleExistingCheckboxChange = (uniqueKey: any) => {
+    setExistingSelectedOrders((prevSelectedOrders: any) => ({
+      ...prevSelectedOrders,
+      [uniqueKey]: !prevSelectedOrders[uniqueKey], // Toggle the selection
+    }));
+  };
 
-      return `${day}-${month}-${year}`;
-    } catch (error) {
-      return '--';
-    }
+  const handleDeleteSalesOrder = () => {
+    // Filter out the orders that are selected
+    const updatedSingleOrders = existingSalesOrderData?.single_orders
+      .map((order: any) => {
+        const filteredItemGroupData = order.item_group_data.filter(
+          (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
+        );
+
+        // Capture deleted item_group_data to store in state
+        const deletedItemGroupData = order.item_group_data.filter(
+          (itemGroupData: any) => selectedOrders[itemGroupData?.unique_key]
+        );
+
+        // Store deleted items in state
+        if (deletedItemGroupData.length > 0) {
+          setDeletedSingleOrders((prevDeleted) => [...prevDeleted, { ...order, item_group_data: !deletedItemGroupData }]);
+        }
+
+        return { ...order, item_group_data: filteredItemGroupData };
+      })
+      .filter((order: any) => order.item_group_data.length > 0);
+
+    const updatedBunchOrders = existingSalesOrderData?.bunch_orders
+      .map((order: any) => {
+        const filteredItemGroupData = order.item_group_data.filter(
+          (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
+        );
+
+        // Capture deleted item_group_data to store in state
+        const deletedItemGroupData = order.item_group_data.filter(
+          (itemGroupData: any) => selectedOrders[itemGroupData?.unique_key]
+        );
+
+        // Store deleted items in state
+        if (deletedItemGroupData.length > 0) {
+          setDeletedSingleOrders((prevDeleted) => [...prevDeleted, { ...order, item_group_data: !deletedItemGroupData }]);
+        }
+
+        return { ...order, item_group_data: filteredItemGroupData };
+      })
+      .filter((order: any) => order.item_group_data.length > 0);
+
+    // Update the existingSalesOrderData state with the filtered data
+    setExistingSalesOrderData((prevState: any) => ({
+      ...prevState,
+      single_orders: updatedSingleOrders,
+      bunch_orders: updatedBunchOrders,
+    }));
+
+    // Reset selectedOrders state after deletion
+    setSelectedOrders({});
   };
 
   return {
@@ -233,6 +375,8 @@ const useMeltingLotSalesOrder = () => {
     formatDate,
     handleSaveSalesOrder,
     selectedDesign,
+    existingSalesOrderData,
+    handleDeleteSalesOrder,
   };
 };
 

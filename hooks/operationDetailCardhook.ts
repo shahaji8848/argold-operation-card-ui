@@ -838,6 +838,7 @@ const useOperationDetailCard = () => {
             is_bunch: qtyItem.is_bunch,
             order_weight: qtyItem.order_weight,
             estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+            market_design_name: qtyItem?.market_design_name,
           };
           transformedDataList.push(newOrder);
         });
