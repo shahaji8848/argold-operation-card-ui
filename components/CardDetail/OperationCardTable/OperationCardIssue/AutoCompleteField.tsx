@@ -21,10 +21,21 @@ const AutoCompleteField = ({
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
     selectedOption,
+    setInputValueAutoComplete,
   } = useInputAutoComplete(listOfDropdownObjs, initialValue, handleSubmit);
 
   console.log('select option in drop', listOfDropdownObjs);
-
+  useEffect(() => {
+    if (label === 'machine_size') {
+      // Case 1: Machine size is returned from API
+      if (initialValue !== '') {
+        setInputValueAutoComplete(initialValue);
+      } else if (listOfDropdownObjs.length > 0) {
+        // Case 2 & 3: No machine size from API or no design selected
+        showFilteredValuesHandler();
+      }
+    }
+  }, [initialValue, label, listOfDropdownObjs]);
   useEffect(() => {
     if (showSuggestionsAutoComplete === false) {
       console.log('select dropdown value', inputValueAutoComplete);
@@ -39,7 +50,8 @@ const AutoCompleteField = ({
       }
     }
   }, [showSuggestionsAutoComplete]);
-
+  console.log('initialValue', initialValue);
+  console.log('label', label);
   return (
     <div>
       <div>
@@ -48,7 +60,7 @@ const AutoCompleteField = ({
             <input
               type="text"
               // id={field}
-              value={inputValueAutoComplete?.value}
+              value={label === 'machine_size' && initialValue ? initialValue : inputValueAutoComplete?.value}
               className={`form-control w-100 `}
               autoComplete="off"
               onChange={(e) => {
@@ -65,8 +77,7 @@ const AutoCompleteField = ({
               // }}
               ref={inputRef}
               readOnly={isReadOnly}
-              disabled={isReadOnly}
-              // style={{ border: '2px solid red' }}
+              disabled={label === 'machine_size' && initialValue ? initialValue : isReadOnly}
             />
 
             {showSuggestionsAutoComplete && filteredSuggestionsAutoComplete.length > 0 && (

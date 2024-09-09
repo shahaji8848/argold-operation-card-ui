@@ -29,6 +29,7 @@ import { toast } from 'react-toastify';
 import GETSalesOrderList from '@/services/api/operation-card-detail-page/sales-order-list';
 import GETWorkerList from '@/services/api/Worker/worker';
 import POSTOperationCardApprove from '@/services/api/operation-card-detail-page/approval-api';
+import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -72,6 +73,9 @@ const useOperationDetailCard = () => {
   const [salesOrderList, setSalesOrderList] = useState<any>([]);
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
+
+  // set machine size value on base of selected design value
+  const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -284,6 +288,7 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailMachineSizeAPICall = async () => {
     const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
+    // console.log('machinesize', getMachineSizeData);
     if (getMachineSizeData?.status === 200) {
       setOperationCardMachineSize(
         getMachineSizeData?.data?.data?.map((machine_size_data: any) => ({
@@ -295,6 +300,18 @@ const useOperationDetailCard = () => {
       setOperationCardMachineSize([]);
     }
   };
+  // console.log('machinesize', operationCardMachineSize);
+
+  const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
+    const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
+    console.log('machinesizeAPI', fetchMachineSizeBasedOnDesignValue);
+    if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
+      setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
+    } else {
+      setMachineSizeBasedOnDesignValue([]);
+    }
+  };
+  // console.log('machinesize', machineSizeBasedOnDesignValue);
 
   const getOperationCardDetailMachineAPICall = async () => {
     const getMachineData = await GETOperationCardDetailMachine(
@@ -660,6 +677,7 @@ const useOperationDetailCard = () => {
     handleUpdateSalesOrderListWithReadyQty,
     handleOperationCardApproval,
     handleCustomerChange,
+    getMachineSizeBasedOnDesignValueAPICall,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,
