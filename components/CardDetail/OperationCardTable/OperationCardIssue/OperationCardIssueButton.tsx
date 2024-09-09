@@ -57,6 +57,7 @@ const OperationCardIssueButton = ({
     'next_design',
     'next_design_code_type',
     'worker',
+    'next_worker',
     'machine',
   ];
 
@@ -376,6 +377,7 @@ const OperationCardIssueButton = ({
                     next_product_category: operationCardNextProductCategory,
                     gpc_product: operationCardProduct,
                     worker: operationCardWorkerList,
+                    next_worker: operationCardWorkerList,
                   };
                   propToPass = propMappings[val];
                   return propToPass;
