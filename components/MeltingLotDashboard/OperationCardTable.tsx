@@ -95,7 +95,13 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                     meltingData?.linked_operations.map((operation: any, opIdx: any) => (
                       <tr key={opIdx}>
                         {meltingData?.columns?.map((column: any, colIndex: any) => (
-                          <td key={colIndex}>{operation && column in operation ? operation[column] : '--'}</td>
+                          <td key={colIndex}>
+                            {operation && column in operation
+                              ? operation[column] && operation[column] !== null
+                                ? operation[column]
+                                : '--'
+                              : '--'}
+                          </td>
                         ))}
                         <td>
                           {operation?.operation_card ? (

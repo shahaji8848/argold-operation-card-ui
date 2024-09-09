@@ -291,11 +291,15 @@ const useMeltingLotSalesOrder = () => {
     try {
       const updatedData = await POSTAddOrders(transformedDataList, token);
       if (updatedData?.status === 200) {
-        toast.success(updatedData?.data?.message?.message);
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-        toast.error(updatedData?.data?.message);
+        const isSucess = updatedData?.data?.message?.message;
+        if (isSucess) {
+          toast.success(updatedData?.data?.message?.message);
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          toast.error(updatedData?.data?.message);
+        }
       } else {
         toast.error('Failed to update sales order');
       }
