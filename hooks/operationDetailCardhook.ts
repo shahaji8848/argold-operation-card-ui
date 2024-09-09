@@ -622,6 +622,7 @@ const useOperationDetailCard = () => {
       setOperationCardWorkerList([]);
     }
   };
+  console.log('worker', operationCardWorkerList);
 
   const getOperationCardDetailLossReportList = async () => {
     const getLossReportListDataFromAPI = await GETLossPeriodList(token);

@@ -16,6 +16,9 @@ const useMeltingLotSalesOrder = () => {
   const [selectedOrders, setSelectedOrders] = useState<{ [key: string]: boolean }>({});
   const [selectedDesign, setSelectedDesign] = useState<any>(null); // New state to track selected design
   const [existingSalesOrderData, setExistingSalesOrderData] = useState<any>([]);
+  const [deletedSingleOrders, setDeletedSingleOrders] = useState<any[]>([]);
+  // State to manage selected orders
+  const [existingSelectedOrders, setExistingSelectedOrders] = useState<any>({});
 
   useEffect(() => {
     const url = window.location.href;
@@ -121,9 +124,6 @@ const useMeltingLotSalesOrder = () => {
       setExistingSalesOrderData([]);
     }
   };
-  console.log('monika', existingSalesOrderData);
-
-  const [deletedSingleOrders, setDeletedSingleOrders] = useState<any[]>([]);
 
   const handleSaveSalesOrder = async () => {
     let transformedDataList: any[] = [];
@@ -292,6 +292,9 @@ const useMeltingLotSalesOrder = () => {
       const updatedData = await POSTAddOrders(transformedDataList, token);
       if (updatedData?.status === 200) {
         toast.success(updatedData?.data?.message?.message);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
         toast.error(updatedData?.data?.message);
       } else {
         toast.error('Failed to update sales order');
@@ -301,16 +304,13 @@ const useMeltingLotSalesOrder = () => {
     }
   };
 
-  // State to manage selected orders
-  const [existingSelectedOrders, setExistingSelectedOrders] = useState<any>({});
-
   // Handle checkbox change
-  const handleExistingCheckboxChange = (uniqueKey: any) => {
-    setExistingSelectedOrders((prevSelectedOrders: any) => ({
-      ...prevSelectedOrders,
-      [uniqueKey]: !prevSelectedOrders[uniqueKey], // Toggle the selection
-    }));
-  };
+  // const handleExistingCheckboxChange = (uniqueKey: any) => {
+  //   setExistingSelectedOrders((prevSelectedOrders: any) => ({
+  //     ...prevSelectedOrders,
+  //     [uniqueKey]: !prevSelectedOrders[uniqueKey], // Toggle the selection
+  //   }));
+  // };
 
   const handleDeleteSalesOrder = () => {
     // Filter out the orders that are selected
