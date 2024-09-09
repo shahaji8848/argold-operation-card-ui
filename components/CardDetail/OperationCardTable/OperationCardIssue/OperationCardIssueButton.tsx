@@ -23,6 +23,7 @@ const OperationCardIssueButton = ({
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextProductProcess,
+  onChangeOfProductFetchNextProductProcess,
   operationCardNextDesign,
   operationCardNextProductProcessDepartment,
   operationCardWorkerList,
@@ -403,6 +404,7 @@ const OperationCardIssueButton = ({
                           modalDropdownFieldsProp={modalDropdownFields}
                           handleDropDownValuesChange={handleDropDownValuesChange}
                           getOperationCardProductCategory={getOperationCardProductCategory}
+                          getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
                           handleSubmit={handleSubmit}
                           label={val?.label}
                           initialValue={initialValueForActiveField[val?.label]}
