@@ -22,7 +22,7 @@ const OperationCardDetailMaster = () => {
     operationCardDetail,
     getOperationCardDetailNextKarigarFunc,
     getOperationCardDetailNextProductProcessAPICallFunc,
-    onChangeOfProductFetchNextProductProcess,
+    // onChangeOfProductFetchNextProductProcess,
     getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
     operationCardDetailData,
     operationCardProductDept,

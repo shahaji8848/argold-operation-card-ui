@@ -8,7 +8,7 @@ const OperationCardTableMaster = ({
   operationCardDetail,
   getOperationCardDetailNextKarigarFunc,
   getOperationCardDetailNextProductProcessAPICallFunc,
-  onChangeOfProductFetchNextProductProcess,
+  // onChangeOfProductFetchNextProductProcess,
   getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
   operationCardProductDept,
   operationCardDetailData,

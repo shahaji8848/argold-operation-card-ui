@@ -7,7 +7,7 @@ const OperationCardIssueMaster = ({
   headerSave,
   getOperationCardDetailNextKarigarFunc,
   getOperationCardDetailNextProductProcessAPICallFunc,
-  onChangeOfProductFetchNextProductProcess,
+  // onChangeOfProductFetchNextProductProcess,
   getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
   operationCardDetail,
   operationCardProductDept,
