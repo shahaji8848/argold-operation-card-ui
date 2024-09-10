@@ -102,7 +102,7 @@ const OperationCardDetailMaster = () => {
               operationCardDetail={operationCardDetail}
               getOperationCardDetailNextKarigarFunc={getOperationCardDetailNextKarigarFunc}
               getOperationCardDetailNextProductProcessAPICallFunc={getOperationCardDetailNextProductProcessAPICallFunc}
-              onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
+              // onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
               getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
                 getOperationCardDetailNextProductProcessDepartmentAPICallFunc
               }
