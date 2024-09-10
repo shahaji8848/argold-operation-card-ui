@@ -612,7 +612,7 @@ const OperationCardIssueButton = ({
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-between "></div>
-          <div className="row" style={{ backgroundColor: '2px solid red' }}>
+          <div className="row">
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
                 console.log('val label', val);
