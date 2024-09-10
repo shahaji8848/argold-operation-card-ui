@@ -22,6 +22,7 @@ const OperationCardDetailMaster = () => {
     operationCardDetail,
     getOperationCardDetailNextKarigarFunc,
     getOperationCardDetailNextProductProcessAPICallFunc,
+    onChangeOfProductFetchNextProductProcess,
     getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
     operationCardDetailData,
     operationCardProductDept,
@@ -101,6 +102,7 @@ const OperationCardDetailMaster = () => {
               operationCardDetail={operationCardDetail}
               getOperationCardDetailNextKarigarFunc={getOperationCardDetailNextKarigarFunc}
               getOperationCardDetailNextProductProcessAPICallFunc={getOperationCardDetailNextProductProcessAPICallFunc}
+              onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
               getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
                 getOperationCardDetailNextProductProcessDepartmentAPICallFunc
               }

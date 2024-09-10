@@ -15,6 +15,7 @@ import MPReferenceModal from './MPReferenceModal';
 import POSTOperationCardSave from '@/services/api/operation-card-detail-page/operation-card-save';
 import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/update-sales-order-api';
 import UpdateSalesOrderWithBooleanValueAPI from '@/services/api/operation-card-detail-page/update-sales-order-with-boolen-value';
+import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -141,7 +142,9 @@ const OperationCardIssueButton = ({
       }
     }
   };
-
+  // set machine size value on base of selected design value
+  const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+  // const { getMachineSizeBasedOnDesignValueAPICall }: any = useOperationDetailCard();
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
     console.log('select dropdown values', labelValue, selectedValue);
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
@@ -149,11 +152,31 @@ const OperationCardIssueButton = ({
         ...modalDropdownFields,
         [labelValue]: selectedValue?.value,
       });
+    } else if (labelValue === 'machine_size' && machineSizeBasedOnDesignValue?.name !== ' ') {
+      setModalDropdownFields({
+        ...modalDropdownFields,
+        machine_size: machineSizeBasedOnDesignValue?.machine_size_name || selectedValue?.name,
+      });
     } else {
       setModalDropdownFields({
         ...modalDropdownFields,
         [labelValue]: selectedValue?.name,
       });
+    }
+
+    if (labelValue === 'next_design') {
+      getMachineSizeBasedOnDesignValueAPICall(selectedValue?.name);
+      console.log('select dropdown value', selectedValue?.name);
+    }
+  };
+  console.log('machineSizeBasedOnDesignValue', machineSizeBasedOnDesignValue);
+  const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
+    const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
+    console.log('machinesizeAPI', fetchMachineSizeBasedOnDesignValue);
+    if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
+      setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
+    } else {
+      setMachineSizeBasedOnDesignValue([]);
     }
   };
 
@@ -380,9 +403,7 @@ const OperationCardIssueButton = ({
   const handleClose = () => {
     setEmptyFieldsErr(false);
     setShow(false);
-    // in order to remove selected checkbox of customer and bunch sales order table in modal
-    setSelectedSalesOrderData([]); // Reset selected items
-    setSelectedCustomer(''); // Reset customer as well
+    setMachineSizeBasedOnDesignValue([]);
   };
   const handleShow = (value: any, add_melting_plan_reference_details: any) => {
     setShow(true);
@@ -629,7 +650,9 @@ const OperationCardIssueButton = ({
                   return propToPass;
                 };
                 funcData = handleField(val?.label);
-
+                {
+                  console.log('machineSizeBasedOnDesignValue', machineSizeBasedOnDesignValue?.name);
+                }
                 return (
                   <div className="col-md-4 " key={i}>
                     {checkArray?.includes(val?.label) ? (
@@ -652,7 +675,13 @@ const OperationCardIssueButton = ({
                           getOperationCardProductCategory={getOperationCardProductCategory}
                           handleSubmit={handleSubmit}
                           label={val?.label}
-                          initialValue={initialValueForActiveField[val?.label]}
+                          initialValue={
+                            val?.label === 'machine_size'
+                              ? machineSizeBasedOnDesignValue?.name
+                              : initialValueForActiveField[val?.label]
+                          }
+                          // // initialValue={initialValueForNextProductProcess}
+                          // initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}
                           isReadOnly={false}
                           operationCardDetailData={operationCardDetailData}
                         />

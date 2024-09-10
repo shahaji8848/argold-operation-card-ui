@@ -424,7 +424,7 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailMachineSizeAPICall = async () => {
     const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
-    console.log('machinesize', getMachineSizeData);
+    // console.log('machinesize', getMachineSizeData);
     if (getMachineSizeData?.status === 200) {
       setOperationCardMachineSize(
         getMachineSizeData?.data?.data?.map((machine_size_data: any) => ({
@@ -436,21 +436,18 @@ const useOperationDetailCard = () => {
       setOperationCardMachineSize([]);
     }
   };
-  console.log('machinesize', operationCardMachineSize);
+  // console.log('machinesize', operationCardMachineSize);
 
-  const getMachineSizeBasedOnDesignValueAPICall = async () => {
-    const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue('RC-RC-12gm-ROPE', token);
-    console.log('machinesize', fetchMachineSizeBasedOnDesignValue);
+  const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
+    const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
+    console.log('machinesizeAPI', fetchMachineSizeBasedOnDesignValue);
     if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
       setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
     } else {
       setMachineSizeBasedOnDesignValue([]);
     }
   };
-  console.log('machinesize', machineSizeBasedOnDesignValue);
-  useEffect(() => {
-    getMachineSizeBasedOnDesignValueAPICall();
-  }, []);
+  // console.log('machinesize', machineSizeBasedOnDesignValue);
 
   const getOperationCardDetailMachineAPICall = async () => {
     const getMachineData = await GETOperationCardDetailMachine(
@@ -554,6 +551,20 @@ const useOperationDetailCard = () => {
       setOperationCardNextProductProcess([]);
     }
   };
+
+  // const onChangeOfProductFetchNextProductProcess = async (product: any) => {
+  //   const getNextProductProcess = await GETOperationCardDetailNextProductProcess(product, 1, token);
+  //   if (getNextProductProcess?.status === 200) {
+  //     setOperationCardNextProductProcess(
+  //       getNextProductProcess?.data?.data?.map((nextProductProcess: any) => ({
+  //         name: nextProductProcess?.name,
+  //         value: nextProductProcess?.title,
+  //       }))
+  //     );
+  //   } else {
+  //     setOperationCardNextProductProcess([]);
+  //   }
+  // };
 
   const onChangeOfProductFetchNextProductProcess = async (product: any) => {
     const getNextProductProcess = await GETOperationCardDetailNextProductProcess(product, 1, token);
@@ -1045,6 +1056,7 @@ const useOperationDetailCard = () => {
     operationCardNextDesign,
     operationCardNextDesignCodeType,
     getOperationCardDetailNextProductProcessAPICallFunc,
+    onChangeOfProductFetchNextProductProcess,
     getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
     getOperationCardDetailDesignCodeCategoryAPICall,
     getOperationCardDetailDesignAPICall,
@@ -1058,7 +1070,7 @@ const useOperationDetailCard = () => {
     isBalanceWeightSetAsInWeight,
     balanceWeight,
     modalFieldsState,
-    onChangeOfProductFetchNextProductProcess,
+    // onChangeOfProductFetchNextProductProcess,
 
     // Below variables are of Sales Order List
     salesOrderList,
@@ -1082,6 +1094,7 @@ const useOperationDetailCard = () => {
     handleSalesOrderCheckboxChange,
     handleSalesOrderHeaderCheckboxChange,
     handleSalesOrderDeleteSelectedItems,
+    getMachineSizeBasedOnDesignValueAPICall,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,
