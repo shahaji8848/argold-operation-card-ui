@@ -122,7 +122,7 @@ const OperationCardIssueButton = ({
     } else if (labelValue === 'machine_size' && machineSizeBasedOnDesignValue?.name !== ' ') {
       setModalDropdownFields({
         ...modalDropdownFields,
-        machine_size: machineSizeBasedOnDesignValue?.machine_size_name,
+        machine_size: machineSizeBasedOnDesignValue?.machine_size_name || selectedValue?.name,
       });
     } else {
       setModalDropdownFields({
@@ -198,6 +198,7 @@ const OperationCardIssueButton = ({
   const handleClose = () => {
     setEmptyFieldsErr(false);
     setShow(false);
+    setMachineSizeBasedOnDesignValue([]);
   };
   const handleShow = (value: any) => {
     setShow(true);
@@ -337,14 +338,6 @@ const OperationCardIssueButton = ({
   useEffect(() => {
     inputInWeightRef.current?.focus();
   }, [show]);
-  const [initialValueMachineSizeBasedOnDesignValue, setinitialValueMachineSizeBasedOnDesignValue] = useState([]);
-  // useEffect(() => {
-  //   // Check if the machineSizeBasedOnDesignValue has been updated
-  //   if (machineSizeBasedOnDesignValue) {
-  //     // Trigger a re-render or update the state with the new value
-  //     setinitialValueMachineSizeBasedOnDesignValue(machineSizeBasedOnDesignValue?.name);
-  //   }
-  // }, [machineSizeBasedOnDesignValue]);
 
   return (
     <div>

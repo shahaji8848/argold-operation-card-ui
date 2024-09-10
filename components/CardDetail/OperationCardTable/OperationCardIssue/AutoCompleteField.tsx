@@ -33,9 +33,14 @@ const AutoCompleteField = ({
       } else if (listOfDropdownObjs.length > 0) {
         // Case 2 & 3: No machine size from API or no design selected
         showFilteredValuesHandler();
+      } else {
+        // If there is no value, clear the machine size
+        setInputValueAutoComplete('');
+        handleDropDownValuesChange('machine_size', { name: '' });
       }
     }
   }, [initialValue, label, listOfDropdownObjs]);
+
   useEffect(() => {
     if (showSuggestionsAutoComplete === false) {
       console.log('select dropdown value', inputValueAutoComplete);
@@ -50,6 +55,13 @@ const AutoCompleteField = ({
       }
     }
   }, [showSuggestionsAutoComplete]);
+
+  useEffect(() => {
+    if (label === 'machine_size' && initialValue) {
+      handleDropDownValuesChange('machine_size', { name: initialValue });
+    }
+  }, [initialValue, label]);
+
   console.log('initialValue', initialValue);
   console.log('label', label);
   return (
@@ -60,7 +72,7 @@ const AutoCompleteField = ({
             <input
               type="text"
               // id={field}
-              value={label === 'machine_size' && initialValue ? initialValue : inputValueAutoComplete?.value}
+              value={label === 'machine_size' && initialValue !== undefined ? initialValue : inputValueAutoComplete?.value}
               className={`form-control w-100 `}
               autoComplete="off"
               onChange={(e) => {
