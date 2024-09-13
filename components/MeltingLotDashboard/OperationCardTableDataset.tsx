@@ -100,7 +100,7 @@ const OperationCardTableDataset = () => {
                           {column.replace(/_/g, ' ')}
                         </th>
                       ))}
-                      <th>add order details</th>
+                      <th className="text-center">add order details</th>
                     </tr>
                   </thead>
                   <tbody className="card-listing-body">
@@ -116,7 +116,7 @@ const OperationCardTableDataset = () => {
                                 : '--'}
                             </td>
                           ))}
-                          <td>
+                          <td className="text-center">
                             {operation?.operation_card ? (
                               <button
                                 className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
