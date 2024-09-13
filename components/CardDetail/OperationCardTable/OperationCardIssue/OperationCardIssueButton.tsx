@@ -124,6 +124,7 @@ const OperationCardIssueButton = ({
         ...modalDropdownFields,
         machine_size: machineSizeBasedOnDesignValue?.machine_size_name || selectedValue?.name,
       });
+      console.log('monika', selectedValue?.name);
     } else {
       setModalDropdownFields({
         ...modalDropdownFields,
