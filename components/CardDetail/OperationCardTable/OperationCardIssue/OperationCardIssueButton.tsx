@@ -7,6 +7,8 @@ import GETOperationCardDetail from '@/services/api/operation-card-detail-page/op
 import { Toast, ToastContainer } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { get_access_token } from '@/store/slice/login-slice';
+import useOperationDetailCard from '@/hooks/operationDetailCardhook';
+import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -108,7 +110,9 @@ const OperationCardIssueButton = ({
       });
     }
   };
-
+  // set machine size value on base of selected design value
+  const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+  // const { getMachineSizeBasedOnDesignValueAPICall }: any = useOperationDetailCard();
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
     console.log('select dropdown values', labelValue, selectedValue);
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
@@ -116,11 +120,31 @@ const OperationCardIssueButton = ({
         ...modalDropdownFields,
         [labelValue]: selectedValue?.value,
       });
+    } else if (labelValue === 'machine_size' && machineSizeBasedOnDesignValue?.name !== ' ') {
+      setModalDropdownFields({
+        ...modalDropdownFields,
+        machine_size: machineSizeBasedOnDesignValue?.machine_size_name || selectedValue?.name,
+      });
     } else {
       setModalDropdownFields({
         ...modalDropdownFields,
         [labelValue]: selectedValue?.name,
       });
+    }
+
+    if (labelValue === 'next_design') {
+      getMachineSizeBasedOnDesignValueAPICall(selectedValue?.name);
+      console.log('select dropdown value', selectedValue?.name);
+    }
+  };
+  console.log('machineSizeBasedOnDesignValue', machineSizeBasedOnDesignValue);
+  const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
+    const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
+    console.log('machinesizeAPI', fetchMachineSizeBasedOnDesignValue);
+    if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
+      setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
+    } else {
+      setMachineSizeBasedOnDesignValue([]);
     }
   };
 
@@ -175,6 +199,7 @@ const OperationCardIssueButton = ({
   const handleClose = () => {
     setEmptyFieldsErr(false);
     setShow(false);
+    setMachineSizeBasedOnDesignValue([]);
   };
   const handleShow = (value: any) => {
     setShow(true);
@@ -384,7 +409,9 @@ const OperationCardIssueButton = ({
                   return propToPass;
                 };
                 funcData = handleField(val?.label);
-
+                {
+                  console.log('machineSizeBasedOnDesignValue', machineSizeBasedOnDesignValue?.name);
+                }
                 return (
                   <div className="col-md-4 " key={i}>
                     {checkArray?.includes(val?.label) ? (
@@ -407,7 +434,11 @@ const OperationCardIssueButton = ({
                           getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
                           handleSubmit={handleSubmit}
                           label={val?.label}
-                          initialValue={initialValueForActiveField[val?.label]}
+                          initialValue={
+                            val?.label === 'machine_size'
+                              ? machineSizeBasedOnDesignValue?.name
+                              : initialValueForActiveField[val?.label]
+                          }
                           // // initialValue={initialValueForNextProductProcess}
                           // initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}
                           isReadOnly={false}
