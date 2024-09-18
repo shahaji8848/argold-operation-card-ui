@@ -8,7 +8,16 @@ const hasGPCItem = (operationCardDetailData: any) => {
 };
 
 const columnsBuilder = (operationCardDetailData: any) => {
-  let columnsList: string[] = ['Customer Name', 'Sales Order', 'Item', 'Design Name', 'Production Qty', 'Size'];
+  let columnsList: string[] = [
+    'Customer Name',
+    'Sales Order',
+    operationCardDetailData?.product === 'KA Chain' || operationCardDetailData?.product === 'Ball Chain'
+      ? 'Market Design Name'
+      : 'item',
+    'Design Name',
+    'Production Qty',
+    'Size',
+  ];
   if (hasGPCItem(operationCardDetailData)) {
     columnsList.push('Ready Qty');
   }
@@ -20,41 +29,53 @@ const rowsBuilder = (
   rowData: any,
   doGetAllOrders: boolean,
   selectedItems: any,
-  handleCheckboxChange: (soisd_item: string) => void,
-  handleChangesInReadyQty: (key: any, changedValue: number, soisd_item: string) => void,
-  handleCustomerChange: (soisd_item: any, value: any) => void
+  handleCheckboxChange: (order_id: string) => void,
+  handleChangesInReadyQty: (key: any, changedValue: number, order_id: string) => void,
+  handleCustomerChange: (order_id: any, value: any) => void
 ) => {
   return (
-    <tr className="table-text" key={rowData?.soisd_item}>
+    <tr className="table-text" key={rowData?.order_id}>
       <td className="text-center">
         <input
           type="checkbox"
-          onChange={() => handleCheckboxChange(rowData?.soisd_item)}
-          checked={selectedItems.includes(rowData?.soisd_item)}
+          onChange={() => handleCheckboxChange(rowData?.order_id)}
+          checked={selectedItems.includes(rowData?.order_id)}
         />
       </td>
       <td className="text-center">
-        {/* {rowData?.customer && (rowData?.customer !== '' || rowData?.customer !== null) ? (
-          <input
-            type="text"
-            value={rowData?.customer ? rowData?.customer : ''}
-            onChange={(e) => handleCustomerChange(rowData?.soisd_item, e.target.value)}
-          />
-        ) : (
-          '--'
-        )} */}
         <input
           type="text"
           value={rowData?.customer ? rowData?.customer : ''}
           className="px-1 input_fields py-1 rounded-2 grey"
-          onChange={(e) => handleCustomerChange(rowData?.soisd_item, e.target.value)}
+          onChange={(e) => handleCustomerChange(rowData?.order_id, e.target.value)}
         />
       </td>
-      <td className="text-center">{rowData?.sales_order}</td>
-      <td className="text-center">{rowData?.item}</td>
+      <td className="text-center">{rowData?.sales_order && rowData?.sales_order.split('-')?.pop()}</td>
+      <td className="text-center">
+        {operationCardDetailData?.product === 'KA Chain' || operationCardDetailData?.product === 'Ball Chain'
+          ? rowData?.market_design_name
+          : rowData?.item}
+      </td>
       <td className="text-center">{doGetAllOrders ? rowData?.item_name : rowData?.design}</td>
-      <td className="text-center">{rowData?.production_qty}</td>
-      <td className="text-center">{rowData?.size}</td>
+      <td className="text-center">
+        {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
+          return (
+            <>
+              <div key={idx}>{qtyList?.production_qty}</div>
+            </>
+          );
+        })}
+      </td>
+      <td className="text-center">
+        {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
+          return (
+            <>
+              <div key={idx}>{qtyList?.size}</div>
+            </>
+          );
+        })}
+      </td>
+
       {hasGPCItem(operationCardDetailData) && (
         <td className="text-center d-flex justify-content-center">
           <input
@@ -62,11 +83,11 @@ const rowsBuilder = (
             className="input_fields px-2 py-1 rounded-2 text-center"
             style={{ width: '100%', maxWidth: '120px' }}
             value={rowData?.ready_qty ?? 0}
-            onChange={(e: any) => handleChangesInReadyQty(e.key, parseInt(e.target.value), rowData?.soisd_item)}
+            onChange={(e: any) => handleChangesInReadyQty(e.key, parseInt(e.target.value), rowData?.order_id)}
             onKeyDown={(e: any) => {
               if (e.key === 'Backspace') {
                 // Clear the value of the input field
-                handleChangesInReadyQty(e.key, e.target.value, rowData?.soisd_item);
+                handleChangesInReadyQty(e.key, e.target.value, rowData?.order_id);
               }
             }}
           />
@@ -81,88 +102,114 @@ function SalesOrderTable({
   salesOrderList,
   setSalesOrderList,
   getAllSalesOrderList,
-  handleUpdateSalesOrderListWithReadyQty,
+  HandleSalesOrderSave,
   operationCardNextProductProcessDepartment,
   handleCustomerChange,
   operationCardProductDept,
+  selectedSingleOrderItems,
+  selectedBunchOrderItems,
+  isSingleHeaderChecked,
+  isBunchHeaderChecked,
+  handleSalesOrderCheckboxChange,
+  handleSalesOrderHeaderCheckboxChange,
+  handleSalesOrderDeleteSelectedItems,
 }: any) {
   const [doGetAllOrders, setDoGetAllOrders] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [isHeaderCheckboxChecked, setIsHeaderCheckboxChecked] = useState<boolean>(false);
+  const singleOrdersWithItems = salesOrderList
+    .map((order: any) => ({
+      ...order,
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 0),
+    }))
+    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
-  const handleHeaderCheckboxChange = () => {
-    setIsHeaderCheckboxChecked(!isHeaderCheckboxChecked);
-    setSelectedItems(isHeaderCheckboxChecked ? [] : salesOrderList.map((data: any) => data.soisd_item));
-  };
+  // Log the filtered bunch orders with items
+  console.log('singleOrdersWithItems', singleOrdersWithItems);
 
-  const handleCheckboxChange = (itemId: string) => {
-    const isChecked = selectedItems.includes(itemId);
-    if (isChecked) {
-      setSelectedItems(selectedItems.filter((item) => item !== itemId));
-    } else {
-      setSelectedItems([...selectedItems, itemId]);
-    }
-  };
-  const handleDeleteSelectedItems = () => {
-    const updatedData: any = [];
-    salesOrderList.forEach((item: any) => {
-      if (!selectedItems.includes(item.soisd_item)) {
-        updatedData.push(item);
-      }
-    });
+  const bunchOrdersWithItems = salesOrderList
+    .map((order: any) => ({
+      ...order,
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 1),
+    }))
+    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+  // const handleHeaderCheckboxChange = () => {
+  //   setIsHeaderCheckboxChecked(!isHeaderCheckboxChecked);
+  //   setSelectedItems(isHeaderCheckboxChecked ? [] : salesOrderList.map((data: any) => data.order_id));
+  // };
 
-    // Update the state with the filtered data
-    // sellsOrderData(updatedData);
-    setSalesOrderList(updatedData);
+  // const handleCheckboxChange = (itemId: string) => {
+  //   const isChecked = selectedItems.includes(itemId);
+  //   if (isChecked) {
+  //     setSelectedItems(selectedItems.filter((item) => item !== itemId));
+  //   } else {
+  //     setSelectedItems([...selectedItems, itemId]);
+  //   }
+  // };
 
-    // Clear selected items
-    setSelectedItems([]);
-    setIsHeaderCheckboxChecked(false);
-  };
+  // const handleDeleteSelectedItems = () => {
+  //   const updatedData: any = [];
+  //   salesOrderList.forEach((item: any) => {
+  //     if (!selectedItems.includes(item.order_id)) {
+  //       updatedData.push(item);
+  //     }
+  //   });
 
-  const handleChangesInReadyQty = (key: any, userEnteredValue: number, soisd_item: string) => {
-    let showError: boolean = false;
-    // console.log('user enter', key, userEnteredValue, soisd_item);
+  //   // Update the state with the filtered data
+  //   // sellsOrderData(updatedData);
+  //   setSalesOrderList(updatedData);
+
+  //   // Clear selected items
+  //   setSelectedItems([]);
+  //   setIsHeaderCheckboxChecked(false);
+  // };
+
+  const [showError, setShowError] = useState(false);
+
+  const handleChangesInReadyQty: any = (key: any, userEnteredValue: string, order_id: string) => {
+    console.log('User entered:', key, userEnteredValue, order_id);
+
+    // Convert the entered value to a string
+    const userValueStr = userEnteredValue.toString();
+
     if (key === 'Backspace') {
       setSalesOrderList((prevData: any[]) => {
-        const updatedData = prevData.map((item: any) => {
-          if (item?.soisd_item === soisd_item) {
+        return prevData.map((item: any) => {
+          if (item?.order_id === order_id) {
             return { ...item, ready_qty: '' };
+          }
+          return item;
+        });
+      });
+    } else {
+      setSalesOrderList((prevData: any[]) => {
+        const updatedData = prevData.map((item: any) => {
+          if (item?.order_id === order_id) {
+            // Convert totalQty to string
+            const totalQtyStr = item.total_qty.toString();
+
+            // Check if userValue matches totalQty exactly as a string
+            if (userValueStr.length === totalQtyStr.length) {
+              if (userValueStr === totalQtyStr) {
+                setShowError(false); // Reset error state if value is correct
+                return { ...item, ready_qty: userEnteredValue };
+              } else {
+                if (!showError) {
+                  setShowError(true); // Set error state if value is incorrect
+                  toast.error('Ready Quantity must exactly match the total Quantity for this order!');
+                }
+                // Return item without updating ready_qty
+                return { ...item, ready_qty: '' };
+              }
+            } else {
+              // If the length does not match, do not show an error, just return the item
+              return { ...item, ready_qty: userEnteredValue };
+            }
           }
           return item;
         });
         return updatedData;
       });
-    } else {
-      if (isNaN(userEnteredValue)) {
-        if (!showError) {
-          // Show error message only if it hasn't been shown before
-          showError = true;
-          toast.error('Please enter correct data.');
-        }
-      } else {
-        setSalesOrderList((prevData: any[]) => {
-          const updatedData = prevData.map((item: any) => {
-            if (item?.soisd_item === soisd_item) {
-              if (!isNaN(userEnteredValue) && userEnteredValue <= item.production_qty) {
-                return { ...item, ready_qty: userEnteredValue };
-              } else {
-                if (!showError) {
-                  // Show error message only if it hasn't been shown before
-                  showError = true;
-                  toast.error(
-                    // 'Entered value should be a number and less than or equal to production quantity.'
-                    'Ready quantity should be less than or equal to production quantity.'
-                  );
-                }
-                return item;
-              }
-            }
-            return item;
-          });
-          return updatedData;
-        });
-      }
     }
   };
 
@@ -187,9 +234,8 @@ function SalesOrderTable({
         )}
       </div>
 
-      <div className="row mt-2">
-        <div className="col-md-12">
-          {/* {operationCardProductDept?.show_get_orders !== 0 && ( */}
+      {/* <div className="row mt-2">
+        <div className="col-md-12">      
           <div className="table-responsive mt-2">
             <table className="table table-bordered">
               <thead>
@@ -238,13 +284,139 @@ function SalesOrderTable({
                 Delete
               </button>
             )}
-            <button className="btn btn-blue btn-py " onClick={handleUpdateSalesOrderListWithReadyQty}>
+            <button className="btn btn-blue btn-py " onClick={HandleSalesOrderSave}>
               Save
             </button>
           </div>
-          {/* )} */}
+        </div>
+      </div> */}
+
+      {/* Table for Single Orders */}
+      <div className="row mt-2">
+        <div className="col-md-12">
+          <h6 className="bold">Single Orders</h6>
+          <div className="table-responsive mt-2">
+            <table className="table table-bordered">
+              <thead>
+                <tr className="table-text">
+                  <th className="text-center thead-dark">
+                    <input
+                      type="checkbox"
+                      // onChange={handleHeaderCheckboxChange}
+                      onChange={(e) => handleSalesOrderHeaderCheckboxChange('single', e.target.checked)}
+                      // checked={isHeaderCheckboxChecked}
+                      checked={isSingleHeaderChecked}
+                    />
+                  </th>
+                  {columnsBuilder(operationCardDetailData)?.map((val, i: any) => (
+                    <th className="thead-dark text-center" scope="col" key={i}>
+                      {val}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {singleOrdersWithItems?.length > 0 ? (
+                  <>
+                    {singleOrdersWithItems?.map((salesOrder: any) => {
+                      return (
+                        <>
+                          {rowsBuilder(
+                            operationCardDetailData,
+                            salesOrder,
+                            doGetAllOrders,
+                            // selectedItems,
+                            // handleCheckboxChange,
+                            selectedSingleOrderItems,
+                            (order_id: string) => handleSalesOrderCheckboxChange(order_id, false),
+                            handleChangesInReadyQty,
+                            handleCustomerChange
+                          )}
+                        </>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="text-center w-100 my-4">
+                      <Image src="/grid-empty-state.png" alt="empty Logo" width={40} height={42} className="my-2" />
+                      <div className="fs-14 grey">No Data </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+
+      {/* Table for Bunch Orders */}
+      <div className="row mt-2">
+        <div className="col-md-12">
+          <h6 className="bold">Bunch Orders</h6>
+          <div className="table-responsive mt-2">
+            <table className="table table-bordered">
+              <thead>
+                <tr className="table-text">
+                  <th className="text-center thead-dark">
+                    <input
+                      type="checkbox"
+                      // onChange={handleHeaderCheckboxChange}
+                      onChange={(e) => handleSalesOrderHeaderCheckboxChange('bunch', e.target.checked)}
+                      // checked={isHeaderCheckboxChecked}
+                      checked={isBunchHeaderChecked}
+                    />
+                  </th>
+                  {columnsBuilder(operationCardDetailData)?.map((val, i: any) => (
+                    <th className="thead-dark text-center" scope="col" key={i}>
+                      {val}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {bunchOrdersWithItems?.length > 0 ? (
+                  <>
+                    {bunchOrdersWithItems?.map((salesOrder: any) => {
+                      return (
+                        <>
+                          {rowsBuilder(
+                            operationCardDetailData,
+                            salesOrder,
+                            doGetAllOrders,
+                            // selectedItems,
+                            // handleCheckboxChange,
+                            selectedBunchOrderItems,
+                            (order_id: string) => handleSalesOrderCheckboxChange(order_id, true),
+                            handleChangesInReadyQty,
+                            handleCustomerChange
+                          )}
+                        </>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="text-center w-100 my-4">
+                      <Image src="/grid-empty-state.png" alt="empty Logo" width={40} height={42} className="my-2" />
+                      <div className="fs-14 grey">No Data </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {(selectedSingleOrderItems?.length > 0 || selectedBunchOrderItems?.length > 0) && (
+        <button className="btn btn-danger btn-py fs-13 me-2" onClick={handleSalesOrderDeleteSelectedItems}>
+          Delete
+        </button>
+      )}
+      <button className="btn btn-blue btn-py" onClick={HandleSalesOrderSave}>
+        Save
+      </button>
     </div>
   );
 }

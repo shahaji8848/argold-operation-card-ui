@@ -22,7 +22,7 @@ const OperationCardDetailMaster = () => {
     operationCardDetail,
     getOperationCardDetailNextKarigarFunc,
     getOperationCardDetailNextProductProcessAPICallFunc,
-    onChangeOfProductFetchNextProductProcess,
+    // onChangeOfProductFetchNextProductProcess,
     getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
     operationCardDetailData,
     operationCardProductDept,
@@ -38,6 +38,7 @@ const OperationCardDetailMaster = () => {
     operationCardDesignCodeCategory,
     operationCardNextProductProcess,
     operationCardNextProductProcessDepartment,
+    onChangeOfProductFetchNextProductProcess,
     getOperationCardDetailDesignCodeCategoryAPICall,
     getOperationCardDetailDesignAPICall,
     getOperationCardDetailDesignCodeTypeAPICall,
@@ -56,11 +57,20 @@ const OperationCardDetailMaster = () => {
     salesOrderList,
     setSalesOrderList,
     getSalesOrder,
-    handleUpdateSalesOrderListWithReadyQty,
+    HandleSalesOrderSave,
     handleOperationCardApproval,
     handleCustomerChange,
+    bunchSalesOrderList,
+    mpReferenceList,
+    selectedSingleOrderItems,
+    selectedBunchOrderItems,
+    isSingleHeaderChecked,
+    isBunchHeaderChecked,
+    handleSalesOrderCheckboxChange,
+    handleSalesOrderHeaderCheckboxChange,
+    handleSalesOrderDeleteSelectedItems,
   } = useOperationDetailCard();
-  console.log('operationCardNextProductProcessDepartment', operationCardProductDept);
+  console.log('operationCardNextProductProcessDepartment', operationCardDetailData);
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (
@@ -92,7 +102,7 @@ const OperationCardDetailMaster = () => {
               operationCardDetail={operationCardDetail}
               getOperationCardDetailNextKarigarFunc={getOperationCardDetailNextKarigarFunc}
               getOperationCardDetailNextProductProcessAPICallFunc={getOperationCardDetailNextProductProcessAPICallFunc}
-              onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
+              // onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
               getOperationCardDetailNextProductProcessDepartmentAPICallFunc={
                 getOperationCardDetailNextProductProcessDepartmentAPICallFunc
               }
@@ -107,6 +117,7 @@ const OperationCardDetailMaster = () => {
               operationCardVariant={operationCardVariant}
               operationCardMachine={operationCardMachine}
               operationCardMachineSize={operationCardMachineSize}
+              onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
               operationCardDesignCodeCategory={operationCardDesignCodeCategory}
               operationCardNextProductProcess={operationCardNextProductProcess}
               operationCardWorkerList={operationCardWorkerList}
@@ -126,15 +137,25 @@ const OperationCardDetailMaster = () => {
               balanceWeight={balanceWeight}
               modalFieldsState={modalFieldsState}
               headerSave={headerSave}
+              salesOrderList={salesOrderList}
+              bunchSalesOrderList={bunchSalesOrderList}
+              mpReferenceList={mpReferenceList}
             />
             <SalesOrderTable
               operationCardDetailData={operationCardDetailData}
               salesOrderList={salesOrderList}
               setSalesOrderList={setSalesOrderList}
               getAllSalesOrderList={getSalesOrder}
-              handleUpdateSalesOrderListWithReadyQty={handleUpdateSalesOrderListWithReadyQty}
+              HandleSalesOrderSave={HandleSalesOrderSave}
               operationCardProductDept={operationCardProductDept}
               handleCustomerChange={handleCustomerChange}
+              selectedSingleOrderItems={selectedSingleOrderItems}
+              selectedBunchOrderItems={selectedBunchOrderItems}
+              isSingleHeaderChecked={isSingleHeaderChecked}
+              isBunchHeaderChecked={isBunchHeaderChecked}
+              handleSalesOrderCheckboxChange={handleSalesOrderCheckboxChange}
+              handleSalesOrderHeaderCheckboxChange={handleSalesOrderHeaderCheckboxChange}
+              handleSalesOrderDeleteSelectedItems={handleSalesOrderDeleteSelectedItems}
             />
             <OperationCardCreationDetail operationCardDetailData={operationCardDetailData} />
           </div>

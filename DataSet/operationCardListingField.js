@@ -35,6 +35,10 @@ const inputField = [
     name: 'worker',
     label: 'worker',
   },
+  {
+    name: 'customer',
+    label: 'customer',
+  },
 ];
 
 export default inputField;

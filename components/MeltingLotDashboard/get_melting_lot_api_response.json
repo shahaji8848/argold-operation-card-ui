@@ -1,0 +1,245 @@
+{
+            "columns": {
+                "Pipe and Para": [
+                    "product",
+                    "product_abbr",
+                    "quantity",
+                    "operation_card",
+                    "current_dept",
+                    "pending_weight",
+                    "in_weight",
+                    "out_lot_purity",
+                    "tounch_purity",
+                    "fire_tounch_purity",
+                    "split_level"
+                ],
+               
+                "Ball Chain": [
+                    "operation_card",
+                    "current_dept",
+                    "pending_weight",
+                    "in_weight",
+                    "out_lot_purity",
+                    "tounch_purity",
+                    "fire_tounch_purity",
+                    "split_level"
+                ],  
+                "KA Chain": [
+                    "operation_card",
+                    "current_dept",
+                    "pending_weight",
+                    "in_weight",
+                    "out_lot_purity",
+                    "tounch_purity",
+                    "fire_tounch_purity",
+                    "split_level",
+                     "Ka Chain",
+                       "Ka Chain"
+                ]
+},
+            "data": [
+            
+                {
+                    "melting_plan": "MP-380",
+                    "purity": "75",
+                    "product": "KA Chain",
+                    "docstatus": 1,
+                    "melting_plan_url": "http://127.0.0.1:8000/app/melting-plan/MP-380",
+                    "orders_added": 1,
+                    "balance_order_weight": 17.61,
+                    "hook_purity": "75.15",
+                    "title": "Box-Laser-0.6",
+                    "view_url": "http://127.0.0.1:8000/app/melting-lot/KAC157",
+                  
+                    "linked_operations": [
+                        {
+                            "pending_weight": 0,
+                            "in_weight": 22.5,
+                            "out_lot_purity": 0,
+                            "tounch_purity": 0,
+                            "fire_tounch_purity": 0,
+                            "operation_card": "OP--GPC-10864",
+                            "current_dept": "GPC",
+                            "split_level": "Tarpatta",
+                            "melting_lot": "KAC157",
+                            "line": null,
+                            "description": "New1-24",
+                            "machine_size": "KAC-0.6",
+                            "weight": 300,
+                            "laser_power_type": "Laser",
+                            "product_category": "KAC-Box",
+                            "tone": "PLAIN",
+                            "design": "KAC-10 Indrajeet",
+                            "purity": "75",
+                            "joining_process": "Hammering 1"
+                        }
+                    ]
+                },
+                {
+                    "melting_plan": "MP-379",
+                    "purity": "92",
+                    "product": "KA Chain",
+                    "docstatus": 1,
+                    "melting_plan_url": "http://127.0.0.1:8000/app/melting-plan/MP-379",
+                    "orders_added": 0,
+                    "balance_order_weight": null,
+                    "hook_purity": "91.8",
+                    "title": "Box-Laser-0.265",
+                    "edit_url": "http://127.0.0.1:8000/app/melting-lot/KAC156",
+              
+                    "linked_operations": [
+                        {
+                            "melting_lot": "KAC156",
+                            "line": null,
+                            "description": "New04",
+                            "machine_size": "KAC-0.265",
+                            "weight": 400,
+                            "laser_power_type": "Laser",
+                            "product_category": "KAC-Box",
+                            "tone": "PLAIN",
+                            "design": null,
+                            "purity": "92",
+                            "joining_process": null,
+                            "split_level": "Tarpatta4"
+                        }
+                    ]
+                },
+                {
+                    "melting_plan": "MP-377",
+                    "purity": "92",
+                    "product": "Pipe and Para",
+                    "docstatus": 1,
+                    "melting_plan_url": "http://127.0.0.1:8000/app/melting-plan/MP-377",
+                    "orders_added": 0,
+                    "balance_order_weight": 0,
+                    "hook_purity": "91.8",
+                    "title": "",
+                    "view_url": "http://127.0.0.1:8000/app/melting-lot/PnP014",
+                    "linked_operations": [
+                        {
+                            "pending_weight": 0,
+                            "in_weight": 10,
+                            "out_lot_purity": 0,
+                            "tounch_purity": 0,
+                            "fire_tounch_purity": 0,
+                            "operation_card": "OP--Final-10811",
+                            "current_dept": "Final",
+                            "split_level": "",
+                            "melting_lot": "PnP014",
+                            "line": null,
+                            "description": null,
+                            "side_cut": null,
+                            "highlighter_cutting": "Slash",
+                            "shape": null,
+                            "size_outer_diameter": "2.25",
+                            "weight": 6,
+                            "design_size": null,
+                            "size_length": null,
+                            "quantity": 10,
+                            "hole_size_design": null,
+                            "type": null,
+                            "cut": "Slash",
+                            "langadi_weight": 400,
+                            "purity": "92",
+                            "tone": "PLAIN",
+                            "background_cutting": "SLASH",
+                            "design": "PnP-2.25mm Para  Slash"
+                        }
+                    ]
+                },
+                {
+                    "melting_plan": "MP-376",
+                    "purity": "92",
+                    "product": "Pipe and Para",
+                    "docstatus": 0,
+                    "melting_plan_url": "http://127.0.0.1:8000/app/melting-plan/MP-376",
+                    "orders_added": 0,
+                    "balance_order_weight": null,
+                    "hook_purity": null,
+                    "title": "",
+                    "linked_operations": [
+                        {
+                            "melting_lot": null,
+                            "line": null,
+                            "description": null,
+                            "side_cut": null,
+                            "highlighter_cutting": "Slash",
+                            "shape": null,
+                            "size_outer_diameter": "2.25",
+                            "weight": 0,
+                            "design_size": null,
+                            "size_length": null,
+                            "quantity": 0,
+                            "hole_size_design": null,
+                            "type": null,
+                            "cut": "Slash",
+                            "langadi_weight": 0,
+                            "purity": "92",
+                            "tone": null,
+                            "background_cutting": "SLASH",
+                            "design": "PnP-2.25mm Para  Slash"
+                        }
+                    ]
+                },
+                {
+                    "melting_plan": "MP-358",
+                    "purity": "91.80",
+                    "product": "Ball Chain",
+                    "docstatus": 1,
+                    "melting_plan_url": "http://127.0.0.1:8000/app/melting-plan/MP-358",
+                    "orders_added": 0,
+                    "balance_order_weight": 90,
+                    "hook_purity": "91.8",
+                    "title": "Ball Cap--2",
+                    "view_url": "http://127.0.0.1:8000/app/melting-lot/BaC034",
+                    "linked_operations": [
+                        {
+                            "pending_weight": 90,
+                            "in_weight": 90,
+                            "out_lot_purity": 0,
+                            "tounch_purity": 0,
+                            "fire_tounch_purity": 0,
+                            "operation_card": "OP--Hook-10772",
+                            "current_dept": "Hook",
+                            "split_level": "",
+                            "melting_lot": "BaC034",
+                            "line": null,
+                            "description": "k",
+                            "machine_size": null,
+                            "product_category": null,
+                            "tone": "2 Tone",
+                            "design": null,
+                            "purity": "91.80"
+                        }
+                    ]
+                },
+                {
+                    "melting_plan": "MP-357",
+                    "purity": "75.15",
+                    "product": "Ball Chain",
+                    "docstatus": 1,
+                    "melting_plan_url": "http://127.0.0.1:8000/app/melting-plan/MP-357",
+                    "orders_added": 0,
+                    "balance_order_weight": null,
+                    "create_url": "http://127.0.0.1:8000/app/melting-lot/new-melting-lot?factory=ARF ERP Software&melting_plan=MP-357",
+                    "hook_purity": null,
+                    "title": "",
+                    "linked_operations": [
+                        {
+                            "melting_lot": null,
+                            "line": null,
+                            "description": null,
+                            "machine_size": null,
+                            "product_category": null,
+                            "tone": "PLAIN",
+                            "design": null,
+                            "purity": "75.15"
+                        }
+                    ]
+                }
+
+              
+           
+               
+            ]
+}

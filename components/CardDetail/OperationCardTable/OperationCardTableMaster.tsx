@@ -8,7 +8,7 @@ const OperationCardTableMaster = ({
   operationCardDetail,
   getOperationCardDetailNextKarigarFunc,
   getOperationCardDetailNextProductProcessAPICallFunc,
-  onChangeOfProductFetchNextProductProcess,
+  // onChangeOfProductFetchNextProductProcess,
   getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
   operationCardProductDept,
   operationCardDetailData,
@@ -24,6 +24,7 @@ const OperationCardTableMaster = ({
   operationCardDesignCodeCategory,
   operationCardNextDesign,
   operationCardNextProductProcess,
+  onChangeOfProductFetchNextProductProcess,
   operationCardNextProductCategory,
   operationCardNextProductProcessDepartment,
   getOperationCardDetailDesignCodeCategoryAPICall,
@@ -39,6 +40,9 @@ const OperationCardTableMaster = ({
   isBalanceWeightSetAsInWeight,
   balanceWeight,
   modalFieldsState,
+  salesOrderList,
+  bunchSalesOrderList,
+  mpReferenceList,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -87,6 +91,7 @@ const OperationCardTableMaster = ({
           operationCardVariant={operationCardVariant}
           operationCardMachineSize={operationCardMachineSize}
           operationCardDesignCodeCategory={operationCardDesignCodeCategory}
+          // onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
           operationCardNextProductProcess={operationCardNextProductProcess}
           onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
           operationCardNextProductProcessDepartment={operationCardNextProductProcessDepartment}
@@ -104,6 +109,9 @@ const OperationCardTableMaster = ({
           balanceWeight={balanceWeight}
           modalFieldsState={modalFieldsState}
           operationCardMachine={operationCardMachine}
+          salesOrderList={salesOrderList}
+          bunchSalesOrderList={bunchSalesOrderList}
+          mpReferenceList={mpReferenceList}
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
 import { useSearchParams } from 'next/navigation';
 import GETOperationCardProductProcessDepartmentData from '@/services/api/operation-card-detail-page/operation-card-product-process-data';
@@ -28,7 +28,17 @@ import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/updat
 import { toast } from 'react-toastify';
 import GETSalesOrderList from '@/services/api/operation-card-detail-page/sales-order-list';
 import GETWorkerList from '@/services/api/Worker/worker';
+import GETMeltingLotList from '@/services/api/melting-lot-dashboard-page/melting-lot-list';
+import GETMeltingFilters from '@/services/api/melting-lot-dashboard-page/melting-filters';
 import POSTOperationCardApprove from '@/services/api/operation-card-detail-page/approval-api';
+import GETCarryForwardSalesOrder from '@/services/api/operation-card-detail-page/custom-op-sales-order';
+import GETMeltingLotOPDetailSalesOrder from '@/services/api/operation-card-detail-page/melting-lot-op-detail-sales-order';
+import GETValidationInWeight from '@/services/api/operation-card-detail-page/validation-in-weight';
+import GETValidationForDesign from '@/services/api/operation-card-detail-page/validation-for-design';
+import GETDesignInputField from '@/services/api/operation-card-detail-page/design-input-field';
+import POSTDesignValue from '@/services/api/operation-card-detail-page/post-design-value';
+import GETBunchSalesOrder from '@/services/api/operation-card-detail-page/get-bunch-order';
+import GETMeltingPlanReferenceFromLot from '@/services/api/operation-card-detail-page/melting-plan-reference';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
@@ -72,7 +82,20 @@ const useOperationDetailCard = () => {
   const [lossReportList, setLossReportList] = useState<any>([]);
   const [salesOrderList, setSalesOrderList] = useState<any>([]);
   const [goldAccessoryTable, setGoldAccessoryTable] = useState<any>([]);
+  const [carryForwardSalesOrder, setCarryForwardSalesOrder] = useState<any>([]);
   const [issueReference, setIssueReference] = useState<any>([]);
+  const [validateInWeight, setValidateInWeight] = useState<any>('');
+  const [validityForDesign, setValidityForDesign] = useState<any>('');
+  const [designInputValue, setdesignInputValue] = useState<any>([]);
+  // for bunch pop up
+  const [bunchSalesOrderList, setbunchSalesOrderList] = useState<any>([]);
+  // for Melting plan Reference from lot
+  const [mpReferenceList, setMpReferenceList] = useState<any>([]);
+  // sales order table according to single and bunch order
+  const [selectedSingleOrderItems, setSelectedSingleOrderItems] = useState<string[]>([]);
+  const [selectedBunchOrderItems, setSelectedBunchOrderItems] = useState<string[]>([]);
+  const [isSingleHeaderChecked, setIsSingleHeaderChecked] = useState(false);
+  const [isBunchHeaderChecked, setIsBunchHeaderChecked] = useState(false);
 
   // set machine size value on base of selected design value
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
@@ -97,19 +120,132 @@ const useOperationDetailCard = () => {
       });
     }
   };
+  const getCarryForwardSalesOrderList = async () => {
+    try {
+      const hrefValue = window.location.href;
+      const operationCardName = hrefValue.split('=');
+      const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
+
+      console.log('API Response:', callCarryForwardSalesOrderAPI);
+
+      if (callCarryForwardSalesOrderAPI?.status === 200) {
+        const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
+        console.log('Sales Order List:', salesOrderList);
+
+        if (Array.isArray(salesOrderList)) {
+          setCarryForwardSalesOrder(salesOrderList);
+          console.log('Updated State:', salesOrderList);
+        } else {
+          console.error('Sales order list is not an array:', salesOrderList);
+        }
+      } else {
+        console.error('API call failed with status:', callCarryForwardSalesOrderAPI?.status);
+      }
+    } catch (error) {
+      console.error('Error in API call:', error);
+    }
+  };
+
+  useEffect(() => {
+    getCarryForwardSalesOrderList();
+  }, []);
+  // const operationCardDetail = async () => {
+  //   const hrefValue = window.location.href;
+  //   const splitVal = hrefValue.split('=');
+  //   const operationCardDetailVal = await GETOperationCardDetail(splitVal[1], token);
+  //   if (operationCardDetailVal?.status === 200 && Object.keys(operationCardDetailVal?.data?.data)?.length > 0) {
+  //     setOperationCardDetailData(operationCardDetailVal?.data?.data);
+
+  //     try {
+  //       const hrefValue = window.location.href;
+  //       const operationCardName = hrefValue.split('=');
+  //       const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
+
+  //       console.log('API Response:', callCarryForwardSalesOrderAPI);
+
+  //       if (callCarryForwardSalesOrderAPI?.status === 200) {
+  //         const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
+  //         console.log('Sales Order List:', salesOrderList);
+
+  //         if (Array.isArray(salesOrderList)) {
+  //           setCarryForwardSalesOrder(salesOrderList);
+  //           setSalesOrderList(carryForwardSalesOrder);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error('Error in API call:', error);
+  //     }
+  //     // setSalesOrderList(carryForwardSalesOrder);
+  //     console.log('Updated States:', salesOrderList);
+  //     // setSalesOrderList(carryForwardSalesOrder);
+  //     // setSalesOrderList([...operationCardDetailVal?.data?.data?.operation_card_order_details]);
+  //   } else {
+  //     setOperationCardDetailData({});
+  //     setSalesOrderList(carryForwardSalesOrder);
+  //   }
+  // };
+
+  const handleMeltingLotShowOrder = () => {
+    localStorage.setItem('meltingLotShowOrder', '1'); // Store value in localStorage
+  };
 
   const operationCardDetail = async () => {
     const hrefValue = window.location.href;
     const splitVal = hrefValue.split('=');
     const operationCardDetailVal = await GETOperationCardDetail(splitVal[1], token);
+
     if (operationCardDetailVal?.status === 200 && Object.keys(operationCardDetailVal?.data?.data)?.length > 0) {
       setOperationCardDetailData(operationCardDetailVal?.data?.data);
-      setSalesOrderList([...operationCardDetailVal?.data?.data?.operation_card_order_details]);
+
+      try {
+        const hrefValue = window.location.href;
+        const operationCardName = hrefValue.split('=');
+        const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
+
+        console.log('API Response:', callCarryForwardSalesOrderAPI);
+
+        if (callCarryForwardSalesOrderAPI?.status === 200) {
+          const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
+          console.log('Sales Order List:', salesOrderList);
+
+          if (Array.isArray(salesOrderList)) {
+            setCarryForwardSalesOrder(salesOrderList);
+            setSalesOrderList(salesOrderList); // Use the value directly
+          }
+        }
+
+        // const meltingLotShowOrder = localStorage.getItem('meltingLotShowOrder') || '';
+
+        // Second API call to get melting lot sales order
+        // const callMeltingLotSalesOrderAPI = await GETMeltingLotOPDetailSalesOrder(
+        //   operationCardName[1],
+        //   // meltingLotValue,
+        //   meltingLotShowOrder,
+        //   // meltingLotShowOrderRef.current, // Access the value from ref
+        //   token
+        // );
+
+        // console.log('Melting Lot Sales Order API Response:', callMeltingLotSalesOrderAPI);
+
+        // if (callMeltingLotSalesOrderAPI?.status === 200) {
+        //   const meltingLotSalesOrderList = callMeltingLotSalesOrderAPI?.data?.message;
+
+        //   if (Array.isArray(meltingLotSalesOrderList)) {
+        //     // Combine the existing sales order list with the new melting lot sales order data
+        //     // setSalesOrderList((prevSalesOrderList: any) => [...prevSalesOrderList, ...meltingLotSalesOrderList]);
+        //     setSalesOrderList(meltingLotSalesOrderList);
+        //   }
+        // }
+      } catch (error) {
+        console.error('Error in API call:', error);
+      }
+      console.log('Updated States:', carryForwardSalesOrder);
     } else {
       setOperationCardDetailData({});
+      setSalesOrderList([]); // Reset to empty array if no data
     }
   };
-
+  console.log('Updated Melting Lot States:', salesOrderList);
   const getOperationCardProcessDepartment = async () => {
     const operationCardProductProcessDepartmentData = await GETOperationCardProductProcessDepartmentData(
       operationCardDetailData?.product_process_department,
@@ -288,6 +424,7 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailMachineSizeAPICall = async () => {
     const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
+    console.log('machinesize', getMachineSizeData);
     // console.log('machinesize', getMachineSizeData);
     if (getMachineSizeData?.status === 200) {
       setOperationCardMachineSize(
@@ -312,6 +449,21 @@ const useOperationDetailCard = () => {
     }
   };
   // console.log('machinesize', machineSizeBasedOnDesignValue);
+  console.log('machinesize', operationCardMachineSize);
+
+  // const getMachineSizeBasedOnDesignValueAPICall = async () => {
+  //   const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue('RC-RC-12gm-ROPE', token);
+  //   console.log('machinesize', fetchMachineSizeBasedOnDesignValue);
+  //   if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
+  //     setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
+  //   } else {
+  //     setMachineSizeBasedOnDesignValue([]);
+  //   }
+  // };
+  console.log('machinesize', machineSizeBasedOnDesignValue);
+  // useEffect(() => {
+  //   getMachineSizeBasedOnDesignValueAPICall();
+  // }, []);
 
   const getOperationCardDetailMachineAPICall = async () => {
     const getMachineData = await GETOperationCardDetailMachine(
@@ -403,6 +555,7 @@ const useOperationDetailCard = () => {
         token
       );
     }
+
     if (getNextProductProcess?.status === 200) {
       setOperationCardNextProductProcess(
         getNextProductProcess?.data?.data?.map((nextProductProcess: any) => ({
@@ -414,6 +567,20 @@ const useOperationDetailCard = () => {
       setOperationCardNextProductProcess([]);
     }
   };
+
+  // const onChangeOfProductFetchNextProductProcess = async (product: any) => {
+  //   const getNextProductProcess = await GETOperationCardDetailNextProductProcess(product, 1, token);
+  //   if (getNextProductProcess?.status === 200) {
+  //     setOperationCardNextProductProcess(
+  //       getNextProductProcess?.data?.data?.map((nextProductProcess: any) => ({
+  //         name: nextProductProcess?.name,
+  //         value: nextProductProcess?.title,
+  //       }))
+  //     );
+  //   } else {
+  //     setOperationCardNextProductProcess([]);
+  //   }
+  // };
 
   const onChangeOfProductFetchNextProductProcess = async (product: any) => {
     const getNextProductProcess = await GETOperationCardDetailNextProductProcess(product, 1, token);
@@ -490,7 +657,7 @@ const useOperationDetailCard = () => {
 
   const getOperationCardDetailWorkerAPICallFunc = async () => {
     const getWorkerList = await GETWorkerList(token, operationCardDetailData?.product_process_department);
-
+    console.log('worker', getWorkerList);
     if (getWorkerList?.status === 200) {
       setOperationCardWorkerList(
         getWorkerList?.data?.data?.map((product_category: any) => ({
@@ -502,6 +669,7 @@ const useOperationDetailCard = () => {
       setOperationCardWorkerList([]);
     }
   };
+  console.log('worker', operationCardWorkerList);
 
   const getOperationCardDetailLossReportList = async () => {
     const getLossReportListDataFromAPI = await GETLossPeriodList(token);
@@ -530,19 +698,37 @@ const useOperationDetailCard = () => {
     }
   };
 
+  // const getCarryForwardSalesOrderList = async () => {
+  //   const hrefValue = window.location.href;
+  //   const operationCardName = hrefValue.split('=');
+  //   const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
+
+  //   if (callCarryForwardSalesOrderAPI?.status === 200) {
+  //     setCarryForwardSalesOrder([...callCarryForwardSalesOrderAPI?.data?.message]);
+
+  //   }
+  // };
+
   const getSalesOrder = async () => {
     const hrefValue = window.location.href;
     const operationCardName = hrefValue.split('=');
     const callSalesOrderAPI = await GETSalesOrderList(operationCardName[1], token);
-    console.log('list sales ord', callSalesOrderAPI);
+
     if (callSalesOrderAPI?.status === 200 && callSalesOrderAPI?.data?.message?.data?.length > 0) {
       setSalesOrderList([...callSalesOrderAPI?.data?.message?.data]);
       console.log('salesOrderList', salesOrderList);
     } else if (
-      operationCardDetailData?.opertion_card_order_details &&
-      operationCardDetailData?.opertion_card_order_details?.length > 0
+      // operationCardDetailData?.opertion_card_order_details &&
+      // operationCardDetailData?.opertion_card_order_details?.length > 0
+      carryForwardSalesOrder?.length > 0
     ) {
-      setSalesOrderList([...operationCardDetailData?.opertion_card_order_details]);
+      // setSalesOrderList([...operationCardDetailData?.opertion_card_order_details]);
+      // const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
+
+      // if (callCarryForwardSalesOrderAPI?.status === 200) {
+      setSalesOrderList([...carryForwardSalesOrder]);
+
+      // }
     } else {
       setSalesOrderList([]);
       toast.error('No data found');
@@ -550,9 +736,9 @@ const useOperationDetailCard = () => {
   };
 
   // Handle changes in customer field
-  const handleCustomerChange = (soisd_item: any, value: any) => {
+  const handleCustomerChange = (order_id: any, value: any) => {
     const updatedList = salesOrderList?.map((order: any) => {
-      if (order?.soisd_item === soisd_item) {
+      if (order?.order_id === order_id) {
         return { ...order, customer: value };
       }
       return order;
@@ -560,14 +746,157 @@ const useOperationDetailCard = () => {
     setSalesOrderList(updatedList);
   };
 
-  const handleUpdateSalesOrderListWithReadyQty = async () => {
-    console.log('updated sales order list', salesOrderList);
-    const dataToSend = salesOrderList.map((order: any) => ({
+  // const HandleSalesOrderSave = async () => {
+  //   console.log('updated sales order list', salesOrderList);
+  //   let transformedDataList: any[] = [];
+
+  //   salesOrderList.forEach((order: any) => {
+  //     if (order.qty_size_list && order.qty_size_list.length > 0) {
+  //       order.qty_size_list.forEach((qtyItem: any) => {
+  //         let newOrder = {
+  //           order_id: order.order_id,
+  //           sales_order: order.sales_order,
+  //           customer: order.customer ?? '',
+  //           item: order.item,
+  //           item_name: order.item_name,
+  //           size: qtyItem.size,
+  //           production_qty: qtyItem.production_qty,
+  //           ready_qty: qtyItem.production_qty,
+  //           soisd_item: qtyItem.soisd_item,
+  //           is_bunch: qtyItem.is_bunch,
+  //           order_weight: qtyItem.order_weight,
+  //           estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+  //         };
+  //         transformedDataList.push(newOrder);
+  //       });
+  //     } else {
+  //       let newOrder = {
+  //         order_id: order.order_id,
+  //         sales_order: order.sales_order,
+  //         customer: order.customer ?? '',
+  //         item: order.item,
+  //         item_name: order.item_name,
+  //         size: null,
+  //         production_qty: null,
+  //         ready_qty: null,
+  //         soisd_item: null,
+  //       };
+  //       transformedDataList.push(newOrder);
+  //     }
+  //   });
+
+  //   console.log(transformedDataList);
+
+  //   try {
+  //     const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+  //     if (updatedData?.status === 200) {
+  //       toast.success('Sales order updated successfully');
+  //     }
+  //   } catch (error) {
+  //     toast.error('Failed to update sales order');
+  //   }
+  // };
+
+  const singleOrdersWithItems = salesOrderList
+    .map((order: any) => ({
       ...order,
-      customer: order.customer ?? '', // Ensure customer name is included
-    }));
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 0),
+    }))
+    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+
+  // Log the filtered bunch orders with items
+  console.log('singleOrdersWithItems', singleOrdersWithItems);
+
+  const bunchOrdersWithItems = salesOrderList
+    .map((order: any) => ({
+      ...order,
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 1),
+    }))
+    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+
+  // Log the filtered bunch orders with items
+  console.log('bunchOrdersWithItems', bunchOrdersWithItems);
+
+  const handleSalesOrderHeaderCheckboxChange = (type: any, checked: any) => {
+    if (type === 'single') {
+      const newSelectedSingleOrders = checked ? singleOrdersWithItems?.map((order: any) => order.order_id) : [];
+      setSelectedSingleOrderItems(newSelectedSingleOrders);
+      setIsSingleHeaderChecked(checked);
+    } else if (type === 'bunch') {
+      const newSelectedBunchOrders = checked ? bunchOrdersWithItems?.map((order: any) => order.order_id) : [];
+      setSelectedBunchOrderItems(newSelectedBunchOrders);
+      setIsBunchHeaderChecked(checked);
+    }
+  };
+
+  const handleSalesOrderCheckboxChange = (itemId: string, isBunchTable: boolean) => {
+    if (isBunchTable) {
+      const isChecked = selectedBunchOrderItems.includes(itemId);
+      if (isChecked) {
+        setSelectedBunchOrderItems(selectedBunchOrderItems.filter((item) => item !== itemId));
+      } else {
+        setSelectedBunchOrderItems([...selectedBunchOrderItems, itemId]);
+      }
+    } else {
+      const isChecked = selectedSingleOrderItems.includes(itemId);
+      if (isChecked) {
+        setSelectedSingleOrderItems(selectedSingleOrderItems.filter((item) => item !== itemId && isBunchTable));
+      } else {
+        setSelectedSingleOrderItems([...selectedSingleOrderItems, itemId]);
+      }
+    }
+  };
+
+  const handleSalesOrderDeleteSelectedItems = () => {
+    const updatedData = salesOrderList.filter(
+      (item: any) => !selectedSingleOrderItems.includes(item.order_id) && !selectedBunchOrderItems.includes(item.order_id)
+    );
+
+    setSalesOrderList(updatedData);
+    setSelectedSingleOrderItems([]);
+    setSelectedBunchOrderItems([]);
+    // setIsHeaderCheckboxChecked(false);
+  };
+
+  const HandleSalesOrderSave = async () => {
+    // Combine the selected single and bunch order items
+    const selectedOrderIds = [...selectedSingleOrderItems, ...selectedBunchOrderItems];
+    console.log('selectedOrderIds', selectedOrderIds);
+
+    // Filter the salesOrderList to include only the selected orders
+    const filteredSalesOrderList = salesOrderList.filter((order: any) => selectedOrderIds.includes(order.order_id));
+
+    console.log('filteredSalesOrderList', filteredSalesOrderList);
+
+    let transformedDataList: any[] = [];
+
+    filteredSalesOrderList?.forEach((order: any) => {
+      if (order.qty_size_list && order.qty_size_list.length > 0) {
+        order.qty_size_list.forEach((qtyItem: any) => {
+          let newOrder = {
+            order_id: order.order_id,
+            sales_order: order.sales_order,
+            customer: order.customer ?? '',
+            item: order.item,
+            item_name: order.item_name,
+            size: qtyItem.size,
+            production_qty: qtyItem.production_qty,
+            ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
+            soisd_item: qtyItem.soisd_item,
+            is_bunch: qtyItem.is_bunch,
+            order_weight: qtyItem.order_weight,
+            estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+            market_design_name: qtyItem?.market_design_name,
+          };
+          transformedDataList.push(newOrder);
+        });
+      }
+    });
+
+    console.log('Data to be sent in POST API:', transformedDataList);
+
     try {
-      const updatedData = await UpdateSalesOrderAPI(dataToSend, operationCardDetailData?.name, token);
+      const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
       if (updatedData?.status === 200) {
         toast.success('Sales order updated successfully');
       }
@@ -581,6 +910,89 @@ const useOperationDetailCard = () => {
     const saveOP = await POSTOperationCardSave(search, filteredData, token);
   };
 
+  // Validation for in_weight input filed in modal
+  const GETValidationInWeightField = async () => {
+    const hrefValue = window.location.href;
+    const operationCardName = hrefValue.split('=');
+    const fetchValidationInWeight = await GETValidationInWeight(operationCardName[1], token);
+    if (fetchValidationInWeight?.status === 200) {
+      setValidateInWeight(fetchValidationInWeight?.data?.message);
+    } else {
+      setValidateInWeight('');
+    }
+  };
+
+  const getValidationForDesign = async () => {
+    const fetchValidationForDesign = await GETValidationForDesign(
+      operationCardDetailData?.name,
+      operationCardDetailData?.product_process_department,
+      operationCardDetailData?.design || '',
+      operationCardDetailData?.melting_lot,
+      token
+    );
+    console.log('fetchValidationForDesign', fetchValidationForDesign);
+    if (fetchValidationForDesign?.status === 200) {
+      setValidityForDesign(fetchValidationForDesign?.data?.message?.message);
+    } else {
+      setValidityForDesign('');
+    }
+  };
+
+  // const getDesignInputField = async () => {
+  //   const fetchDesignInputField = await GETDesignInputField(
+  //     operationCardDetailData?.melting_lot,
+  //     operationCardDetailData?.product_process_department,
+  //     token
+  //   );
+
+  //   if (fetchDesignInputField?.status === 200) {
+  //     setdesignInputValue(fetchDesignInputField?.data?.message);
+  //   } else {
+  //     setdesignInputValue([]);
+  //   }
+  // };
+
+  // for bunch pop up
+  const getBunchSalesOrderList = async () => {
+    const fetchBunchSalesOrder = await GETBunchSalesOrder(search, token);
+    if (fetchBunchSalesOrder?.status === 200) {
+      setbunchSalesOrderList(fetchBunchSalesOrder?.data?.message);
+    } else {
+      setbunchSalesOrderList([]);
+    }
+  };
+
+  // MPReference Modal Data
+  const getMPReferenceList = async () => {
+    const fetchMPReferenceList = await GETMeltingPlanReferenceFromLot(operationCardDetailData?.melting_lot, token);
+    if (fetchMPReferenceList?.status === 200) {
+      setMpReferenceList(fetchMPReferenceList?.data?.message);
+    } else {
+      setMpReferenceList([]);
+    }
+  };
+
+  // useEffect(() => {
+  //   getDesignInputField;
+  // }, [designInputValue]);
+
+  // const postSaveDesignInOP = async () => {
+  //   try {
+  //     const saveDesignInOP = await POSTDesignValue(search, designInputValue?.design, token);
+  //     if (saveDesignInOP?.status === 200) {
+  //       // window.location.reload();
+  //     } else {
+  //       // toast.error('Error approving operation card ');
+  //     }
+  //   } catch (error) {
+  //     // toast.error('Error approving operation card');
+  //   }
+  // };
+
+  useEffect(() => {
+    GETValidationInWeightField();
+  }, []);
+
   useEffect(() => {
     if (balanceWeight !== '') {
       setModalFieldsState({ in_weight: balanceWeight });
@@ -591,6 +1003,7 @@ const useOperationDetailCard = () => {
 
   useEffect(() => {
     operationCardDetail();
+    getCarryForwardSalesOrderList();
   }, [search]);
   useEffect(() => {
     if (Object.keys(operationCardDetailData).length > 0) {
@@ -624,6 +1037,10 @@ const useOperationDetailCard = () => {
       createGoldAccessoryTable();
 
       getIssueReferenceAPICallFunc();
+      GETValidationInWeightField();
+      // getDesignInputField();
+      getBunchSalesOrderList();
+      getMPReferenceList();
     }
   }, [operationCardDetailData]);
 
@@ -655,7 +1072,7 @@ const useOperationDetailCard = () => {
     operationCardNextDesign,
     operationCardNextDesignCodeType,
     getOperationCardDetailNextProductProcessAPICallFunc,
-    onChangeOfProductFetchNextProductProcess,
+    // onChangeOfProductFetchNextProductProcess,
     getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
     getOperationCardDetailDesignCodeCategoryAPICall,
     getOperationCardDetailDesignAPICall,
@@ -669,14 +1086,30 @@ const useOperationDetailCard = () => {
     isBalanceWeightSetAsInWeight,
     balanceWeight,
     modalFieldsState,
+    onChangeOfProductFetchNextProductProcess,
 
     // Below variables are of Sales Order List
     salesOrderList,
     setSalesOrderList,
     getSalesOrder,
-    handleUpdateSalesOrderListWithReadyQty,
+    HandleSalesOrderSave,
     handleOperationCardApproval,
     handleCustomerChange,
+    handleMeltingLotShowOrder,
+    validateInWeight,
+    getValidationForDesign,
+    validityForDesign,
+    designInputValue,
+    // postSaveDesignInOP,
+    bunchSalesOrderList,
+    mpReferenceList,
+    selectedSingleOrderItems,
+    selectedBunchOrderItems,
+    isSingleHeaderChecked,
+    isBunchHeaderChecked,
+    handleSalesOrderCheckboxChange,
+    handleSalesOrderHeaderCheckboxChange,
+    handleSalesOrderDeleteSelectedItems,
     getMachineSizeBasedOnDesignValueAPICall,
     // getOperationCardSellsOrder,
     // sellsOrderData,

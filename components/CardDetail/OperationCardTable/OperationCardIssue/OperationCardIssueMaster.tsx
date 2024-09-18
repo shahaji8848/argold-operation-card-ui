@@ -7,7 +7,7 @@ const OperationCardIssueMaster = ({
   headerSave,
   getOperationCardDetailNextKarigarFunc,
   getOperationCardDetailNextProductProcessAPICallFunc,
-  onChangeOfProductFetchNextProductProcess,
+  // onChangeOfProductFetchNextProductProcess,
   getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
   operationCardDetail,
   operationCardProductDept,
@@ -24,6 +24,7 @@ const OperationCardIssueMaster = ({
   operationCardNextDesign,
   operationCardNextProductProcess,
   operationCardWorkerList,
+  onChangeOfProductFetchNextProductProcess,
   operationCardNextProductProcessDepartment,
   getOperationCardDetailDesignCodeCategoryAPICall,
   getOperationCardDetailDesignAPICall,
@@ -37,6 +38,9 @@ const OperationCardIssueMaster = ({
   isBalanceWeightSetAsInWeight,
   balanceWeight,
   modalFieldsState,
+  salesOrderList,
+  bunchSalesOrderList,
+  mpReferenceList,
 }: any) => {
   return (
     <>
@@ -77,6 +81,9 @@ const OperationCardIssueMaster = ({
         balanceWeight={balanceWeight}
         modalFieldsState={modalFieldsState}
         operationCardMachine={operationCardMachine}
+        salesOrderList={salesOrderList}
+        bunchSalesOrderList={bunchSalesOrderList}
+        mpReferenceList={mpReferenceList}
       />
       <div className="mt-2">
         <OperationCardIssueItem operationCardDetailData={operationCardDetailData} />

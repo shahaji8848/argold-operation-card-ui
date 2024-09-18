@@ -1,14 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from '../../../../styles/operationDetail.module.css';
-import Modal from 'react-bootstrap/Modal';
-import AutoCompleteField from './AutoCompleteField';
 import POSTModalData from '@/services/api/operation-card-detail-page/modal-save';
-import GETOperationCardDetail from '@/services/api/operation-card-detail-page/operation-card-detail-data';
-import { Toast, ToastContainer } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 import { get_access_token } from '@/store/slice/login-slice';
+import { useEffect, useRef, useState } from 'react';
+import { Toast, ToastContainer } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+import { useSelector } from 'react-redux';
+import styles from '../../../../styles/operationDetail.module.css';
+import AutoCompleteField from './AutoCompleteField';
+import ModalSalesTable from './ModalSalesTable';
+import Link from 'next/link';
+import GETValidationForDesign from '@/services/api/operation-card-detail-page/validation-for-design';
+import MPReferenceModal from './MPReferenceModal';
+import POSTOperationCardSave from '@/services/api/operation-card-detail-page/operation-card-save';
+import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/update-sales-order-api';
+import UpdateSalesOrderWithBooleanValueAPI from '@/services/api/operation-card-detail-page/update-sales-order-with-boolen-value';
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
+import { toast } from 'react-toastify';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -25,6 +32,7 @@ const OperationCardIssueButton = ({
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextProductProcess,
+  // onChangeOfProductFetchNextProductProcess,
   onChangeOfProductFetchNextProductProcess,
   operationCardNextDesign,
   operationCardNextProductProcessDepartment,
@@ -37,6 +45,9 @@ const OperationCardIssueButton = ({
   balanceWeight,
   getOperationCardProductCategory,
   modalFieldsState,
+  salesOrderList,
+  bunchSalesOrderList,
+  mpReferenceList,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -61,7 +72,9 @@ const OperationCardIssueButton = ({
     'next_design_code_type',
     'worker',
     'next_worker',
+    'next_worker',
     'machine',
+    'product',
   ];
 
   const checkboxFieldsList: string[] = ['hold_order_details'];
@@ -69,19 +82,23 @@ const OperationCardIssueButton = ({
   const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false);
   const [showToastErr, setShowToastErr] = useState<boolean>(false);
   const [emptyFieldsErr, setEmptyFieldsErr] = useState<boolean>(false);
+  const [validationForDesignErr, setvalidationForDesignErr] = useState({ message: '', url: '' });
 
   const [errMessage, setErrMessage] = useState<string>('');
   const [itemName, setItemName] = useState('');
-
+  const [selectedSalesOrderData, setSelectedSalesOrderData] = useState<any>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<string>('');
   const [initialValueForActiveField, setInitialValueForActiveField] = useState<any>({});
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
   const [getValues, setGetValues] = useState<any>([]);
+  const [selectedIssueBtnData, setSelectedIssueBtnData] = useState<any>({});
 
   const [mergedObjsState, setMergedObjsState] = useState<any>({});
 
   // Below State is to set the value of input fields inside the modal. These values are coming from OC Detail API.
   const [modalFieldValuesState, setModalFieldValuesState] = useState<any>({});
+  const [meltingPlanReference, setMeltingPlanReference] = useState<any>('');
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
@@ -94,9 +111,10 @@ const OperationCardIssueButton = ({
       item: itemName,
     };
   };
-
+  const { validateInWeight } = useOperationDetailCard();
   const handleModalFieldsChange = (e: any) => {
-    console.log('merged e.target.value', e.target.name, e.target.checked);
+    // console.log('merged e.target.value', e.target.name, e.target.checked);
+    console.log('merged e.target.value', e.target.name);
     const { name, value, checked } = e.target;
     if (name === 'hold_order_details') {
       setModalFieldValuesState({
@@ -104,10 +122,26 @@ const OperationCardIssueButton = ({
         [name]: checked ? 1 : 0,
       });
     } else {
-      setModalFieldValuesState({
-        ...modalFieldValuesState,
-        [name]: value,
-      });
+      if (name === 'in_weight') {
+        if (validateInWeight?.order_status === 0) {
+          toast.error(validateInWeight?.message);
+        } else {
+          setModalFieldValuesState({
+            ...modalFieldValuesState,
+            [name]: value,
+          });
+        }
+      } else if (name === 'customer') {
+        setModalFieldValuesState({
+          ...modalFieldValuesState,
+          [name]: selectedCustomer,
+        });
+      } else {
+        setModalFieldValuesState({
+          ...modalFieldValuesState,
+          [name]: value,
+        });
+      }
     }
   };
   // set machine size value on base of selected design value
@@ -149,42 +183,232 @@ const OperationCardIssueButton = ({
   };
 
   console.log('modal updated data', getValues);
-
+  const { selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any = useOperationDetailCard();
+  // console.log('operationCardDetailData', operationCardDetailData?.operation_card_order_details?.map((ele: any) => ele.soisd_item));
+  // console.log('selectedSalesOrderData', selectedSalesOrderData?.map((ele: any) => ele.qty_size_list?.map((eleItem: any) => eleItem.soisd_item)));
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
+
+    const updateSalesTableData: any =
+      selectedSalesOrderData?.length > 0 &&
+      selectedSalesOrderData.map((orderData: any) => ({
+        sales_order: orderData.sales_order,
+        design: orderData.item_name,
+      }));
+
     const mergedObjs = {
       ...modalFieldValuesState,
       ...modalDropdownFields,
       item: itemName,
+      ...(selectedSalesOrderData?.length > 0 && { order_detail: updateSalesTableData }),
+      ...(modalFieldValuesState.hasOwnProperty('customer') && { customer: selectedCustomer }), // Conditionally include 'customer'
     };
-
+    console.log('mergedObjs data from modal to post', mergedObjs);
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
-    console.log('mergedObjs modal', modalDropdownFields);
-    console.log('mergedObjs', mergedObjs, decodeURI(splitValue[1]));
-    // const allNonEmptyExceptLineNumber = Object.entries(mergedObjs).every(
-    //   ([key, value]) =>
-    //     key === 'line_number' ||
-    //     (value !== '' && value !== null && value !== undefined)
-    // );
-    // console.log('post data all', allNonEmptyExceptLineNumber);
+
+    // await postSaveDesignInOP();
+
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
 
       try {
-        const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-        console.log('api', callSaveAPI);
-        if (callSaveAPI?.status === 200) {
-          operationCardDetail();
-          handleClose();
+        // const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+        // console.log('', callSaveAPI);
+        // if (callSaveAPI?.status === 200) {
+        //   operationCardDetail();
+        //   handleClose();
+        //   if (callSaveAPI?.data?.message?.msg === 'success') {
+        //     toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+        //   } else {
+        //     toast.error(callSaveAPI?.data?.message?.data?.error);
+        //   }
+        // } else {
+        //   handleClose();
+        //   const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+        //   // Access the "message" property
+        //   const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+        //   setErrMessage(messageValue);
+        //   setShowToastErr(true);
+        // }
+        const fetchValidationForDesign = await GETValidationForDesign(
+          operationCardDetailData?.name,
+          operationCardDetailData?.product_process_department,
+          operationCardDetailData?.design || '',
+          operationCardDetailData?.melting_lot,
+          token
+        );
+        if (
+          fetchValidationForDesign?.status === 200 &&
+          Object.keys(fetchValidationForDesign?.data).length > 0 &&
+          fetchValidationForDesign?.data?.message?.message === 'Please Fill Design in the Melting Plan.'
+        ) {
+          setvalidationForDesignErr(fetchValidationForDesign?.data?.message);
+          // setErrMessage(fetchValidationForDesign?.data?.message?.message);
+          // setShow(true);
+          // setShowToastErr(true);
+          setDisableSubmitBtn(true);
         } else {
-          handleClose();
-          const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
-          // Access the "message" property
-          const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
-          setErrMessage(messageValue);
-          setShowToastErr(true);
+          console.log('mergedObjs data from modal to post', mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch');
+          console.log('mergedObjs data from modal to post', mergedObjs?.item === 'Bunch');
+
+          if (
+            operationCardDetailData?.operation_card_order_details?.length === 0 &&
+            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch')
+          ) {
+            let transformedDataList: any[] = [];
+            // Filter the salesOrderList to include only selected orders
+
+            console.log('selectedSalesOrderData', selectedSalesOrderData);
+            const filteredSalesOrderList = salesOrderList?.filter((order: any) =>
+              selectedSalesOrderData.some((selectedOrder: any) => selectedOrder?.order_id === order?.order_id)
+            );
+            console.log('filteredSalesOrderList', filteredSalesOrderList);
+            filteredSalesOrderList?.forEach((order: any) => {
+              if (order.qty_size_list && order.qty_size_list.length > 0) {
+                order.qty_size_list.forEach((qtyItem: any) => {
+                  let newOrder = {
+                    order_id: order.order_id,
+                    sales_order: order.sales_order,
+                    customer: order.customer ?? '',
+                    item: order.item,
+                    item_name: order.item_name,
+                    size: qtyItem.size,
+                    production_qty: qtyItem.production_qty,
+                    ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
+                    soisd_item: qtyItem.soisd_item,
+                    is_bunch: qtyItem.is_bunch,
+                    order_weight: qtyItem.order_weight,
+                    estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+                    market_design_name: qtyItem?.market_design_name,
+                  };
+                  transformedDataList.push(newOrder);
+                });
+              }
+            });
+
+            console.log('Data to be sent in POST API:', transformedDataList);
+            const callSalesOrderAPI: any = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+            if (callSalesOrderAPI?.status === 200) {
+              const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+              console.log('api', callSaveAPI);
+              if (callSaveAPI?.status === 200) {
+                operationCardDetail();
+                handleClose();
+              } else {
+                handleClose();
+                const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+                const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+                setErrMessage(messageValue);
+                setShowToastErr(true);
+              }
+            }
+          } else if (
+            operationCardDetailData?.operation_card_order_details?.length > 0 &&
+            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch')
+          ) {
+            let transformedDataList: any[] = [];
+            // Extract all `soisd_item` from operationCardDetailData
+            const operationCardSoisdItems =
+              operationCardDetailData?.operation_card_order_details?.map((ele: any) => ele?.soisd_item) || [];
+            console.log('operationCardSoisdItems', operationCardSoisdItems);
+            // Filter the salesOrderList to include only selected orders
+            console.log('selectedSalesOrderData', selectedSalesOrderData);
+            const filteredSalesOrderList = salesOrderList?.filter((order: any) =>
+              selectedSalesOrderData.some((selectedOrder: any) => selectedOrder?.order_id === order?.order_id)
+            );
+            console.log('filteredSalesOrderList', filteredSalesOrderList);
+            filteredSalesOrderList?.forEach((order: any) => {
+              if (order.qty_size_list && order.qty_size_list.length > 0) {
+                order.qty_size_list.forEach((qtyItem: any) => {
+                  // Check if the `soisd_item` exists in the operationCardSoisdItems array
+                  if (!operationCardSoisdItems.includes(qtyItem.soisd_item)) {
+                    let newOrder = {
+                      order_id: order.order_id,
+                      sales_order: order.sales_order,
+                      customer: order.customer ?? '',
+                      item: order.item,
+                      item_name: order.item_name,
+                      size: qtyItem.size,
+                      production_qty: qtyItem.production_qty,
+                      ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
+                      soisd_item: qtyItem.soisd_item,
+                      is_bunch: qtyItem.is_bunch,
+                      order_weight: qtyItem.order_weight,
+                      estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+                      market_design_name: qtyItem?.market_design_name,
+                    };
+                    transformedDataList.push(newOrder);
+                  }
+                });
+              }
+            });
+
+            console.log('Data to be sent in POST API:', transformedDataList);
+            const update_orders: boolean = true;
+            // Call the API only with unmatched `soisd_item` values
+            const callSalesOrderAPI: any = await UpdateSalesOrderWithBooleanValueAPI(
+              transformedDataList,
+              operationCardDetailData?.name,
+              update_orders,
+              token
+            );
+            if (callSalesOrderAPI?.status === 200) {
+              const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+              console.log('api', callSaveAPI);
+              if (callSaveAPI?.status === 200) {
+                operationCardDetail();
+                handleClose();
+              } else {
+                handleClose();
+                const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+                const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+                setErrMessage(messageValue);
+                setShowToastErr(true);
+              }
+            }
+          } else {
+            console.log('hello');
+            const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+            console.log('callSaveAPI', callSaveAPI);
+            if (callSaveAPI?.status === 200) {
+              operationCardDetail();
+              handleClose();
+            } else {
+              handleClose();
+              const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+              const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+              setErrMessage(messageValue);
+              setShowToastErr(true);
+            }
+          }
         }
+        // await getValidationForDesign();
+        // console.log('validity for design', validityForDesign);
+        // // Check if the validityForDesign message is the specific message
+        // if (validityForDesign === 'Please Fill Design in the Melting Plan.') {
+        // setErrMessage(validityForDesign);
+        // setShow(true);
+        // setShowToastErr(true);
+        // setDisableSubmitBtn(false); // Re-enable the submit button after error
+        // return; // Exit the function early if the condition is met
+        // }
+
+        // if (validityForDesign !== 'Please Fill Design in the Melting Plan.') {
+        //   console.log('validity for design else', validityForDesign);
+        // const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+        // console.log('api', callSaveAPI);
+        // if (callSaveAPI?.status === 200) {
+        //   operationCardDetail();
+        //   handleClose();
+        // } else {
+        //   handleClose();
+        //   const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+        //   const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+        //   setErrMessage(messageValue);
+        //   setShowToastErr(true);
+        // }
+        // }
       } catch (error) {
         setErrMessage('Some error occured while saving the entry');
       } finally {
@@ -199,17 +423,37 @@ const OperationCardIssueButton = ({
   const handleClose = () => {
     setEmptyFieldsErr(false);
     setShow(false);
+    // in order to remove selected checkbox of customer and bunch sales order table in modal
+    setSelectedSalesOrderData([]); // Reset selected items
+    setSelectedCustomer(''); // Reset customer as well
     setMachineSizeBasedOnDesignValue([]);
   };
-  const handleShow = (value: any) => {
+  const handleShow = (value: any, add_melting_plan_reference_details: any) => {
     setShow(true);
     setItemName(value);
-    const operationCardValue = operationCardProductDept?.issue_items?.filter((issueVal: any) => issueVal.item === value);
-    const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find(
-      (issueItem: any) => issueItem?.item === value
-    );
 
-    console.log('merged next', getSelectedItemObj);
+    const operationCardValue = operationCardProductDept?.issue_items?.filter((issueVal: any) => issueVal.item === value);
+
+    setMeltingPlanReference(add_melting_plan_reference_details);
+
+    // Find a specific item object in operationCardDetailData, with specific logic for "hook"
+    const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => {
+      // Check if the value is "hook"
+      console.log('value', value);
+      if (value === 'Hook') {
+        // If value is "hook", check if the item starts with "Hook"
+        return issueItem?.item?.startsWith('Hook');
+      } else {
+        // For all other values, perform the standard equality check
+        return issueItem?.item === value;
+      }
+    });
+    console.log('getSelectedItemObj', getSelectedItemObj);
+    // const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find(
+    //   (issueItem: any) => issueItem?.item === value
+    // );
+
+    setSelectedIssueBtnData(getSelectedItemObj);
     let initialValuesOfSelectedItem: any = {};
     if (getSelectedItemObj) {
       // replace next_product_process with word key to get initialValues of all dropdowns.
@@ -227,6 +471,7 @@ const OperationCardIssueButton = ({
     const setKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('set'));
 
     const resultArray = groupByKeyWords(showKeys, setKeys);
+    console.log('resultArray', resultArray);
 
     function groupByKeyWords(showKeys: any, setKeys: any) {
       const groupedKeys: any = {};
@@ -243,7 +488,7 @@ const OperationCardIssueButton = ({
 
       return Object.values(groupedKeys);
     }
-    // console.log('result array', resultArray);
+    console.log('result array', resultArray);
 
     let filterArray: any[];
     let storeNonZeroSetAndShow: any;
@@ -326,7 +571,6 @@ const OperationCardIssueButton = ({
         }
       }
     });
-    console.log('altered', alteredObjToCreateDataFields);
 
     setModalFieldValuesState(alteredObjToCreateDataFields);
 
@@ -339,6 +583,26 @@ const OperationCardIssueButton = ({
   useEffect(() => {
     inputInWeightRef.current?.focus();
   }, [show]);
+
+  const singleOrdersWithItems = salesOrderList
+    .map((order: any) => ({
+      ...order,
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 0),
+    }))
+    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+
+  // Log the filtered bunch orders with items
+  console.log('singleOrdersWithItems', singleOrdersWithItems);
+
+  const bunchOrdersWithItems = salesOrderList
+    .map((order: any) => ({
+      ...order,
+      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 1),
+    }))
+    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+
+  // Log the filtered bunch orders with items
+  console.log('bunchOrdersWithItems', bunchOrdersWithItems);
 
   return (
     <div>
@@ -354,7 +618,7 @@ const OperationCardIssueButton = ({
                   <button
                     type="button"
                     className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
-                    onClick={() => handleShow(val.item)}
+                    onClick={() => handleShow(val.item, val?.add_melting_plan_reference_details)}
                     key={i}
                   >
                     {val?.item}
@@ -367,12 +631,11 @@ const OperationCardIssueButton = ({
 
       <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
-          {' '}
           <h6 className="">Item: {itemName}</h6>
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-between "></div>
-          <div className="row">
+          <div className="row" style={{ backgroundColor: '2px solid red' }}>
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
                 console.log('val label', val);
@@ -404,6 +667,7 @@ const OperationCardIssueButton = ({
                     gpc_product: operationCardProduct,
                     worker: operationCardWorkerList,
                     next_worker: operationCardWorkerList,
+                    product: operationCardProduct,
                   };
                   propToPass = propMappings[val];
                   return propToPass;
@@ -430,8 +694,9 @@ const OperationCardIssueButton = ({
                           listOfDropdownObjs={funcData}
                           modalDropdownFieldsProp={modalDropdownFields}
                           handleDropDownValuesChange={handleDropDownValuesChange}
-                          getOperationCardProductCategory={getOperationCardProductCategory}
                           getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
+                          getOperationCardProductCategory={getOperationCardProductCategory}
+                          // getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
                           handleSubmit={handleSubmit}
                           label={val?.label}
                           initialValue={
@@ -453,6 +718,7 @@ const OperationCardIssueButton = ({
                           name={val?.label}
                           value={modalFieldValuesState[val?.label]}
                           onChange={handleModalFieldsChange}
+                          disabled={validateInWeight?.order_status === 0}
                         />
                         <label
                           htmlFor="staticEmail"
@@ -486,7 +752,7 @@ const OperationCardIssueButton = ({
                             // ref={inputInWeightRef}
                             ref={i === 0 ? inputInWeightRef : null}
                             disabled={val[setKey] === 0}
-                            value={modalFieldValuesState[val?.label]}
+                            value={val?.label === 'customer' ? selectedCustomer : modalFieldValuesState[val?.label]}
                             onChange={handleModalFieldsChange}
                             onKeyDown={(e: any) => {
                               if (e.key === 'Enter') {
@@ -501,6 +767,37 @@ const OperationCardIssueButton = ({
                 );
               })}
           </div>
+
+          {selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Customer' && singleOrdersWithItems?.length > 0 && (
+            <>
+              <ModalSalesTable
+                salesOrderList={singleOrdersWithItems}
+                selectedSalesOrderData={selectedSalesOrderData}
+                setSelectedSalesOrderData={setSelectedSalesOrderData}
+                selectedCustomer={selectedCustomer}
+                setSelectedCustomer={setSelectedCustomer}
+                operationCardDetailData={operationCardDetailData}
+              />
+            </>
+          )}
+          {/* bunchSalesOrderList  */}
+          {selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Bunch' && bunchOrdersWithItems?.length > 0 && (
+            <>
+              <ModalSalesTable
+                salesOrderList={bunchOrdersWithItems}
+                selectedSalesOrderData={selectedSalesOrderData}
+                setSelectedSalesOrderData={setSelectedSalesOrderData}
+                selectedCustomer={selectedCustomer}
+                setSelectedCustomer={setSelectedCustomer}
+                operationCardDetailData={operationCardDetailData}
+              />
+            </>
+          )}
+
+          {selectedIssueBtnData?.item && selectedIssueBtnData?.item_type === 'Gold Accessory' && meltingPlanReference === 1 && (
+            <MPReferenceModal mpReferenceList={mpReferenceList} />
+          )}
+
           {getValues?.length > 0 ? (
             <div className="d-flex justify-content-start mt-3">
               <button
@@ -514,6 +811,17 @@ const OperationCardIssueButton = ({
             </div>
           ) : (
             ''
+          )}
+          {validationForDesignErr.message !== '' && (
+            <p className="mt-3">
+              <span className="mt-5 text-danger">
+                {validationForDesignErr?.message}After filling it please refresh the Operation Card.
+              </span>
+              <p></p>
+              <Link href={`${validationForDesignErr?.url}`} className="text-decoration-underline" target="_blank">
+                Go to Melting Plan
+              </Link>
+            </p>
           )}
           {emptyFieldsErr && <p className="mt-3 text-danger">Please fill all the fields</p>}
         </Modal.Body>
