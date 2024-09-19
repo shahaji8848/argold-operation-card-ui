@@ -8,9 +8,6 @@ const ModalSalesTable: any = ({
   setSelectedSalesOrderData,
   setSelectedCustomer,
 }: any) => {
-  console.log('modal data salesOrderList', salesOrderList);
-  console.log('modal data operationCardDetailData', operationCardDetailData);
-
   // Calculate totals for production qty and order weight
   const calculateTotals = () => {
     let totalProductionQty = 0;
@@ -86,7 +83,7 @@ const ModalSalesTable: any = ({
 
                     // const isDisabled = !!orderData?.assigned_order_id;
                     const isDisabled = selectedCustomer && selectedCustomer !== orderData?.customer;
-                    console.log('is checked', isDisabled);
+
                     return (
                       <tr className="table-text" key={index}>
                         <td className="text-center">

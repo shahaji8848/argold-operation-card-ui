@@ -20,7 +20,6 @@ const EditableOperationCardFields = ({
   operationCardDetailData,
   operationCardKarigarQuantitySettings,
 }: IEditableOperationCardFields) => {
-  console.log('operationCardDetailData', operationCardDetailData);
   return (
     <>
       {dropdownEditable?.length > 0 &&

@@ -1,7 +1,6 @@
 import React from 'react';
 
 const InputField = ({ label, value, handleChange, readOnly }: any) => {
-  console.log('readOnly', readOnly);
   return (
     <div className="fs-14 ">
       <input

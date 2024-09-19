@@ -126,15 +126,11 @@ const useOperationDetailCard = () => {
       const operationCardName = hrefValue.split('=');
       const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
 
-      console.log('API Response:', callCarryForwardSalesOrderAPI);
-
       if (callCarryForwardSalesOrderAPI?.status === 200) {
         const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
-        console.log('Sales Order List:', salesOrderList);
 
         if (Array.isArray(salesOrderList)) {
           setCarryForwardSalesOrder(salesOrderList);
-          console.log('Updated State:', salesOrderList);
         } else {
           console.error('Sales order list is not an array:', salesOrderList);
         }
@@ -161,11 +157,11 @@ const useOperationDetailCard = () => {
   //       const operationCardName = hrefValue.split('=');
   //       const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
 
-  //       console.log('API Response:', callCarryForwardSalesOrderAPI);
+  //
 
   //       if (callCarryForwardSalesOrderAPI?.status === 200) {
   //         const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
-  //         console.log('Sales Order List:', salesOrderList);
+  //
 
   //         if (Array.isArray(salesOrderList)) {
   //           setCarryForwardSalesOrder(salesOrderList);
@@ -176,7 +172,7 @@ const useOperationDetailCard = () => {
   //       console.error('Error in API call:', error);
   //     }
   //     // setSalesOrderList(carryForwardSalesOrder);
-  //     console.log('Updated States:', salesOrderList);
+  //
   //     // setSalesOrderList(carryForwardSalesOrder);
   //     // setSalesOrderList([...operationCardDetailVal?.data?.data?.operation_card_order_details]);
   //   } else {
@@ -202,11 +198,8 @@ const useOperationDetailCard = () => {
         const operationCardName = hrefValue.split('=');
         const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
 
-        console.log('API Response:', callCarryForwardSalesOrderAPI);
-
         if (callCarryForwardSalesOrderAPI?.status === 200) {
           const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
-          console.log('Sales Order List:', salesOrderList);
 
           if (Array.isArray(salesOrderList)) {
             setCarryForwardSalesOrder(salesOrderList);
@@ -225,7 +218,7 @@ const useOperationDetailCard = () => {
         //   token
         // );
 
-        // console.log('Melting Lot Sales Order API Response:', callMeltingLotSalesOrderAPI);
+        //
 
         // if (callMeltingLotSalesOrderAPI?.status === 200) {
         //   const meltingLotSalesOrderList = callMeltingLotSalesOrderAPI?.data?.message;
@@ -239,13 +232,12 @@ const useOperationDetailCard = () => {
       } catch (error) {
         console.error('Error in API call:', error);
       }
-      console.log('Updated States:', carryForwardSalesOrder);
     } else {
       setOperationCardDetailData({});
       setSalesOrderList([]); // Reset to empty array if no data
     }
   };
-  console.log('Updated Melting Lot States:', salesOrderList);
+
   const getOperationCardProcessDepartment = async () => {
     const operationCardProductProcessDepartmentData = await GETOperationCardProductProcessDepartmentData(
       operationCardDetailData?.product_process_department,
@@ -346,7 +338,7 @@ const useOperationDetailCard = () => {
 
   const getIssueReferenceAPICallFunc = async () => {
     const getIssueReferenceData = await OCIssueReferenceAPI(search, token);
-    console.log('getIssueReferenceData component', getIssueReferenceData);
+
     if (getIssueReferenceData?.status === 200 && getIssueReferenceData?.data?.message?.length > 0) {
       setIssueReference([...getIssueReferenceData?.data?.message]);
     } else {
@@ -424,8 +416,8 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailMachineSizeAPICall = async () => {
     const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
-    console.log('machinesize', getMachineSizeData);
-    // console.log('machinesize', getMachineSizeData);
+
+    //
     if (getMachineSizeData?.status === 200) {
       setOperationCardMachineSize(
         getMachineSizeData?.data?.data?.map((machine_size_data: any) => ({
@@ -437,30 +429,29 @@ const useOperationDetailCard = () => {
       setOperationCardMachineSize([]);
     }
   };
-  // console.log('machinesize', operationCardMachineSize);
+  //
 
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
     const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
-    console.log('machinesizeAPI', fetchMachineSizeBasedOnDesignValue);
+
     if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
       setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
     } else {
       setMachineSizeBasedOnDesignValue([]);
     }
   };
-  // console.log('machinesize', machineSizeBasedOnDesignValue);
-  console.log('machinesize', operationCardMachineSize);
+  //
 
   // const getMachineSizeBasedOnDesignValueAPICall = async () => {
   //   const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue('RC-RC-12gm-ROPE', token);
-  //   console.log('machinesize', fetchMachineSizeBasedOnDesignValue);
+  //
   //   if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
   //     setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
   //   } else {
   //     setMachineSizeBasedOnDesignValue([]);
   //   }
   // };
-  console.log('machinesize', machineSizeBasedOnDesignValue);
+
   // useEffect(() => {
   //   getMachineSizeBasedOnDesignValueAPICall();
   // }, []);
@@ -525,7 +516,7 @@ const useOperationDetailCard = () => {
       setOperationCardNextDesign([]);
     }
   };
-  console.log('OperationCardNextDesigns', operationCardNextDesign);
+
   const getOperationCardDetailDesignCodeTypeAPICall = async () => {
     const getDesignCodeType = await GETProductProcessDesignCodeType(operationCardDetailData?.product, token);
     if (getDesignCodeType?.status === 200) {
@@ -657,7 +648,7 @@ const useOperationDetailCard = () => {
 
   const getOperationCardDetailWorkerAPICallFunc = async () => {
     const getWorkerList = await GETWorkerList(token, operationCardDetailData?.product_process_department);
-    console.log('worker', getWorkerList);
+
     if (getWorkerList?.status === 200) {
       setOperationCardWorkerList(
         getWorkerList?.data?.data?.map((product_category: any) => ({
@@ -669,7 +660,6 @@ const useOperationDetailCard = () => {
       setOperationCardWorkerList([]);
     }
   };
-  console.log('worker', operationCardWorkerList);
 
   const getOperationCardDetailLossReportList = async () => {
     const getLossReportListDataFromAPI = await GETLossPeriodList(token);
@@ -716,7 +706,6 @@ const useOperationDetailCard = () => {
 
     if (callSalesOrderAPI?.status === 200 && callSalesOrderAPI?.data?.message?.data?.length > 0) {
       setSalesOrderList([...callSalesOrderAPI?.data?.message?.data]);
-      console.log('salesOrderList', salesOrderList);
     } else if (
       // operationCardDetailData?.opertion_card_order_details &&
       // operationCardDetailData?.opertion_card_order_details?.length > 0
@@ -747,7 +736,7 @@ const useOperationDetailCard = () => {
   };
 
   // const HandleSalesOrderSave = async () => {
-  //   console.log('updated sales order list', salesOrderList);
+  //
   //   let transformedDataList: any[] = [];
 
   //   salesOrderList.forEach((order: any) => {
@@ -785,7 +774,7 @@ const useOperationDetailCard = () => {
   //     }
   //   });
 
-  //   console.log(transformedDataList);
+  //
 
   //   try {
   //     const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
@@ -805,7 +794,6 @@ const useOperationDetailCard = () => {
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
   // Log the filtered bunch orders with items
-  console.log('singleOrdersWithItems', singleOrdersWithItems);
 
   const bunchOrdersWithItems = salesOrderList
     .map((order: any) => ({
@@ -815,7 +803,6 @@ const useOperationDetailCard = () => {
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
   // Log the filtered bunch orders with items
-  console.log('bunchOrdersWithItems', bunchOrdersWithItems);
 
   const handleSalesOrderHeaderCheckboxChange = (type: any, checked: any) => {
     if (type === 'single') {
@@ -861,12 +848,9 @@ const useOperationDetailCard = () => {
   const HandleSalesOrderSave = async () => {
     // Combine the selected single and bunch order items
     const selectedOrderIds = [...selectedSingleOrderItems, ...selectedBunchOrderItems];
-    console.log('selectedOrderIds', selectedOrderIds);
 
     // Filter the salesOrderList to include only the selected orders
     const filteredSalesOrderList = salesOrderList.filter((order: any) => selectedOrderIds.includes(order.order_id));
-
-    console.log('filteredSalesOrderList', filteredSalesOrderList);
 
     let transformedDataList: any[] = [];
 
@@ -892,8 +876,6 @@ const useOperationDetailCard = () => {
         });
       }
     });
-
-    console.log('Data to be sent in POST API:', transformedDataList);
 
     try {
       const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
@@ -930,7 +912,7 @@ const useOperationDetailCard = () => {
       operationCardDetailData?.melting_lot,
       token
     );
-    console.log('fetchValidationForDesign', fetchValidationForDesign);
+
     if (fetchValidationForDesign?.status === 200) {
       setValidityForDesign(fetchValidationForDesign?.data?.message?.message);
     } else {

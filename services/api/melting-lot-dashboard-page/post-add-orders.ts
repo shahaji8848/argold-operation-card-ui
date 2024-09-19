@@ -21,7 +21,6 @@ const POSTAddOrders = async (data_list: any, token: any) => {
       config
     )
     .then((res: any) => {
-      console.log('post purchase receipt', res);
       response = res;
     })
     .catch((err: any) => {

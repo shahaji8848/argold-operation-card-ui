@@ -1,29 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useKarigarList = (
-  listOfDropdownValues: any,
-  operationCardDetailDataKarigar: any
-) => {
-  console.log('karigar list hook', listOfDropdownValues);
+const useKarigarList = (listOfDropdownValues: any, operationCardDetailDataKarigar: any) => {
   const [optionvalue, setOptionValue] = useState<any>([]);
 
   const [check, setCheck] = useState(0);
-  const [inputValueAutoComplete, setInputValueAutoComplete] = useState<string>(
-    operationCardDetailDataKarigar
-  );
-  const [filteredSuggestionsAutoComplete, setFilteredSuggestionsAutoComplete] =
-    useState<any>([]);
-  const [showSuggestionsAutoComplete, setShowSuggestionsAutoComplete] =
-    useState<boolean>(false);
+  const [inputValueAutoComplete, setInputValueAutoComplete] = useState<string>(operationCardDetailDataKarigar);
+  const [filteredSuggestionsAutoComplete, setFilteredSuggestionsAutoComplete] = useState<any>([]);
+  const [showSuggestionsAutoComplete, setShowSuggestionsAutoComplete] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   // this login is for hide and show suggestion based on click
   useEffect(() => {
     const handleOutsideClickAutoComplete = (event: any) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
-      ) {
+      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
         setShowSuggestionsAutoComplete(false);
       }
     };
@@ -36,9 +25,7 @@ const useKarigarList = (
   }, []);
 
   useEffect(() => {
-    console.log('karigar list hook in useeffect', listOfDropdownValues);
     if (listOfDropdownValues !== undefined) {
-      console.log('karigar filtered in useEffect', listOfDropdownValues);
       setOptionValue([...listOfDropdownValues]);
       setFilteredSuggestionsAutoComplete([...listOfDropdownValues]);
     }
@@ -50,7 +37,6 @@ const useKarigarList = (
   };
 
   const showFilteredValuesHandler = (user_input_value?: any) => {
-    console.log('modal input value', inputValueAutoComplete);
     const trimmedInput = user_input_value?.trim().toLowerCase();
 
     setInputValueAutoComplete(user_input_value);
@@ -69,16 +55,10 @@ const useKarigarList = (
 
       // setFilteredSuggestionsAutoComplete(filtered);
       // Always show all suggestions if there is no match
-      setFilteredSuggestionsAutoComplete(
-        filtered.length > 0
-          ? filtered
-          : [{ name: 'Not Found', value: 'Not Found' }]
-      );
+      setFilteredSuggestionsAutoComplete(filtered.length > 0 ? filtered : [{ name: 'Not Found', value: 'Not Found' }]);
       setShowSuggestionsAutoComplete(true);
     }
     // }
-
-    console.log('modal', optionvalue);
   };
 
   //passing all the data and function

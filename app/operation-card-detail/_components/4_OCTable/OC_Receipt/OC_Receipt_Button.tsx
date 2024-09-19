@@ -60,7 +60,7 @@ const OperationCardReciptButton = ({
     labelValue: string,
     selectedValue: any
   ) => {
-    // console.log('k', labelValue, selectedValue);
+    // 
     setModalDropdownFields({
       ...modalDropdownFields,
       [labelValue]: selectedValue?.name,
@@ -68,15 +68,15 @@ const OperationCardReciptButton = ({
   };
 
   const handleSubmit = async () => {
-    console.log('modal list keys data fields', modalFieldValuesState);
-    console.log('modal list keys dropdown fields', modalDropdownFields);
+    
+    
     const mergedObjs = {
       ...modalFieldValuesState,
       ...modalDropdownFields,
       item: itemName,
     };
     const callSaveAPI: any = await POSTModalData(search, mergedObjs);
-    console.log('api', callSaveAPI);
+    
     if (callSaveAPI?.status === 200) {
       operationCardDetail();
       handleClose();
@@ -160,7 +160,7 @@ const OperationCardReciptButton = ({
       return updatedObj;
     });
 
-    console.log('modal filterArray', filterArray);
+    
 
     const index = filterArray?.findIndex(
       (obj: any) => obj.label === 'in_weight'
@@ -179,7 +179,7 @@ const OperationCardReciptButton = ({
         (issueVal: any) => issueVal.item === value
       );
 
-    console.log(
+    
       'getOperationCardDetailDataValue',
       getOperationCardDetailDataValue
     );

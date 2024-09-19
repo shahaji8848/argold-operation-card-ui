@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, handleSubmit?: any) => {
-  console.log('karigar list hook', listOfDropdownValues);
-  console.log('initialValue', initialValue);
   const [optionvalue, setOptionValue] = useState<any>([]);
 
   const [inputValueAutoComplete, setInputValueAutoComplete] = useState<any>(
@@ -34,7 +32,6 @@ const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, ha
   }, []);
 
   useEffect(() => {
-    console.log('modal listOfDropdownValues', listOfDropdownValues);
     if (listOfDropdownValues !== undefined) {
       setOptionValue([...listOfDropdownValues]);
       setFilteredSuggestionsAutoComplete([...listOfDropdownValues]);
@@ -64,7 +61,6 @@ const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, ha
       case 'Enter':
         if (selectedOption !== null) {
           const suggestion = filteredSuggestionsAutoComplete[selectedOption];
-          console.log('selected value here', suggestion);
 
           handleSuggestionClickAutoComplete(suggestion);
         }
@@ -80,7 +76,7 @@ const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, ha
     const handleKeyDownEvent = (event: KeyboardEvent) => {
       if (inputRef.current && event.target === inputRef.current) {
         handleKeyDown(event);
-        console.log('press enter', event);
+
         if (event.key === 'Enter' && showSuggestionsAutoComplete === false) {
           handleSubmit();
         }
@@ -106,7 +102,7 @@ const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, ha
   };
 
   const showFilteredValuesHandler = (user_input_value?: string) => {
-    // console.log('url debugging user_input_value', user_input_value);
+    //
     const trimmedInput = user_input_value?.trim().toLowerCase();
 
     setInputValueAutoComplete(user_input_value);
@@ -129,9 +125,7 @@ const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, ha
       setFilteredSuggestionsAutoComplete(filtered.length > 0 ? filtered : [{ name: 'Not Found', value: 'Not Found' }]);
       setShowSuggestionsAutoComplete(true);
     }
-    console.log('modal', optionvalue);
   };
-  console.log('optionvalue', filteredSuggestionsAutoComplete);
 
   //passing all the data and function
   return {

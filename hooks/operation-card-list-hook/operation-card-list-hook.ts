@@ -32,7 +32,7 @@ const useOperationCardList = () => {
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
-    // console.log('val', e.target.checked, fieldName);
+    //
     // if (fieldName === 'show_zero_balance') {
     //   setFiltersData((prevFiltersData: any) => ({
     //     ...prevFiltersData,
@@ -178,7 +178,6 @@ const useOperationCardList = () => {
 
   const disabledItems: any = {};
   const handleApprove = async (rowData: any) => {
-    console.log('clicked', rowData);
     const formData: any = new FormData();
     formData.append('item', rowData);
     const button = document.getElementById(rowData);
@@ -195,7 +194,7 @@ const useOperationCardList = () => {
       }
     }
     const saveApprove = await POSTApproveAPI(rowData, token);
-    console.log('saveApprove', saveApprove);
+
     if (saveApprove.status === 200) {
       window.location.reload();
     } else {

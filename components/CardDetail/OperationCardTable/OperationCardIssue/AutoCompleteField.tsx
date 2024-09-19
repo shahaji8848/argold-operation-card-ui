@@ -24,7 +24,6 @@ const AutoCompleteField = ({
     setInputValueAutoComplete,
   } = useInputAutoComplete(listOfDropdownObjs, initialValue, handleSubmit);
 
-  console.log('select option in drop', listOfDropdownObjs);
   useEffect(() => {
     if (label === 'machine_size') {
       // Case 1: Machine size is returned from API
@@ -43,7 +42,6 @@ const AutoCompleteField = ({
 
   useEffect(() => {
     if (showSuggestionsAutoComplete === false) {
-      console.log('select dropdown value', inputValueAutoComplete);
       if (label === 'next_karigar' || label === 'karigar') {
         handleDropDownValuesChange(label, {
           value: inputValueAutoComplete?.value,
@@ -62,8 +60,6 @@ const AutoCompleteField = ({
     }
   }, [initialValue, label]);
 
-  console.log('initialValue', initialValue);
-  console.log('label', label);
   return (
     <div>
       <div>

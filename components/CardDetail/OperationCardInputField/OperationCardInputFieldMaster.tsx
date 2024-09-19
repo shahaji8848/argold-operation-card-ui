@@ -18,7 +18,6 @@ const OperationCardInputFieldMaster = ({
   const operationCardFields: any = Object?.entries(operationCardProductDept)
     .filter(([key, value]) => key.includes('show') && value === 1)
     .map(([key, value]) => key.replace('show_', ''));
-  console.log('operationCardFieldss', operationCardFields);
 
   const operationCardFieldValue = Object.entries(operationCardDetailData).filter(
     ([key, value]) => operationCardFields?.includes(key)
