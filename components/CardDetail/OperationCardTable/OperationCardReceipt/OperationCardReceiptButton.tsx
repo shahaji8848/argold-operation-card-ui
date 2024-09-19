@@ -5,6 +5,7 @@ import POSTModalData from '@/services/api/operation-card-detail-page/modal-save'
 import AutoCompleteField from '../OperationCardIssue/AutoCompleteField';
 import { get_access_token } from '@/store/slice/login-slice';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 interface IModalFields {
   show_in_weight: number;
   set_in_weight: number;
@@ -90,6 +91,11 @@ const OperationCardReciptButton = ({
       if (callSaveAPI?.status === 200) {
         operationCardDetail();
         handleClose();
+        if (callSaveAPI?.data?.message?.msg === 'success') {
+          toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+        } else {
+          toast.error(callSaveAPI?.data?.message?.error);
+        }
       } else {
         handleClose();
         const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);

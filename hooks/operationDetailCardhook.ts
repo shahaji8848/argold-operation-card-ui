@@ -864,6 +864,7 @@ const useOperationDetailCard = () => {
 
     try {
       const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+
       if (updatedData?.status === 200) {
         toast.success('Sales order updated successfully');
       }
@@ -875,6 +876,11 @@ const useOperationDetailCard = () => {
   const handleOperationCardSave = async () => {
     const filteredData = Object.fromEntries(Object.entries(headerSave).filter(([key, value]) => value !== ''));
     const saveOP = await POSTOperationCardSave(search, filteredData, token);
+    if (saveOP?.data?.message?.msg === 'success') {
+      toast.success(saveOP?.data?.message?.data?.msg);
+    } else {
+      toast.error(saveOP?.data?.message?.error);
+    }
   };
 
   // Validation for in_weight input filed in modal
@@ -1039,7 +1045,7 @@ const useOperationDetailCard = () => {
     operationCardNextDesign,
     operationCardNextDesignCodeType,
     getOperationCardDetailNextProductProcessAPICallFunc,
-    onChangeOfProductFetchNextProductProcess,
+    // onChangeOfProductFetchNextProductProcess,
     getOperationCardDetailNextProductProcessDepartmentAPICallFunc,
     getOperationCardDetailDesignCodeCategoryAPICall,
     getOperationCardDetailDesignAPICall,

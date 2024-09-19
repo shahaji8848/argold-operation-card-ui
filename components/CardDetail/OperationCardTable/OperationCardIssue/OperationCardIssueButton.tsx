@@ -7,15 +7,19 @@ import { useSelector } from 'react-redux';
 import styles from '../../../../styles/operationDetail.module.css';
 import AutoCompleteField from './AutoCompleteField';
 import ModalSalesTable from './ModalSalesTable';
-import { toast } from 'react-toastify';
-import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Link from 'next/link';
 import GETValidationForDesign from '@/services/api/operation-card-detail-page/validation-for-design';
 import MPReferenceModal from './MPReferenceModal';
 import POSTOperationCardSave from '@/services/api/operation-card-detail-page/operation-card-save';
 import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/update-sales-order-api';
 import UpdateSalesOrderWithBooleanValueAPI from '@/services/api/operation-card-detail-page/update-sales-order-with-boolen-value';
+<<<<<<< HEAD
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
+=======
+import useOperationDetailCard from '@/hooks/operationDetailCardhook';
+import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
+import { toast } from 'react-toastify';
+>>>>>>> 31c192b88a7518ddcabac1d486d84dc34c1b549c
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -32,6 +36,7 @@ const OperationCardIssueButton = ({
   operationCardMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextProductProcess,
+  // onChangeOfProductFetchNextProductProcess,
   onChangeOfProductFetchNextProductProcess,
   operationCardNextDesign,
   operationCardNextProductProcessDepartment,
@@ -70,6 +75,7 @@ const OperationCardIssueButton = ({
     'next_design',
     'next_design_code_type',
     'worker',
+    'next_worker',
     'next_worker',
     'machine',
     'product',
@@ -208,6 +214,24 @@ const OperationCardIssueButton = ({
       setDisableSubmitBtn((prev) => !prev);
 
       try {
+        // const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
+        // console.log('', callSaveAPI);
+        // if (callSaveAPI?.status === 200) {
+        //   operationCardDetail();
+        //   handleClose();
+        //   if (callSaveAPI?.data?.message?.msg === 'success') {
+        //     toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+        //   } else {
+        //     toast.error(callSaveAPI?.data?.message?.data?.error);
+        //   }
+        // } else {
+        //   handleClose();
+        //   const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+        //   // Access the "message" property
+        //   const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+        //   setErrMessage(messageValue);
+        //   setShowToastErr(true);
+        // }
         const fetchValidationForDesign = await GETValidationForDesign(
           operationCardDetailData?.name,
           operationCardDetailData?.product_process_department,
@@ -261,12 +285,18 @@ const OperationCardIssueButton = ({
             });
 
             const callSalesOrderAPI: any = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+
             if (callSalesOrderAPI?.status === 200) {
               const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
 
               if (callSaveAPI?.status === 200) {
                 operationCardDetail();
                 handleClose();
+                if (callSaveAPI?.data?.message?.msg === 'success') {
+                  toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+                } else {
+                  toast.error(callSaveAPI?.data?.message?.error);
+                }
               } else {
                 handleClose();
                 const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
@@ -330,6 +360,11 @@ const OperationCardIssueButton = ({
               if (callSaveAPI?.status === 200) {
                 operationCardDetail();
                 handleClose();
+                if (callSaveAPI?.data?.message?.msg === 'success') {
+                  toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+                } else {
+                  toast.error(callSaveAPI?.data?.message?.error);
+                }
               } else {
                 handleClose();
                 const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
@@ -344,6 +379,11 @@ const OperationCardIssueButton = ({
             if (callSaveAPI?.status === 200) {
               operationCardDetail();
               handleClose();
+              if (callSaveAPI?.data?.message?.msg === 'success') {
+                toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+              } else {
+                toast.error(callSaveAPI?.data?.message?.error);
+              }
             } else {
               handleClose();
               const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
@@ -393,6 +433,12 @@ const OperationCardIssueButton = ({
   const handleClose = () => {
     setEmptyFieldsErr(false);
     setShow(false);
+<<<<<<< HEAD
+=======
+    // in order to remove selected checkbox of customer and bunch sales order table in modal
+    setSelectedSalesOrderData([]); // Reset selected items
+    setSelectedCustomer(''); // Reset customer as well
+>>>>>>> 31c192b88a7518ddcabac1d486d84dc34c1b549c
     setMachineSizeBasedOnDesignValue([]);
   };
   const handleShow = (value: any, add_melting_plan_reference_details: any) => {
@@ -654,6 +700,10 @@ const OperationCardIssueButton = ({
                           handleDropDownValuesChange={handleDropDownValuesChange}
                           getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
                           getOperationCardProductCategory={getOperationCardProductCategory}
+<<<<<<< HEAD
+=======
+                          // getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
+>>>>>>> 31c192b88a7518ddcabac1d486d84dc34c1b549c
                           handleSubmit={handleSubmit}
                           label={val?.label}
                           initialValue={
