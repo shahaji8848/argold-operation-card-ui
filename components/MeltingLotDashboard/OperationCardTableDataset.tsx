@@ -12,20 +12,18 @@ const OperationCardTableDataset = () => {
     <div className="card py-2 px-2">
       {meltingLotList?.data && meltingLotList?.data.length > 0 ? (
         meltingLotList?.data?.map((meltingData: any, idx: any) => {
-          'Rendering:', meltingData; // Debugging line
           // const productType: string[] = meltingLotList?.data?.map((productData: any, index: number) => productData?.product);
-          // ('productType', productType);
+
           // const columns = meltingLotList?.columns || [];
           // const productColumns = columns[productType] || []; // Adjust to use correct productType
-          // ('productColumns', productColumns);
+
           // Extract the product type for the current item
           const productType: any = meltingData?.product; // Assuming productType is a single string
-          'productType', productType;
 
           // Access columns based on the productType
           const columns: any = meltingLotList?.columns || {};
           const productColumns = columns[productType] || []; // Adjust to use correct productType
-          'productColumns', productColumns;
+
           return (
             <div key={idx} className="mb-2">
               <div className="d-flex justify-content-between">
