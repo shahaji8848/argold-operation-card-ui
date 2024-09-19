@@ -211,7 +211,7 @@ const OperationCardIssueButton = ({
 
       try {
         // const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-        // console.log('', callSaveAPI);
+        // ('', callSaveAPI);
         // if (callSaveAPI?.status === 200) {
         //   operationCardDetail();
         //   handleClose();
