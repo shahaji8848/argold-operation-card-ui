@@ -5,6 +5,7 @@ import POSTModalData from '@/services/api/operation-card-detail-page/modal-save'
 import AutoCompleteField from '../OperationCardIssue/AutoCompleteField';
 import { get_access_token } from '@/store/slice/login-slice';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 interface IModalFields {
   show_in_weight: number;
   set_in_weight: number;
@@ -68,10 +69,7 @@ const OperationCardReciptButton = ({
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
 
-  const handleDropDownValuesChange = (
-    labelValue: string,
-    selectedValue: any
-  ) => {
+  const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
     // console.log('k', labelValue, selectedValue);
     setModalDropdownFields({
       ...modalDropdownFields,
@@ -89,25 +87,21 @@ const OperationCardReciptButton = ({
       item: itemName,
     };
     try {
-      const callSaveAPI: any = await POSTModalData(
-        'receipt',
-        decodeURI(splitValue[1]),
-        mergedObjs,
-        token
-      );
+      const callSaveAPI: any = await POSTModalData('receipt', decodeURI(splitValue[1]), mergedObjs, token);
       if (callSaveAPI?.status === 200) {
         operationCardDetail();
         handleClose();
+        if (callSaveAPI?.data?.message?.msg === 'success') {
+          toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+        } else {
+          toast.error(callSaveAPI?.data?.message?.error);
+        }
       } else {
         handleClose();
-        const parsedObject = JSON.parse(
-          callSaveAPI?.response?.data?._server_messages
-        );
+        const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
 
         // Access the "message" property
-        const messageValue = parsedObject[0]
-          ? JSON.parse(parsedObject[0]).message
-          : null;
+        const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
         setErrMessage(messageValue);
         setShowToastErr(true);
       }
@@ -149,24 +143,22 @@ const OperationCardReciptButton = ({
           <div className="row btn_wrapper_end">
             <div className={`col-md-12 text-end ${styles.btn_wrapper_mob}`}>
               {operationCardProductDept?.receipt_items?.length > 0 &&
-                operationCardProductDept?.receipt_items.map(
-                  (val: any, i: any) => {
-                    return (
-                      <>
-                        {val?.item !== 'Chain' && (
-                          <button
-                            type="button"
-                            className={`btn btn-blue btn-py  mt-1 px-3 ms-2 `}
-                            onClick={() => handleShow(val.item)}
-                            key={i}
-                          >
-                            {val?.item}
-                          </button>
-                        )}
-                      </>
-                    );
-                  }
-                )}
+                operationCardProductDept?.receipt_items.map((val: any, i: any) => {
+                  return (
+                    <>
+                      {val?.item !== 'Chain' && (
+                        <button
+                          type="button"
+                          className={`btn btn-blue btn-py  mt-1 px-3 ms-2 `}
+                          onClick={() => handleShow(val.item)}
+                          key={i}
+                        >
+                          {val?.item}
+                        </button>
+                      )}
+                    </>
+                  );
+                })}
             </div>
           </div>
         </div>
@@ -185,9 +177,7 @@ const OperationCardReciptButton = ({
               getValues?.map((val: any, i: any) => {
                 let propToPass: any;
                 let funcData: any;
-                const setKey: any = `set_${val.label
-                  .toLowerCase()
-                  .replace(' ', '_')}`;
+                const setKey: any = `set_${val.label.toLowerCase().replace(' ', '_')}`;
 
                 const handleField = (val: any) => {
                   const propMappings: any = {
@@ -199,8 +189,7 @@ const OperationCardReciptButton = ({
                     next_karigar: operationCardNextKarigar,
                     design_code_category: operationCardDesignCodeCategory,
                     next_product_process: operationCardNextProductProcess,
-                    next_product_process_department:
-                      operationCardNextProductProcessDepartment,
+                    next_product_process_department: operationCardNextProductProcessDepartment,
                   };
                   propToPass = propMappings[val];
                   return propToPass;
@@ -216,25 +205,14 @@ const OperationCardReciptButton = ({
                         >
                           {val?.label
                             ?.split('_')
-                            ?.filter(
-                              (val: any) =>
-                                val !== 'set' &&
-                                val !== 'readonly' &&
-                                val !== 'show'
-                            )
-                            ?.map((val: any, index: any) =>
-                              index === 0
-                                ? val.charAt(0).toUpperCase() + val.slice(1)
-                                : val
-                            )
+                            ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                            ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
                             .join(' ')}
                         </label>
                         <AutoCompleteField
                           listOfDropdownObjs={funcData}
                           modalDropdownFieldsProp={modalDropdownFields}
-                          handleDropDownValuesChange={
-                            handleDropDownValuesChange
-                          }
+                          handleDropDownValuesChange={handleDropDownValuesChange}
                           label={val?.label}
                         />
                       </>
@@ -246,22 +224,11 @@ const OperationCardReciptButton = ({
                         >
                           {val?.label
                             ?.split('_')
-                            ?.filter(
-                              (val: any) =>
-                                val !== 'set' &&
-                                val !== 'readonly' &&
-                                val !== 'show'
-                            )
-                            ?.map((val: any, index: any) =>
-                              index === 0
-                                ? val.charAt(0).toUpperCase() + val.slice(1)
-                                : val
-                            )
+                            ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                            ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
                             .join(' ')}
                         </label>
-                        <div
-                          className={`col-sm-10 text-left ${styles.inputFlex} `}
-                        >
+                        <div className={`col-sm-10 text-left ${styles.inputFlex} `}>
                           <input
                             type="text"
                             className="form-control inputFields dark-blue"

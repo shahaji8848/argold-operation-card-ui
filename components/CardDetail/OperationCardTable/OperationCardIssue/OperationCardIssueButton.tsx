@@ -289,12 +289,18 @@ const OperationCardIssueButton = ({
 
             console.log('Data to be sent in POST API:', transformedDataList);
             const callSalesOrderAPI: any = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+
             if (callSalesOrderAPI?.status === 200) {
               const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-              console.log('api', callSaveAPI);
+
               if (callSaveAPI?.status === 200) {
                 operationCardDetail();
                 handleClose();
+                if (callSaveAPI?.data?.message?.msg === 'success') {
+                  toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+                } else {
+                  toast.error(callSaveAPI?.data?.message?.error);
+                }
               } else {
                 handleClose();
                 const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
@@ -355,10 +361,15 @@ const OperationCardIssueButton = ({
             );
             if (callSalesOrderAPI?.status === 200) {
               const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-              console.log('api', callSaveAPI);
+
               if (callSaveAPI?.status === 200) {
                 operationCardDetail();
                 handleClose();
+                if (callSaveAPI?.data?.message?.msg === 'success') {
+                  toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+                } else {
+                  toast.error(callSaveAPI?.data?.message?.error);
+                }
               } else {
                 handleClose();
                 const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
@@ -370,10 +381,15 @@ const OperationCardIssueButton = ({
           } else {
             console.log('hello');
             const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-            console.log('callSaveAPI', callSaveAPI);
+
             if (callSaveAPI?.status === 200) {
               operationCardDetail();
               handleClose();
+              if (callSaveAPI?.data?.message?.msg === 'success') {
+                toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+              } else {
+                toast.error(callSaveAPI?.data?.message?.error);
+              }
             } else {
               handleClose();
               const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
