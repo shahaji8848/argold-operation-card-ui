@@ -13,13 +13,9 @@ import MPReferenceModal from './MPReferenceModal';
 import POSTOperationCardSave from '@/services/api/operation-card-detail-page/operation-card-save';
 import UpdateSalesOrderAPI from '@/services/api/operation-card-detail-page/update-sales-order-api';
 import UpdateSalesOrderWithBooleanValueAPI from '@/services/api/operation-card-detail-page/update-sales-order-with-boolen-value';
-<<<<<<< HEAD
-import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
-=======
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 import { toast } from 'react-toastify';
->>>>>>> 31c192b88a7518ddcabac1d486d84dc34c1b549c
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -433,12 +429,9 @@ const OperationCardIssueButton = ({
   const handleClose = () => {
     setEmptyFieldsErr(false);
     setShow(false);
-<<<<<<< HEAD
-=======
     // in order to remove selected checkbox of customer and bunch sales order table in modal
     setSelectedSalesOrderData([]); // Reset selected items
     setSelectedCustomer(''); // Reset customer as well
->>>>>>> 31c192b88a7518ddcabac1d486d84dc34c1b549c
     setMachineSizeBasedOnDesignValue([]);
   };
   const handleShow = (value: any, add_melting_plan_reference_details: any) => {
@@ -700,10 +693,7 @@ const OperationCardIssueButton = ({
                           handleDropDownValuesChange={handleDropDownValuesChange}
                           getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
                           getOperationCardProductCategory={getOperationCardProductCategory}
-<<<<<<< HEAD
-=======
                           // getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
->>>>>>> 31c192b88a7518ddcabac1d486d84dc34c1b549c
                           handleSubmit={handleSubmit}
                           label={val?.label}
                           initialValue={
