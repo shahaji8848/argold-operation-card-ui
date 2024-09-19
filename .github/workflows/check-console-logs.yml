@@ -1,4 +1,4 @@
-name: Check for console.log
+name: Check for
 
 on:
   pull_request:
@@ -18,12 +18,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18" # Updated to Node.js version 18
+          node-version: '18' # Updated to Node.js version 18
 
       - name: Install dependencies
         run: npm install
 
-      - name: Check for console.log
+      - name: Check for
         run: |
           git fetch origin ${{ github.event.pull_request.base.ref }}
           changes=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.sha }})
@@ -31,9 +31,9 @@ jobs:
           # Print all file names
           echo "$changes" | while read -r file; do
             echo "Changed file: $file"
-            # Check for console.log in the file
-            if grep -w "console.log" $file; then
-              echo "Found console.log in $file"
+            # Check for 
+            if grep -w "
+              echo "Found 
               check=true
               if [[ "$check" = true ]]; then
                 echo "Error: Console.log found. Failing the run."

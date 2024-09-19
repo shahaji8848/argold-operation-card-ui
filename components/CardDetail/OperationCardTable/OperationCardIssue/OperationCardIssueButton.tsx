@@ -111,8 +111,8 @@ const OperationCardIssueButton = ({
   };
   const { validateInWeight } = useOperationDetailCard();
   const handleModalFieldsChange = (e: any) => {
-    // console.log('merged e.target.value', e.target.name, e.target.checked);
-    console.log('merged e.target.value', e.target.name);
+    //
+
     const { name, value, checked } = e.target;
     if (name === 'hold_order_details') {
       setModalFieldValuesState({
@@ -146,7 +146,6 @@ const OperationCardIssueButton = ({
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
   // const { getMachineSizeBasedOnDesignValueAPICall }: any = useOperationDetailCard();
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
-    console.log('select dropdown values', labelValue, selectedValue);
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
       setModalDropdownFields({
         ...modalDropdownFields,
@@ -166,13 +165,12 @@ const OperationCardIssueButton = ({
 
     if (labelValue === 'next_design') {
       getMachineSizeBasedOnDesignValueAPICall(selectedValue?.name);
-      console.log('select dropdown value', selectedValue?.name);
     }
   };
-  console.log('machineSizeBasedOnDesignValue', machineSizeBasedOnDesignValue);
+
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
     const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
-    console.log('machinesizeAPI', fetchMachineSizeBasedOnDesignValue);
+
     if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
       setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
     } else {
@@ -180,10 +178,9 @@ const OperationCardIssueButton = ({
     }
   };
 
-  console.log('modal updated data', getValues);
   const { selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any = useOperationDetailCard();
-  // console.log('operationCardDetailData', operationCardDetailData?.operation_card_order_details?.map((ele: any) => ele.soisd_item));
-  // console.log('selectedSalesOrderData', selectedSalesOrderData?.map((ele: any) => ele.qty_size_list?.map((eleItem: any) => eleItem.soisd_item)));
+  //
+  //
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
@@ -202,7 +199,7 @@ const OperationCardIssueButton = ({
       ...(selectedSalesOrderData?.length > 0 && { order_detail: updateSalesTableData }),
       ...(modalFieldValuesState.hasOwnProperty('customer') && { customer: selectedCustomer }), // Conditionally include 'customer'
     };
-    console.log('mergedObjs data from modal to post', mergedObjs);
+
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
 
     // await postSaveDesignInOP();
@@ -229,9 +226,6 @@ const OperationCardIssueButton = ({
           // setShowToastErr(true);
           setDisableSubmitBtn(true);
         } else {
-          console.log('mergedObjs data from modal to post', mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch');
-          console.log('mergedObjs data from modal to post', mergedObjs?.item === 'Bunch');
-
           if (
             operationCardDetailData?.operation_card_order_details?.length === 0 &&
             (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch')
@@ -239,11 +233,10 @@ const OperationCardIssueButton = ({
             let transformedDataList: any[] = [];
             // Filter the salesOrderList to include only selected orders
 
-            console.log('selectedSalesOrderData', selectedSalesOrderData);
             const filteredSalesOrderList = salesOrderList?.filter((order: any) =>
               selectedSalesOrderData.some((selectedOrder: any) => selectedOrder?.order_id === order?.order_id)
             );
-            console.log('filteredSalesOrderList', filteredSalesOrderList);
+
             filteredSalesOrderList?.forEach((order: any) => {
               if (order.qty_size_list && order.qty_size_list.length > 0) {
                 order.qty_size_list.forEach((qtyItem: any) => {
@@ -267,11 +260,10 @@ const OperationCardIssueButton = ({
               }
             });
 
-            console.log('Data to be sent in POST API:', transformedDataList);
             const callSalesOrderAPI: any = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
             if (callSalesOrderAPI?.status === 200) {
               const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-              console.log('api', callSaveAPI);
+
               if (callSaveAPI?.status === 200) {
                 operationCardDetail();
                 handleClose();
@@ -291,13 +283,13 @@ const OperationCardIssueButton = ({
             // Extract all `soisd_item` from operationCardDetailData
             const operationCardSoisdItems =
               operationCardDetailData?.operation_card_order_details?.map((ele: any) => ele?.soisd_item) || [];
-            console.log('operationCardSoisdItems', operationCardSoisdItems);
+
             // Filter the salesOrderList to include only selected orders
-            console.log('selectedSalesOrderData', selectedSalesOrderData);
+
             const filteredSalesOrderList = salesOrderList?.filter((order: any) =>
               selectedSalesOrderData.some((selectedOrder: any) => selectedOrder?.order_id === order?.order_id)
             );
-            console.log('filteredSalesOrderList', filteredSalesOrderList);
+
             filteredSalesOrderList?.forEach((order: any) => {
               if (order.qty_size_list && order.qty_size_list.length > 0) {
                 order.qty_size_list.forEach((qtyItem: any) => {
@@ -324,7 +316,6 @@ const OperationCardIssueButton = ({
               }
             });
 
-            console.log('Data to be sent in POST API:', transformedDataList);
             const update_orders: boolean = true;
             // Call the API only with unmatched `soisd_item` values
             const callSalesOrderAPI: any = await UpdateSalesOrderWithBooleanValueAPI(
@@ -335,7 +326,7 @@ const OperationCardIssueButton = ({
             );
             if (callSalesOrderAPI?.status === 200) {
               const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-              console.log('api', callSaveAPI);
+
               if (callSaveAPI?.status === 200) {
                 operationCardDetail();
                 handleClose();
@@ -348,9 +339,8 @@ const OperationCardIssueButton = ({
               }
             }
           } else {
-            console.log('hello');
             const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-            console.log('callSaveAPI', callSaveAPI);
+
             if (callSaveAPI?.status === 200) {
               operationCardDetail();
               handleClose();
@@ -364,7 +354,7 @@ const OperationCardIssueButton = ({
           }
         }
         // await getValidationForDesign();
-        // console.log('validity for design', validityForDesign);
+        //
         // // Check if the validityForDesign message is the specific message
         // if (validityForDesign === 'Please Fill Design in the Melting Plan.') {
         // setErrMessage(validityForDesign);
@@ -375,9 +365,9 @@ const OperationCardIssueButton = ({
         // }
 
         // if (validityForDesign !== 'Please Fill Design in the Melting Plan.') {
-        //   console.log('validity for design else', validityForDesign);
+        //
         // const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-        // console.log('api', callSaveAPI);
+        //
         // if (callSaveAPI?.status === 200) {
         //   operationCardDetail();
         //   handleClose();
@@ -416,7 +406,7 @@ const OperationCardIssueButton = ({
     // Find a specific item object in operationCardDetailData, with specific logic for "hook"
     const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => {
       // Check if the value is "hook"
-      console.log('value', value);
+
       if (value === 'Hook') {
         // If value is "hook", check if the item starts with "Hook"
         return issueItem?.item?.startsWith('Hook');
@@ -425,7 +415,7 @@ const OperationCardIssueButton = ({
         return issueItem?.item === value;
       }
     });
-    console.log('getSelectedItemObj', getSelectedItemObj);
+
     // const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find(
     //   (issueItem: any) => issueItem?.item === value
     // );
@@ -448,7 +438,6 @@ const OperationCardIssueButton = ({
     const setKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('set'));
 
     const resultArray = groupByKeyWords(showKeys, setKeys);
-    console.log('resultArray', resultArray);
 
     function groupByKeyWords(showKeys: any, setKeys: any) {
       const groupedKeys: any = {};
@@ -465,7 +454,6 @@ const OperationCardIssueButton = ({
 
       return Object.values(groupedKeys);
     }
-    console.log('result array', resultArray);
 
     let filterArray: any[];
     let storeNonZeroSetAndShow: any;
@@ -485,8 +473,6 @@ const OperationCardIssueButton = ({
 
       return hasNonZeroShow || hasNonZeroSet;
     });
-
-    console.log('modal filterArray zero set show', storeNonZeroSetAndShow);
 
     filterArray = filterArray.map((obj) => {
       const updatedObj: any = { ...obj }; // Create a copy of the original object
@@ -528,7 +514,6 @@ const OperationCardIssueButton = ({
 
     filterArray.forEach((item: any) => {
       const label = item?.label;
-      console.log('item', item);
 
       if (!checkArray?.includes(label)) {
         if (value === 'Unrecoverable Loss' && isBalanceWeightSetAsInWeight && label === 'in_weight') {
@@ -569,7 +554,6 @@ const OperationCardIssueButton = ({
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
   // Log the filtered bunch orders with items
-  console.log('singleOrdersWithItems', singleOrdersWithItems);
 
   const bunchOrdersWithItems = salesOrderList
     .map((order: any) => ({
@@ -579,7 +563,6 @@ const OperationCardIssueButton = ({
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
   // Log the filtered bunch orders with items
-  console.log('bunchOrdersWithItems', bunchOrdersWithItems);
 
   return (
     <div>
@@ -615,7 +598,6 @@ const OperationCardIssueButton = ({
           <div className="row">
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
-                console.log('val label', val);
                 let propToPass: any;
 
                 setKey =
@@ -651,7 +633,6 @@ const OperationCardIssueButton = ({
                 };
                 funcData = handleField(val?.label);
                 {
-                  console.log('machineSizeBasedOnDesignValue', machineSizeBasedOnDesignValue?.name);
                 }
                 return (
                   <div className="col-md-4 " key={i}>

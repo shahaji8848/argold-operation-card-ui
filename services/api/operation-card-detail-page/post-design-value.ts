@@ -19,7 +19,6 @@ const POSTDesignValue = async (operation_card_number: any, design: any, token: a
   await axios
     .put(`${CONSTANTS.API_BASE_URL}/api/resource/Operation Card/${operation_card_number}`, formData, config)
     .then((res: any) => {
-      console.log('post purchase receipt', res);
       response = res;
     })
     .catch((err: any) => {

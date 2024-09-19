@@ -21,7 +21,7 @@ const useReportLossDetail = () => {
     const factory: any = url.searchParams.get('factory');
     const hrefValue = window.location.href;
     const splitVal = hrefValue.split('=');
-    console.log('search + split', splitVal[1]);
+
     const fetchReportLossDetailData: any = await GETOperationCardReportLossDetail(
       token,
       department_group,
@@ -29,7 +29,7 @@ const useReportLossDetail = () => {
       loss_period,
       factory
     );
-    console.log('fetchReportLossDetailData', fetchReportLossDetailData);
+
     if (fetchReportLossDetailData?.status === 200) {
       setreportLossDetailData(fetchReportLossDetailData?.data?.message);
     } else {

@@ -2,19 +2,16 @@ import Link from 'next/link';
 import React from 'react';
 
 const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
-  console.log(operationCardDetailData, 'operationCardDetailData');
   const hasOPkey = (val: any) => {
     return val.hasOwnProperty('operation_card');
   };
 
   const renderTableCell = (data: any, key: any) => {
     const value = data?.hasOwnProperty(key) ? data[key] : '--';
-    console.log('0018', value);
+
     return (
       <td className="text-end">
-        {value === 0 || value === '' || value === null || value === '--'
-          ? '--'
-          : Number.parseFloat(value).toFixed(3)}
+        {value === 0 || value === '' || value === null || value === '--' ? '--' : Number.parseFloat(value).toFixed(3)}
       </td>
     );
   };
@@ -27,7 +24,6 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
           if (column === 'old_operation_card' || column === 'karigar') {
             return 0;
           } else {
-            console.log('item column', item[column]);
             if (item[column] === undefined) {
               return 0;
             } else {
@@ -66,61 +62,30 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
         </thead>
         <tbody>
           {operationCardDetailData?.operation_card_issue_details?.length > 0 &&
-            operationCardDetailData?.operation_card_issue_details?.map(
-              (data: any, i: any) => (
-                <tr className="table-text" key={i}>
-                  <td>{data.item}</td>
-                  <td className="text-end">
-                    {data?.in_weight === 0 ? '--' : data?.in_weight?.toFixed(3)}
-                  </td>
-                  <td className="text-end">
-                    {data?.in_gross_purity === 0
-                      ? '--'
-                      : data?.in_gross_purity?.toFixed(3)}
-                  </td>
-                  <td className="text-end">
-                    {data?.in_gross_weight === 0
-                      ? '--'
-                      : data?.in_gross_weight?.toFixed(3)}
-                  </td>
-                  <td className="text-end">
-                    {data?.in_fine_purity === 0
-                      ? '--'
-                      : data?.in_fine_purity?.toFixed(3)}
-                  </td>
-                  <td className="text-end">
-                    {data?.in_fine_weight === 0
-                      ? '--'
-                      : data?.in_fine_weight?.toFixed(3)}
-                  </td>
-                  <td className="text-end">
-                    {data?.tounch_no === 0 ? '--' : data?.tounch_no}
-                  </td>
-                  <td className="text-end">
-                    {data?.fire_tounch_no === 0 ? '--' : data?.fire_tounch_no}
-                  </td>
-                  <td className="text-end">
-                    {data?.machine_size === 0 ? '--' : data?.machine_size}
-                  </td>
-                  <td className="text-end">
-                    {data?.line_number === 0 ? '--' : data?.line_number}
-                  </td>
-                  <td className="text-end">{data?.karigar ?? '--'}</td>
-                  <td className="text-end">
-                    {hasOPkey(data) ? (
-                      <Link
-                        href={`/operation-card-detail?name=${data?.operation_card}`}
-                        target="_blank"
-                      >
-                        {data?.operation_card?.split('-').pop()}
-                      </Link>
-                    ) : (
-                      '--'
-                    )}
-                  </td>
-                </tr>
-              )
-            )}
+            operationCardDetailData?.operation_card_issue_details?.map((data: any, i: any) => (
+              <tr className="table-text" key={i}>
+                <td>{data.item}</td>
+                <td className="text-end">{data?.in_weight === 0 ? '--' : data?.in_weight?.toFixed(3)}</td>
+                <td className="text-end">{data?.in_gross_purity === 0 ? '--' : data?.in_gross_purity?.toFixed(3)}</td>
+                <td className="text-end">{data?.in_gross_weight === 0 ? '--' : data?.in_gross_weight?.toFixed(3)}</td>
+                <td className="text-end">{data?.in_fine_purity === 0 ? '--' : data?.in_fine_purity?.toFixed(3)}</td>
+                <td className="text-end">{data?.in_fine_weight === 0 ? '--' : data?.in_fine_weight?.toFixed(3)}</td>
+                <td className="text-end">{data?.tounch_no === 0 ? '--' : data?.tounch_no}</td>
+                <td className="text-end">{data?.fire_tounch_no === 0 ? '--' : data?.fire_tounch_no}</td>
+                <td className="text-end">{data?.machine_size === 0 ? '--' : data?.machine_size}</td>
+                <td className="text-end">{data?.line_number === 0 ? '--' : data?.line_number}</td>
+                <td className="text-end">{data?.karigar ?? '--'}</td>
+                <td className="text-end">
+                  {hasOPkey(data) ? (
+                    <Link href={`/operation-card-detail?name=${data?.operation_card}`} target="_blank">
+                      {data?.operation_card?.split('-').pop()}
+                    </Link>
+                  ) : (
+                    '--'
+                  )}
+                </td>
+              </tr>
+            ))}
           <tr className="table-text">
             <td className="font-weight-bold ">Total</td>
             {[

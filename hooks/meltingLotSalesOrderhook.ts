@@ -138,9 +138,7 @@ const useMeltingLotSalesOrder = () => {
       // Iterate over item group data in the current order
       order?.item_group_data?.forEach((itemGroupData: any) => {
         // Check if the current item group is selected
-        console.log('selectedOrders', selectedOrders);
-        console.log('selectedOrders', itemGroupData?.unique_key);
-        console.log('selectedOrders', selectedOrders[itemGroupData?.unique_key]);
+
         if (selectedOrders[itemGroupData?.unique_key]) {
           // Iterate over market design name values in the current item group
           itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
@@ -182,9 +180,6 @@ const useMeltingLotSalesOrder = () => {
       // Iterate over item group data in the current order
       order?.item_group_data?.forEach((itemGroupData: any) => {
         // Check if the current item group is selected
-        console.log('selectedOrders', selectedOrders);
-        console.log('itemGroupData unique_key', itemGroupData?.unique_key);
-        console.log('selectedOrders[itemGroupData.unique_key]', selectedOrders[itemGroupData?.unique_key]);
 
         if (selectedOrders[itemGroupData?.unique_key]) {
           // Iterate over market design name values in the current item group
@@ -285,7 +280,6 @@ const useMeltingLotSalesOrder = () => {
     });
 
     // Debugging: Check the transformed data list
-    console.log('transformedDataList', transformedDataList);
 
     // Make the API call
     try {

@@ -8,11 +8,9 @@ const LossReportDetailTable = ({
   getFactoryValueFromURL,
   getFinancialYearValueFromURL,
 }: any) => {
-  console.log('component reportLossDetailData', reportLossDetailData);
   const hrefValue = new URL(window.location.href);
   const splitVal: any = hrefValue.searchParams.get('department_group');
   const decodedUrl = decodeURI(splitVal);
-  console.log('search ', decodedUrl);
 
   const router = useRouter();
   const redirectToReportList = () => {
@@ -22,12 +20,12 @@ const LossReportDetailTable = ({
     // per kg loss
     if (column === 'per_kg_loss') {
       const totalfineLoss = data.reduce((total: any, item: any) => total + item['fine_loss'], 0);
-      console.log('totalfineLoss', totalfineLoss);
+
       const totalOutWeight = data.reduce((total: any, item: any) => total + item['total_out_weight'], 0);
-      console.log('totalOutWeight', totalOutWeight);
+
       if (totalfineLoss !== 0 && totalOutWeight !== 0) {
         const totalPerKgLoss = (totalfineLoss / totalOutWeight) * 1000;
-        console.log('totalPerKgLoss', totalPerKgLoss);
+
         if (totalPerKgLoss !== 0 && (totalPerKgLoss < -0.001 || totalPerKgLoss > 0.001)) {
           return totalPerKgLoss.toFixed(3);
         }
@@ -39,11 +37,11 @@ const LossReportDetailTable = ({
     // per kg loss after recovery
     if (column === 'per_kg_loss_after_recovery') {
       const totalfineLoss = data.reduce((total: any, item: any) => total + item['fine_loss'], 0);
-      console.log('totalfineLoss', totalfineLoss);
+
       const totalOutWeight = data.reduce((total: any, item: any) => total + item['total_out_weight'], 0);
-      console.log('totalOutWeight', totalOutWeight);
+
       const totalRecoveredLoss = data.reduce((total: any, item: any) => total + item['recovered_loss'], 0);
-      console.log('totalRecoveredLoss', totalRecoveredLoss);
+
       const diff = totalfineLoss - totalRecoveredLoss;
       if (diff !== 0 && totalOutWeight !== 0) {
         const totalkglossrecored = (diff / totalOutWeight) * 1000;

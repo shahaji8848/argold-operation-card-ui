@@ -2,7 +2,6 @@ import { CONSTANTS } from '@/services/config/api-config';
 import Link from 'next/link';
 
 const OCIssueReferenceTable = ({ issueReferenceTable }: any) => {
-  console.log('issueReference', issueReferenceTable);
   const doctypesName: any = {
     'Refining Process': 'refining-process',
     'Melting Lot': 'melting-lot',
@@ -35,9 +34,7 @@ const OCIssueReferenceTable = ({ issueReferenceTable }: any) => {
                       <td>{data.doctype}</td>
                       <td className="text-end">
                         <Link
-                          href={`${CONSTANTS.API_BASE_URL}app/${
-                            doctypesName[data?.doctype]
-                          }/${data?.docname}`}
+                          href={`${CONSTANTS.API_BASE_URL}app/${doctypesName[data?.doctype]}/${data?.docname}`}
                           target="_blank"
                         >
                           {data?.docname}

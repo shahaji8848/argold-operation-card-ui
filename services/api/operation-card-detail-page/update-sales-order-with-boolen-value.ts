@@ -23,7 +23,6 @@ const UpdateSalesOrderWithBooleanValueAPI = async (data_list: any, doc_name: any
       config
     )
     .then((res: any) => {
-      console.log('post purchase receipt', res);
       response = res;
     })
     .catch((err: any) => {

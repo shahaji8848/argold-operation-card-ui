@@ -11,8 +11,6 @@ const OperationCardSellsOrder = ({
 
   operationCardProductDept,
 }: any) => {
-  console.log('sellsOrderData from component', sellsOrderData);
-  console.log(' operationCardDetailData?.operation_card_order_details', operationCardDetailData?.operation_card_order_details);
   const [showTable, setShowTable] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [isHeaderCheckboxChecked, setIsHeaderCheckboxChecked] = useState(false);
@@ -146,7 +144,6 @@ const OperationCardSellsOrder = ({
   //   }
   // }, []);
 
-  console.log('operationCardDetailDataValues', operationCardProductDept?.show_get_orders);
   return (
     <div>
       <h6 className="bold">Operation Card Order Details</h6>

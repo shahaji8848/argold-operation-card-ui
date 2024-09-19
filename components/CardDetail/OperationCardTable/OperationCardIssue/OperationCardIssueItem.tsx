@@ -12,7 +12,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
 
   const renderTableCell = (data: any, key: any) => {
     const value = data?.hasOwnProperty(key) ? data[key] : '--';
-    console.log('0018', value);
+
     return (
       <td className="text-end">
         {value === 0 || value === '' || value === null || value === '--' ? '--' : Number.parseFloat(value).toFixed(3)}
@@ -33,7 +33,6 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
   ];
 
   const redirectToNextOC = (oc_id: string) => {
-    console.log('oc id', oc_id);
     router.push(`/operation-card-detail?name=${oc_id}`);
   };
 
@@ -62,7 +61,6 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
       } else {
         return operationCardDetailData?.operation_card_issue_details
           ?.reduce((total: any, item: any) => {
-            console.log('item column', item[column]);
             if (item[column] === undefined) {
               return 0;
             } else {

@@ -125,7 +125,6 @@ function SalesOrderTable({
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
   // Log the filtered bunch orders with items
-  console.log('singleOrdersWithItems', singleOrdersWithItems);
 
   const bunchOrdersWithItems = salesOrderList
     .map((order: any) => ({
@@ -167,8 +166,6 @@ function SalesOrderTable({
   const [showError, setShowError] = useState(false);
 
   const handleChangesInReadyQty: any = (key: any, userEnteredValue: string, order_id: string) => {
-    console.log('User entered:', key, userEnteredValue, order_id);
-
     // Convert the entered value to a string
     const userValueStr = userEnteredValue.toString();
 

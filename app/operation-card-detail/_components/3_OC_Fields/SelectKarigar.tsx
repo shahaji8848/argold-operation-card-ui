@@ -9,16 +9,14 @@ const OCFieldsData = ({
   operationCardKarigarQuantitySettings,
   handleHeaderSave,
 }: any) => {
-  const [operationCardFieldVal, setOperationCardFieldVal] = useState([
-    operationCardDetailData,
-  ]);
+  const [operationCardFieldVal, setOperationCardFieldVal] = useState([operationCardDetailData]);
   const operationCardFields: any = Object?.entries(operationCardProductDept)
     .filter(([key, value]) => key.includes('show') && value === 1)
     .map(([key, value]) => key.replace('show_', ''));
 
-  const operationCardFieldValue = Object.entries(
-    operationCardDetailData
-  ).filter(([key, value]) => operationCardFields.includes(key));
+  const operationCardFieldValue = Object.entries(operationCardDetailData).filter(([key, value]) =>
+    operationCardFields.includes(key)
+  );
 
   const operationCardDetailDataKarigar = operationCardDetailData?.karigar ?? '';
   const {
@@ -32,11 +30,6 @@ const OCFieldsData = ({
     filteredSuggestionsAutoComplete,
     handleSuggestionClickAutoComplete,
   } = useKarigarList(operationCardKarigar, operationCardDetailDataKarigar);
-
-  console.log(
-    'operationCardKarigarQuantitySettings',
-    operationCardKarigarQuantitySettings
-  );
 
   return (
     <div className={`row text-center  py-2 mx-2 gap-3`}>
@@ -62,41 +55,38 @@ const OCFieldsData = ({
 
             {operationCardKarigarQuantitySettings?.set_karigar === 1 ? (
               <div>
-                {showSuggestionsAutoComplete &&
-                  filteredSuggestionsAutoComplete.length > 0 && (
-                    <div
-                      className="position-absolute w-100 scrollbar "
-                      style={{
-                        border: '1px solid #ccc',
-                        height: '150px',
-                        overflowY: 'auto',
-                        background: 'white',
-                        boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
-                        zIndex: '4',
-                      }}
-                    >
-                      {filteredSuggestionsAutoComplete?.map(
-                        (suggestion: any, index: number) => (
-                          <div
-                            key={index}
-                            onClick={() => {
-                              handleSuggestionClickAutoComplete(suggestion);
-                              handleHeaderSave('karigar', suggestion?.value);
-                            }}
-                            style={{
-                              cursor: 'pointer',
-                              padding: '7px',
-                              fontWeight: 'bold',
-                            }}
-                            className="fileredValue-hover force-overflow"
-                            id="style-2"
-                          >
-                            {suggestion?.value}
-                          </div>
-                        )
-                      )}
-                    </div>
-                  )}
+                {showSuggestionsAutoComplete && filteredSuggestionsAutoComplete.length > 0 && (
+                  <div
+                    className="position-absolute w-100 scrollbar "
+                    style={{
+                      border: '1px solid #ccc',
+                      height: '150px',
+                      overflowY: 'auto',
+                      background: 'white',
+                      boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;',
+                      zIndex: '4',
+                    }}
+                  >
+                    {filteredSuggestionsAutoComplete?.map((suggestion: any, index: number) => (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          handleSuggestionClickAutoComplete(suggestion);
+                          handleHeaderSave('karigar', suggestion?.value);
+                        }}
+                        style={{
+                          cursor: 'pointer',
+                          padding: '7px',
+                          fontWeight: 'bold',
+                        }}
+                        className="fileredValue-hover force-overflow"
+                        id="style-2"
+                      >
+                        {suggestion?.value}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ) : null}
           </div>
@@ -113,14 +103,8 @@ const OCFieldsData = ({
                   className="form-control dark-blue operationCardinputFields"
                   id="inputText"
                   value={operationCardDetailData?.quantity}
-                  readOnly={
-                    operationCardKarigarQuantitySettings?.set_quantity !== 1
-                      ? true
-                      : false
-                  }
-                  onChange={(e: any) =>
-                    handleHeaderSave('quantity', e.target.value)
-                  }
+                  readOnly={operationCardKarigarQuantitySettings?.set_quantity !== 1 ? true : false}
+                  onChange={(e: any) => handleHeaderSave('quantity', e.target.value)}
                 />
               </div>
               {key !== 'karigar' && key !== 'quantity' ? (
@@ -130,9 +114,7 @@ const OCFieldsData = ({
                     {key
                       .split('_')
                       .map((val: any, index: any) => {
-                        return index === 0
-                          ? val.charAt(0).toUpperCase() + val.slice(1)
-                          : val;
+                        return index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val;
                       })
                       .join(' ')}
                   </div>

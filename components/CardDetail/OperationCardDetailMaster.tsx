@@ -70,7 +70,7 @@ const OperationCardDetailMaster = () => {
     handleSalesOrderHeaderCheckboxChange,
     handleSalesOrderDeleteSelectedItems,
   } = useOperationDetailCard();
-  console.log('operationCardNextProductProcessDepartment', operationCardDetailData);
+
   return (
     <div>
       {Object.keys(operationCardDetailData).length > 0 ? (

@@ -66,11 +66,7 @@ const OperationCardIssueButton = ({
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
 
-  const handleDropDownValuesChange = (
-    labelValue: string,
-    selectedValue: any
-  ) => {
-    console.log('dropdown values', labelValue, selectedValue);
+  const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
       setModalDropdownFields({
         ...modalDropdownFields,
@@ -85,28 +81,22 @@ const OperationCardIssueButton = ({
   };
 
   const handleSubmit = async () => {
-    console.log('modal list keys data fields', modalFieldValuesState);
-    console.log('modal list keys dropdown fields', modalDropdownFields);
     const mergedObjs = {
       ...modalFieldValuesState,
       ...modalDropdownFields,
       item: itemName,
     };
     const callSaveAPI: any = await POSTModalData(search, mergedObjs);
-    console.log('api', callSaveAPI);
+
     if (callSaveAPI?.status === 200) {
       operationCardDetail();
       handleClose();
     } else {
       handleClose();
-      const parsedObject = JSON.parse(
-        callSaveAPI?.response?.data?._server_messages
-      );
+      const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
 
       // Access the "message" property
-      const messageValue = parsedObject[0]
-        ? JSON.parse(parsedObject[0]).message
-        : null;
+      const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
       setErrMessage(messageValue);
       setShowToastErr(true);
     }
@@ -122,16 +112,10 @@ const OperationCardIssueButton = ({
   const handleShow = (value: any) => {
     setShow(true);
     setItemName(value);
-    const operationCardValue = operationCardProductDept?.issue_items?.filter(
-      (issueVal: any) => issueVal.item === value
-    );
+    const operationCardValue = operationCardProductDept?.issue_items?.filter((issueVal: any) => issueVal.item === value);
 
-    const showKeys = Object.keys(operationCardValue[0]).filter((key) =>
-      key.startsWith('show')
-    );
-    const setKeys = Object.keys(operationCardValue[0]).filter((key) =>
-      key.startsWith('set')
-    );
+    const showKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('show'));
+    const setKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('set'));
 
     const resultArray = groupByKeyWords(showKeys, setKeys);
 
@@ -154,13 +138,9 @@ const OperationCardIssueButton = ({
     let filterArray: any[];
 
     filterArray = resultArray?.filter((obj: any) => {
-      const hasNonZeroShow = Object.keys(obj).some(
-        (key) => key.startsWith('show') && obj[key] !== 0
-      );
+      const hasNonZeroShow = Object.keys(obj).some((key) => key.startsWith('show') && obj[key] !== 0);
 
-      const hasNonZeroSet = Object.keys(obj).some(
-        (key) => key.startsWith('set') && obj[key] !== 0
-      );
+      const hasNonZeroSet = Object.keys(obj).some((key) => key.startsWith('set') && obj[key] !== 0);
 
       return hasNonZeroShow || hasNonZeroSet;
     });
@@ -177,11 +157,7 @@ const OperationCardIssueButton = ({
       return updatedObj;
     });
 
-    console.log('modal filterArray', filterArray);
-
-    const index = filterArray?.findIndex(
-      (obj: any) => obj.label === 'in_weight'
-    );
+    const index = filterArray?.findIndex((obj: any) => obj.label === 'in_weight');
 
     // If 'in_weight' is found, move it to the front of the array
     if (index !== -1) {
@@ -191,18 +167,11 @@ const OperationCardIssueButton = ({
 
     setGetValues(filterArray);
 
-    const getOperationCardDetailDataValue =
-      operationCardDetailData?.operation_card_issue_details?.filter(
-        (issueVal: any) => issueVal.item === value
-      );
-    console.log(
-      'getOperationCardDetailDataValue',
-      getOperationCardDetailDataValue
+    const getOperationCardDetailDataValue = operationCardDetailData?.operation_card_issue_details?.filter(
+      (issueVal: any) => issueVal.item === value
     );
 
-    getOperationCardDetailNextKarigarFunc(
-      getOperationCardDetailDataValue[0]?.next_product_process_department
-    );
+    getOperationCardDetailNextKarigarFunc(getOperationCardDetailDataValue[0]?.next_product_process_department);
     getOperationCardDetailNextProductProcessAPICallFunc();
 
     getOperationCardDetailNextProductProcessDepartmentAPICallFunc();
@@ -235,8 +204,6 @@ const OperationCardIssueButton = ({
     setModalDropdownFields(alteredObjToCreateDropDownFields);
   };
 
-  console.log('modal design', operationCardDesignCodeCategory);
-
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
@@ -247,18 +214,16 @@ const OperationCardIssueButton = ({
           <div className=" row btn_wrapper_end">
             <div className={`col-md-12 text-end ${styles.btn_wrapper_mob}`}>
               {operationCardProductDept?.issue_items?.length > 0 &&
-                operationCardProductDept?.issue_items.map(
-                  (val: any, i: any) => (
-                    <button
-                      type="button"
-                      className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
-                      onClick={() => handleShow(val.item)}
-                      key={i}
-                    >
-                      {val?.item}
-                    </button>
-                  )
-                )}
+                operationCardProductDept?.issue_items.map((val: any, i: any) => (
+                  <button
+                    type="button"
+                    className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
+                    onClick={() => handleShow(val.item)}
+                    key={i}
+                  >
+                    {val?.item}
+                  </button>
+                ))}
             </div>
           </div>
         </div>
@@ -277,9 +242,7 @@ const OperationCardIssueButton = ({
               getValues?.map((val: any, i: any) => {
                 let propToPass: any;
                 let funcData: any;
-                const setKey: any = `set_${val.label
-                  .toLowerCase()
-                  .replace(' ', '_')}`;
+                const setKey: any = `set_${val.label.toLowerCase().replace(' ', '_')}`;
 
                 const handleField = (val: any) => {
                   const propMappings: any = {
@@ -293,8 +256,7 @@ const OperationCardIssueButton = ({
                     next_design_code_type: operationCardNextDesignCodeType,
                     design_code_category: operationCardDesignCodeCategory,
                     next_product_process: operationCardNextProductProcess,
-                    next_product_process_department:
-                      operationCardNextProductProcessDepartment,
+                    next_product_process_department: operationCardNextProductProcessDepartment,
                     next_product_category: operationCardNextProductCategory,
                   };
                   propToPass = propMappings[val];
@@ -311,25 +273,14 @@ const OperationCardIssueButton = ({
                         >
                           {val?.label
                             ?.split('_')
-                            ?.filter(
-                              (val: any) =>
-                                val !== 'set' &&
-                                val !== 'readonly' &&
-                                val !== 'show'
-                            )
-                            ?.map((val: any, index: any) =>
-                              index === 0
-                                ? val.charAt(0).toUpperCase() + val.slice(1)
-                                : val
-                            )
+                            ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                            ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
                             .join(' ')}
                         </label>
                         <AutoCompleteField
                           listOfDropdownObjs={funcData}
                           modalDropdownFieldsProp={modalDropdownFields}
-                          handleDropDownValuesChange={
-                            handleDropDownValuesChange
-                          }
+                          handleDropDownValuesChange={handleDropDownValuesChange}
                           label={val?.label}
                         />
                       </>
@@ -341,22 +292,11 @@ const OperationCardIssueButton = ({
                         >
                           {val?.label
                             ?.split('_')
-                            ?.filter(
-                              (val: any) =>
-                                val !== 'set' &&
-                                val !== 'readonly' &&
-                                val !== 'show'
-                            )
-                            ?.map((val: any, index: any) =>
-                              index === 0
-                                ? val.charAt(0).toUpperCase() + val.slice(1)
-                                : val
-                            )
+                            ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                            ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
                             .join(' ')}
                         </label>
-                        <div
-                          className={`col-sm-10 text-left ${styles.inputFlex} `}
-                        >
+                        <div className={`col-sm-10 text-left ${styles.inputFlex} `}>
                           <input
                             type="text"
                             className="form-control inputFields dark-blue"
@@ -375,11 +315,7 @@ const OperationCardIssueButton = ({
           </div>
           {getValues?.length > 0 ? (
             <div className="d-flex justify-content-start mt-3">
-              <button
-                type="button"
-                className={`btn btn-blueColor ${styles.submit_btn}`}
-                onClick={handleSubmit}
-              >
+              <button type="button" className={`btn btn-blueColor ${styles.submit_btn}`} onClick={handleSubmit}>
                 Save
               </button>
             </div>
@@ -390,13 +326,7 @@ const OperationCardIssueButton = ({
       </Modal>
 
       <ToastContainer position="bottom-end">
-        <Toast
-          onClose={() => setShowToastErr(false)}
-          show={showToastErr}
-          delay={5000}
-          autohide
-          bg="danger"
-        >
+        <Toast onClose={() => setShowToastErr(false)} show={showToastErr} delay={5000} autohide bg="danger">
           <Toast.Body className="text-white">{errMessage}</Toast.Body>
         </Toast>
       </ToastContainer>

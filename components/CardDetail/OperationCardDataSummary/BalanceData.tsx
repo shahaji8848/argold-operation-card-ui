@@ -3,23 +3,11 @@ import { ReactHTMLElement, useMemo, useState } from 'react';
 const BalanceData = ({ operationCardDetailData }: any) => {
   const [weightInput, setWeightInput] = useState<number>(0);
   const expensiveCalculation = (num: any) => {
-    console.log(
-      'Calculating...',
-      num,
-      operationCardDetailData?.total_wastage_issue_percentage,
-      num * operationCardDetailData?.total_wastage_issue_percentage,
-      num * operationCardDetailData?.total_wastage_issue_percentage -
-        operationCardDetailData?.balance_weight
-    );
     const calculatedValue =
-      operationCardDetailData?.balance_weight -
-      num * (1 + operationCardDetailData?.total_wastage_issue_percentage / 100);
+      operationCardDetailData?.balance_weight - num * (1 + operationCardDetailData?.total_wastage_issue_percentage / 100);
     return calculatedValue;
   };
-  const calculation = useMemo(
-    () => expensiveCalculation(weightInput),
-    [weightInput]
-  );
+  const calculation = useMemo(() => expensiveCalculation(weightInput), [weightInput]);
   return (
     <div className="row py-2 border rounded-3 p-0 m-0 summary-height align-items-baseline">
       <div className="col-md-12 ">
@@ -29,9 +17,7 @@ const BalanceData = ({ operationCardDetailData }: any) => {
               className="fs-14 bold mob-text-start
     "
             >
-              {operationCardDetailData?.balance_weight === 0
-                ? '--'
-                : operationCardDetailData?.balance_weight?.toFixed(3)}
+              {operationCardDetailData?.balance_weight === 0 ? '--' : operationCardDetailData?.balance_weight?.toFixed(3)}
             </div>
             <div className="fs-14 mob-px">Balance</div>
           </div>
@@ -61,18 +47,12 @@ const BalanceData = ({ operationCardDetailData }: any) => {
         </div>
         <div className="d-flex  mt-3 fs-14 ">
           <div className="col-md-4  p-0 m-0 text-center ">
-            {operationCardDetailData?.hasOwnProperty(
-              'total_wastage_issue_percentage'
-            ) &&
+            {operationCardDetailData?.hasOwnProperty('total_wastage_issue_percentage') &&
             operationCardDetailData?.total_wastage_issue_percentage !== 0 &&
             operationCardDetailData?.total_wastage_issue_percentage !== '' &&
             operationCardDetailData?.total_wastage_issue_percentage !== null &&
-            operationCardDetailData?.total_wastage_issue_percentage !==
-              undefined ? (
-              <span className="">
-                Diff (
-                {`${operationCardDetailData?.total_wastage_issue_percentage}`})
-              </span>
+            operationCardDetailData?.total_wastage_issue_percentage !== undefined ? (
+              <span className="">Diff ({`${operationCardDetailData?.total_wastage_issue_percentage}`})</span>
             ) : (
               <span className="">Difference</span>
             )}
