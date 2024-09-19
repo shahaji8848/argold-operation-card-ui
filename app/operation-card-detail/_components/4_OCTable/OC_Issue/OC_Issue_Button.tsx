@@ -82,15 +82,13 @@ const OperationCardIssueButton = ({
   };
 
   const handleSubmit = async () => {
-    'modal list keys data fields', modalFieldValuesState;
-    'modal list keys dropdown fields', modalDropdownFields;
     const mergedObjs = {
       ...modalFieldValuesState,
       ...modalDropdownFields,
       item: itemName,
     };
     const callSaveAPI: any = await POSTModalData(search, mergedObjs);
-    'api', callSaveAPI;
+
     if (callSaveAPI?.status === 200) {
       operationCardDetail();
       handleClose();
@@ -160,8 +158,6 @@ const OperationCardIssueButton = ({
       return updatedObj;
     });
 
-    'modal filterArray', filterArray;
-
     const index = filterArray?.findIndex((obj: any) => obj.label === 'in_weight');
 
     // If 'in_weight' is found, move it to the front of the array
@@ -175,7 +171,6 @@ const OperationCardIssueButton = ({
     const getOperationCardDetailDataValue = operationCardDetailData?.operation_card_issue_details?.filter(
       (issueVal: any) => issueVal.item === value
     );
-    'getOperationCardDetailDataValue', getOperationCardDetailDataValue;
 
     getOperationCardDetailNextKarigarFunc(getOperationCardDetailDataValue[0]?.next_product_process_department);
     getOperationCardDetailNextProductProcessAPICallFunc();
@@ -209,8 +204,6 @@ const OperationCardIssueButton = ({
 
     setModalDropdownFields(alteredObjToCreateDropDownFields);
   };
-
-  'modal design', operationCardDesignCodeCategory;
 
   return (
     <div>
