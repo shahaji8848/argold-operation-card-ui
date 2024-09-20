@@ -13,10 +13,17 @@ const OperationCardTableDataset = () => {
       {meltingLotList?.data && meltingLotList?.data.length > 0 ? (
         meltingLotList?.data?.map((meltingData: any, idx: any) => {
           // const productType: string[] = meltingLotList?.data?.map((productData: any, index: number) => productData?.product);
+<<<<<<< HEAD
 
           // const columns = meltingLotList?.columns || [];
           // const productColumns = columns[productType] || []; // Adjust to use correct productType
 
+=======
+          //
+          // const columns = meltingLotList?.columns || [];
+          // const productColumns = columns[productType] || []; // Adjust to use correct productType
+          //
+>>>>>>> 907b2788dd7cc1384c5278d3fe714303e6b7fd09
           // Extract the product type for the current item
           const productType: any = meltingData?.product; // Assuming productType is a single string
 

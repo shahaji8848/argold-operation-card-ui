@@ -57,6 +57,10 @@ const OperationCardReciptButton = ({
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
 
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
+<<<<<<< HEAD
+=======
+    //
+>>>>>>> 907b2788dd7cc1384c5278d3fe714303e6b7fd09
     setModalDropdownFields({
       ...modalDropdownFields,
       [labelValue]: selectedValue?.name,

@@ -67,6 +67,10 @@ const OperationCardIssueButton = ({
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
 
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
+<<<<<<< HEAD
+=======
+    'dropdown values', labelValue, selectedValue;
+>>>>>>> 907b2788dd7cc1384c5278d3fe714303e6b7fd09
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
       setModalDropdownFields({
         ...modalDropdownFields,

@@ -416,6 +416,10 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailMachineSizeAPICall = async () => {
     const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 907b2788dd7cc1384c5278d3fe714303e6b7fd09
     //
     if (getMachineSizeData?.status === 200) {
       setOperationCardMachineSize(
@@ -440,6 +444,23 @@ const useOperationDetailCard = () => {
     }
   };
   //
+<<<<<<< HEAD
+=======
+
+  // const getMachineSizeBasedOnDesignValueAPICall = async () => {
+  //   const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue('RC-RC-12gm-ROPE', token);
+  //
+  //   if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
+  //     setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
+  //   } else {
+  //     setMachineSizeBasedOnDesignValue([]);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getMachineSizeBasedOnDesignValueAPICall();
+  // }, []);
+>>>>>>> 907b2788dd7cc1384c5278d3fe714303e6b7fd09
 
   const getOperationCardDetailMachineAPICall = async () => {
     const getMachineData = await GETOperationCardDetailMachine(
