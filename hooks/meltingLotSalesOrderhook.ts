@@ -361,6 +361,95 @@ const useMeltingLotSalesOrder = () => {
   //   setSelectedOrders({});
   // };
 
+  // const handleDeleteSalesOrder = async () => {
+  //   const deletedItemsSoiNames: string[] = [];
+
+  //   // Filter out the orders that are selected for single_orders
+  //   const updatedSingleOrders = existingSalesOrderData?.single_orders
+  //     .map((order: any) => {
+  //       const filteredItemGroupData = order.item_group_data.filter(
+  //         (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
+  //       );
+
+  //       // Capture deleted item_group_data based on unique_key
+  //       const deletedItemGroupData = order.item_group_data.filter((itemGroupData: any) => {
+  //         const marketValues = itemGroupData?.market_design_name_values || [];
+  //         return selectedOrders[itemGroupData?.unique_key]; // Ensure we are matching with unique_key
+  //       });
+
+  //       // Collect the deleted items' soi_name for the API call
+  //       deletedItemGroupData.forEach((itemGroupData: any) => {
+  //         const marketValues = itemGroupData?.market_design_name_values || [];
+  //         if (marketValues[0]?.soi_name) {
+  //           deletedItemsSoiNames.push(marketValues[0].soi_name); // Push soi_name to array
+  //         }
+  //       });
+
+  //       // Return updated orders
+  //       return { ...order, item_group_data: filteredItemGroupData };
+  //     })
+  //     .filter((order: any) => order.item_group_data.length > 0);
+
+  //   // Filter out the orders that are selected for bunch_orders
+  //   const updatedBunchOrders = existingSalesOrderData?.bunch_orders
+  //     .map((order: any) => {
+  //       const filteredItemGroupData = order.item_group_data.filter(
+  //         (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
+  //       );
+
+  //       // Capture deleted item_group_data based on unique_key
+  //       const deletedItemGroupData = order.item_group_data.filter((itemGroupData: any) => {
+  //         const marketValues = itemGroupData?.market_design_name_values || [];
+  //         return selectedOrders[itemGroupData?.unique_key]; // Ensure we are matching with unique_key
+  //       });
+
+  //       // Collect the deleted items' soi_name for the API call
+  //       deletedItemGroupData.forEach((itemGroupData: any) => {
+  //         const marketValues = itemGroupData?.market_design_name_values || [];
+  //         if (marketValues[0]?.soi_name) {
+  //           deletedItemsSoiNames.push(marketValues[0].soi_name); // Push soi_name to array
+  //         }
+  //       });
+
+  //       // Return updated orders
+  //       return { ...order, item_group_data: filteredItemGroupData };
+  //     })
+  //     .filter((order: any) => order.item_group_data.length > 0);
+
+  //   // Update the existingSalesOrderData state with the filtered data
+  //   setExistingSalesOrderData((prevState: any) => ({
+  //     ...prevState,
+  //     single_orders: updatedSingleOrders,
+  //     bunch_orders: updatedBunchOrders,
+  //   }));
+
+  //   // If there are items to delete, make the API call
+  //   if (deletedItemsSoiNames.length > 0) {
+  //     try {
+  //       // Send the DELETE API call to delete the selected sales orders as query params
+  //       const response = await DELETESalesOrders(deletedItemsSoiNames, token);
+
+  //       if (response?.status === 200) {
+  //         if (response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.') {
+  //           toast.success(response?.data?.message);
+  //         } else {
+  //           toast.error(response?.data?.message);
+  //           // setTimeout(() => {
+  //           //   window.location.reload(); // Reload the page after showing the error toast
+  //           // }, 2000); // 2 seconds delay
+  //         }
+  //       }
+
+  //       // Reset selectedOrders state after deletion
+  //       setSelectedOrders({});
+  //     } catch (error: any) {
+  //       toast.error('Error deleting sales orders:', error);
+  //     }
+  //   } else {
+  //     toast.error('No sales order is selected');
+  //   }
+  // };
+
   const handleDeleteSalesOrder = async () => {
     const deletedItemsSoiNames: string[] = [];
 
@@ -371,19 +460,18 @@ const useMeltingLotSalesOrder = () => {
           (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
         );
 
-        // Capture deleted item_group_data based on unique_key
-        const deletedItemGroupData = order.item_group_data.filter((itemGroupData: any) => {
-          const marketValues = itemGroupData?.market_design_name_values || [];
-          return selectedOrders[itemGroupData?.unique_key]; // Ensure we are matching with unique_key
-        });
-
-        // Collect the deleted items' soi_name for the API call
-        deletedItemGroupData.forEach((itemGroupData: any) => {
-          const marketValues = itemGroupData?.market_design_name_values || [];
-          if (marketValues[0]?.soi_name) {
-            deletedItemsSoiNames.push(marketValues[0].soi_name); // Push soi_name to array
-          }
-        });
+        // Collect all deleted `soi_name` from selected orders
+        order.item_group_data
+          .filter((itemGroupData: any) => selectedOrders[itemGroupData?.unique_key]) // Filter selected orders
+          .forEach((itemGroupData: any) => {
+            const marketValues = itemGroupData?.market_design_name_values || [];
+            // Collect all `soi_name` values and push to deletedItemsSoiNames
+            marketValues.forEach((marketValue: any) => {
+              if (marketValue?.soi_name) {
+                deletedItemsSoiNames.push(marketValue?.soi_name); // Push all selected `soi_name`
+              }
+            });
+          });
 
         // Return updated orders
         return { ...order, item_group_data: filteredItemGroupData };
@@ -397,19 +485,18 @@ const useMeltingLotSalesOrder = () => {
           (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
         );
 
-        // Capture deleted item_group_data based on unique_key
-        const deletedItemGroupData = order.item_group_data.filter((itemGroupData: any) => {
-          const marketValues = itemGroupData?.market_design_name_values || [];
-          return selectedOrders[itemGroupData?.unique_key]; // Ensure we are matching with unique_key
-        });
-
-        // Collect the deleted items' soi_name for the API call
-        deletedItemGroupData.forEach((itemGroupData: any) => {
-          const marketValues = itemGroupData?.market_design_name_values || [];
-          if (marketValues[0]?.soi_name) {
-            deletedItemsSoiNames.push(marketValues[0].soi_name); // Push soi_name to array
-          }
-        });
+        // Collect all deleted `soi_name` from selected bunch orders
+        order.item_group_data
+          .filter((itemGroupData: any) => selectedOrders[itemGroupData?.unique_key]) // Filter selected orders
+          .forEach((itemGroupData: any) => {
+            const marketValues = itemGroupData?.market_design_name_values || [];
+            // Collect all `soi_name` values and push to deletedItemsSoiNames
+            marketValues.forEach((marketValue: any) => {
+              if (marketValue?.soi_name) {
+                deletedItemsSoiNames.push(marketValue?.soi_name); // Push all selected `soi_name`
+              }
+            });
+          });
 
         // Return updated orders
         return { ...order, item_group_data: filteredItemGroupData };
@@ -434,9 +521,9 @@ const useMeltingLotSalesOrder = () => {
             toast.success(response?.data?.message);
           } else {
             toast.error(response?.data?.message);
-            setTimeout(() => {
-              window.location.reload(); // Reload the page after showing the error toast
-            }, 2000); // 2 seconds delay
+            // Optionally reload the page after showing the error toast
+            // setTimeout(() => window.location.reload(), 2000);
+            fetchExistingMeltingPlanOrder(meltingPlan);
           }
         }
 
