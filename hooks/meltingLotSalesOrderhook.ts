@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import DELETESalesOrders from '@/services/api/melting-lot-dashboard-page/delete-sales-order';
+import GETProductFiltersForDesign from '@/services/api/melting-lot-dashboard-page/product-filters-for-design';
 
 const useMeltingLotSalesOrder = () => {
   const { token } = useSelector(get_access_token);
@@ -17,6 +18,7 @@ const useMeltingLotSalesOrder = () => {
   const [selectedOrders, setSelectedOrders] = useState<{ [key: string]: boolean }>({});
   const [selectedDesign, setSelectedDesign] = useState<any>(null); // New state to track selected design
   const [existingSalesOrderData, setExistingSalesOrderData] = useState<any>([]);
+  const [allowMultipleDesign, setAllowMultipleDesign] = useState<any>();
 
   useEffect(() => {
     const url = window.location.href;
@@ -61,6 +63,17 @@ const useMeltingLotSalesOrder = () => {
     fetchMeltingPlanBasedOnFilters();
   };
 
+  const fetchProductFiltersForDesign = async () => {
+    const getProductFiltersForDesign = await GETProductFiltersForDesign(meltingPlanFilters?.product, token);
+    if (getProductFiltersForDesign?.status === 200) {
+      setAllowMultipleDesign(getProductFiltersForDesign?.data?.data[0]?.allow_multiple_designs_in__orders);
+    }
+  };
+
+  useEffect(() => {
+    fetchProductFiltersForDesign();
+  }, [meltingPlanFilters]);
+
   const handleCheckboxChange = (unique_key: any, design: string, isChecked: boolean, isDisabled: boolean) => {
     if (isDisabled) return; // Do nothing if the checkbox is disabled
 
@@ -77,15 +90,17 @@ const useMeltingLotSalesOrder = () => {
 
         return updatedData;
       } else {
-        // If the checkbox is being checked
-        if (selectedDesign && selectedDesign !== design) {
-          toast.error('You can only select orders with the same design.');
-          return prevData; // Do not update state if different design
-        }
+        if (allowMultipleDesign === 0) {
+          if (selectedDesign && selectedDesign !== design) {
+            // If the checkbox is being checked
+            toast.error('You can only select orders with the same design.');
+            return prevData; // Do not update state if different design
+          }
 
-        // Set selectedDesign if none is selected
-        if (!selectedDesign) {
-          setSelectedDesign(design);
+          // Set selectedDesign if none is selected
+          if (!selectedDesign) {
+            setSelectedDesign(design);
+          }
         }
 
         // Add the checked order to the selected orders
