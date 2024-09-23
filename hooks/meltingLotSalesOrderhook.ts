@@ -533,7 +533,7 @@ const useMeltingLotSalesOrder = () => {
         toast.error('Error deleting sales orders:', error);
       }
     } else {
-      toast.error('No sales order is selected');
+      toast.error('cannot delete selected sales order');
     }
   };
 
