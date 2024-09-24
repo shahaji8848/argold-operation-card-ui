@@ -2,18 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import meltingStyle from '../../styles/melting-lot-data.module.css';
 
 const OperationCardFilterOptionSelect = ({ meltingFiltersList, filterOptions, handleFilterChange }: any) => {
-  // Define local state to manage filtered dropdown options
-  // const [filteredProductList, setFilteredProductList] = useState(meltingFiltersList?.product || []);
-
-  // // Handle input change to filter options dynamically
-  // const handleInputChange = (e: any) => {
-  //   const { value } = e.target;
-  //   const filteredOptions = meltingFiltersList?.product?.filter((item: any) => item.toLowerCase().includes(value.toLowerCase()));
-  //   setFilteredProductList(filteredOptions);
-  //   handleFilterChange(e); // To update global filter state
-  // };
-
   const [filteredProductList, setFilteredProductList] = useState(meltingFiltersList?.product || []);
+  const [filteredProductCategoryList, setFilteredProductCategoryList] = useState(meltingFiltersList?.product_category || []);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -45,10 +35,6 @@ const OperationCardFilterOptionSelect = ({ meltingFiltersList, filterOptions, ha
   };
 
   useEffect(() => {
-    // setInputValueAutoComplete({
-    //   name: initialValue,
-    //   value: initialValue,
-    // });
     const handleOutsideClickAutoComplete = (event: any) => {
       if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
@@ -157,8 +143,6 @@ const OperationCardFilterOptionSelect = ({ meltingFiltersList, filterOptions, ha
               )}
             </div>
           </div>
-
-          {/* Repeat the above for other fields */}
         </div>
       </div>
     </>
