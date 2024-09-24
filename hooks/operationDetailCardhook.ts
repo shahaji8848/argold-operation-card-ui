@@ -1073,7 +1073,7 @@ const useOperationDetailCard = () => {
     isBalanceWeightSetAsInWeight,
     balanceWeight,
     modalFieldsState,
-    // onChangeOfProductFetchNextProductProcess,
+    onChangeOfProductFetchNextProductProcess,
 
     // Below variables are of Sales Order List
     salesOrderList,
