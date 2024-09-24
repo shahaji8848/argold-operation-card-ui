@@ -11,12 +11,31 @@
 
 .custom_dropdown_input {
   width: 100%;
-  padding: 0.375rem 0.75rem;
+  padding: 0.375rem 0.55rem;
   font-size: 1rem;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
-  background-color: #fff;
+  /* background-color: #fff; */
   cursor: text;
+}
+
+.custom_dropdown_options {
+  border: 1px solid rgb(204, 204, 204);
+  /* height: 200px; */
+  overflow-y: auto;
+  background: white;
+  z-index: 4;
+}
+.custom_dropdown_option {
+  padding: 5px 10px;
+}
+
+.open {
+  display: block; /* Dropdown is visible when 'open' class is present */
+}
+
+.highlighted {
+  background-color: lightgrey; /* Change this to match the hover effect */
 }
 
 @media screen and (max-width: 767px) {
