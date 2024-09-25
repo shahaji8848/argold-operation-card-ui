@@ -11,10 +11,10 @@
 
 .custom_dropdown_input {
   width: 100%;
-  padding: 0.375rem 0.55rem;
+  padding: 0.295rem 0.55rem;
   font-size: 1rem;
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  border-radius: 0.35rem;
   /* background-color: #fff; */
   cursor: text;
 }
