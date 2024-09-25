@@ -38,7 +38,13 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                             <Tooltip id="info-tooltip">
                               <span className="text-captilize bold">order weight: </span>
                               {meltingData?.info?.order_weight.toFixed(2) || ' -- '}
-                              &nbsp;<span>&lt;</span>&nbsp;
+                              &nbsp;
+                              <span>
+                                {Number(meltingData?.info?.order_weight) > Number(meltingData?.info?.sum_of_balance_weight)
+                                  ? '>'
+                                  : '<'}
+                              </span>
+                              &nbsp;
                               <span className="text-captilize bold">sum of balance weight: </span>
                               {meltingData?.info?.sum_of_balance_weight.toFixed(2) || ' -- '}
                             </Tooltip>
@@ -132,7 +138,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         {column.replace(/_/g, ' ')}
                       </th>
                     ))}
-                    <th>add order details</th>
+                    <th className="text-center">Edit operation card detail</th>
                   </tr>
                 </thead>
                 <tbody className="card-listing-body">
@@ -148,7 +154,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                               : '--'}
                           </td>
                         ))}
-                        <td>
+                        <td className="text-center">
                           {operation?.operation_card ? (
                             <button
                               className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
@@ -159,7 +165,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                                 className="text-white"
                                 target="_blank"
                               >
-                                Edit Order Details
+                                Edit Operation Card
                               </Link>
                             </button>
                           ) : null}
