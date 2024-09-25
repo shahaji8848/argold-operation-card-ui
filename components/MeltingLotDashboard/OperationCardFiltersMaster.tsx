@@ -17,11 +17,11 @@ const MeltingLotDashboardMaster = () => {
           meltingFiltersList={meltingFiltersList}
           handleProductBtnClicked={handleProductBtnClicked}
         />
-        <OperationCardFiltersOption
+        {/* <OperationCardFiltersOption
           meltingFiltersList={meltingFiltersList}
           filterOptions={filterOptions}
           handleFilterChange={handleFilterChange}
-        />
+        /> */}
         <OperationCardFilterOptionSelect
           meltingFiltersList={meltingFiltersList}
           filterOptions={filterOptions}
