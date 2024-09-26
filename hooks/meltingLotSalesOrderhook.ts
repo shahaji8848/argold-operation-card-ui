@@ -66,13 +66,16 @@ const useMeltingLotSalesOrder = () => {
   const fetchProductFiltersForDesign = async () => {
     const getProductFiltersForDesign = await GETProductFiltersForDesign(meltingPlanFilters?.product, token);
     if (getProductFiltersForDesign?.status === 200) {
-      setAllowMultipleDesign(getProductFiltersForDesign?.data?.data[0]?.allow_multiple_designs_in__orders);
+      setAllowMultipleDesign(getProductFiltersForDesign?.data?.data[0]?.allow_multiple_designs_in_orders);
     }
   };
 
   useEffect(() => {
-    fetchProductFiltersForDesign();
-  }, [meltingPlanFilters]);
+    if(meltingPlanFilters?.product !==  null){
+      fetchProductFiltersForDesign();
+    }
+    
+  }, [meltingPlanFilters?.product]);
 
   const handleCheckboxChange = (unique_key: any, design: string, isChecked: boolean, isDisabled: boolean) => {
     if (isDisabled) return; // Do nothing if the checkbox is disabled
