@@ -71,10 +71,9 @@ const useMeltingLotSalesOrder = () => {
   };
 
   useEffect(() => {
-    if(meltingPlanFilters?.product !==  null){
+    if (meltingPlanFilters?.product !== null) {
       fetchProductFiltersForDesign();
     }
-    
   }, [meltingPlanFilters?.product]);
 
   const handleCheckboxChange = (unique_key: any, design: string, isChecked: boolean, isDisabled: boolean) => {
@@ -535,7 +534,10 @@ const useMeltingLotSalesOrder = () => {
         const response = await DELETESalesOrders(deletedItemsSoiNames, token);
 
         if (response?.status === 200) {
-          if (response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.') {
+          if (
+            response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.' &&
+            response?.data?.message !== 'Cannot delete the Sales Order.'
+          ) {
             toast.success(response?.data?.message);
           } else {
             toast.error(response?.data?.message);
