@@ -8,6 +8,18 @@ const MeltingLotBunchOrdersTable = ({
   handleSaveSalesOrder,
   selectedDesign,
 }: any) => {
+  // Calculate totals for order weight
+  const calculateTotals = () => {
+    let totalOrderWeight = 0;
+    salesOrderData?.bunch_orders?.forEach((orderData: any) => {
+      // orderData?.total_order_weight?.forEach((values: any) => {
+      totalOrderWeight += orderData?.total_order_weight || 0;
+      // });
+      // totalOrderWeight += orderData.total_weight || 0;
+    });
+    return totalOrderWeight.toFixed(3);
+  };
+
   return (
     <>
       {salesOrderData?.bunch_orders?.length > 0 && (
@@ -134,6 +146,21 @@ const MeltingLotBunchOrdersTable = ({
                       </>
                     );
                   })}
+
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td className="text-center fw-bold">Total</td>
+                  <td className="text-center">{calculateTotals()}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
               </tbody>
             </table>
           </div>

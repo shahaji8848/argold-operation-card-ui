@@ -8,6 +8,18 @@ const MeltingLotSingleOrdersTable = ({
   handleSaveSalesOrder,
   selectedDesign,
 }: any) => {
+  // Calculate totals for order weight
+  const calculateTotals = () => {
+    let totalOrderWeight = 0;
+    salesOrderData?.single_orders?.forEach((orderData: any) => {
+      // orderData?.total_order_weight?.forEach((values: any) => {
+      totalOrderWeight += orderData?.total_order_weight || 0;
+      // });
+      // totalOrderWeight += orderData.total_weight || 0;
+    });
+    return totalOrderWeight.toFixed(3);
+  };
+
   return (
     <>
       {salesOrderData?.single_orders?.length > 0 && (
@@ -116,6 +128,18 @@ const MeltingLotSingleOrdersTable = ({
                       </>
                     );
                   })}
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td className="text-center fw-bold">Total</td>
+                  <td className="text-center">{calculateTotals()}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
               </tbody>
             </table>
           </div>
