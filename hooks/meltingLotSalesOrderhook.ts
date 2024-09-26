@@ -542,7 +542,7 @@ const useMeltingLotSalesOrder = () => {
           } else {
             toast.error(response?.data?.message);
             // Optionally reload the page after showing the error toast
-            // setTimeout(() => window.location.reload(), 2000);
+             setTimeout(() => window.location.reload(), 2000);
             fetchExistingMeltingPlanOrder(meltingPlan);
           }
         }
