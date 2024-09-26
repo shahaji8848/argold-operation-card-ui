@@ -8,6 +8,56 @@
   /* min-width: 86px;
   text-align: center; */
 }
+.custom_dropdown_wrapper {
+  position: relative;
+}
+.custom_dropdown_input {
+  width: 100%;
+  padding: 0.345rem 0.55rem;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.35rem;
+  /* background-color: #fff; */
+  cursor: text;
+}
+
+.custom_dropdown_options {
+  position: absolute;
+  border: 1px solid rgb(204, 204, 204);
+  /* height: 200px; */
+  overflow-y: auto;
+  background: white;
+  z-index: 4;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto; /* Scroll if content exceeds max-height */
+  z-index: 1000; /* Ensure dropdown appears on top */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.custom_dropdown_option:hover {
+  background-color: lightgrey; /* Change this to match the hover effect */
+}
+
+.custom_dropdown_option {
+  padding: 5px 10px;
+}
+
+.open {
+  display: block; /* Dropdown is visible when 'open' class is present */
+}
+.closed {
+  display: none;
+}
+
+.highlighted {
+  background-color: lightgrey; /* Change this to match the hover effect */
+}
+
 @media screen and (max-width: 767px) {
   .mg_x_3 {
     /* margin: 0px 8px; */

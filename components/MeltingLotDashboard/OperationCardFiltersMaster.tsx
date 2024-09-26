@@ -4,6 +4,7 @@ import MeltingLotHeaderButton from './MeltingLotHeaderButton';
 import OperationCardFiltersOption from './OperationCardFIlterOption';
 import OperationCardTable from './OperationCardTable';
 import OperationCardTableDataset from './OperationCardTableDataset';
+import OperationCardFilterOptionSelect from './OperationCardFilterOptionSelect';
 // import meltingLotList from './get_melting_lot_api_response.json';
 const MeltingLotDashboardMaster = () => {
   const { meltingLotList, meltingFiltersList, filterOptions, handleFilterChange, productList, handleProductBtnClicked } =
@@ -16,7 +17,12 @@ const MeltingLotDashboardMaster = () => {
           meltingFiltersList={meltingFiltersList}
           handleProductBtnClicked={handleProductBtnClicked}
         />
-        <OperationCardFiltersOption
+        {/* <OperationCardFiltersOption
+          meltingFiltersList={meltingFiltersList}
+          filterOptions={filterOptions}
+          handleFilterChange={handleFilterChange}
+        /> */}
+        <OperationCardFilterOptionSelect
           meltingFiltersList={meltingFiltersList}
           filterOptions={filterOptions}
           handleFilterChange={handleFilterChange}

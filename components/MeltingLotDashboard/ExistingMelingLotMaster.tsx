@@ -23,13 +23,15 @@ const ExistingMelingLotMaster = ({
         selectedOrders={selectedOrders}
         handleCheckboxChange={handleCheckboxChange}
       />
-      <button
-        className="btn btn-danger btn-py fs-13 mt-1 mb-2"
-        onClick={handleDeleteSalesOrder}
-        // disabled={Object.keys(selectedOrders).length === 0}
-      >
-        Delete
-      </button>
+      {(existingSalesOrderData?.single_orders?.length > 0 || existingSalesOrderData?.bunch_orders?.length > 0) && (
+        <button
+          className="btn btn-danger btn-py fs-13 mt-1 mb-2"
+          onClick={handleDeleteSalesOrder}
+          // disabled={Object.keys(selectedOrders).length === 0}
+        >
+          Delete
+        </button>
+      )}
     </>
   );
 };
