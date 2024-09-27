@@ -1,6 +1,12 @@
 import React from 'react';
 
-const ExistingMeltingLotSingleOrder = ({ existingSalesOrderData, formatDate, selectedOrders, handleCheckboxChange }: any) => {
+const ExistingMeltingLotSingleOrder = ({
+  existingSalesOrderData,
+  formatDate,
+  selectedOrders,
+  handleCheckboxChange,
+  groupOrdersByDesign,
+}: any) => {
   // Calculate totals for order weight
   const calculateTotals = () => {
     let totalOrderWeight = 0;
@@ -33,7 +39,7 @@ const ExistingMeltingLotSingleOrder = ({ existingSalesOrderData, formatDate, sel
                     'description',
                     'sales order number',
                     'order weight',
-                    'market design name',
+                    groupOrdersByDesign === 0 ? 'market design name' : 'design',
                     'size',
                     'qty',
                   ].map((val: any, index: any) => (
@@ -91,7 +97,9 @@ const ExistingMeltingLotSingleOrder = ({ existingSalesOrderData, formatDate, sel
                                   : '--'}
                               </td>
 
-                              <td className="text-center">{itemGroupData?.market_design_name}</td>
+                              <td className="text-center">
+                                {groupOrdersByDesign === 0 ? itemGroupData?.market_design_name : itemGroupData?.design}
+                              </td>
 
                               <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {

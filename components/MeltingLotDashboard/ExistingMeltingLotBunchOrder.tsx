@@ -1,6 +1,12 @@
 import React from 'react';
 
-const ExistingMeltingLotBunchOrder = ({ existingSalesOrderData, formatDate, selectedOrders, handleCheckboxChange }: any) => {
+const ExistingMeltingLotBunchOrder = ({
+  existingSalesOrderData,
+  formatDate,
+  selectedOrders,
+  handleCheckboxChange,
+  groupOrdersByDesign,
+}: any) => {
   // Calculate totals for order weight
   const calculateTotals = () => {
     let totalOrderWeight = 0;
@@ -32,7 +38,7 @@ const ExistingMeltingLotBunchOrder = ({ existingSalesOrderData, formatDate, sele
                     'description',
                     'sales order number',
                     'order weight',
-                    'market design name',
+                    groupOrdersByDesign === 0 ? 'market design name' : 'design',
                     'Bunch Weight',
                     'Bunch Length',
                     'Per Inch Weight',
@@ -93,7 +99,9 @@ const ExistingMeltingLotBunchOrder = ({ existingSalesOrderData, formatDate, sele
                                   : '--'}
                               </td>
 
-                              <td className="text-center">{itemGroupData?.market_design_name}</td>
+                              <td className="text-center">
+                                {groupOrdersByDesign === 0 ? itemGroupData?.market_design_name : itemGroupData?.design}
+                              </td>
                               <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
                                   return (

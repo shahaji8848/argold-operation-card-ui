@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import DELETESalesOrders from '@/services/api/melting-lot-dashboard-page/delete-sales-order';
 import GETProductFiltersForDesign from '@/services/api/melting-lot-dashboard-page/product-filters-for-design';
+import GETOperationCardDetailNextProductProcessDepartment from '@/services/api/operation-card-detail-page/operation-card-next-product-process-dept';
+import GETProductFiltersGroupOrdersByDesign from '@/services/api/melting-lot-dashboard-page/product-filters-group-by-design';
 
 const useMeltingLotSalesOrder = () => {
   const { token } = useSelector(get_access_token);
@@ -19,6 +21,7 @@ const useMeltingLotSalesOrder = () => {
   const [selectedDesign, setSelectedDesign] = useState<any>(null); // New state to track selected design
   const [existingSalesOrderData, setExistingSalesOrderData] = useState<any>([]);
   const [allowMultipleDesign, setAllowMultipleDesign] = useState<any>();
+  const [groupOrdersByDesign, setGroupOrdersByDesign] = useState<any>();
 
   useEffect(() => {
     const url = window.location.href;
@@ -43,10 +46,11 @@ const useMeltingLotSalesOrder = () => {
 
   const fetchMeltingPlanBasedOnFilters = async () => {
     const getMeltingPlanBasedOnFiltersData = await GETMeltingPlanBasedOnFilters(
-      meltingPlanFilters?.design,
       meltingPlanFilters?.product,
-      meltingPlanFilters?.machine_size,
       meltingPlanFilters?.product_category,
+      meltingPlanFilters?.machine_size,
+      meltingPlanFilters?.design,
+      meltingPlanFilters?.purity,
       token
     );
 
@@ -70,8 +74,19 @@ const useMeltingLotSalesOrder = () => {
     }
   };
 
+  const fetchNextProductProcessDepartment = async () => {
+    const fetchNextProductProcessDepartmentData: any = await GETProductFiltersGroupOrdersByDesign(
+      meltingPlanFilters?.product,
+      token
+    );
+    if (fetchNextProductProcessDepartmentData?.status === 200) {
+      setGroupOrdersByDesign(fetchNextProductProcessDepartmentData?.data?.data[0]?.group_orders_by_design);
+    }
+  };
+
   useEffect(() => {
     if (meltingPlanFilters?.product !== null) {
+      fetchNextProductProcessDepartment();
       fetchProductFiltersForDesign();
     }
   }, [meltingPlanFilters?.product]);
@@ -542,7 +557,7 @@ const useMeltingLotSalesOrder = () => {
           } else {
             toast.error(response?.data?.message);
             // Optionally reload the page after showing the error toast
-             setTimeout(() => window.location.reload(), 2000);
+            setTimeout(() => window.location.reload(), 2000);
             fetchExistingMeltingPlanOrder(meltingPlan);
           }
         }
@@ -569,6 +584,7 @@ const useMeltingLotSalesOrder = () => {
     selectedDesign,
     existingSalesOrderData,
     handleDeleteSalesOrder,
+    groupOrdersByDesign,
   };
 };
 
