@@ -1,4 +1,5 @@
 import React from 'react';
+import Design from '../InputFieldText/Design';
 
 const MeltingLotBunchOrdersTable = ({
   salesOrderData,
@@ -7,6 +8,7 @@ const MeltingLotBunchOrdersTable = ({
   formatDate,
   handleSaveSalesOrder,
   selectedDesign,
+  groupOrdersByDesign,
 }: any) => {
   // Calculate totals for order weight
   const calculateTotals = () => {
@@ -39,7 +41,7 @@ const MeltingLotBunchOrdersTable = ({
                     'description',
                     'sales order number',
                     'order weight',
-                    'market design name',
+                    groupOrdersByDesign === 0 ? 'market design name' : 'design',
                     'Bunch Weight',
                     'Bunch Length',
                     'Per Inch Weight',
@@ -103,7 +105,9 @@ const MeltingLotBunchOrdersTable = ({
                                   : '--'}
                               </td>
 
-                              <td className="text-center">{itemGroupData?.market_design_name}</td>
+                              <td className="text-center">
+                                {groupOrdersByDesign === 0 ? itemGroupData?.market_design_name : itemGroupData?.design}
+                              </td>
                               <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
                                   return (

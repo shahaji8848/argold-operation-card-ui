@@ -434,14 +434,17 @@ const OperationCardIssueButton = ({
     setSelectedCustomer(''); // Reset customer as well
     setMachineSizeBasedOnDesignValue([]);
   };
-  const handleShow = (value: any, add_melting_plan_reference_details: any) => {
+
+  const [showMeltingLotSalesOrder, setShowMeltingLotSalesOrder] = useState<any>();
+
+  const handleShow = (value: any, add_melting_plan_reference_details: any, show_melting_lot_orders: any) => {
     setShow(true);
     setItemName(value);
 
     const operationCardValue = operationCardProductDept?.issue_items?.filter((issueVal: any) => issueVal.item === value);
 
     setMeltingPlanReference(add_melting_plan_reference_details);
-
+    setShowMeltingLotSalesOrder(show_melting_lot_orders);
     // Find a specific item object in operationCardDetailData, with specific logic for "hook"
     const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => {
       // Check if the value is "hook"
@@ -617,7 +620,7 @@ const OperationCardIssueButton = ({
                   <button
                     type="button"
                     className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
-                    onClick={() => handleShow(val.item, val?.add_melting_plan_reference_details)}
+                    onClick={() => handleShow(val.item, val?.add_melting_plan_reference_details, val?.show_melting_lot_orders)}
                     key={i}
                   >
                     {val?.item}
@@ -793,6 +796,19 @@ const OperationCardIssueButton = ({
 
           {selectedIssueBtnData?.item && selectedIssueBtnData?.item_type === 'Gold Accessory' && meltingPlanReference === 1 && (
             <MPReferenceModal mpReferenceList={mpReferenceList} />
+          )}
+
+          {showMeltingLotSalesOrder !== 0 && (
+            <>
+              <ModalSalesTable
+                salesOrderList={singleOrdersWithItems}
+                selectedSalesOrderData={selectedSalesOrderData}
+                setSelectedSalesOrderData={setSelectedSalesOrderData}
+                selectedCustomer={selectedCustomer}
+                setSelectedCustomer={setSelectedCustomer}
+                operationCardDetailData={operationCardDetailData}
+              />
+            </>
           )}
 
           {getValues?.length > 0 ? (

@@ -18,6 +18,7 @@ const MeltingLotAddSalesOrder = () => {
     selectedDesign,
     existingSalesOrderData,
     handleDeleteSalesOrder,
+    groupOrdersByDesign,
   }: any = useMeltingLotSalesOrder();
 
   return (
@@ -94,6 +95,7 @@ const MeltingLotAddSalesOrder = () => {
             handleDeleteSalesOrder={handleDeleteSalesOrder}
             selectedOrders={selectedOrders}
             handleCheckboxChange={handleCheckboxChange}
+            groupOrdersByDesign={groupOrdersByDesign}
           />
         </div>
         <div>
@@ -108,6 +110,7 @@ const MeltingLotAddSalesOrder = () => {
           formatDate={formatDate}
           handleSaveSalesOrder={handleSaveSalesOrder}
           selectedDesign={selectedDesign}
+          groupOrdersByDesign={groupOrdersByDesign}
         />
         <MeltingLotBunchOrdersTable
           salesOrderData={salesOrderData}
@@ -116,6 +119,7 @@ const MeltingLotAddSalesOrder = () => {
           formatDate={formatDate}
           handleSaveSalesOrder={handleSaveSalesOrder}
           selectedDesign={selectedDesign}
+          groupOrdersByDesign={groupOrdersByDesign}
         />
 
         {(salesOrderData?.single_orders?.length > 0 || salesOrderData?.bunch_orders?.length > 0) && (
