@@ -63,10 +63,6 @@ const useMeltingLotSalesOrder = () => {
     }
   };
 
-  const handleGetSalesOrders = () => {
-    fetchMeltingPlanBasedOnFilters();
-  };
-
   const fetchProductFiltersForDesign = async () => {
     const getProductFiltersForDesign = await GETProductFiltersForDesign(meltingPlanFilters?.product, token);
     if (getProductFiltersForDesign?.status === 200) {
@@ -90,6 +86,11 @@ const useMeltingLotSalesOrder = () => {
       fetchProductFiltersForDesign();
     }
   }, [meltingPlanFilters?.product]);
+
+  const handleGetSalesOrders = () => {
+    fetchMeltingPlanBasedOnFilters();
+    fetchNextProductProcessDepartment();
+  };
 
   const handleCheckboxChange = (unique_key: any, design: string, isChecked: boolean, isDisabled: boolean) => {
     if (isDisabled) return; // Do nothing if the checkbox is disabled
