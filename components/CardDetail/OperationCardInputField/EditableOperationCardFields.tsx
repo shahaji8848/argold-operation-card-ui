@@ -52,7 +52,7 @@ const EditableOperationCardFields = ({
             </div>
           );
         })}
-      <div className="col-md-2">
+      {/* <div className="col-md-2">
         <div className="fs-14 bold text-start ">Description</div>
         <div className="text-start">
           <input
@@ -64,7 +64,7 @@ const EditableOperationCardFields = ({
             value={headerSave?.description}
           />
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

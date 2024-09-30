@@ -125,7 +125,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                 <td className="text-end">{data?.next_tracking_number === '' ? '--' : data?.next_tracking_number}</td>
                 <td className="text-end">{data?.machine ?? '--'}</td>
                 <td className="text-end">{data?.karigar ?? '--'}</td>
-                <td className="text-end">{data?.worker ?? '--'}</td>
+                <td className="text-end">{data?.next_worker ?? '--'}</td>
                 <td className="text-end">{data?.next_karigar ?? '--'}</td>
                 <td className="text-end">
                   {hasOPkey(data) ? (
