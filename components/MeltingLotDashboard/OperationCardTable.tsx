@@ -4,9 +4,11 @@ import React from 'react';
 import meltingStyles from '../../styles/melting-lot-data.module.css';
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
 
 const OperationCardTable = ({ meltingLotList }: any) => {
   const { handleMeltingLotShowOrder }: any = useOperationDetailCard();
+  const { meltingPlanFilters, handleViewSalesOrderOnProductAndPurity }: any = useMeltingLotSalesOrder();
 
   return (
     <div className="card py-2 px-2">
@@ -64,6 +66,18 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                 <p className="text-uppercase text-success bold mt-1 fs-14">{meltingData?.title || '--'}</p>
               </div>
               <div>
+                <button
+                  className="text-end btn btn-blue btn-py me-2 "
+                  onClick={() => handleViewSalesOrderOnProductAndPurity(meltingData?.melting_plan)}
+                >
+                  <Link
+                    href={`view-sales-order?melting_plan=${meltingData?.melting_plan}`}
+                    className="text-white"
+                    target="_blank"
+                  >
+                    View Sales Order
+                  </Link>
+                </button>
                 {meltingData?.docstatus === 0 && (
                   <>
                     <button className="text-end btn btn-blue btn-py me-2">

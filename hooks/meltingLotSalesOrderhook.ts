@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import DELETESalesOrders from '@/services/api/melting-lot-dashboard-page/delete-sales-order';
+import GETViewSalesOrder from '@/services/api/melting-lot-dashboard-page/view-sales-order';
+import GETProductFiltersGroupOrdersByDesign from '@/services/api/melting-lot-dashboard-page/product-filters-group-by-design';
 
 const useMeltingLotSalesOrder = () => {
   const { token } = useSelector(get_access_token);
@@ -17,6 +19,9 @@ const useMeltingLotSalesOrder = () => {
   const [selectedOrders, setSelectedOrders] = useState<{ [key: string]: boolean }>({});
   const [selectedDesign, setSelectedDesign] = useState<any>(null); // New state to track selected design
   const [existingSalesOrderData, setExistingSalesOrderData] = useState<any>([]);
+  // View sales order
+  const [viewSalesOrderData, setViewSalesOrderData] = useState<any>([]);
+  const [groupOrdersByDesign, setGroupOrdersByDesign] = useState<any>();
 
   useEffect(() => {
     const url = window.location.href;
@@ -537,6 +542,54 @@ const useMeltingLotSalesOrder = () => {
     }
   };
 
+  // View Sales Order
+  const handleViewSalesOrderOnProductAndPurity = async (meltingPlanValue: any) => {
+    const getMelitngPlanFilters = await GETMeltingPlanFilters(token, meltingPlanValue);
+
+    if (getMelitngPlanFilters?.status === 200) {
+      setMeltingPlanFilters(getMelitngPlanFilters?.data?.message);
+    } else {
+      setMeltingPlanFilters({});
+    }
+  };
+
+  const fetchViewSalesOrderMeltingPlanBasedOnFilters = async () => {
+    const getMeltingPlanBasedOnFiltersData = await GETViewSalesOrder(
+      meltingPlanFilters?.product,
+      meltingPlanFilters?.purity,
+      token
+    );
+
+    if (getMeltingPlanBasedOnFiltersData?.status === 200) {
+      setViewSalesOrderData(getMeltingPlanBasedOnFiltersData?.data?.message);
+      toast.error(getMeltingPlanBasedOnFiltersData?.data?.message?.message);
+    } else {
+      setViewSalesOrderData([]);
+      toast.error('No Data Found');
+    }
+  };
+
+  const handleGetViewSalesOrders = () => {
+    fetchViewSalesOrderMeltingPlanBasedOnFilters();
+    fetchGroupOrderByDesign();
+  };
+
+  const fetchGroupOrderByDesign = async () => {
+    const fetchNextProductProcessDepartmentData: any = await GETProductFiltersGroupOrdersByDesign(
+      meltingPlanFilters?.product,
+      token
+    );
+    if (fetchNextProductProcessDepartmentData?.status === 200) {
+      setGroupOrdersByDesign(fetchNextProductProcessDepartmentData?.data?.data[0]?.group_orders_by_design);
+    }
+  };
+
+  useEffect(() => {
+    if (meltingPlanFilters?.product !== null) {
+      fetchGroupOrderByDesign();
+    }
+  }, [meltingPlanFilters?.product]);
+
   return {
     meltingPlan,
     meltingPlanFilters,
@@ -549,6 +602,10 @@ const useMeltingLotSalesOrder = () => {
     selectedDesign,
     existingSalesOrderData,
     handleDeleteSalesOrder,
+    handleViewSalesOrderOnProductAndPurity,
+    viewSalesOrderData,
+    handleGetViewSalesOrders,
+    groupOrdersByDesign,
   };
 };
 
