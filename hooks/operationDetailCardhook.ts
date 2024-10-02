@@ -101,6 +101,7 @@ const useOperationDetailCard = () => {
 
   // set machine size value on base of selected design value
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+  const [operationCardNextMachineSize, setoperationCardNextMachineSize] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -430,7 +431,6 @@ const useOperationDetailCard = () => {
     }
   };
  
-  const [operationCardNextMachineSize, setoperationCardNextMachineSize] = useState<any>([])
   const getOperationCardDetailNextMachineSizeAPICall = async () => {
     if(operationCardDetailData?.melting_plan && operationCardDetailData?.melting_plan !== " "){
       const getMachineSizeMeltingPlan = await GETOperationCardDetailNextMachineSizeMeltingPlan(operationCardDetailData?.melting_plan, token);
