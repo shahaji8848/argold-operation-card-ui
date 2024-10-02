@@ -40,6 +40,7 @@ import POSTDesignValue from '@/services/api/operation-card-detail-page/post-desi
 import GETBunchSalesOrder from '@/services/api/operation-card-detail-page/get-bunch-order';
 import GETMeltingPlanReferenceFromLot from '@/services/api/operation-card-detail-page/melting-plan-reference';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
+import GETOperationCardDetailCustomer from '@/services/api/operation-card-detail-page/operation-card-detail-customer';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -66,6 +67,7 @@ const useOperationDetailCard = () => {
   const [operationCardThickness, setOperationCardThickness] = useState<any>([]);
   const [operationCardVariant, setOperationCardVariant] = useState<any>([]);
   const [operationCardConcept, setOperationCardConcept] = useState<any>([]);
+  const [operationCardCustomer, setOperationCardCustomer] = useState<any>([]);
   const [operationCardMachineSize, setOperationCardMachineSize] = useState<any>([]);
   const [operationCardDesignCodeCategory, setOperationCardDesignCodeCategory] = useState<any>([]);
   const [operationCardNextProductProcess, setOperationCardNextProductProcess] = useState<any>([]);
@@ -631,6 +633,19 @@ const useOperationDetailCard = () => {
       setOperationCardProductCategory([]);
     }
   };
+  const getOperationCardCustomerAPICallFunc = async () => {
+    const getNextProductCategory = await GETOperationCardDetailCustomer(token);
+    if (getNextProductCategory?.status === 200) {
+      setOperationCardCustomer(
+        getNextProductCategory?.data?.data?.map((product_category: any) => ({
+          name: product_category?.name,
+          value: product_category?.name,
+        }))
+      );
+    } else {
+      setOperationCardCustomer([]);
+    }
+  };
 
   const getOperationCardDetailNextProductCategoryAPICallFunc = async () => {
     const getNextProductCategory = await GETProductProcessProductCategory(operationCardDetailData?.product, token);
@@ -1016,6 +1031,7 @@ const useOperationDetailCard = () => {
 
       getOperationCardDetailMachineAPICall();
       getOperationCardDetailToneAPICall();
+      getOperationCardCustomerAPICallFunc();
       createGoldAccessoryTable();
 
       getIssueReferenceAPICallFunc();
@@ -1047,6 +1063,7 @@ const useOperationDetailCard = () => {
     operationCardDesignCodeCategory,
     operationCardNextProductProcess,
     operationCardWorkerList,
+    operationCardCustomer,
     operationCardNextProductProcessDepartment,
     operationCardProductCategory,
     getOperationCardProductCategory,

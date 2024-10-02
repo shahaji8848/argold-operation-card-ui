@@ -25,6 +25,7 @@ const OperationCardIssueButton = ({
   operationCardKarigar,
   operationCardNextKarigar,
   operationCardConcept,
+  operationCardCustomer,
   operationCardThickness,
   operationCardTone,
   operationCardVariant,
@@ -57,6 +58,7 @@ const OperationCardIssueButton = ({
     'machine',
     'machine_size',
     'variant',
+    'customer',
     'tone',
     'next_process',
     'concept',
@@ -210,24 +212,6 @@ const OperationCardIssueButton = ({
       setDisableSubmitBtn((prev) => !prev);
 
       try {
-        // const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
-        //
-        // if (callSaveAPI?.status === 200) {
-        //   operationCardDetail();
-        //   handleClose();
-        //   if (callSaveAPI?.data?.message?.msg === 'success') {
-        //     toast.success(callSaveAPI?.data?.message?.data?.success_msg);
-        //   } else {
-        //     toast.error(callSaveAPI?.data?.message?.data?.error);
-        //   }
-        // } else {
-        //   handleClose();
-        //   const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
-        //   // Access the "message" property
-        //   const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
-        //   setErrMessage(messageValue);
-        //   setShowToastErr(true);
-        // }
         const fetchValidationForDesign = await GETValidationForDesign(
           operationCardDetailData?.name,
           operationCardDetailData?.product_process_department,
@@ -241,9 +225,6 @@ const OperationCardIssueButton = ({
           fetchValidationForDesign?.data?.message?.message === 'Please Fill Design in the Melting Plan.'
         ) {
           setvalidationForDesignErr(fetchValidationForDesign?.data?.message);
-          // setErrMessage(fetchValidationForDesign?.data?.message?.message);
-          // setShow(true);
-          // setShowToastErr(true);
           setDisableSubmitBtn(true);
         } else {
           if (
@@ -426,6 +407,8 @@ const OperationCardIssueButton = ({
 
     setMeltingPlanReference(add_melting_plan_reference_details);
 
+    console.log('operationCardValue', operationCardDetailData?.operation_card_issue_details);
+
     // Find a specific item object in operationCardDetailData, with specific logic for "hook"
     const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => {
       // Check if the value is "hook"
@@ -439,9 +422,7 @@ const OperationCardIssueButton = ({
       }
     });
 
-    // const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find(
-    //   (issueItem: any) => issueItem?.item === value
-    // );
+    console.log('operationCardValue', getSelectedItemObj);
 
     setSelectedIssueBtnData(getSelectedItemObj);
     let initialValuesOfSelectedItem: any = {};
@@ -452,6 +433,13 @@ const OperationCardIssueButton = ({
         setModalDropdownFields((prevFields: any) => ({
           ...prevFields,
           next_product_process: getSelectedItemObj?.next_product_process,
+        }));
+      }
+      if (getSelectedItemObj?.hasOwnProperty('customer_name')) {
+        initialValuesOfSelectedItem['customer_name'] = getSelectedItemObj['customer_name'];
+        setModalDropdownFields((prevFields: any) => ({
+          ...prevFields,
+          customer_name: getSelectedItemObj?.customer_name,
         }));
       }
     }
@@ -622,7 +610,7 @@ const OperationCardIssueButton = ({
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
                 let propToPass: any;
-
+                console.log('val', val);
                 setKey =
                   'label' in val ||
                   'show_in_weight' in val ||
@@ -637,6 +625,7 @@ const OperationCardIssueButton = ({
                     tone: operationCardTone,
                     karigar: operationCardKarigar,
                     concept: operationCardConcept,
+                    customer: operationCardCustomer,
                     next_karigar: operationCardNextKarigar,
                     next_design: operationCardNextDesign,
                     next_design_code_type: operationCardNextDesignCodeType,
