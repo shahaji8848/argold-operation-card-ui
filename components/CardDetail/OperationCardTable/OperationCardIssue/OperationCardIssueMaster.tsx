@@ -20,6 +20,7 @@ const OperationCardIssueMaster = ({
   operationCardVariant,
   operationCardMachine,
   operationCardMachineSize,
+  operationCardNextMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextDesign,
   operationCardNextProductProcess,
@@ -64,6 +65,7 @@ const OperationCardIssueMaster = ({
         operationCardVariant={operationCardVariant}
         operationCardWorkerList={operationCardWorkerList}
         operationCardMachineSize={operationCardMachineSize}
+        operationCardNextMachineSize={operationCardNextMachineSize}
         operationCardNextDesign={operationCardNextDesign}
         operationCardDesignCodeCategory={operationCardDesignCodeCategory}
         operationCardNextProductProcess={operationCardNextProductProcess}

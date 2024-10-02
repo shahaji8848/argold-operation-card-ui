@@ -33,6 +33,7 @@ const OperationCardDetailMaster = () => {
     operationCardVariant,
     operationCardConcept,
     operationCardMachineSize,
+    operationCardNextMachineSize,
     operationCardNextDesign,
     operationCardNextProductCategory,
     operationCardDesignCodeCategory,
@@ -117,6 +118,7 @@ const OperationCardDetailMaster = () => {
               operationCardVariant={operationCardVariant}
               operationCardMachine={operationCardMachine}
               operationCardMachineSize={operationCardMachineSize}
+              operationCardNextMachineSize={operationCardNextMachineSize}
               onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
               operationCardDesignCodeCategory={operationCardDesignCodeCategory}
               operationCardNextProductProcess={operationCardNextProductProcess}

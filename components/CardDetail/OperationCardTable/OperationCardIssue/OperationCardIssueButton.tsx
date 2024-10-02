@@ -30,6 +30,7 @@ const OperationCardIssueButton = ({
   operationCardVariant,
   operationCardMachine,
   operationCardMachineSize,
+  operationCardNextMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextProductProcess,
   // onChangeOfProductFetchNextProductProcess,
@@ -75,6 +76,7 @@ const OperationCardIssueButton = ({
     'next_worker',
     'machine',
     'product',
+    "next_machine_size",
   ];
 
   const checkboxFieldsList: string[] = ['hold_order_details'];
@@ -650,6 +652,7 @@ const OperationCardIssueButton = ({
                     worker: operationCardWorkerList,
                     next_worker: operationCardWorkerList,
                     product: operationCardProduct,
+                    next_machine_size: operationCardNextMachineSize,
                   };
                   propToPass = propMappings[val];
                   return propToPass;

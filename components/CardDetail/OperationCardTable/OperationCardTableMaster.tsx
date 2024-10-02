@@ -21,6 +21,7 @@ const OperationCardTableMaster = ({
   operationCardWorkerList,
   operationCardMachine,
   operationCardMachineSize,
+  operationCardNextMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextDesign,
   operationCardNextProductProcess,
@@ -90,6 +91,7 @@ const OperationCardTableMaster = ({
           operationCardTone={operationCardTone}
           operationCardVariant={operationCardVariant}
           operationCardMachineSize={operationCardMachineSize}
+          operationCardNextMachineSize={operationCardNextMachineSize}
           operationCardDesignCodeCategory={operationCardDesignCodeCategory}
           // onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
           operationCardNextProductProcess={operationCardNextProductProcess}
