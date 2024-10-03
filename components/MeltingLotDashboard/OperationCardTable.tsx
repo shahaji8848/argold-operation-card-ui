@@ -163,7 +163,9 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                           <td key={colIndex}>
                             {operation && column in operation
                               ? operation[column] && operation[column] !== null
-                                ? operation[column]
+                                ? column === 'purity'
+                                  ? operation[column].toFixed(3)
+                                  : operation[column]
                                 : '--'
                               : '--'}
                           </td>
