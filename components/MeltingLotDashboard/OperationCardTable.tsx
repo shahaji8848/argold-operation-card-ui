@@ -143,8 +143,13 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                           <td key={colIndex}>
                             {operation && column in operation
                               ? operation[column] && operation[column] !== null
+<<<<<<< HEAD
                                 ? column === 'purity'
                                   ? operation[column] && operation[column]?.toFixed(3)
+=======
+                                ? column === 'purity' && typeof operation[column] === 'number'
+                                  ? operation[column].toFixed(3)
+>>>>>>> 0f9df0cfe2aa07b34c00d6c7eca717f53ac7c7c0
                                   : operation[column]
                                 : '--'
                               : '--'}
