@@ -10,6 +10,7 @@ const OperationCardListingTable = ({ data, handleApprove }: any) => {
             <tr>
               {[
                 'parent melting lot',
+                'Refining Process Number',
                 'Melting lot',
                 'purity',
                 'product',
@@ -46,6 +47,9 @@ const OperationCardListingTable = ({ data, handleApprove }: any) => {
                   <tr key={index}>
                     <td className="text-uppercase">
                       {rowData?.parent_melting_lot && rowData?.parent_melting_lot !== null ? rowData?.parent_melting_lot : '--'}
+                    </td>
+                    <td className="text-uppercase">
+                      {rowData?.refining_process && rowData?.refining_process !== null ? rowData?.refining_process : '--'}
                     </td>
                     <td className="text-end">
                       {rowData?.melting_lot && rowData?.melting_lot !== null ? rowData?.melting_lot : '--'}
