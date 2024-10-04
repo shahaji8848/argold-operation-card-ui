@@ -48,6 +48,7 @@ const OperationCardDetailMaster = () => {
     operationCardProductCategory,
     getOperationCardDetailNextProductCategoryAPICallFunc,
     operationCardWorkerList,
+    operationCardCustomer,
     getOperationCardProductCategory,
     operationCardMachine,
     operationCardTone,
@@ -114,6 +115,7 @@ const OperationCardDetailMaster = () => {
               operationCardDetailData={operationCardDetailData}
               operationCardThickness={operationCardThickness}
               operationCardTone={operationCardTone}
+              operationCardCustomer={operationCardCustomer}
               operationCardConcept={operationCardConcept}
               operationCardVariant={operationCardVariant}
               operationCardMachine={operationCardMachine}

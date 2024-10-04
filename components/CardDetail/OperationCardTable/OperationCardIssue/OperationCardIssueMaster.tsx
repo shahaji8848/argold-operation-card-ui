@@ -16,6 +16,7 @@ const OperationCardIssueMaster = ({
   operationCardNextKarigar,
   operationCardThickness,
   operationCardConcept,
+  operationCardCustomer,
   operationCardTone,
   operationCardVariant,
   operationCardMachine,
@@ -59,6 +60,7 @@ const OperationCardIssueMaster = ({
         operationCardDetailData={operationCardDetailData}
         operationCardKarigar={operationCardKarigar}
         operationCardConcept={operationCardConcept}
+        operationCardCustomer={operationCardCustomer}
         operationCardNextKarigar={operationCardNextKarigar}
         operationCardThickness={operationCardThickness}
         operationCardTone={operationCardTone}

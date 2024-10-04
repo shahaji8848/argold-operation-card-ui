@@ -16,6 +16,7 @@ const OperationCardTableMaster = ({
   operationCardNextKarigar,
   operationCardThickness,
   operationCardConcept,
+  operationCardCustomer,
   operationCardVariant,
   operationCardTone,
   operationCardWorkerList,
@@ -87,6 +88,7 @@ const OperationCardTableMaster = ({
           operationCardKarigar={operationCardKarigar}
           operationCardNextKarigar={operationCardNextKarigar}
           operationCardConcept={operationCardConcept}
+          operationCardCustomer={operationCardCustomer}
           operationCardThickness={operationCardThickness}
           operationCardTone={operationCardTone}
           operationCardVariant={operationCardVariant}

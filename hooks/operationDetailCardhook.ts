@@ -40,6 +40,7 @@ import POSTDesignValue from '@/services/api/operation-card-detail-page/post-desi
 import GETBunchSalesOrder from '@/services/api/operation-card-detail-page/get-bunch-order';
 import GETMeltingPlanReferenceFromLot from '@/services/api/operation-card-detail-page/melting-plan-reference';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
+import GETOperationCardDetailCustomer from '@/services/api/operation-card-detail-page/operation-card-detail-customer';
 import GETProductProcessProductCategoryMeltingPlan from '@/services/api/operation-card-detail-page/product-category-melting-plan';
 import GETOperationCardDetailNextMachineSizeMeltingPlan from '@/services/api/operation-card-detail-page/next-machine-size-melting-plan';
 const useOperationDetailCard = () => {
@@ -68,6 +69,7 @@ const useOperationDetailCard = () => {
   const [operationCardThickness, setOperationCardThickness] = useState<any>([]);
   const [operationCardVariant, setOperationCardVariant] = useState<any>([]);
   const [operationCardConcept, setOperationCardConcept] = useState<any>([]);
+  const [operationCardCustomer, setOperationCardCustomer] = useState<any>([]);
   const [operationCardMachineSize, setOperationCardMachineSize] = useState<any>([]);
   const [operationCardDesignCodeCategory, setOperationCardDesignCodeCategory] = useState<any>([]);
   const [operationCardNextProductProcess, setOperationCardNextProductProcess] = useState<any>([]);
@@ -430,10 +432,13 @@ const useOperationDetailCard = () => {
       setOperationCardMachineSize([]);
     }
   };
- 
+
   const getOperationCardDetailNextMachineSizeAPICall = async () => {
-    if(operationCardDetailData?.melting_plan && operationCardDetailData?.melting_plan !== " "){
-      const getMachineSizeMeltingPlan = await GETOperationCardDetailNextMachineSizeMeltingPlan(operationCardDetailData?.melting_plan, token);
+    if (operationCardDetailData?.melting_plan && operationCardDetailData?.melting_plan !== ' ') {
+      const getMachineSizeMeltingPlan = await GETOperationCardDetailNextMachineSizeMeltingPlan(
+        operationCardDetailData?.melting_plan,
+        token
+      );
       if (getMachineSizeMeltingPlan?.status === 200) {
         setoperationCardNextMachineSize(
           getMachineSizeMeltingPlan?.data?.message?.data?.map((machine_size_data: any) => ({
@@ -444,21 +449,20 @@ const useOperationDetailCard = () => {
       } else {
         setoperationCardNextMachineSize([]);
       }
-    }else{
-    const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
-    if (getMachineSizeData?.status === 200) {
-      setoperationCardNextMachineSize(
-        getMachineSizeData?.data?.data?.map((machine_size_data: any) => ({
-          name: machine_size_data?.name,
-          value: machine_size_data?.name1,
-        }))
-      );
     } else {
-      setoperationCardNextMachineSize([]);
+      const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
+      if (getMachineSizeData?.status === 200) {
+        setoperationCardNextMachineSize(
+          getMachineSizeData?.data?.data?.map((machine_size_data: any) => ({
+            name: machine_size_data?.name,
+            value: machine_size_data?.name1,
+          }))
+        );
+      } else {
+        setoperationCardNextMachineSize([]);
+      }
     }
-  }
   };
-
 
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
     const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
@@ -469,8 +473,6 @@ const useOperationDetailCard = () => {
       setMachineSizeBasedOnDesignValue([]);
     }
   };
-
-  
 
   const getOperationCardDetailMachineAPICall = async () => {
     const getMachineData = await GETOperationCardDetailMachine(
@@ -647,10 +649,26 @@ const useOperationDetailCard = () => {
       setOperationCardProductCategory([]);
     }
   };
+  const getOperationCardCustomerAPICallFunc = async () => {
+    const getNextProductCategory = await GETOperationCardDetailCustomer(token);
+    if (getNextProductCategory?.status === 200) {
+      setOperationCardCustomer(
+        getNextProductCategory?.data?.data?.map((product_category: any) => ({
+          name: product_category?.name,
+          value: product_category?.name,
+        }))
+      );
+    } else {
+      setOperationCardCustomer([]);
+    }
+  };
 
   const getOperationCardDetailNextProductCategoryAPICallFunc = async () => {
-    if(operationCardDetailData?.melting_plan && operationCardDetailData?.melting_plan !== " "){
-      const getNextProductCategoryMeltingPlan = await GETProductProcessProductCategoryMeltingPlan(operationCardDetailData?.melting_plan, token);
+    if (operationCardDetailData?.melting_plan && operationCardDetailData?.melting_plan !== ' ') {
+      const getNextProductCategoryMeltingPlan = await GETProductProcessProductCategoryMeltingPlan(
+        operationCardDetailData?.melting_plan,
+        token
+      );
       if (getNextProductCategoryMeltingPlan?.status === 200) {
         setOperationCardNextProductCategory(
           getNextProductCategoryMeltingPlan?.data?.message?.data?.map((product_category: any) => ({
@@ -661,21 +679,20 @@ const useOperationDetailCard = () => {
       } else {
         setOperationCardNextProductCategory([]);
       }
-    }else{
-    const getNextProductCategory = await GETProductProcessProductCategory(operationCardDetailData?.product, token);
-    if (getNextProductCategory?.status === 200) {
-      setOperationCardNextProductCategory(
-        getNextProductCategory?.data?.data?.map((product_category: any) => ({
-          name: product_category?.name,
-          value: product_category?.name,
-        }))
-      );
     } else {
-      setOperationCardNextProductCategory([]);
+      const getNextProductCategory = await GETProductProcessProductCategory(operationCardDetailData?.product, token);
+      if (getNextProductCategory?.status === 200) {
+        setOperationCardNextProductCategory(
+          getNextProductCategory?.data?.data?.map((product_category: any) => ({
+            name: product_category?.name,
+            value: product_category?.name,
+          }))
+        );
+      } else {
+        setOperationCardNextProductCategory([]);
+      }
     }
-  }
   };
-
 
   const getOperationCardDetailWorkerAPICallFunc = async () => {
     const getWorkerList = await GETWorkerList(token, operationCardDetailData?.product_process_department);
@@ -1054,6 +1071,7 @@ const useOperationDetailCard = () => {
 
       getOperationCardDetailMachineAPICall();
       getOperationCardDetailToneAPICall();
+      getOperationCardCustomerAPICallFunc();
       createGoldAccessoryTable();
 
       getIssueReferenceAPICallFunc();
@@ -1086,6 +1104,7 @@ const useOperationDetailCard = () => {
     operationCardDesignCodeCategory,
     operationCardNextProductProcess,
     operationCardWorkerList,
+    operationCardCustomer,
     operationCardNextProductProcessDepartment,
     operationCardProductCategory,
     getOperationCardProductCategory,
@@ -1108,7 +1127,6 @@ const useOperationDetailCard = () => {
     balanceWeight,
     modalFieldsState,
     onChangeOfProductFetchNextProductProcess,
-    
 
     // Below variables are of Sales Order List
     salesOrderList,
