@@ -407,8 +407,6 @@ const OperationCardIssueButton = ({
 
     setMeltingPlanReference(add_melting_plan_reference_details);
 
-    console.log('operationCardValue', operationCardDetailData?.operation_card_issue_details);
-
     // Find a specific item object in operationCardDetailData, with specific logic for "hook"
     const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => {
       // Check if the value is "hook"
@@ -421,8 +419,6 @@ const OperationCardIssueButton = ({
         return issueItem?.item === value;
       }
     });
-
-    console.log('operationCardValue', getSelectedItemObj);
 
     setSelectedIssueBtnData(getSelectedItemObj);
     let initialValuesOfSelectedItem: any = {};
@@ -610,7 +606,7 @@ const OperationCardIssueButton = ({
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
                 let propToPass: any;
-                console.log('val', val);
+
                 setKey =
                   'label' in val ||
                   'show_in_weight' in val ||
