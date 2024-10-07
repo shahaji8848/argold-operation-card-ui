@@ -52,13 +52,26 @@ const OperationCardIssueButton = ({
 }: any) => {
   const { token } = useSelector(get_access_token);
 
+  const checkboxFieldsList: string[] = ['hold_order_details'];
+  const [show, setShow] = useState(false);
+  const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false);
+  const [showToastErr, setShowToastErr] = useState<boolean>(false);
+  const [emptyFieldsErr, setEmptyFieldsErr] = useState<boolean>(false);
+  const [validationForDesignErr, setvalidationForDesignErr] = useState({ message: '', url: '' });
+
+  const [errMessage, setErrMessage] = useState<string>('');
+  const [itemName, setItemName] = useState('');
+  const [selectedSalesOrderData, setSelectedSalesOrderData] = useState<any>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<string>('');
+  const [initialValueForActiveField, setInitialValueForActiveField] = useState<any>({});
+
   const checkArray = [
     'karigar',
     'next_karigar',
     'machine',
     'machine_size',
     'variant',
-    'customer',
+    !selectedCustomer && 'customer',
     'tone',
     'next_process',
     'concept',
@@ -78,19 +91,6 @@ const OperationCardIssueButton = ({
     'machine',
     'product',
   ];
-
-  const checkboxFieldsList: string[] = ['hold_order_details'];
-  const [show, setShow] = useState(false);
-  const [disableSubmitBtn, setDisableSubmitBtn] = useState<boolean>(false);
-  const [showToastErr, setShowToastErr] = useState<boolean>(false);
-  const [emptyFieldsErr, setEmptyFieldsErr] = useState<boolean>(false);
-  const [validationForDesignErr, setvalidationForDesignErr] = useState({ message: '', url: '' });
-
-  const [errMessage, setErrMessage] = useState<string>('');
-  const [itemName, setItemName] = useState('');
-  const [selectedSalesOrderData, setSelectedSalesOrderData] = useState<any>([]);
-  const [selectedCustomer, setSelectedCustomer] = useState<string>('');
-  const [initialValueForActiveField, setInitialValueForActiveField] = useState<any>({});
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
   const [getValues, setGetValues] = useState<any>([]);
@@ -202,6 +202,7 @@ const OperationCardIssueButton = ({
       item: itemName,
       ...(selectedSalesOrderData?.length > 0 && { order_detail: updateSalesTableData }),
       ...(modalFieldValuesState.hasOwnProperty('customer') && { customer: selectedCustomer }), // Conditionally include 'customer'
+      ...(selectedCustomer && { customer: selectedCustomer }),
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
