@@ -36,7 +36,7 @@ const inputField = [
     label: 'worker',
   },
   {
-    name: 'customer',
+    name: 'customer_name',
     label: 'customer',
   },
   {
