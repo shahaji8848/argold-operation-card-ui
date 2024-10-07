@@ -5,7 +5,7 @@ import SingleViewSalesOrder from './SingleViewSalesOrder';
 import BunchViewSalesOrder from './BunchViewSalesOrder';
 
 const ViewSalesOrderMaster = () => {
-  const { meltingPlanFilters, formatDate, groupOrdersByDesign, handleGetViewSalesOrders, viewSalesOrderData }: any =
+  const { viewSalesOrderFields, formatDate, groupOrdersByDesign, handleGetViewSalesOrders, viewSalesOrderData }: any =
     useMeltingLotSalesOrder();
 
   return (
@@ -13,22 +13,24 @@ const ViewSalesOrderMaster = () => {
       <div className="container-fluid">
         <div className="spacing-pd mb-3 mt-3">
           <div className="row">
-            <div className="col-md-3 mb-2">
-              <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Product</label>
-              <input
-                type="text"
-                className="form-control inputFields fs-13 rounded-2"
-                value={meltingPlanFilters?.product}
-                readOnly
-              />
-            </div>
-            {meltingPlanFilters?.purity !== null && (
+            {viewSalesOrderFields?.product !== null && (
+              <div className="col-md-3 mb-2">
+                <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Product</label>
+                <input
+                  type="text"
+                  className="form-control inputFields fs-13 rounded-2"
+                  value={viewSalesOrderFields?.product}
+                  readOnly
+                />
+              </div>
+            )}
+            {viewSalesOrderFields?.purity !== null && (
               <div className="col-md-3 mb-2">
                 <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Purity</label>
                 <input
                   type="text"
                   className="form-control inputFields fs-13 rounded-2"
-                  value={meltingPlanFilters?.purity}
+                  value={viewSalesOrderFields?.purity}
                   readOnly
                 />
               </div>
