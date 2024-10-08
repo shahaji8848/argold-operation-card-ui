@@ -59,6 +59,9 @@ const ModalSalesTable: any = ({
                 <tr className="table-text">
                   <th className="thead-dark text-center" scope="col"></th>
                   <th className="thead-dark text-center" scope="col">
+                    Customer Name
+                  </th>
+                  <th className="thead-dark text-center" scope="col">
                     Sales Order
                   </th>
                   <th className="thead-dark text-center" scope="col">
@@ -94,6 +97,9 @@ const ModalSalesTable: any = ({
                             // disabled={orderData?.assigned_order_id}
                             disabled={isDisabled || orderData?.assigned_order_id}
                           />
+                        </td>
+                        <td className="text-center">
+                          {orderData.customer && orderData.customer !== '' ? orderData.customer : '--'}
                         </td>
                         <td className="text-center">{orderData.sales_order}</td>
                         <td className="text-center">{orderData.market_design_name}</td>
