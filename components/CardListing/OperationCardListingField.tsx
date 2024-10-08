@@ -63,27 +63,28 @@ const OperationCardListingField = ({
         ))}
       </div>
 
-      <div className="filter-wrapper">
-        <button className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2" onClick={handleApplyFilters}>
-          Apply filter
-        </button>
-        {premittedProducts &&
-          premittedProducts?.length > 0 &&
-          premittedProducts?.map((ele: any, idx: any) => {
-            return (
-              <button
-                className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
-                onClick={() => handleButtonFilter(ele)}
-              >
-                {ele}
-              </button>
-            );
-          })}
+      <div className="filter-wrapper row">
+        <div className="col-12">
+          <button className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2" onClick={handleApplyFilters}>
+            Apply filter
+          </button>
+          {premittedProducts &&
+            premittedProducts?.length > 0 &&
+            premittedProducts?.map((ele: any, idx: any) => {
+              return (
+                <button
+                  className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
+                  onClick={() => handleButtonFilter(ele)}
+                >
+                  {ele}
+                </button>
+              );
+            })}
 
-        <Link href="" className="px-3 py-0 my-0 fs-14" onClick={handleClearFilters}>
-          Clear Filter
-        </Link>
-        <div>
+          <Link href="" className="px-3 py-0 my-0 fs-14 " onClick={handleClearFilters}>
+            Clear Filter
+          </Link>
+
           <label>
             <input type="checkbox" checked={showZeroBalance} onChange={handleCheckbox} />
             <span className="ps-2">Show zero balance record</span>
