@@ -23,6 +23,7 @@ const OperationCardListingTable = ({ data, handleApprove }: any) => {
                 'quantity',
                 'karigar',
                 'worker',
+                'customer',
                 'machine',
                 'laser powder type',
                 'tracking number',
@@ -71,6 +72,9 @@ const OperationCardListingTable = ({ data, handleApprove }: any) => {
                     <td>{rowData?.quantity && rowData?.quantity !== Number(0).toFixed(3) ? rowData?.quantity : '--'}</td>
                     <td className="">{rowData?.karigar && rowData?.karigar !== null ? rowData?.karigar : '--'}</td>
                     <td className="">{rowData?.worker && rowData?.worker !== null ? rowData?.worker : '--'}</td>
+                    <td className="">
+                      {rowData?.customer_name && rowData?.customer_name !== null ? rowData?.customer_name : '--'}
+                    </td>
                     <td className="">{rowData?.machine && rowData?.machine !== null ? rowData?.machine : '--'}</td>
                     <td className="">
                       {rowData?.laser_powder_type && rowData?.laser_powder_type !== null ? rowData?.laser_powder_type : '--'}
