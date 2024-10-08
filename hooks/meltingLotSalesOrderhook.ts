@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import DELETESalesOrders from '@/services/api/melting-lot-dashboard-page/delete-sales-order';
 import GETViewSalesOrder from '@/services/api/melting-lot-dashboard-page/view-sales-order';
 import GETProductFiltersGroupOrdersByDesign from '@/services/api/melting-lot-dashboard-page/product-filters-group-by-design';
+import GETViewSalesOrderShowFields from '@/services/api/melting-lot-dashboard-page/view-sales-order-show-fields';
 
 const useMeltingLotSalesOrder = () => {
   const { token } = useSelector(get_access_token);
@@ -22,6 +23,7 @@ const useMeltingLotSalesOrder = () => {
   // View sales order
   const [viewSalesOrderData, setViewSalesOrderData] = useState<any>([]);
   const [groupOrdersByDesign, setGroupOrdersByDesign] = useState<any>();
+  const [viewSalesOrderFields, setViewSalesOrderFields] = useState<any>({});
 
   useEffect(() => {
     const url = window.location.href;
@@ -31,6 +33,7 @@ const useMeltingLotSalesOrder = () => {
     if (meltingPlanValue) {
       fetchMeltingPlanFilter(meltingPlanValue);
       fetchExistingMeltingPlanOrder(meltingPlanValue);
+      handleViewSalesOrderOnProductAndPurity(meltingPlanValue);
     }
   }, [meltingPlan]);
 
@@ -544,19 +547,19 @@ const useMeltingLotSalesOrder = () => {
 
   // View Sales Order
   const handleViewSalesOrderOnProductAndPurity = async (meltingPlanValue: any) => {
-    const getMelitngPlanFilters = await GETMeltingPlanFilters(token, meltingPlanValue);
+    const getMelitngPlanFilters = await GETViewSalesOrderShowFields(token, meltingPlanValue);
 
     if (getMelitngPlanFilters?.status === 200) {
-      setMeltingPlanFilters(getMelitngPlanFilters?.data?.message);
+      setViewSalesOrderFields(getMelitngPlanFilters?.data?.message);
     } else {
-      setMeltingPlanFilters({});
+      setViewSalesOrderFields({});
     }
   };
 
   const fetchViewSalesOrderMeltingPlanBasedOnFilters = async () => {
     const getMeltingPlanBasedOnFiltersData = await GETViewSalesOrder(
-      meltingPlanFilters?.product,
-      meltingPlanFilters?.purity,
+      viewSalesOrderFields?.product,
+      viewSalesOrderFields?.purity,
       token
     );
 
@@ -574,7 +577,26 @@ const useMeltingLotSalesOrder = () => {
     fetchGroupOrderByDesign();
   };
 
+  // view sales order for design and market design name show column
   const fetchGroupOrderByDesign = async () => {
+    const fetchNextProductProcessDepartmentData: any = await GETProductFiltersGroupOrdersByDesign(
+      viewSalesOrderFields?.product,
+      token
+    );
+    if (fetchNextProductProcessDepartmentData?.status === 200) {
+      setGroupOrdersByDesign(fetchNextProductProcessDepartmentData?.data?.data[0]?.group_orders_by_design);
+    }
+  };
+
+  useEffect(() => {
+    if (viewSalesOrderFields?.product !== null) {
+      fetchGroupOrderByDesign();
+    }
+  }, [viewSalesOrderFields?.product]);
+
+  // add sales order for design and market design name show column
+
+  const fetchGroupOrderByDesignMeltingPlan = async () => {
     const fetchNextProductProcessDepartmentData: any = await GETProductFiltersGroupOrdersByDesign(
       meltingPlanFilters?.product,
       token
@@ -586,7 +608,7 @@ const useMeltingLotSalesOrder = () => {
 
   useEffect(() => {
     if (meltingPlanFilters?.product !== null) {
-      fetchGroupOrderByDesign();
+      fetchGroupOrderByDesignMeltingPlan();
     }
   }, [meltingPlanFilters?.product]);
 
@@ -606,6 +628,7 @@ const useMeltingLotSalesOrder = () => {
     viewSalesOrderData,
     handleGetViewSalesOrders,
     groupOrdersByDesign,
+    viewSalesOrderFields,
   };
 };
 
