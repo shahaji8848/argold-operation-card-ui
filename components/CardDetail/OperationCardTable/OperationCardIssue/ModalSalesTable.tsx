@@ -60,6 +60,9 @@ const ModalSalesTable: any = ({
                 <tr className="table-text">
                   <th className="thead-dark text-center" scope="col"></th>
                   <th className="thead-dark text-center" scope="col">
+                    Customer Name
+                  </th>
+                  <th className="thead-dark text-center" scope="col">
                     Sales Order
                   </th>
                   <th className="thead-dark text-center" scope="col">
@@ -106,6 +109,9 @@ const ModalSalesTable: any = ({
                               disabled={isDisabled || orderData?.assigned_order_id}
                             />
                           </td>
+                          <td className="text-center">
+                            {orderData.customer && orderData.customer !== '' ? orderData.customer : '--'}
+                          </td>
                           <td className="text-center">{orderData.sales_order}</td>
                           <td className="text-center">{orderData.market_design_name}</td>
                           <td className="text-center">
@@ -129,6 +135,7 @@ const ModalSalesTable: any = ({
                           <tr className="table-text" key={`total-${index}`}>
                             <td></td>
                             <td></td>
+                            <td></td>
                             <td className="text-center">
                               <strong>Total</strong>
                             </td>
@@ -147,7 +154,7 @@ const ModalSalesTable: any = ({
 
                 {/* Totals Row */}
                 <tr className="table-text">
-                  <td className="text-center" colSpan={3}>
+                  <td className="text-center" colSpan={4}>
                     <strong>Total</strong>
                   </td>
                   <td className="text-center">
