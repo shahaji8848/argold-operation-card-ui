@@ -30,6 +30,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
     'worker',
     'line_number',
     'next_tracking_number',
+    'next_worker',
   ];
 
   const redirectToNextOC = (oc_id: string) => {
@@ -100,6 +101,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'Karigar',
               'Worker',
               'Next Karigar',
+              'Next Worker',
               'OP',
               'Description',
             ].map((val, i: any) => (
@@ -127,6 +129,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                 <td className="text-end">{data?.karigar ?? '--'}</td>
                 <td className="text-end">{data?.next_worker ?? '--'}</td>
                 <td className="text-end">{data?.next_karigar ?? '--'}</td>
+                <td className="text-end">{data?.next_worker ?? '--'}</td>
                 <td className="text-end">
                   {hasOPkey(data) ? (
                     <Link
@@ -164,6 +167,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'karigar',
               'worker',
               'next_karigar',
+              'next_worker',
               'old_operation_card',
             ].map((data: any, i: any) => (
               <td className="font-weight-bold text-end" key={i}>
