@@ -557,6 +557,7 @@ const useOperationDetailCard = () => {
       setOperationCardDesignCodeCategory([]);
     }
   };
+
   const getOperationCardDetailDesignAPICall = async () => {
     const getDesign = await GETProductProcessDesign(operationCardDetailData?.product, token);
     if (getDesign?.status === 200) {
