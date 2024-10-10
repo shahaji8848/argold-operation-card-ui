@@ -487,7 +487,7 @@ const useOperationDetailCard = () => {
       operationCardDetailData?.product === 'KA Chain'
     ) {
       const getToneData = await GETToneShowToneForChain(token);
-      console.log('monika', getToneData);
+
       if (getToneData?.status === 200) {
         setOperationCardTone(
           getToneData?.data?.data?.map((tone_data: any) => ({
@@ -529,8 +529,6 @@ const useOperationDetailCard = () => {
       }
     }
   };
-
-  // console.log('monika', operationCardDetailData?.product);
 
   const getOperationCardDetailShowToneForChainAPICall = async () => {
     const getShowToneForChainData = await GETToneShowToneForChain(token);

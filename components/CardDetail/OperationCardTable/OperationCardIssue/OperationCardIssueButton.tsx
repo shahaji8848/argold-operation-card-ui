@@ -102,6 +102,9 @@ const OperationCardIssueButton = ({
   // Below State is to set the value of input fields inside the modal. These values are coming from OC Detail API.
   const [modalFieldValuesState, setModalFieldValuesState] = useState<any>({});
   const [meltingPlanReference, setMeltingPlanReference] = useState<any>('');
+  // set machine size value on base of selected design value
+  const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+  const [toneVlaueforNextProcess, setToneVlaueforNextProcess] = useState<any>([]);
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
@@ -147,9 +150,7 @@ const OperationCardIssueButton = ({
       }
     }
   };
-  // set machine size value on base of selected design value
-  const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
-  const [toneVlaueforNextProcess, setToneVlaueforNextProcess] = useState<any>([]);
+
   // const { getMachineSizeBasedOnDesignValueAPICall }: any = useOperationDetailCard();
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
@@ -195,7 +196,6 @@ const OperationCardIssueButton = ({
       });
     }
   };
-  console.log('monika', operationCardTone);
 
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
     const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
@@ -225,7 +225,7 @@ const OperationCardIssueButton = ({
       setNextProcessAsPerTone([]);
     }
   };
-  console.log('monika', nextProcessAsPerTone);
+
   const { selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any = useOperationDetailCard();
   //
   //
