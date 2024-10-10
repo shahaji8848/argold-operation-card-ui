@@ -16,6 +16,7 @@ import UpdateSalesOrderWithBooleanValueAPI from '@/services/api/operation-card-d
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 import { toast } from 'react-toastify';
+import GETNextProcessAsPerTone from '@/services/api/operation-card-detail-page/next-process-as-per-tone';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -148,6 +149,7 @@ const OperationCardIssueButton = ({
   };
   // set machine size value on base of selected design value
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+  const [toneVlaueforNextProcess, setToneVlaueforNextProcess] = useState<any>([]);
   // const { getMachineSizeBasedOnDesignValueAPICall }: any = useOperationDetailCard();
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
@@ -170,7 +172,30 @@ const OperationCardIssueButton = ({
     if (labelValue === 'next_design') {
       getMachineSizeBasedOnDesignValueAPICall(selectedValue?.name);
     }
+
+    if (
+      operationCardDetailData?.product === 'KA Chain' &&
+      labelValue === 'tone' &&
+      // operationCardDetailData?.product_process_department === 'DC-DC Process-KA Chain') ||
+      operationCardDetailData?.product_process === 'Hammering 2 Process-KA Chain'
+    ) {
+      setToneVlaueforNextProcess(selectedValue?.name);
+    }
+    if (
+      operationCardDetailData?.product === 'KA Chain' &&
+      labelValue === 'next_product_process' &&
+      // operationCardDetailData?.product_process_department === 'DC-DC Process-KA Chain')
+      // ||
+      operationCardDetailData?.product_process === 'Hammering 2 Process-KA Chain'
+    ) {
+      getOperationCardDetailNextProcessAsPerToneAPICall(toneVlaueforNextProcess);
+      setModalDropdownFields({
+        ...modalDropdownFields,
+        // next_product_process: machineSizeBasedOnDesignValue?.machine_size_name || selectedValue?.name,
+      });
+    }
   };
+  console.log('monika', operationCardTone);
 
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
     const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
@@ -182,6 +207,25 @@ const OperationCardIssueButton = ({
     }
   };
 
+  const [nextProcessAsPerTone, setNextProcessAsPerTone] = useState([]);
+  const getOperationCardDetailNextProcessAsPerToneAPICall = async (toneVlaueforNextProcess: any) => {
+    const getNextProcessAsPerToneData = await GETNextProcessAsPerTone(
+      toneVlaueforNextProcess,
+      operationCardDetailData?.product_process_department,
+      token
+    );
+    if (getNextProcessAsPerToneData?.status === 200) {
+      setNextProcessAsPerTone(
+        getNextProcessAsPerToneData?.data?.data?.map((tone_data: any) => ({
+          name: tone_data?.name,
+          value: tone_data?.name,
+        }))
+      );
+    } else {
+      setNextProcessAsPerTone([]);
+    }
+  };
+  console.log('monika', nextProcessAsPerTone);
   const { selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any = useOperationDetailCard();
   //
   //
@@ -628,7 +672,16 @@ const OperationCardIssueButton = ({
                     next_design_code_type: operationCardNextDesignCodeType,
                     design_code_category: operationCardDesignCodeCategory,
                     next_process: operationCardNextProductProcess,
-                    next_product_process: operationCardNextProductProcess,
+                    next_product_process:
+                      operationCardDetailData?.product_process === 'Hammering 2 Process-KA Chain' &&
+                      operationCardDetailData?.product === 'KA Chain'
+                        ? nextProcessAsPerTone
+                        : operationCardNextProductProcess,
+                    //   ||
+                    // (operationCardDetailData?.product_process_department === 'DC-DC Process-KA Chain' &&
+                    // operationCardDetailData?.product === 'KA Chain'
+                    //   ? nextProcessAsPerTone
+                    //   : operationCardNextProductProcess)
                     next_product_process_department: operationCardNextProductProcessDepartment,
                     product_category: operationCardProductCategory,
                     next_product_category: operationCardNextProductCategory,
