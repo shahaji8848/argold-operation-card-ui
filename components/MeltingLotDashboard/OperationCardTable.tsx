@@ -85,7 +85,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         Edit Melting Plan
                       </Link>
                     </button>
-                    <button className="text-end btn btn-blue btn-py ">
+                    {/* <button className="text-end btn btn-blue btn-py ">
                       <Link
                         href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
                         className="text-white"
@@ -93,7 +93,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                       >
                         Add Sales Order
                       </Link>
-                    </button>
+                    </button> */}
                   </>
                 )}
                 {meltingData?.docstatus === 1 && (
@@ -124,7 +124,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         View Melting Lot
                       </Link>
                     </button>
-                    <button className="text-end btn btn-blue btn-py ">
+                    {/* <button className="text-end btn btn-blue btn-py ">
                       <Link
                         href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
                         className="text-white"
@@ -132,7 +132,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                       >
                         Add Sales Order
                       </Link>
-                    </button>
+                    </button> */}
                   </>
                 )}
               </div>
@@ -147,6 +147,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                       </th>
                     ))}
                     <th>add order details</th>
+                    <th>add sales order</th>
                   </tr>
                 </thead>
                 <tbody className="card-listing-body">
@@ -179,6 +180,21 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                               </Link>
                             </button>
                           ) : null}
+                        </td>
+                        <td>
+                          <button className="text-end btn btn-blue btn-py ">
+                            <Link
+                              // href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
+                              href={{
+                                pathname: '/add-sales-order',
+                                query: { melting_plan: meltingData?.melting_plan, lot_data: meltingData },
+                              }}
+                              className="text-white"
+                              target="_blank"
+                            >
+                              Add Sales Order
+                            </Link>
+                          </button>
                         </td>
                       </tr>
                     ))
