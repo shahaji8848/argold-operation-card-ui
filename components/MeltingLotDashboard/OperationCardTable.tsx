@@ -141,31 +141,70 @@ const OperationCardTable = ({ meltingLotList }: any) => {
               <table className="table table-bordered">
                 <thead className="card-listing-head">
                   <tr>
-                    {meltingData?.columns?.map((column: any, colIndex: any) => (
+                    {/* {meltingData?.columns?.map((column: any, colIndex: any) => (
                       <th className="thead-dark text-center" scope="col" key={colIndex}>
                         {column.replace(/_/g, ' ')}
                       </th>
-                    ))}
-                    <th>add order details</th>
-                    <th>add sales order</th>
+                    ))} */}
+                    {meltingData?.linked_operations &&
+                      meltingData?.linked_operations.length > 0 &&
+                      Object.keys(meltingData.linked_operations[0]).map((key, colIndex) => (
+                        <>
+                          <th className="thead-dark text-center" scope="col" key={colIndex}>
+                            {key.replace(/_/g, ' ')}
+                          </th>
+                        </>
+                      ))}
+                    <th className="text-center">add order details</th>
+                    <th className="text-center">add sales order</th>
                   </tr>
                 </thead>
                 <tbody className="card-listing-body">
                   {meltingData?.linked_operations && meltingData?.linked_operations.length > 0 ? (
+                    // meltingData?.linked_operations.map((operation: any, opIdx: any) => (
+                    //   <tr key={opIdx}>
+                    //     {meltingData?.columns?.map((column: any, colIndex: any) => (
+                    //       <td key={colIndex}>
+                    //         {operation && column in operation
+                    //           ? operation[column] && operation[column] !== null
+                    //             ? column === 'purity' && typeof operation[column] === 'number'
+                    //               ? operation[column].toFixed(3)
+                    //               : operation[column]
+                    //             : '--'
+                    //           : '--'}
+                    //       </td>
+                    //     ))}
+                    //     <td>
+                    //       {operation?.operation_card ? (
+                    //         <button
+                    //           className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
+                    //           onClick={handleMeltingLotShowOrder}
+                    //         >
+                    //           <Link
+                    //             href={`operation-card-detail?name=${operation?.operation_card}`}
+                    //             className="text-white"
+                    //             target="_blank"
+                    //           >
+                    //             Edit Order Details
+                    //           </Link>
+                    //         </button>
+                    //       ) : null}
+                    //     </td>
+                    //   </tr>
+                    // ))
+
                     meltingData?.linked_operations.map((operation: any, opIdx: any) => (
                       <tr key={opIdx}>
-                        {meltingData?.columns?.map((column: any, colIndex: any) => (
-                          <td key={colIndex}>
-                            {operation && column in operation
-                              ? operation[column] && operation[column] !== null
-                                ? column === 'purity' && typeof operation[column] === 'number'
-                                  ? operation[column].toFixed(3)
-                                  : operation[column]
-                                : '--'
+                        {Object.keys(operation).map((key, colIndex) => (
+                          <td key={colIndex} className="text-center">
+                            {operation[key] !== null && operation[key] !== undefined && operation[key] !== ''
+                              ? typeof operation[key] === 'number' && key === 'purity'
+                                ? operation[key].toFixed(3)
+                                : operation[key]
                               : '--'}
                           </td>
                         ))}
-                        <td>
+                        <td className="text-center">
                           {operation?.operation_card ? (
                             <button
                               className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
@@ -173,13 +212,15 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                             >
                               <Link
                                 href={`operation-card-detail?name=${operation?.operation_card}`}
-                                className="text-white"
+                                className="text-white text-center"
                                 target="_blank"
                               >
                                 Edit Order Details
                               </Link>
                             </button>
-                          ) : null}
+                          ) : (
+                            '--'
+                          )}
                         </td>
                         <td>
                           <button className="text-end btn btn-blue btn-py ">
