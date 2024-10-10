@@ -1,6 +1,7 @@
 import React from 'react';
 
 const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign }: any) => {
+  console.log('salesOrderData', salesOrderData);
   return (
     <>
       {salesOrderData?.single_orders?.length > 0 && (
@@ -65,8 +66,8 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign 
                                   : '--'}
                               </td>
                               <td className="text-center">
-                                {ordersData?.total_order_weight !== ' ' && ordersData?.total_order_weight !== null
-                                  ? ordersData?.total_order_weight?.toFixed(3)
+                                {itemGroupData?.total_order_weight !== ' ' && itemGroupData?.total_order_weight !== null
+                                  ? itemGroupData?.total_order_weight?.toFixed(3)
                                   : '--'}
                               </td>
 

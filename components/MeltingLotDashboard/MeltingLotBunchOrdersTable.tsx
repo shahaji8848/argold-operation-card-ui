@@ -85,9 +85,9 @@ const MeltingLotBunchOrdersTable = ({
                                   : '--'}
                               </td>
                               <td className="text-center">
-                                {ordersData?.total_estimate_bunch_weight !== ' ' &&
-                                ordersData?.total_estimate_bunch_weight !== null
-                                  ? ordersData?.total_estimate_bunch_weight?.toFixed(3)
+                                {itemGroupData?.total_estimate_bunch_weight !== ' ' &&
+                                itemGroupData?.total_estimate_bunch_weight !== null
+                                  ? itemGroupData?.total_estimate_bunch_weight?.toFixed(3)
                                   : '--'}
                               </td>
 
