@@ -1,10 +1,9 @@
+import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
+import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import meltingStyles from '../../styles/melting-lot-data.module.css';
-import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
+import meltingStyles from '../../styles/melting-lot-data.module.css';
 
 const OperationCardTable = ({ meltingLotList }: any) => {
   const { handleMeltingLotShowOrder }: any = useOperationDetailCard();
@@ -91,15 +90,6 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         Edit Melting Plan
                       </Link>
                     </button>
-                    <button className="text-end btn btn-blue btn-py ">
-                      <Link
-                        href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
-                        className="text-white"
-                        target="_blank"
-                      >
-                        Add Sales Order
-                      </Link>
-                    </button>
                   </>
                 )}
                 {meltingData?.docstatus === 1 && (
@@ -130,15 +120,6 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         View Melting Lot
                       </Link>
                     </button>
-                    <button className="text-end btn btn-blue btn-py ">
-                      <Link
-                        href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
-                        className="text-white"
-                        target="_blank"
-                      >
-                        Add Sales Order
-                      </Link>
-                    </button>
                   </>
                 )}
               </div>
@@ -162,6 +143,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         </>
                       ))}
                     <th className="text-center">add order details</th>
+                    <th className="text-center">add sales order</th>
                   </tr>
                 </thead>
                 <tbody className="card-listing-body">
@@ -226,6 +208,23 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                           ) : (
                             '--'
                           )}
+                        </td>
+                        <td>
+                          <button
+                            className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
+                            onClick={handleMeltingLotShowOrder}
+                          >
+                            <Link
+                              href={{
+                                pathname: '/add-sales-order',
+                                query: { melting_plan: meltingData?.melting_plan, lot_data: JSON.stringify(operation) },
+                              }}
+                              className="text-white text-center"
+                              target="_blank"
+                            >
+                              Add Sales Order
+                            </Link>
+                          </button>
                         </td>
                       </tr>
                     ))
