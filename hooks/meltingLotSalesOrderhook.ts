@@ -15,7 +15,6 @@ import { toast } from 'react-toastify';
 
 const useMeltingLotSalesOrder = () => {
   const { token } = useSelector(get_access_token);
-  const [meltingPlan, setMeltingPlan] = useState<any>('');
   const [meltingPlanFilters, setMeltingPlanFilters] = useState<any>({});
   const [salesOrderData, setSalesOrderData] = useState<any>([]);
   const [selectedOrders, setSelectedOrders] = useState<{ [key: string]: boolean }>({});
@@ -25,21 +24,23 @@ const useMeltingLotSalesOrder = () => {
   const [viewSalesOrderData, setViewSalesOrderData] = useState<any>([]);
   const [groupOrdersByDesign, setGroupOrdersByDesign] = useState<any>();
   const [viewSalesOrderFields, setViewSalesOrderFields] = useState<any>({});
-  const query = useSearchParams();
-  useEffect(() => {
-    const url = window.location.href;
-    const meltingPlanValue = url.split('=')[1];
+  const searchParams = useSearchParams();
+  const meltingPlan = searchParams.get('melting_plan');
+  const meltingPlanFilterParams = {
+    melting_plan: searchParams.get('melting_plan'),
+    lot_data: searchParams.get('lot_data'),
+  };
 
-    setMeltingPlan(meltingPlanValue || '');
-    if (meltingPlanValue) {
-      fetchMeltingPlanFilter(meltingPlanValue);
-      fetchExistingMeltingPlanOrder(meltingPlanValue);
-      handleViewSalesOrderOnProductAndPurity(meltingPlanValue);
+  useEffect(() => {
+    if (meltingPlan) {
+      fetchMeltingPlanFilter();
+      fetchExistingMeltingPlanOrder(meltingPlan);
+      handleViewSalesOrderOnProductAndPurity(meltingPlan);
     }
   }, [meltingPlan]);
 
-  const fetchMeltingPlanFilter = async (meltingPlanParams: any) => {
-    const getMelitngPlanFilters = await GETMeltingPlanFilters(token, query);
+  const fetchMeltingPlanFilter = async () => {
+    const getMelitngPlanFilters = await GETMeltingPlanFilters(token, meltingPlanFilterParams);
 
     if (getMelitngPlanFilters?.status === 200) {
       setMeltingPlanFilters(getMelitngPlanFilters?.data?.message);
