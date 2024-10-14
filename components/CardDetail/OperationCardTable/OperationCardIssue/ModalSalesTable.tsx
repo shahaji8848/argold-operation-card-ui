@@ -112,6 +112,7 @@ const ModalSalesTable: any = ({
                               />
                             </td>
                           )}
+                          <td className="text-center">{orderData?.customer === '' ? '--' : orderData.customer}</td>
                           <td className="text-center">{orderData.sales_order}</td>
                           <td className="text-center">{orderData.market_design_name}</td>
                           <td className="text-center">
