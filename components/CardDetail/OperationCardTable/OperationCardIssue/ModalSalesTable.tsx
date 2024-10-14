@@ -49,6 +49,7 @@ const ModalSalesTable: any = ({
   };
 
   const { totalProductionQty, totalOrderWeight } = calculateTotals();
+
   return (
     <>
       <div className="row mt-2">
@@ -81,6 +82,15 @@ const ModalSalesTable: any = ({
               <tbody>
                 {salesOrderList?.length > 0 &&
                   salesOrderList.map((orderData: any, index: any) => {
+                    // Calculate totals for each individual row
+                    const rowProductionQty = orderData.qty_size_list.reduce(
+                      (acc: number, values: any) => acc + (values.production_qty || 0),
+                      0
+                    );
+                    const rowOrderWeight = orderData.qty_size_list.reduce(
+                      (acc: number, values: any) => acc + (values.order_weight || 0),
+                      0
+                    );
                     // const isChecked = selectedSalesOrderData.some((item: any) => item === orderData);
                     const isChecked = selectedSalesOrderData.some((item: any) => item.order_id === orderData.order_id);
 
@@ -88,36 +98,53 @@ const ModalSalesTable: any = ({
                     const isDisabled = selectedCustomer && selectedCustomer !== orderData?.customer;
 
                     return (
-                      <tr className="table-text" key={index}>
-                        <td className="text-center">
-                          <input
-                            type="checkbox"
-                            onChange={() => handleCheckboxChange(orderData, !isChecked, isDisabled)}
-                            checked={isChecked || isDisabled || !!orderData?.assigned_order_id}
-                            // disabled={orderData?.assigned_order_id}
-                            disabled={isDisabled || orderData?.assigned_order_id}
-                          />
-                        </td>
-                        <td className="text-center">
-                          {orderData.customer && orderData.customer !== '' ? orderData.customer : '--'}
-                        </td>
-                        <td className="text-center">{orderData.sales_order}</td>
-                        <td className="text-center">{orderData.market_design_name}</td>
-                        <td className="text-center">
-                          {orderData.qty_size_list.length > 0 &&
-                            orderData.qty_size_list.map((values: any, id: any) => <div key={id}>{values.production_qty}</div>)}
-                        </td>
-                        <td className="text-center">
-                          {orderData.qty_size_list.length > 0 &&
-                            orderData.qty_size_list.map((values: any, id: any) => (
-                              <div key={id}>{values.order_weight.toFixed(2)}</div>
-                            ))}
-                        </td>
-                        <td className="text-center">
-                          {orderData.qty_size_list.length > 0 &&
-                            orderData.qty_size_list.map((values: any, id: any) => <div key={id}>{values.size}</div>)}
-                        </td>
-                      </tr>
+                      <>
+                        <tr className="table-text" key={index}>
+                          <td className="text-center">
+                            <input
+                              type="checkbox"
+                              onChange={() => handleCheckboxChange(orderData, !isChecked, isDisabled)}
+                              checked={isChecked || isDisabled || !!orderData?.assigned_order_id}
+                              // disabled={orderData?.assigned_order_id}
+                              disabled={isDisabled || orderData?.assigned_order_id}
+                            />
+                          </td>
+                          <td className="text-center">{orderData.sales_order}</td>
+                          <td className="text-center">{orderData.market_design_name}</td>
+                          <td className="text-center">
+                            {orderData.qty_size_list.length > 0 &&
+                              orderData.qty_size_list.map((values: any, id: any) => <div key={id}>{values.production_qty}</div>)}
+                          </td>
+                          <td className="text-center">
+                            {orderData.qty_size_list.length > 0 &&
+                              orderData.qty_size_list.map((values: any, id: any) => (
+                                <div key={id}>{values.order_weight.toFixed(2)}</div>
+                              ))}
+                          </td>
+                          <td className="text-center">
+                            {orderData.qty_size_list.length > 0 &&
+                              orderData.qty_size_list.map((values: any, id: any) => <div key={id}>{values.size}</div>)}
+                          </td>
+                        </tr>
+
+                        {/* Row totals for production qty and order weight */}
+                        {salesOrderList.length > 1 && (
+                          <tr className="table-text" key={`total-${index}`}>
+                            <td></td>
+                            <td></td>
+                            <td className="text-center">
+                              <strong>Total</strong>
+                            </td>
+                            <td className="text-center">
+                              <strong>{rowProductionQty}</strong>
+                            </td>
+                            <td className="text-center">
+                              <strong>{rowOrderWeight.toFixed(2)}</strong>
+                            </td>
+                            <td></td>
+                          </tr>
+                        )}
+                      </>
                     );
                   })}
 

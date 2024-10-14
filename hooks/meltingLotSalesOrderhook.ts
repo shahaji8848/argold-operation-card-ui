@@ -8,9 +8,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import DELETESalesOrders from '@/services/api/melting-lot-dashboard-page/delete-sales-order';
-import GETViewSalesOrder from '@/services/api/melting-lot-dashboard-page/view-sales-order';
+import GETProductFiltersForDesign from '@/services/api/melting-lot-dashboard-page/product-filters-for-design';
+import GETOperationCardDetailNextProductProcessDepartment from '@/services/api/operation-card-detail-page/operation-card-next-product-process-dept';
 import GETProductFiltersGroupOrdersByDesign from '@/services/api/melting-lot-dashboard-page/product-filters-group-by-design';
-import GETViewSalesOrderShowFields from '@/services/api/melting-lot-dashboard-page/view-sales-order-show-fields';
 
 const useMeltingLotSalesOrder = () => {
   const { token } = useSelector(get_access_token);
@@ -20,10 +20,8 @@ const useMeltingLotSalesOrder = () => {
   const [selectedOrders, setSelectedOrders] = useState<{ [key: string]: boolean }>({});
   const [selectedDesign, setSelectedDesign] = useState<any>(null); // New state to track selected design
   const [existingSalesOrderData, setExistingSalesOrderData] = useState<any>([]);
-  // View sales order
-  const [viewSalesOrderData, setViewSalesOrderData] = useState<any>([]);
+  const [allowMultipleDesign, setAllowMultipleDesign] = useState<any>();
   const [groupOrdersByDesign, setGroupOrdersByDesign] = useState<any>();
-  const [viewSalesOrderFields, setViewSalesOrderFields] = useState<any>({});
 
   useEffect(() => {
     const url = window.location.href;
@@ -49,10 +47,11 @@ const useMeltingLotSalesOrder = () => {
 
   const fetchMeltingPlanBasedOnFilters = async () => {
     const getMeltingPlanBasedOnFiltersData = await GETMeltingPlanBasedOnFilters(
-      meltingPlanFilters?.design,
       meltingPlanFilters?.product,
-      meltingPlanFilters?.machine_size,
       meltingPlanFilters?.product_category,
+      meltingPlanFilters?.machine_size,
+      meltingPlanFilters?.design,
+      meltingPlanFilters?.purity,
       token
     );
 
@@ -68,6 +67,30 @@ const useMeltingLotSalesOrder = () => {
   const handleGetSalesOrders = () => {
     fetchMeltingPlanBasedOnFilters();
   };
+
+  const fetchProductFiltersForDesign = async () => {
+    const getProductFiltersForDesign = await GETProductFiltersForDesign(meltingPlanFilters?.product, token);
+    if (getProductFiltersForDesign?.status === 200) {
+      setAllowMultipleDesign(getProductFiltersForDesign?.data?.data[0]?.allow_multiple_designs_in_orders);
+    }
+  };
+
+  const fetchNextProductProcessDepartment = async () => {
+    const fetchNextProductProcessDepartmentData: any = await GETProductFiltersGroupOrdersByDesign(
+      meltingPlanFilters?.product,
+      token
+    );
+    if (fetchNextProductProcessDepartmentData?.status === 200) {
+      setGroupOrdersByDesign(fetchNextProductProcessDepartmentData?.data?.data[0]?.group_orders_by_design);
+    }
+  };
+
+  useEffect(() => {
+    if (meltingPlanFilters?.product !== null) {
+      fetchNextProductProcessDepartment();
+      fetchProductFiltersForDesign();
+    }
+  }, [meltingPlanFilters?.product]);
 
   const handleCheckboxChange = (unique_key: any, design: string, isChecked: boolean, isDisabled: boolean) => {
     if (isDisabled) return; // Do nothing if the checkbox is disabled
@@ -85,15 +108,17 @@ const useMeltingLotSalesOrder = () => {
 
         return updatedData;
       } else {
-        // If the checkbox is being checked
-        if (selectedDesign && selectedDesign !== design) {
-          toast.error('You can only select orders with the same design.');
-          return prevData; // Do not update state if different design
-        }
+        if (allowMultipleDesign === 0) {
+          if (selectedDesign && selectedDesign !== design) {
+            // If the checkbox is being checked
+            toast.error('You can only select orders with the same design.');
+            return prevData; // Do not update state if different design
+          }
 
-        // Set selectedDesign if none is selected
-        if (!selectedDesign) {
-          setSelectedDesign(design);
+          // Set selectedDesign if none is selected
+          if (!selectedDesign) {
+            setSelectedDesign(design);
+          }
         }
 
         // Add the checked order to the selected orders
@@ -525,12 +550,15 @@ const useMeltingLotSalesOrder = () => {
         const response = await DELETESalesOrders(deletedItemsSoiNames, token);
 
         if (response?.status === 200) {
-          if (response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.') {
+          if (
+            response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.' &&
+            response?.data?.message !== 'Cannot delete the Sales Order.'
+          ) {
             toast.success(response?.data?.message);
           } else {
             toast.error(response?.data?.message);
             // Optionally reload the page after showing the error toast
-            // setTimeout(() => window.location.reload(), 2000);
+            setTimeout(() => window.location.reload(), 2000);
             fetchExistingMeltingPlanOrder(meltingPlan);
           }
         }
@@ -624,11 +652,7 @@ const useMeltingLotSalesOrder = () => {
     selectedDesign,
     existingSalesOrderData,
     handleDeleteSalesOrder,
-    handleViewSalesOrderOnProductAndPurity,
-    viewSalesOrderData,
-    handleGetViewSalesOrders,
     groupOrdersByDesign,
-    viewSalesOrderFields,
   };
 };
 
