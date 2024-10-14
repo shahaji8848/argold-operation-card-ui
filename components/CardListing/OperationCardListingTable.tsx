@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import style from '../../styles/operation-card-list.module.css';
 
 const OperationCardListingTable = ({ data, handleApprove }: any) => {
   const renderData = () => {
@@ -105,7 +106,11 @@ const OperationCardListingTable = ({ data, handleApprove }: any) => {
                     </td>
                     <td className="text-end">
                       {rowData?.approve_operation_card_status === 1 ? (
-                        <button className="btn btn-blue btn-py px-2" onClick={() => handleApprove(rowData?.name)}>
+                        <button
+                          id={rowData?.name} // Adding an id to match the document.getElementById
+                          className={`btn btn-blue btn-py px-2 ${style.button}`}
+                          onClick={() => handleApprove(rowData?.name)}
+                        >
                           Approve
                         </button>
                       ) : (

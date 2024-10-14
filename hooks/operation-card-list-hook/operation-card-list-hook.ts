@@ -183,23 +183,35 @@ const useOperationCardList = () => {
     const button = document.getElementById(rowData);
     if (button instanceof HTMLButtonElement) {
       button.disabled = true;
-      if (!disabledItems[rowData]) {
-        disabledItems[rowData] = setTimeout(
-          () => {
-            delete disabledItems[rowData];
-            button.disabled = false;
-          },
-          5 * 60 * 1000
-        ); // 5 minutes in milliseconds
-      }
+      button.classList.add('disabled'); // Add a class to handle styling
+      // if (!disabledItems[rowData]) {
+      //   disabledItems[rowData] = setTimeout(
+      //     () => {
+      //       delete disabledItems[rowData];
+      //       button.disabled = false;
+      //     },
+      //     5 * 60 * 1000
+      //   ); // 5 minutes in milliseconds
+      // }
     }
-    const saveApprove = await POSTApproveAPI(rowData, token);
+    try {
+      const saveApprove = await POSTApproveAPI(rowData, token);
 
-    if (saveApprove.status === 200) {
-      window.location.reload();
-    } else {
-      // toast.error(saveApprove?.response?.data?.exc_type);
-      toast.error(saveApprove?.message);
+      if (saveApprove.status === 200) {
+        window.location.reload();
+      } else {
+        // toast.error(saveApprove?.response?.data?.exc_type);
+        toast.error(saveApprove?.message);
+      }
+    } catch (error) {
+      // Handle API errors
+      toast.error('Something went wrong, please try again.');
+    } finally {
+      // Enable button again after API request is finished (success or error)
+      if (button instanceof HTMLButtonElement) {
+        button.disabled = false;
+        button.classList.remove('disabled'); // Remove the class when re-enabled
+      }
     }
   };
   return {
