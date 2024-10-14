@@ -65,6 +65,7 @@ const OperationCardIssueButton = ({
   const [selectedSalesOrderData, setSelectedSalesOrderData] = useState<any>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<string>('');
   const [initialValueForActiveField, setInitialValueForActiveField] = useState<any>({});
+  const [nextProcessAsPerTone, setNextProcessAsPerTone] = useState<any>([]);
 
   const checkArray = [
     'karigar',
@@ -174,25 +175,15 @@ const OperationCardIssueButton = ({
       getMachineSizeBasedOnDesignValueAPICall(selectedValue?.name);
     }
 
-    if (
-      operationCardDetailData?.product === 'KA Chain' &&
-      labelValue === 'tone' &&
-      // operationCardDetailData?.product_process_department === 'DC-DC Process-KA Chain') ||
-      operationCardDetailData?.product_process === 'Hammering 2 Process-KA Chain'
-    ) {
+    if (operationCardDetailData?.product === 'KA Chain' && labelValue === 'tone') {
       setToneVlaueforNextProcess(selectedValue?.name);
+      getOperationCardDetailNextProcessAsPerToneAPICall(selectedValue?.name);
     }
-    if (
-      operationCardDetailData?.product === 'KA Chain' &&
-      labelValue === 'next_product_process' &&
-      // operationCardDetailData?.product_process_department === 'DC-DC Process-KA Chain')
-      // ||
-      operationCardDetailData?.product_process === 'Hammering 2 Process-KA Chain'
-    ) {
+    if (operationCardDetailData?.product === 'KA Chain' && labelValue === 'next_product_process') {
       getOperationCardDetailNextProcessAsPerToneAPICall(toneVlaueforNextProcess);
       setModalDropdownFields({
         ...modalDropdownFields,
-        // next_product_process: machineSizeBasedOnDesignValue?.machine_size_name || selectedValue?.name,
+        next_product_process: selectedValue?.name,
       });
     }
   };
@@ -207,16 +198,11 @@ const OperationCardIssueButton = ({
     }
   };
 
-  const [nextProcessAsPerTone, setNextProcessAsPerTone] = useState([]);
   const getOperationCardDetailNextProcessAsPerToneAPICall = async (toneVlaueforNextProcess: any) => {
-    const getNextProcessAsPerToneData = await GETNextProcessAsPerTone(
-      toneVlaueforNextProcess,
-      operationCardDetailData?.product_process_department,
-      token
-    );
+    const getNextProcessAsPerToneData = await GETNextProcessAsPerTone(toneVlaueforNextProcess, token);
     if (getNextProcessAsPerToneData?.status === 200) {
       setNextProcessAsPerTone(
-        getNextProcessAsPerToneData?.data?.data?.map((tone_data: any) => ({
+        getNextProcessAsPerToneData?.data?.message?.data?.map((tone_data: any) => ({
           name: tone_data?.name,
           value: tone_data?.name,
         }))
@@ -226,9 +212,6 @@ const OperationCardIssueButton = ({
     }
   };
 
-  const { selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any = useOperationDetailCard();
-  //
-  //
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
@@ -673,15 +656,8 @@ const OperationCardIssueButton = ({
                     design_code_category: operationCardDesignCodeCategory,
                     next_process: operationCardNextProductProcess,
                     next_product_process:
-                      operationCardDetailData?.product_process === 'Hammering 2 Process-KA Chain' &&
-                      operationCardDetailData?.product === 'KA Chain'
-                        ? nextProcessAsPerTone
-                        : operationCardNextProductProcess,
-                    //   ||
-                    // (operationCardDetailData?.product_process_department === 'DC-DC Process-KA Chain' &&
-                    // operationCardDetailData?.product === 'KA Chain'
-                    //   ? nextProcessAsPerTone
-                    //   : operationCardNextProductProcess)
+                      operationCardDetailData?.product === 'KA Chain' ? nextProcessAsPerTone : operationCardNextProductProcess,
+
                     next_product_process_department: operationCardNextProductProcessDepartment,
                     product_category: operationCardProductCategory,
                     next_product_category: operationCardNextProductCategory,

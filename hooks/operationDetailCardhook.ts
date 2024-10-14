@@ -482,15 +482,11 @@ const useOperationDetailCard = () => {
   };
 
   const getOperationCardDetailToneAPICall = async () => {
-    if (
-      operationCardDetailData?.product_process === 'Hammering 2 Process-KA Chain' &&
-      operationCardDetailData?.product === 'KA Chain'
-    ) {
+    if (operationCardDetailData?.product === 'KA Chain') {
       const getToneData = await GETToneShowToneForChain(token);
-
       if (getToneData?.status === 200) {
         setOperationCardTone(
-          getToneData?.data?.data?.map((tone_data: any) => ({
+          getToneData?.data?.message?.data?.map((tone_data: any) => ({
             name: tone_data?.name,
             value: tone_data?.name,
           }))
@@ -498,24 +494,7 @@ const useOperationDetailCard = () => {
       } else {
         setOperationCardTone([]);
       }
-    }
-    // else if (
-    //   operationCardDetailData?.product_process_department === 'DC-DC Process-KA Chain' &&
-    //   operationCardDetailData?.product === 'KA Chain'
-    // ) {
-    //   const getToneData = await GETToneShowToneForChain(token);
-    //   if (getToneData?.status === 200) {
-    //     setOperationCardTone(
-    //       getToneData?.data?.data?.map((tone_data: any) => ({
-    //         name: tone_data?.name,
-    //         value: tone_data?.name,
-    //       }))
-    //     );
-    //   } else {
-    //     setOperationCardTone([]);
-    //   }
-    // }
-    else {
+    } else {
       const getToneData = await GETOperationCardDetailTone(token);
       if (getToneData?.status === 200) {
         setOperationCardTone(
@@ -527,20 +506,6 @@ const useOperationDetailCard = () => {
       } else {
         setOperationCardTone([]);
       }
-    }
-  };
-
-  const getOperationCardDetailShowToneForChainAPICall = async () => {
-    const getShowToneForChainData = await GETToneShowToneForChain(token);
-    if (getShowToneForChainData?.status === 200) {
-      setShowToneForChain(
-        getShowToneForChainData?.data?.data?.map((tone_data: any) => ({
-          name: tone_data?.name,
-          value: tone_data?.name,
-        }))
-      );
-    } else {
-      setShowToneForChain([]);
     }
   };
 
@@ -1084,7 +1049,6 @@ const useOperationDetailCard = () => {
 
       getOperationCardDetailMachineAPICall();
       getOperationCardDetailToneAPICall();
-      getOperationCardDetailShowToneForChainAPICall();
       getOperationCardCustomerAPICallFunc();
       createGoldAccessoryTable();
 
