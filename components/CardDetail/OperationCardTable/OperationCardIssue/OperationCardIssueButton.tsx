@@ -16,6 +16,7 @@ import UpdateSalesOrderWithBooleanValueAPI from '@/services/api/operation-card-d
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 import { toast } from 'react-toastify';
+import GETNextProcessAsPerTone from '@/services/api/operation-card-detail-page/next-process-as-per-tone';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -65,6 +66,7 @@ const OperationCardIssueButton = ({
   const [selectedSalesOrderData, setSelectedSalesOrderData] = useState<any>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<string>('');
   const [initialValueForActiveField, setInitialValueForActiveField] = useState<any>({});
+  const [nextProcessAsPerTone, setNextProcessAsPerTone] = useState<any>([]);
 
   const checkArray = [
     'karigar',
@@ -102,6 +104,9 @@ const OperationCardIssueButton = ({
   // Below State is to set the value of input fields inside the modal. These values are coming from OC Detail API.
   const [modalFieldValuesState, setModalFieldValuesState] = useState<any>({});
   const [meltingPlanReference, setMeltingPlanReference] = useState<any>('');
+  // set machine size value on base of selected design value
+  const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+  const [toneVlaueforNextProcess, setToneVlaueforNextProcess] = useState<any>([]);
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
@@ -147,8 +152,7 @@ const OperationCardIssueButton = ({
       }
     }
   };
-  // set machine size value on base of selected design value
-  const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+
   // const { getMachineSizeBasedOnDesignValueAPICall }: any = useOperationDetailCard();
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
@@ -171,6 +175,18 @@ const OperationCardIssueButton = ({
     if (labelValue === 'next_design') {
       getMachineSizeBasedOnDesignValueAPICall(selectedValue?.name);
     }
+
+    if (operationCardDetailData?.product === 'KA Chain' && labelValue === 'tone') {
+      setToneVlaueforNextProcess(selectedValue?.name);
+      getOperationCardDetailNextProcessAsPerToneAPICall(selectedValue?.name);
+    }
+    if (operationCardDetailData?.product === 'KA Chain' && labelValue === 'next_product_process') {
+      getOperationCardDetailNextProcessAsPerToneAPICall(toneVlaueforNextProcess);
+      setModalDropdownFields({
+        ...modalDropdownFields,
+        next_product_process: selectedValue?.name,
+      });
+    }
   };
 
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
@@ -183,9 +199,20 @@ const OperationCardIssueButton = ({
     }
   };
 
-  const { selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any = useOperationDetailCard();
-  //
-  //
+  const getOperationCardDetailNextProcessAsPerToneAPICall = async (toneVlaueforNextProcess: any) => {
+    const getNextProcessAsPerToneData = await GETNextProcessAsPerTone(toneVlaueforNextProcess, token);
+    if (getNextProcessAsPerToneData?.status === 200) {
+      setNextProcessAsPerTone(
+        getNextProcessAsPerToneData?.data?.message?.data?.map((tone_data: any) => ({
+          name: tone_data?.name,
+          value: tone_data?.name,
+        }))
+      );
+    } else {
+      setNextProcessAsPerTone([]);
+    }
+  };
+
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
@@ -648,7 +675,9 @@ const OperationCardIssueButton = ({
                     next_design_code_type: operationCardNextDesignCodeType,
                     design_code_category: operationCardDesignCodeCategory,
                     next_process: operationCardNextProductProcess,
-                    next_product_process: operationCardNextProductProcess,
+                    next_product_process:
+                      operationCardDetailData?.product === 'KA Chain' ? nextProcessAsPerTone : operationCardNextProductProcess,
+
                     next_product_process_department: operationCardNextProductProcessDepartment,
                     product_category: operationCardProductCategory,
                     next_product_category: operationCardNextProductCategory,
