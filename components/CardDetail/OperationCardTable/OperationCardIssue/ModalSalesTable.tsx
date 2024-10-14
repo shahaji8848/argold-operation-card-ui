@@ -7,6 +7,7 @@ const ModalSalesTable: any = ({
   selectedCustomer,
   setSelectedSalesOrderData,
   setSelectedCustomer,
+  showCheckbox,
 }: any) => {
   // Calculate totals for production qty and order weight
   const calculateTotals = () => {
@@ -58,7 +59,7 @@ const ModalSalesTable: any = ({
             <table className="table table-bordered">
               <thead>
                 <tr className="table-text">
-                  <th className="thead-dark text-center" scope="col"></th>
+                  {showCheckbox && <th className="thead-dark text-center" scope="col"></th>}
                   <th className="thead-dark text-center" scope="col">
                     Customer Name
                   </th>
@@ -100,18 +101,17 @@ const ModalSalesTable: any = ({
                     return (
                       <>
                         <tr className="table-text" key={index}>
-                          <td className="text-center">
-                            <input
-                              type="checkbox"
-                              onChange={() => handleCheckboxChange(orderData, !isChecked, isDisabled)}
-                              checked={isChecked || isDisabled || !!orderData?.assigned_order_id}
-                              // disabled={orderData?.assigned_order_id}
-                              disabled={isDisabled || orderData?.assigned_order_id}
-                            />
-                          </td>
-                          <td className="text-center">
-                            {orderData.customer && orderData.customer !== '' ? orderData.customer : '--'}
-                          </td>
+                          {showCheckbox && (
+                            <td className="text-center">
+                              <input
+                                type="checkbox"
+                                onChange={() => handleCheckboxChange(orderData, !isChecked, isDisabled)}
+                                checked={isChecked || isDisabled || !!orderData?.assigned_order_id}
+                                // disabled={orderData?.assigned_order_id}
+                                disabled={isDisabled || orderData?.assigned_order_id}
+                              />
+                            </td>
+                          )}
                           <td className="text-center">{orderData.sales_order}</td>
                           <td className="text-center">{orderData.market_design_name}</td>
                           <td className="text-center">

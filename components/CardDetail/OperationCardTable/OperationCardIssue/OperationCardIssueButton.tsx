@@ -766,6 +766,7 @@ const OperationCardIssueButton = ({
                 selectedCustomer={selectedCustomer}
                 setSelectedCustomer={setSelectedCustomer}
                 operationCardDetailData={operationCardDetailData}
+                showCheckbox={true}
               />
             </>
           )}
@@ -779,6 +780,7 @@ const OperationCardIssueButton = ({
                 selectedCustomer={selectedCustomer}
                 setSelectedCustomer={setSelectedCustomer}
                 operationCardDetailData={operationCardDetailData}
+                showCheckbox={true}
               />
             </>
           )}
@@ -796,6 +798,7 @@ const OperationCardIssueButton = ({
                 selectedCustomer={selectedCustomer}
                 setSelectedCustomer={setSelectedCustomer}
                 operationCardDetailData={operationCardDetailData}
+                showCheckbox={false}
               />
             </>
           )}
