@@ -1,10 +1,9 @@
+import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
+import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import meltingStyles from '../../styles/melting-lot-data.module.css';
-import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
+import meltingStyles from '../../styles/melting-lot-data.module.css';
 
 const OperationCardTable = ({ meltingLotList }: any) => {
   const { handleMeltingLotShowOrder }: any = useOperationDetailCard();
@@ -85,15 +84,6 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         Edit Melting Plan
                       </Link>
                     </button>
-                    <button className="text-end btn btn-blue btn-py ">
-                      <Link
-                        href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
-                        className="text-white"
-                        target="_blank"
-                      >
-                        Add Sales Order
-                      </Link>
-                    </button>
                   </>
                 )}
                 {meltingData?.docstatus === 1 && (
@@ -124,15 +114,6 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         View Melting Lot
                       </Link>
                     </button>
-                    <button className="text-end btn btn-blue btn-py ">
-                      <Link
-                        href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
-                        className="text-white"
-                        target="_blank"
-                      >
-                        Add Sales Order
-                      </Link>
-                    </button>
                   </>
                 )}
               </div>
@@ -141,30 +122,70 @@ const OperationCardTable = ({ meltingLotList }: any) => {
               <table className="table table-bordered">
                 <thead className="card-listing-head">
                   <tr>
-                    {meltingData?.columns?.map((column: any, colIndex: any) => (
+                    {/* {meltingData?.columns?.map((column: any, colIndex: any) => (
                       <th className="thead-dark text-center" scope="col" key={colIndex}>
                         {column.replace(/_/g, ' ')}
                       </th>
-                    ))}
-                    <th>add order details</th>
+                    ))} */}
+                    {meltingData?.linked_operations &&
+                      meltingData?.linked_operations.length > 0 &&
+                      Object.keys(meltingData.linked_operations[0]).map((key, colIndex) => (
+                        <>
+                          <th className="thead-dark text-center" scope="col" key={colIndex}>
+                            {key.replace(/_/g, ' ')}
+                          </th>
+                        </>
+                      ))}
+                    <th className="text-center">add order details</th>
+                    <th className="text-center">add sales order</th>
                   </tr>
                 </thead>
                 <tbody className="card-listing-body">
                   {meltingData?.linked_operations && meltingData?.linked_operations.length > 0 ? (
+                    // meltingData?.linked_operations.map((operation: any, opIdx: any) => (
+                    //   <tr key={opIdx}>
+                    //     {meltingData?.columns?.map((column: any, colIndex: any) => (
+                    //       <td key={colIndex}>
+                    //         {operation && column in operation
+                    //           ? operation[column] && operation[column] !== null
+                    //             ? column === 'purity' && typeof operation[column] === 'number'
+                    //               ? operation[column].toFixed(3)
+                    //               : operation[column]
+                    //             : '--'
+                    //           : '--'}
+                    //       </td>
+                    //     ))}
+                    //     <td>
+                    //       {operation?.operation_card ? (
+                    //         <button
+                    //           className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
+                    //           onClick={handleMeltingLotShowOrder}
+                    //         >
+                    //           <Link
+                    //             href={`operation-card-detail?name=${operation?.operation_card}`}
+                    //             className="text-white"
+                    //             target="_blank"
+                    //           >
+                    //             Edit Order Details
+                    //           </Link>
+                    //         </button>
+                    //       ) : null}
+                    //     </td>
+                    //   </tr>
+                    // ))
+
                     meltingData?.linked_operations.map((operation: any, opIdx: any) => (
                       <tr key={opIdx}>
-                        {meltingData?.columns?.map((column: any, colIndex: any) => (
-                          <td key={colIndex}>
-                            {operation && column in operation
-                              ? operation[column] && operation[column] !== null
-                                ? column === 'purity' && typeof operation[column] === 'number'
-                                  ? operation[column].toFixed(3)
-                                  : operation[column]
-                                : '--'
+                        {Object.keys(operation).map((key, colIndex) => (
+                          <td key={colIndex} className="text-center">
+                            {operation[key] !== null && operation[key] !== undefined && operation[key] !== ''
+                              ? typeof operation[key] === 'number' && key === 'purity'
+                                ? operation[key].toFixed(3)
+                                : operation[key]
                               : '--'}
                           </td>
                         ))}
-                        <td>
+                        <td className="text-center">
                           {operation?.operation_card ? (
                             <button
                               className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
@@ -172,13 +193,32 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                             >
                               <Link
                                 href={`operation-card-detail?name=${operation?.operation_card}`}
-                                className="text-white"
+                                className="text-white text-center"
                                 target="_blank"
                               >
                                 Edit Order Details
                               </Link>
                             </button>
-                          ) : null}
+                          ) : (
+                            '--'
+                          )}
+                        </td>
+                        <td>
+                          <button
+                            className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
+                            onClick={handleMeltingLotShowOrder}
+                          >
+                            <Link
+                              href={{
+                                pathname: '/add-sales-order',
+                                query: { melting_plan: meltingData?.melting_plan, lot_data: JSON.stringify(operation) },
+                              }}
+                              className="text-white text-center"
+                              target="_blank"
+                            >
+                              Add Sales Order
+                            </Link>
+                          </button>
                         </td>
                       </tr>
                     ))
