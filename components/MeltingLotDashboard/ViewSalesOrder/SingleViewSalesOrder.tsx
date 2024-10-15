@@ -1,7 +1,6 @@
 import React from 'react';
 
 const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign }: any) => {
-  console.log('salesOrderData', salesOrderData);
   return (
     <>
       {salesOrderData?.single_orders?.length > 0 && (
