@@ -136,7 +136,6 @@ const ModalSalesTable: any = ({
                           <tr className="table-text" key={`total-${index}`}>
                             <td></td>
                             <td></td>
-                            <td></td>
                             <td className="text-center">
                               <strong>Total</strong>
                             </td>
@@ -155,7 +154,7 @@ const ModalSalesTable: any = ({
 
                 {/* Totals Row */}
                 <tr className="table-text">
-                  <td className="text-center" colSpan={4}>
+                  <td className="text-center" colSpan={3}>
                     <strong>Total</strong>
                   </td>
                   <td className="text-center">
