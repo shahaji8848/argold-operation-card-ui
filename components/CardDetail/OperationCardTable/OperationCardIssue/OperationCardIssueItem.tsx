@@ -35,6 +35,9 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
 
   const redirectToNextOC = (oc_id: string) => {
     router.push(`/operation-card-detail?name=${oc_id}`);
+    setTimeout(() => {
+      window.location.reload();
+    }, 100); // Give time for the route to change before reloading
   };
 
   const CalculateTotal = (column: string, data: any[]) => {
@@ -130,7 +133,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                 <td className="text-end">{data?.next_worker ?? '--'}</td>
                 <td className="text-end">{data?.next_karigar ?? '--'}</td>
                 <td className="text-end">{data?.next_worker ?? '--'}</td>
-                <td className="text-end">
+                <td className="text-end" style={{ backgroundColor: 'red' }}>
                   {hasOPkey(data) ? (
                     <Link
                       href={`/operation-card-detail?name=${data?.operation_card}`}
