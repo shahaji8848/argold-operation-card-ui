@@ -592,7 +592,6 @@ const OperationCardIssueButton = ({
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
   // Log the filtered bunch orders with items
-
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
@@ -667,7 +666,7 @@ const OperationCardIssueButton = ({
                 }
                 return (
                   <>
-                    {val?.label !== 'melting_lot_orders' && showMeltingLotSalesOrder && (
+                    {val?.label !== 'melting_lot_orders' && (
                       <div className="col-md-4 " key={i}>
                         {checkArray?.includes(val?.label) ? (
                           <div>
@@ -728,14 +727,11 @@ const OperationCardIssueButton = ({
                               htmlFor="staticEmail"
                               className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
                             >
-                              {val?.label !== 'melting_lot_orders' &&
-                                val?.label
-                                  ?.split('_')
-                                  ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
-                                  ?.map((val: any, index: any) =>
-                                    index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val
-                                  )
-                                  .join(' ')}
+                              {val?.label
+                                ?.split('_')
+                                ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                                ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
+                                .join(' ')}
                             </label>
                             <div className={` text-left ${styles.inputFlex} `}>
                               <input
