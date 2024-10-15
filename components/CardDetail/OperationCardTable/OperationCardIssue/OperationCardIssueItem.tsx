@@ -133,7 +133,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                 <td className="text-end">{data?.next_worker ?? '--'}</td>
                 <td className="text-end">{data?.next_karigar ?? '--'}</td>
                 <td className="text-end">{data?.next_worker ?? '--'}</td>
-                <td className="text-end" style={{ backgroundColor: 'red' }}>
+                <td className="text-end">
                   {hasOPkey(data) ? (
                     <Link
                       href={`/operation-card-detail?name=${data?.operation_card}`}
