@@ -45,6 +45,7 @@ import GETProductProcessProductCategoryMeltingPlan from '@/services/api/operatio
 import GETOperationCardDetailNextMachineSizeMeltingPlan from '@/services/api/operation-card-detail-page/next-machine-size-melting-plan';
 import GETToneShowToneForChain from '@/services/api/operation-card-detail-page/show-tone-for-chain';
 import GETNextProcessAsPerTone from '@/services/api/operation-card-detail-page/show-tone-for-chain';
+import GETProductCategoryAndMachineSizeCombination from '@/services/api/operation-card-detail-page/get-product-size-combination';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -107,6 +108,8 @@ const useOperationDetailCard = () => {
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
   const [showToneForChain, setShowToneForChain] = useState([]);
   const [operationCardNextMachineSize, setoperationCardNextMachineSize] = useState<any>([]);
+  // input field for category size combination to set next product category and next machine size on based of selected combination value
+  const [productCategoryAndMachineSizeCombination, setProductCategoryAndMachineSizeCombination] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -712,6 +715,26 @@ const useOperationDetailCard = () => {
     }
   };
 
+  const getProductCategoryAndMachineSizeCombinationAPICallFunc = async () => {
+    const getProductCategoryAndMachineSizeCombination = await GETProductCategoryAndMachineSizeCombination(
+      operationCardDetailData?.melting_lot,
+      token
+    );
+
+    if (getProductCategoryAndMachineSizeCombination?.status === 200) {
+      setProductCategoryAndMachineSizeCombination(
+        getProductCategoryAndMachineSizeCombination?.data?.message?.map((combinationData: any) => ({
+          name: combinationData?.combination,
+          value: combinationData?.combination,
+          product_category: combinationData?.product_category,
+          machine_size: combinationData?.machine_size,
+        }))
+      );
+    } else {
+      setProductCategoryAndMachineSizeCombination([]);
+    }
+  };
+
   const getOperationCardDetailWorkerAPICallFunc = async () => {
     const getWorkerList = await GETWorkerList(token, operationCardDetailData?.product_process_department);
 
@@ -1097,6 +1120,7 @@ const useOperationDetailCard = () => {
       // getDesignInputField();
       getBunchSalesOrderList();
       getMPReferenceList();
+      getProductCategoryAndMachineSizeCombinationAPICallFunc();
     }
   }, [operationCardDetailData]);
 
@@ -1170,6 +1194,7 @@ const useOperationDetailCard = () => {
     handleSalesOrderDeleteSelectedItems,
     getMachineSizeBasedOnDesignValueAPICall,
     showToneForChain,
+    productCategoryAndMachineSizeCombination,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,
