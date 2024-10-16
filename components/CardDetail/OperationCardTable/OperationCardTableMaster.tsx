@@ -45,6 +45,7 @@ const OperationCardTableMaster = ({
   bunchSalesOrderList,
   mpReferenceList,
   productCategoryAndMachineSizeCombination,
+  operationCardNextMachineSize,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -116,6 +117,7 @@ const OperationCardTableMaster = ({
           bunchSalesOrderList={bunchSalesOrderList}
           mpReferenceList={mpReferenceList}
           productCategoryAndMachineSizeCombination={productCategoryAndMachineSizeCombination}
+          operationCardNextMachineSize={operationCardNextMachineSize}
         />
       </div>
     </div>

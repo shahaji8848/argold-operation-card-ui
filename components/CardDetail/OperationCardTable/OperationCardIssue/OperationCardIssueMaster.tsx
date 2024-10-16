@@ -43,6 +43,7 @@ const OperationCardIssueMaster = ({
   bunchSalesOrderList,
   mpReferenceList,
   productCategoryAndMachineSizeCombination,
+  operationCardNextMachineSize,
 }: any) => {
   return (
     <>
@@ -88,6 +89,7 @@ const OperationCardIssueMaster = ({
         bunchSalesOrderList={bunchSalesOrderList}
         mpReferenceList={mpReferenceList}
         productCategoryAndMachineSizeCombination={productCategoryAndMachineSizeCombination}
+        operationCardNextMachineSize={operationCardNextMachineSize}
       />
       <div className="mt-2">
         <OperationCardIssueItem operationCardDetailData={operationCardDetailData} />

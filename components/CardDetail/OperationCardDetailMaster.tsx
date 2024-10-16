@@ -71,6 +71,7 @@ const OperationCardDetailMaster = () => {
     handleSalesOrderHeaderCheckboxChange,
     handleSalesOrderDeleteSelectedItems,
     productCategoryAndMachineSizeCombination,
+    operationCardNextMachineSize,
   } = useOperationDetailCard();
 
   return (
@@ -144,6 +145,7 @@ const OperationCardDetailMaster = () => {
               bunchSalesOrderList={bunchSalesOrderList}
               mpReferenceList={mpReferenceList}
               productCategoryAndMachineSizeCombination={productCategoryAndMachineSizeCombination}
+              operationCardNextMachineSize={operationCardNextMachineSize}
             />
             <SalesOrderTable
               operationCardDetailData={operationCardDetailData}

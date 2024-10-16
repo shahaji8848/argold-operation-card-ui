@@ -102,6 +102,8 @@ const useOperationDetailCard = () => {
 
   // set machine size value on base of selected design value
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+  const [showToneForChain, setShowToneForChain] = useState([]);
+  const [operationCardNextMachineSize, setoperationCardNextMachineSize] = useState<any>([]);
   // input field for category size combination to set next product category and next machine size on based of selected combination value
   const [productCategoryAndMachineSizeCombination, setProductCategoryAndMachineSizeCombination] = useState<any>([]);
   const searchParams = useSearchParams();
@@ -421,8 +423,6 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailMachineSizeAPICall = async () => {
     const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
-
-    //
     if (getMachineSizeData?.status === 200) {
       setOperationCardMachineSize(
         getMachineSizeData?.data?.data?.map((machine_size_data: any) => ({
@@ -434,7 +434,20 @@ const useOperationDetailCard = () => {
       setOperationCardMachineSize([]);
     }
   };
-  //
+
+  const getOperationCardDetailNextMachineSizeAPICall = async () => {
+    const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
+    if (getMachineSizeData?.status === 200) {
+      setoperationCardNextMachineSize(
+        getMachineSizeData?.data?.data?.map((machine_size_data: any) => ({
+          name: machine_size_data?.name,
+          value: machine_size_data?.name1,
+        }))
+      );
+    } else {
+      setoperationCardNextMachineSize([]);
+    }
+  };
 
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
     const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
@@ -445,21 +458,6 @@ const useOperationDetailCard = () => {
       setMachineSizeBasedOnDesignValue([]);
     }
   };
-  //
-
-  // const getMachineSizeBasedOnDesignValueAPICall = async () => {
-  //   const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue('RC-RC-12gm-ROPE', token);
-  //
-  //   if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
-  //     setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
-  //   } else {
-  //     setMachineSizeBasedOnDesignValue([]);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getMachineSizeBasedOnDesignValueAPICall();
-  // }, []);
 
   const getOperationCardDetailMachineAPICall = async () => {
     const getMachineData = await GETOperationCardDetailMachine(
@@ -508,6 +506,7 @@ const useOperationDetailCard = () => {
       setOperationCardDesignCodeCategory([]);
     }
   };
+
   const getOperationCardDetailDesignAPICall = async () => {
     const getDesign = await GETProductProcessDesign(operationCardDetailData?.product, token);
     if (getDesign?.status === 200) {
@@ -917,6 +916,7 @@ const useOperationDetailCard = () => {
 
     try {
       const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+
       if (updatedData?.status === 200) {
         toast.success('Sales order updated successfully');
       }
@@ -928,6 +928,11 @@ const useOperationDetailCard = () => {
   const handleOperationCardSave = async () => {
     const filteredData = Object.fromEntries(Object.entries(headerSave).filter(([key, value]) => value !== ''));
     const saveOP = await POSTOperationCardSave(search, filteredData, token);
+    if (saveOP?.data?.message?.msg === 'success') {
+      toast.success(saveOP?.data?.message?.data?.msg);
+    } else {
+      toast.error(saveOP?.data?.message?.error);
+    }
   };
 
   // Validation for in_weight input filed in modal
@@ -1031,6 +1036,7 @@ const useOperationDetailCard = () => {
       getOperationCardDetailKarigar(operationCardDetailData?.product_process_department ?? '');
       getOperationCardDetailThicknessAPICall();
       getOperationCardDetailMachineSizeAPICall();
+      getOperationCardDetailNextMachineSizeAPICall();
       getOperationCardDetailVariantAPICall();
       getOperationCardDetailConceptAPIFunc();
       getOperationCardDetailLossReportList();
@@ -1083,6 +1089,7 @@ const useOperationDetailCard = () => {
     operationCardConcept,
     operationCardVariant,
     operationCardMachineSize,
+    operationCardNextMachineSize,
     operationCardProduct,
     operationCardDesignCodeCategory,
     operationCardNextProductProcess,
@@ -1134,6 +1141,7 @@ const useOperationDetailCard = () => {
     handleSalesOrderHeaderCheckboxChange,
     handleSalesOrderDeleteSelectedItems,
     getMachineSizeBasedOnDesignValueAPICall,
+    showToneForChain,
     productCategoryAndMachineSizeCombination,
     // getOperationCardSellsOrder,
     // sellsOrderData,
