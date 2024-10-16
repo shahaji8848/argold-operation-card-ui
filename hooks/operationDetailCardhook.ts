@@ -102,6 +102,8 @@ const useOperationDetailCard = () => {
 
   // set machine size value on base of selected design value
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+  // input field for category size combination to set next product category and next machine size on based of selected combination value
+  const [productCategoryAndMachineSizeCombination, setProductCategoryAndMachineSizeCombination] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -661,7 +663,7 @@ const useOperationDetailCard = () => {
       setOperationCardNextProductCategory([]);
     }
   };
-  const [productCategoryAndMachineSizeCombination, setProductCategoryAndMachineSizeCombination] = useState<any>([]);
+
   const getProductCategoryAndMachineSizeCombinationAPICallFunc = async () => {
     const getProductCategoryAndMachineSizeCombination = await GETProductCategoryAndMachineSizeCombination(
       operationCardDetailData?.melting_lot,
@@ -673,6 +675,8 @@ const useOperationDetailCard = () => {
         getProductCategoryAndMachineSizeCombination?.data?.message?.map((combinationData: any) => ({
           name: combinationData?.combination,
           value: combinationData?.combination,
+          product_category: combinationData?.product_category,
+          machine_size: combinationData?.machine_size,
         }))
       );
     } else {
@@ -1130,6 +1134,7 @@ const useOperationDetailCard = () => {
     handleSalesOrderHeaderCheckboxChange,
     handleSalesOrderDeleteSelectedItems,
     getMachineSizeBasedOnDesignValueAPICall,
+    productCategoryAndMachineSizeCombination,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,

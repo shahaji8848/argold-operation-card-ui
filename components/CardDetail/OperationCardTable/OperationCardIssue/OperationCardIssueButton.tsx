@@ -49,6 +49,7 @@ const OperationCardIssueButton = ({
   salesOrderList,
   bunchSalesOrderList,
   mpReferenceList,
+  productCategoryAndMachineSizeCombination,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -90,6 +91,7 @@ const OperationCardIssueButton = ({
     'next_worker',
     'machine',
     'product',
+    'category_size_combination',
   ];
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
@@ -169,6 +171,14 @@ const OperationCardIssueButton = ({
 
     if (labelValue === 'next_design') {
       getMachineSizeBasedOnDesignValueAPICall(selectedValue?.name);
+    }
+    if (labelValue === 'category_size_combination') {
+      setModalDropdownFields({
+        ...modalDropdownFields,
+        next_product_category: selectedValue?.product_category,
+        next_machine_size: selectedValue?.machine_size,
+      });
+      console.log('category_size_combination', modalDropdownFields);
     }
   };
 
@@ -603,7 +613,7 @@ const OperationCardIssueButton = ({
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-between "></div>
-          <div className="row" style={{ backgroundColor: '2px solid red' }}>
+          <div className="row">
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
                 let propToPass: any;
@@ -636,6 +646,7 @@ const OperationCardIssueButton = ({
                     worker: operationCardWorkerList,
                     next_worker: operationCardWorkerList,
                     product: operationCardProduct,
+                    category_size_combination: productCategoryAndMachineSizeCombination,
                   };
                   propToPass = propMappings[val];
                   return propToPass;
