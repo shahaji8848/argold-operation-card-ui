@@ -108,6 +108,7 @@ const useOperationDetailCard = () => {
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
   const [showToneForChain, setShowToneForChain] = useState([]);
   const [operationCardNextMachineSize, setoperationCardNextMachineSize] = useState<any>([]);
+
   // input field for category size combination to set next product category and next machine size on based of selected combination value
   const [productCategoryAndMachineSizeCombination, setProductCategoryAndMachineSizeCombination] = useState<any>([]);
   const searchParams = useSearchParams();

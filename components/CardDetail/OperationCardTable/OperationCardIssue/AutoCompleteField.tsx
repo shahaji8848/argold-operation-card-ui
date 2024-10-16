@@ -68,7 +68,12 @@ const AutoCompleteField = ({
             <input
               type="text"
               // id={field}
-              value={label === 'machine_size' && initialValue ? initialValue : inputValueAutoComplete?.value}
+              value={
+                (label === 'machine_size' && initialValue ? initialValue : inputValueAutoComplete?.value) ||
+                (label === 'next_machine_size' ? initialValue : inputValueAutoComplete?.value) ||
+                (label === 'next_product_category' ? initialValue : inputValueAutoComplete?.value) ||
+                inputValueAutoComplete?.value
+              }
               // value={inputValueAutoComplete?.value}
               className={`form-control w-100 `}
               autoComplete="off"
