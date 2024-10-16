@@ -41,6 +41,7 @@ import GETBunchSalesOrder from '@/services/api/operation-card-detail-page/get-bu
 import GETMeltingPlanReferenceFromLot from '@/services/api/operation-card-detail-page/melting-plan-reference';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 import GETOperationCardDetailCustomer from '@/services/api/operation-card-detail-page/operation-card-detail-customer';
+import GETProductCategoryAndMachineSizeCombination from '@/services/api/operation-card-detail-page/get-product-size-combination';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -660,6 +661,24 @@ const useOperationDetailCard = () => {
       setOperationCardNextProductCategory([]);
     }
   };
+  const [productCategoryAndMachineSizeCombination, setProductCategoryAndMachineSizeCombination] = useState<any>([]);
+  const getProductCategoryAndMachineSizeCombinationAPICallFunc = async () => {
+    const getProductCategoryAndMachineSizeCombination = await GETProductCategoryAndMachineSizeCombination(
+      operationCardDetailData?.melting_lot,
+      token
+    );
+
+    if (getProductCategoryAndMachineSizeCombination?.status === 200) {
+      setProductCategoryAndMachineSizeCombination(
+        getProductCategoryAndMachineSizeCombination?.data?.message?.map((combinationData: any) => ({
+          name: combinationData?.combination,
+          value: combinationData?.combination,
+        }))
+      );
+    } else {
+      setProductCategoryAndMachineSizeCombination([]);
+    }
+  };
 
   const getOperationCardDetailWorkerAPICallFunc = async () => {
     const getWorkerList = await GETWorkerList(token, operationCardDetailData?.product_process_department);
@@ -1039,6 +1058,7 @@ const useOperationDetailCard = () => {
       // getDesignInputField();
       getBunchSalesOrderList();
       getMPReferenceList();
+      getProductCategoryAndMachineSizeCombinationAPICallFunc();
     }
   }, [operationCardDetailData]);
 
