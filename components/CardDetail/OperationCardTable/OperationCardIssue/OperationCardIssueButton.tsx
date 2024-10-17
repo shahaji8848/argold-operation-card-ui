@@ -116,6 +116,7 @@ const OperationCardIssueButton = ({
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
   const inputInWeightRef: any = useRef(null);
+  const department: any = operationCardDetailData?.product_process_department?.split('-')[0];
 
   const checkIfValuesAreEmpty = () => {
     const mergedObjs = {
@@ -213,12 +214,16 @@ const OperationCardIssueButton = ({
         next_machine_size: combinationValueForNextMachineSize,
       });
     }
-
-    if (operationCardDetailData?.product === 'KA Chain' && labelValue === 'tone') {
+    const department: any = operationCardDetailData?.product_process_department?.split('-')[0];
+    if (operationCardDetailData?.product === 'KA Chain' && labelValue === 'tone' && department === 'Hammering 2') {
       setToneVlaueforNextProcess(selectedValue?.name);
       getOperationCardDetailNextProcessAsPerToneAPICall(selectedValue?.name);
     }
-    if (operationCardDetailData?.product === 'KA Chain' && labelValue === 'next_product_process') {
+    if (
+      operationCardDetailData?.product === 'KA Chain' &&
+      labelValue === 'next_product_process' &&
+      department === 'Hammering 2'
+    ) {
       getOperationCardDetailNextProcessAsPerToneAPICall(toneVlaueforNextProcess);
       setModalDropdownFields({
         ...modalDropdownFields,
@@ -745,7 +750,9 @@ const OperationCardIssueButton = ({
                     design_code_category: operationCardDesignCodeCategory,
                     next_process: operationCardNextProductProcess,
                     next_product_process:
-                      operationCardDetailData?.product === 'KA Chain' ? nextProcessAsPerTone : operationCardNextProductProcess,
+                      operationCardDetailData?.product === 'KA Chain' && department === 'Hammering 2'
+                        ? nextProcessAsPerTone
+                        : operationCardNextProductProcess,
 
                     next_product_process_department: operationCardNextProductProcessDepartment,
                     product_category: operationCardProductCategory,
