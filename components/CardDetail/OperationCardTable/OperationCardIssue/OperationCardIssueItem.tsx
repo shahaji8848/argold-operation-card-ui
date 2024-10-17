@@ -38,7 +38,8 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
     // setTimeout(() => {
     //   window.location.reload();
     // }, 100); // Give time for the route to change before reloading
-    router.replace(router.asPath); // This forces the page to refresh
+    // router.replace(router.asPath); // This forces the page to refresh
+    router.refresh(); // Refresh the current page
   };
 
   const CalculateTotal = (column: string, data: any[]) => {
