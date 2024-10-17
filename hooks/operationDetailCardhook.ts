@@ -41,6 +41,8 @@ import GETBunchSalesOrder from '@/services/api/operation-card-detail-page/get-bu
 import GETMeltingPlanReferenceFromLot from '@/services/api/operation-card-detail-page/melting-plan-reference';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 import GETOperationCardDetailCustomer from '@/services/api/operation-card-detail-page/operation-card-detail-customer';
+import GETToneShowToneForChain from '@/services/api/operation-card-detail-page/show-tone-for-chain';
+import GETNextProcessAsPerTone from '@/services/api/operation-card-detail-page/show-tone-for-chain';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -101,6 +103,7 @@ const useOperationDetailCard = () => {
 
   // set machine size value on base of selected design value
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+  const [showToneForChain, setShowToneForChain] = useState([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -479,16 +482,31 @@ const useOperationDetailCard = () => {
   };
 
   const getOperationCardDetailToneAPICall = async () => {
-    const getToneData = await GETOperationCardDetailTone(token);
-    if (getToneData?.status === 200) {
-      setOperationCardTone(
-        getToneData?.data?.data?.map((tone_data: any) => ({
-          name: tone_data?.name,
-          value: tone_data?.name,
-        }))
-      );
+    const department: any = operationCardDetailData?.product_process_department?.split('-')[0];
+    if (operationCardDetailData?.product === 'KA Chain' && department === 'Hammering 2') {
+      const getToneData = await GETToneShowToneForChain(token);
+      if (getToneData?.status === 200) {
+        setOperationCardTone(
+          getToneData?.data?.message?.data?.map((tone_data: any) => ({
+            name: tone_data?.name,
+            value: tone_data?.name,
+          }))
+        );
+      } else {
+        setOperationCardTone([]);
+      }
     } else {
-      setOperationCardTone([]);
+      const getToneData = await GETOperationCardDetailTone(token);
+      if (getToneData?.status === 200) {
+        setOperationCardTone(
+          getToneData?.data?.data?.map((tone_data: any) => ({
+            name: tone_data?.name,
+            value: tone_data?.name,
+          }))
+        );
+      } else {
+        setOperationCardTone([]);
+      }
     }
   };
 
@@ -505,6 +523,7 @@ const useOperationDetailCard = () => {
       setOperationCardDesignCodeCategory([]);
     }
   };
+
   const getOperationCardDetailDesignAPICall = async () => {
     const getDesign = await GETProductProcessDesign(operationCardDetailData?.product, token);
     if (getDesign?.status === 200) {
@@ -1110,6 +1129,7 @@ const useOperationDetailCard = () => {
     handleSalesOrderHeaderCheckboxChange,
     handleSalesOrderDeleteSelectedItems,
     getMachineSizeBasedOnDesignValueAPICall,
+    showToneForChain,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,

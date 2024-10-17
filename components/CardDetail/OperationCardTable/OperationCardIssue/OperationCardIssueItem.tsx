@@ -35,6 +35,9 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
 
   const redirectToNextOC = (oc_id: string) => {
     router.push(`/operation-card-detail?name=${oc_id}`);
+    setTimeout(() => {
+      window.location.reload();
+    }, 100); // Give time for the route to change before reloading
   };
 
   const CalculateTotal = (column: string, data: any[]) => {
