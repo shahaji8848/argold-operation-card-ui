@@ -46,6 +46,7 @@ const useMeltingLot = () => {
       [name]: value,
     }));
   };
+
   const handleProductBtnClicked = (products: any) => {
     setFilterOptions((prevState) => ({
       ...prevState,

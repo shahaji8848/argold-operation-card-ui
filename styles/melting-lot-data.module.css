@@ -22,7 +22,7 @@
 }
 
 .custom_dropdown_options {
-  position: absolute;
+  /* position: absolute; */
   border: 1px solid rgb(204, 204, 204);
   /* height: 200px; */
   overflow-y: auto;
