@@ -274,66 +274,66 @@ const useMeltingLotSalesOrder = () => {
     });
 
     // Now, also include deleted orders for single in the POST request
-    existingSalesOrderData?.single_orders?.forEach((deletedOrder: any) => {
-      deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
-        itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
-          const deletedOrderData = {
-            design: itemGroupData?.design,
-            sales_order: deletedOrder?.sales_order,
-            order_date: deletedOrder?.order_date,
-            delivery_date: deletedOrder?.delivery_date,
-            customer: deletedOrder?.customer,
-            description: deletedOrder?.description,
-            total_order_weight: deletedOrder?.total_order_weight,
-            soi_name: marketDesign?.soi_name,
-            item: marketDesign?.item,
-            market_design_name: marketDesign?.market_design_name,
-            product: marketDesign?.product,
-            size: marketDesign?.size,
-            quantity: marketDesign?.quantity,
-            is_bunch: marketDesign?.is_bunch,
-            weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
-            product_category: marketDesign?.product_category,
-            bunch_length: marketDesign?.bunch_length,
-            per_inch_weight: marketDesign?.per_inch_weight,
-            estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
-            order_weight: marketDesign?.order_weight,
-          };
-          transformedDataList.push(deletedOrderData);
-        });
-      });
-    });
+    // existingSalesOrderData?.single_orders?.forEach((deletedOrder: any) => {
+    //   deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
+    //     itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
+    //       const deletedOrderData = {
+    //         design: itemGroupData?.design,
+    //         sales_order: deletedOrder?.sales_order,
+    //         order_date: deletedOrder?.order_date,
+    //         delivery_date: deletedOrder?.delivery_date,
+    //         customer: deletedOrder?.customer,
+    //         description: deletedOrder?.description,
+    //         total_order_weight: deletedOrder?.total_order_weight,
+    //         soi_name: marketDesign?.soi_name,
+    //         item: marketDesign?.item,
+    //         market_design_name: marketDesign?.market_design_name,
+    //         product: marketDesign?.product,
+    //         size: marketDesign?.size,
+    //         quantity: marketDesign?.quantity,
+    //         is_bunch: marketDesign?.is_bunch,
+    //         weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
+    //         product_category: marketDesign?.product_category,
+    //         bunch_length: marketDesign?.bunch_length,
+    //         per_inch_weight: marketDesign?.per_inch_weight,
+    //         estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
+    //         order_weight: marketDesign?.order_weight,
+    //       };
+    //       transformedDataList.push(deletedOrderData);
+    //     });
+    //   });
+    // });
 
     // Now, also include deleted orders for bunch in the POST request
-    existingSalesOrderData?.bunch_orders?.forEach((deletedOrder: any) => {
-      deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
-        itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
-          const deletedOrderData = {
-            design: itemGroupData?.design,
-            sales_order: deletedOrder?.sales_order,
-            order_date: deletedOrder?.order_date,
-            delivery_date: deletedOrder?.delivery_date,
-            customer: deletedOrder?.customer,
-            description: deletedOrder?.description,
-            total_order_weight: deletedOrder?.total_order_weight,
-            soi_name: marketDesign?.soi_name,
-            item: marketDesign?.item,
-            market_design_name: marketDesign?.market_design_name,
-            product: marketDesign?.product,
-            size: marketDesign?.size,
-            quantity: marketDesign?.quantity,
-            is_bunch: marketDesign?.is_bunch,
-            weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
-            product_category: marketDesign?.product_category,
-            bunch_length: marketDesign?.bunch_length,
-            per_inch_weight: marketDesign?.per_inch_weight,
-            estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
-            order_weight: marketDesign?.order_weight,
-          };
-          transformedDataList.push(deletedOrderData);
-        });
-      });
-    });
+    // existingSalesOrderData?.bunch_orders?.forEach((deletedOrder: any) => {
+    //   deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
+    //     itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
+    //       const deletedOrderData = {
+    //         design: itemGroupData?.design,
+    //         sales_order: deletedOrder?.sales_order,
+    //         order_date: deletedOrder?.order_date,
+    //         delivery_date: deletedOrder?.delivery_date,
+    //         customer: deletedOrder?.customer,
+    //         description: deletedOrder?.description,
+    //         total_order_weight: deletedOrder?.total_order_weight,
+    //         soi_name: marketDesign?.soi_name,
+    //         item: marketDesign?.item,
+    //         market_design_name: marketDesign?.market_design_name,
+    //         product: marketDesign?.product,
+    //         size: marketDesign?.size,
+    //         quantity: marketDesign?.quantity,
+    //         is_bunch: marketDesign?.is_bunch,
+    //         weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
+    //         product_category: marketDesign?.product_category,
+    //         bunch_length: marketDesign?.bunch_length,
+    //         per_inch_weight: marketDesign?.per_inch_weight,
+    //         estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
+    //         order_weight: marketDesign?.order_weight,
+    //       };
+    //       transformedDataList.push(deletedOrderData);
+    //     });
+    //   });
+    // });
 
     // Debugging: Check the transformed data list
 
