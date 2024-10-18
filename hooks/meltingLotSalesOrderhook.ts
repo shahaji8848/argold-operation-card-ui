@@ -1,20 +1,20 @@
 'use client';
+import DELETESalesOrders from '@/services/api/melting-lot-dashboard-page/delete-sales-order';
 import GETMeltingPlanBasedOnFilters from '@/services/api/melting-lot-dashboard-page/get-data-base-on-filters';
 import GETMeltingPlanOrders from '@/services/api/melting-lot-dashboard-page/get-melting-plan-order';
 import GETMeltingPlanFilters from '@/services/api/melting-lot-dashboard-page/melting-plan-filters';
 import POSTAddOrders from '@/services/api/melting-lot-dashboard-page/post-add-orders';
+import GETProductFiltersGroupOrdersByDesign from '@/services/api/melting-lot-dashboard-page/product-filters-group-by-design';
+import GETViewSalesOrder from '@/services/api/melting-lot-dashboard-page/view-sales-order';
+import GETViewSalesOrderShowFields from '@/services/api/melting-lot-dashboard-page/view-sales-order-show-fields';
 import { get_access_token } from '@/store/slice/login-slice';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import DELETESalesOrders from '@/services/api/melting-lot-dashboard-page/delete-sales-order';
-import GETViewSalesOrder from '@/services/api/melting-lot-dashboard-page/view-sales-order';
-import GETProductFiltersGroupOrdersByDesign from '@/services/api/melting-lot-dashboard-page/product-filters-group-by-design';
-import GETViewSalesOrderShowFields from '@/services/api/melting-lot-dashboard-page/view-sales-order-show-fields';
 
 const useMeltingLotSalesOrder = () => {
   const { token } = useSelector(get_access_token);
-  const [meltingPlan, setMeltingPlan] = useState<any>('');
   const [meltingPlanFilters, setMeltingPlanFilters] = useState<any>({});
   const [salesOrderData, setSalesOrderData] = useState<any>([]);
   const [selectedOrders, setSelectedOrders] = useState<{ [key: string]: boolean }>({});
@@ -24,21 +24,23 @@ const useMeltingLotSalesOrder = () => {
   const [viewSalesOrderData, setViewSalesOrderData] = useState<any>([]);
   const [groupOrdersByDesign, setGroupOrdersByDesign] = useState<any>();
   const [viewSalesOrderFields, setViewSalesOrderFields] = useState<any>({});
+  const searchParams = useSearchParams();
+  const meltingPlan = searchParams.get('melting_plan');
+  const meltingPlanFilterParams = {
+    melting_plan: searchParams.get('melting_plan'),
+    lot_data: searchParams.get('lot_data'),
+  };
 
   useEffect(() => {
-    const url = window.location.href;
-    const meltingPlanValue = url.split('=')[1];
-
-    setMeltingPlan(meltingPlanValue || '');
-    if (meltingPlanValue) {
-      fetchMeltingPlanFilter(meltingPlanValue);
-      fetchExistingMeltingPlanOrder(meltingPlanValue);
-      handleViewSalesOrderOnProductAndPurity(meltingPlanValue);
+    if (meltingPlan) {
+      fetchMeltingPlanFilter();
+      fetchExistingMeltingPlanOrder(meltingPlan);
+      handleViewSalesOrderOnProductAndPurity(meltingPlan);
     }
   }, [meltingPlan]);
 
-  const fetchMeltingPlanFilter = async (meltingPlanValue: any) => {
-    const getMelitngPlanFilters = await GETMeltingPlanFilters(token, meltingPlanValue);
+  const fetchMeltingPlanFilter = async () => {
+    const getMelitngPlanFilters = await GETMeltingPlanFilters(token, meltingPlanFilterParams);
 
     if (getMelitngPlanFilters?.status === 200) {
       setMeltingPlanFilters(getMelitngPlanFilters?.data?.message);
