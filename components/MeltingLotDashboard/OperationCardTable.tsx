@@ -130,7 +130,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                     {meltingData?.linked_operations &&
                       meltingData?.linked_operations.length > 0 &&
                       Object.keys(meltingData.linked_operations[0]).map((key, colIndex) =>
-                        key === 'type' ? null : (
+                        key === 'type' || key === 'combination_name' ? null : (
                           <>
                             <th className="thead-dark text-center" scope="col" key={colIndex}>
                               {key.replace(/_/g, ' ')}
@@ -180,7 +180,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                       <tr key={opIdx}>
                         {Object.keys(operation).map((key, colIndex) =>
                           // Check if the key is 'type' and its value is 'OP Data'. If so, skip rendering this column.
-                          key === 'type' && operation[key] === 'OP Data' ? null : (
+                          (key === 'type' && operation[key] === 'OP Data') || key === 'combination_name' ? null : (
                             <td key={colIndex} className="text-center">
                               {operation[key] !== null && operation[key] !== undefined && operation[key] !== ''
                                 ? typeof operation[key] === 'number' && key === 'purity'
