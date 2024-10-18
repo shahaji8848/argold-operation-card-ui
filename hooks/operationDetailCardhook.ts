@@ -482,7 +482,8 @@ const useOperationDetailCard = () => {
   };
 
   const getOperationCardDetailToneAPICall = async () => {
-    if (operationCardDetailData?.product === 'KA Chain') {
+    const department: any = operationCardDetailData?.product_process_department?.split('-')[0];
+    if (operationCardDetailData?.product === 'KA Chain' && department === 'Hammering 2') {
       const getToneData = await GETToneShowToneForChain(token);
       if (getToneData?.status === 200) {
         setOperationCardTone(
