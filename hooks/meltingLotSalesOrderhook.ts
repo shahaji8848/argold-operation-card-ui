@@ -27,8 +27,11 @@ const useMeltingLotSalesOrder = () => {
   const [allowMultipleDesign, setAllowMultipleDesign] = useState<any>();
   const [groupOrdersByDesign, setGroupOrdersByDesign] = useState<any>();
   const [viewSalesOrderFields, setViewSalesOrderFields] = useState<any>({});
+  const [combinationNameValue, setCombinationNameValue] = useState<any>('');
   const searchParams = useSearchParams();
   const meltingPlan = searchParams.get('melting_plan');
+  const lotDataParam = searchParams.get('lot_data'); // No redeclaration
+
   const meltingPlanFilterParams = {
     melting_plan: searchParams.get('melting_plan'),
     lot_data: searchParams.get('lot_data'),
@@ -39,6 +42,13 @@ const useMeltingLotSalesOrder = () => {
       fetchMeltingPlanFilter();
       fetchExistingMeltingPlanOrder(meltingPlan);
       handleViewSalesOrderOnProductAndPurity(meltingPlan);
+    }
+    if (lotDataParam) {
+      const parsedLotData = JSON.parse(decodeURIComponent(lotDataParam)); // Use a new variable name
+
+      // Access the combination_name from the parsed data
+      const combinationName = parsedLotData.combination_name;
+      setCombinationNameValue(combinationName);
     }
   }, [meltingPlan]);
 
@@ -156,7 +166,13 @@ const useMeltingLotSalesOrder = () => {
 
   //function to get  Selected add melting lot sales order data
   const fetchExistingMeltingPlanOrder = async (meltingPlanValue: any) => {
-    const getMeltingPlanOrders = await GETMeltingPlanOrders(meltingPlanValue, token);
+    const lotDataParam: any = searchParams.get('lot_data');
+    const parsedLotData = JSON.parse(decodeURIComponent(lotDataParam)); // Use a new variable name
+
+    // Access the combination_name from the parsed data
+    const combinationName = parsedLotData.combination_name || ' ';
+
+    const getMeltingPlanOrders = await GETMeltingPlanOrders(meltingPlanValue, combinationName, token);
     if (getMeltingPlanOrders?.status === 200) {
       setExistingSalesOrderData(getMeltingPlanOrders?.data?.message);
     } else {
@@ -169,6 +185,7 @@ const useMeltingLotSalesOrder = () => {
 
     transformedDataList.push({
       melting_plan: meltingPlan,
+      combination_name: combinationNameValue,
     });
 
     // Iterate over the single orders in salesOrderData
