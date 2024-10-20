@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign }: any) => {
   return (
     <>
