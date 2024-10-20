@@ -82,9 +82,15 @@ const useMeltingViewHook = () => {
      }
   }
 
-   useEffect(()=>{
-    updateUrlWithFilters();
-    getMeltingFiltersFromAPI();
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      updateUrlWithFilters();
+      getMeltingFiltersFromAPI();
+    }, 300); 
+
+    return () => {
+      clearTimeout(handler); 
+    };
   }, [filterOptions]);
 
   useEffect(() => {
