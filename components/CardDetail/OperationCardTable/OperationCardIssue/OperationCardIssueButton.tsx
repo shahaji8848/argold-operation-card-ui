@@ -16,6 +16,7 @@ import UpdateSalesOrderWithBooleanValueAPI from '@/services/api/operation-card-d
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 import { toast } from 'react-toastify';
+import GETNextProcessAsPerTone from '@/services/api/operation-card-detail-page/next-process-as-per-tone';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -117,6 +118,7 @@ const OperationCardIssueButton = ({
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
   const inputInWeightRef: any = useRef(null);
+  const department: any = operationCardDetailData?.product_process_department?.split('-')[0];
 
   const checkIfValuesAreEmpty = () => {
     const mergedObjs = {
@@ -199,6 +201,22 @@ const OperationCardIssueButton = ({
         setCombinationValueForNextProductCategory(nextProductCategory);
       }
     }
+    const department: any = operationCardDetailData?.product_process_department?.split('-')[0];
+    if (operationCardDetailData?.product === 'KA Chain' && labelValue === 'tone' && department === 'Hammering 2') {
+      setToneVlaueforNextProcess(selectedValue?.name);
+      getOperationCardDetailNextProcessAsPerToneAPICall(selectedValue?.name);
+    }
+    if (
+      operationCardDetailData?.product === 'KA Chain' &&
+      labelValue === 'next_product_process' &&
+      department === 'Hammering 2'
+    ) {
+      getOperationCardDetailNextProcessAsPerToneAPICall(toneVlaueforNextProcess);
+      setModalDropdownFields({
+        ...modalDropdownFields,
+        next_product_process: selectedValue?.name,
+      });
+    }
   };
 
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
@@ -208,6 +226,20 @@ const OperationCardIssueButton = ({
       setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
     } else {
       setMachineSizeBasedOnDesignValue([]);
+    }
+  };
+
+  const getOperationCardDetailNextProcessAsPerToneAPICall = async (toneVlaueforNextProcess: any) => {
+    const getNextProcessAsPerToneData = await GETNextProcessAsPerTone(toneVlaueforNextProcess, token);
+    if (getNextProcessAsPerToneData?.status === 200) {
+      setNextProcessAsPerTone(
+        getNextProcessAsPerToneData?.data?.message?.data?.map((tone_data: any) => ({
+          name: tone_data?.name,
+          value: tone_data?.name,
+        }))
+      );
+    } else {
+      setNextProcessAsPerTone([]);
     }
   };
 
@@ -704,7 +736,9 @@ const OperationCardIssueButton = ({
                     design_code_category: operationCardDesignCodeCategory,
                     next_process: operationCardNextProductProcess,
                     next_product_process:
-                      operationCardDetailData?.product === 'KA Chain' ? nextProcessAsPerTone : operationCardNextProductProcess,
+                      operationCardDetailData?.product === 'KA Chain' && department === 'Hammering 2'
+                        ? nextProcessAsPerTone
+                        : operationCardNextProductProcess,
 
                     next_product_process_department: operationCardNextProductProcessDepartment,
                     product_category: operationCardProductCategory,
