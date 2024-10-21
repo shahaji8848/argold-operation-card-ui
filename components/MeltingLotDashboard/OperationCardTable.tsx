@@ -80,7 +80,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                     className="text-white"
                     target="_blank"
                   >
-                    View Sales Order HAHAHAHAH
+                    View Sales Order
                   </Link>
                 </button> */}
                 {meltingData?.docstatus === 0 && (
@@ -92,13 +92,13 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                     </button>
                   </>
                 )}
-                {/* {meltingData?.docstatus === 1 && (
+                {meltingData?.docstatus === 1 && (
                   <button className="text-end btn btn-blue btn-py me-2">
                     <Link href={meltingData?.melting_plan_url} className="text-white" target="_blank">
                       View Melting Plan
                     </Link>
                   </button>
-                )} */}
+                )}
                 {meltingData?.edit_url && (
                   <button className="text-end btn btn-blue btn-py me-2">
                     <Link href={meltingData?.edit_url} className="text-white" target="_blank">
@@ -115,18 +115,9 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                 )}
                 {meltingData?.view_url && (
                   <>
-                    {/* <button className="text-end btn btn-blue btn-py me-2">
+                    <button className="text-end btn btn-blue btn-py me-2">
                       <Link href={meltingData?.view_url} className="text-white" target="_blank">
                         View Melting Lot
-                      </Link>
-                    </button> */}
-                    <button className="text-end btn btn-blue btn-py ">
-                      <Link
-                        href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
-                        className="text-white"
-                        target="_blank"
-                      >
-                        Add Sales Order
                       </Link>
                     </button>
                   </>
@@ -138,10 +129,10 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                 <thead className="card-listing-head">
                   <tr>
                     {/* {meltingData?.columns?.map((column: any, colIndex: any) => (
-                      <th className="thead-dark text-center" scope="col" key={colIndex}>
-                        {column.replace(/_/g, ' ')}
-                      </th>
-                    ))} */}
+                    <th className="thead-dark text-center" scope="col" key={colIndex}>
+                      {column.replace(/_/g, ' ')}
+                    </th>
+                  ))} */}
                     {meltingData?.linked_operations &&
                       meltingData?.linked_operations.length > 0 &&
                       Object.keys(meltingData.linked_operations[0]).map((key, colIndex) =>
