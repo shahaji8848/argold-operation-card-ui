@@ -1,7 +1,7 @@
 import { CONSTANTS } from '@/services/config/api-config';
 import axios from 'axios';
 
-const DELETESalesOrders = async (deletedItemsSoiNames: any, token: any) => {
+const DELETESalesOrders = async (deletedItemsSoiNames: any, melting_plan: any, token: any) => {
   let response: any;
 
   const config = {
@@ -11,6 +11,7 @@ const DELETESalesOrders = async (deletedItemsSoiNames: any, token: any) => {
     },
     params: {
       soi_names: JSON.stringify(deletedItemsSoiNames), // Sending the soi_name array as a query parameter
+      melting_plan: melting_plan,
     },
   };
   await axios
