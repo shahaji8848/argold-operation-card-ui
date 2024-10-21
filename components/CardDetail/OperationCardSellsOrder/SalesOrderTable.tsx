@@ -11,6 +11,7 @@ const columnsBuilder = (operationCardDetailData: any, operationCardProductDept: 
   let columnsList: string[] = [
     'Customer Name',
     'Sales Order',
+    'Order Weight',
     operationCardDetailData?.product === 'KA Chain' || operationCardDetailData?.product === 'Ball Chain'
       ? operationCardProductDept?.group_orders_by_design === 0
         ? 'Market Design Name'
@@ -56,6 +57,16 @@ const rowsBuilder = (
         />
       </td>
       <td className="text-center">{rowData?.sales_order && rowData?.sales_order.split('-')?.pop()}</td>
+
+      <td className="text-center">
+        {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
+          return (
+            <>
+              <div key={idx}>{qtyList?.order_weight.toFixed(3)}</div>
+            </>
+          );
+        })}
+      </td>
 
       {operationCardDetailData?.product === 'KA Chain' || operationCardDetailData?.product === 'Ball Chain' ? (
         operationCardProductDept?.group_orders_by_design === 0 && <td className="text-center">{rowData?.market_design_name} </td>
