@@ -22,13 +22,14 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign 
                   {[
                     'order date',
                     'delivery date',
-                    'sales order number',
+                    'sales order',
                     'customer',
                     'description',
                     'Product Category',
                     'Machine Size',
+                    'Design Line',
                     'Design',
-                    'weight',
+                    'Order weight',
                     'Size',
                     'Quantity',
                   ].map((val: any, index: any) => (
@@ -47,7 +48,9 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign 
                     const machineSize = ordersData?.item_group_data
                       ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.machine_size
                       : '--';
-
+                    const designLine = ordersData?.item_group_data
+                      ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.design_line
+                      : '--';
                     return (
                       <tr>
                         <td className="text-center">
@@ -74,6 +77,7 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign 
 
                         <td className="text-center">{productCategory || '--'}</td>
                         <td className="text-center">{machineSize || '--'}</td>
+                        <td className="text-center">{designLine || '--'}</td>
                         <td className="text-center">{ordersData?.design || '--'}</td>
                         <td>
                           {ordersData.item_group_data.map((itemGroupData: any) =>

@@ -23,6 +23,7 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign }
                     'description',
                     'Product Category',
                     'Machine Size',
+                    'Design Line',
                     'Design',
                     'weight',
                     'Size',
@@ -43,7 +44,9 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign }
                     const machineSize = ordersData?.item_group_data
                       ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.machine_size
                       : '--';
-
+                    const designLine = ordersData?.item_group_data
+                      ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.design_line
+                      : '--';
                     return (
                       <tr>
                         <td className="text-center">
@@ -69,15 +72,8 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign }
                         </td>
 
                         <td className="text-center">{productCategory || '--'}</td>
-                        <td>
-                          {ordersData.item_group_data.map((itemGroupData: any) =>
-                            itemGroupData.market_design_name_values.map((e: any) => (
-                              <div className="text-center" key={e.soi_name}>
-                                {e?.machine_size?.toFixed(2) || '--'}
-                              </div>
-                            ))
-                          )}
-                        </td>
+                        <td className="text-center">{machineSize || '--'}</td>
+                        <td className="text-center">{designLine || '--'}</td>
                         <td className="text-center">{ordersData?.design || '--'}</td>
                         <td>
                           {ordersData.item_group_data.map((itemGroupData: any) =>

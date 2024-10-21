@@ -16,3 +16,11 @@ export const GETSalesOrder = async ({ token, filterOptions }: any) => {
   return getAPIResponse;
 };
 
+export const GETShowFilters = async ({ token, filterOptions }: any) => {
+  const { product = '', purity = '', machine_size = '', design = '', cust_name = '', product_category = '' } = filterOptions;
+  const url = `${CONSTANTS.API_BASE_URL}/${CONSTANTS.CUSTOM_API_PATH}/custom_app.custom_app.doctype.melting_plan.melting_plan_api.show_view_sales_orders_page_filters?product=${product}`;
+  // const url =
+  //   'https://staging1-arg-manufacturing.8848digitalerp.com/api/method/custom_app.custom_app.doctype.melting_plan.melting_plan_api.show_view_sales_orders_page_filters?product=KA%20Chain';
+  const getAPIResponse: any = await callGetAPI(url, token);
+  return getAPIResponse;
+};

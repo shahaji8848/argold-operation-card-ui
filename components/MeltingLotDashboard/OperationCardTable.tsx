@@ -75,7 +75,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                     className="text-white"
                     target="_blank"
                   >
-                    View Sales Order
+                    View Sales Order HAHAHAHAH
                   </Link>
                 </button> */}
                 {meltingData?.docstatus === 0 && (
@@ -96,13 +96,13 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                     </button>
                   </>
                 )}
-                {meltingData?.docstatus === 1 && (
+                {/* {meltingData?.docstatus === 1 && (
                   <button className="text-end btn btn-blue btn-py me-2">
                     <Link href={meltingData?.melting_plan_url} className="text-white" target="_blank">
                       View Melting Plan
                     </Link>
                   </button>
-                )}
+                )} */}
                 {meltingData?.edit_url && (
                   <button className="text-end btn btn-blue btn-py me-2">
                     <Link href={meltingData?.edit_url} className="text-white" target="_blank">
@@ -119,11 +119,11 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                 )}
                 {meltingData?.view_url && (
                   <>
-                    <button className="text-end btn btn-blue btn-py me-2">
+                    {/* <button className="text-end btn btn-blue btn-py me-2">
                       <Link href={meltingData?.view_url} className="text-white" target="_blank">
                         View Melting Lot
                       </Link>
-                    </button>
+                    </button> */}
                     <button className="text-end btn btn-blue btn-py ">
                       <Link
                         href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}

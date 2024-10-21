@@ -1,4 +1,4 @@
-import { GETMeltingPlan, GETSalesOrder } from '@/services/api/melting-lot-dashboard-page/get-view-sales-order';
+import { GETMeltingPlan, GETSalesOrder, GETShowFilters } from '@/services/api/melting-lot-dashboard-page/get-view-sales-order';
 import GETMeltingFilters from '@/services/api/melting-lot-dashboard-page/melting-filters';
 import { get_access_token } from '@/store/slice/login-slice';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -35,7 +35,8 @@ const useMeltingViewHook = () => {
   const [meltingFiltersList, setMeltingFiltersList] = useState<any>([]);
   //for shwing data in Tabel
   const [dataForSalesOrder, setDataForSalesOrder] = useState<any>();
-  const [error, setError] = useState<any>();
+  // for showing filters
+  const [filtersVisible, setFiltersVisible] = useState<FilterOptions>();
   const constructUrl = (filterOptions: any) => {
     const currentUrl = new URL(window.location.href);
     const queryString = Object.entries(filterOptions)
@@ -73,6 +74,25 @@ const useMeltingViewHook = () => {
     }
   };
 
+  //to show filters dynamiclly
+  const handleGetFiltersViewHandler = async () => {
+    try {
+      const getSalesOrder = await GETShowFilters({ token, filterOptions: filterOptions });
+      if (getSalesOrder?.status === 200) {
+        const res = getSalesOrder?.data?.message;
+        console.log(res, 'resss');
+        setFiltersVisible(res);
+        if (res?.error) {
+          toast?.error(res?.error);
+        }
+      } else {
+        setDataForSalesOrder([]);
+      }
+    } catch (error) {
+      toast.error('No Data Found');
+    }
+  };
+
   const handleGetSalesOrders = async () => {
     try {
       const getSalesOrder = await GETSalesOrder({ token, filterOptions: filterOptions });
@@ -101,6 +121,15 @@ const useMeltingViewHook = () => {
   }, [filterOptions]);
 
   useEffect(() => {
+    const handler = setTimeout(() => {
+      handleGetFiltersViewHandler();
+    }, 300);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [filterOptions?.product]);
+
+  useEffect(() => {
     getMeltingFiltersFromAPI();
   }, []);
   return {
@@ -110,7 +139,7 @@ const useMeltingViewHook = () => {
     meltingFiltersList,
     handleGetSalesOrders,
     dataForSalesOrder,
-    error,
+    filtersVisible,
   };
 };
 

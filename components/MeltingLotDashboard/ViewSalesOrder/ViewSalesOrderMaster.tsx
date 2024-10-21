@@ -22,10 +22,13 @@ interface FilterItem {
   value: keyof FilterOptions;
   options: string[];
   stateValue?: any;
+  filterVisible?: any;
 }
 
 const ViewSalesOrderMaster = () => {
-  const { filterOptions, handleFilterChange, meltingFiltersList, handleGetSalesOrders, dataForSalesOrder } = useMeltingViewHook();
+  const { filterOptions, handleFilterChange, meltingFiltersList, handleGetSalesOrders, dataForSalesOrder, filtersVisible } =
+    useMeltingViewHook();
+  console.log(filtersVisible, 'fiolter svisi');
   const [filteredData, setFilteredData] = useState<any>();
   const [value, setValue] = useState(filterOptions);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -135,6 +138,7 @@ const ViewSalesOrderMaster = () => {
       value: 'product',
       options: meltingFiltersList?.product || [],
       stateValue: value?.product,
+      filterVisible: true,
     },
     {
       key: 'purity',
@@ -142,6 +146,7 @@ const ViewSalesOrderMaster = () => {
       value: 'purity',
       options: meltingFiltersList?.purity || [],
       stateValue: value?.purity,
+      filterVisible: filtersVisible?.purity,
     },
     {
       key: 'cust_name',
@@ -149,6 +154,7 @@ const ViewSalesOrderMaster = () => {
       value: 'cust_name',
       options: meltingFiltersList?.cust_name || [],
       stateValue: value?.cust_name,
+      filterVisible: filtersVisible?.cust_name,
     },
     {
       key: 'product_category',
@@ -156,6 +162,7 @@ const ViewSalesOrderMaster = () => {
       value: 'product_category',
       options: meltingFiltersList?.product_category || [],
       stateValue: value?.product_category,
+      filterVisible: filtersVisible?.product_category,
     },
 
     {
@@ -164,6 +171,7 @@ const ViewSalesOrderMaster = () => {
       value: 'design',
       options: meltingFiltersList?.design || [],
       stateValue: value?.design,
+      filterVisible: filtersVisible?.design,
     },
     {
       key: 'machine_size',
@@ -171,6 +179,7 @@ const ViewSalesOrderMaster = () => {
       value: 'machine_size',
       options: meltingFiltersList?.machine_size || [],
       stateValue: value?.machine_size,
+      filterVisible: filtersVisible?.machine_size,
     },
   ];
 
@@ -180,47 +189,57 @@ const ViewSalesOrderMaster = () => {
         <div className="row">
           {arrForMappingFlters.map((item, index) => {
             return (
-              <div className="col-md-2 col-12 mb-2" key={index}>
-                <div className="d-inline-block ">
-                  <>
-                    <div className="me-2 bold fs-14">{item?.label}</div>
-                    <div className={meltingStyle.custom_dropdown_wrapper} key={item.key}>
-                      <input
-                        type="text"
-                        className={`${meltingStyle.custom_dropdown_input} ${meltingStyle.dropdown_width}`}
-                        name={item.value}
-                        value={item?.stateValue}
-                        onChange={handleValueChange}
-                        onFocus={() => handleInputFocus(item.value)}
-                        placeholder={`search ${item.label}`}
-                        ref={inputRef}
-                        onKeyDown={(e) => handleKeyDown(e, item.value)}
-                        id={item?.key}
-                      />
-                      {activeDropdown === item.value && (
-                        <div className={`${meltingStyle.custom_dropdown_options} ${isDropdownOpen ? meltingStyle.open : ''}`}>
-                          {filteredData[item?.value]?.map((list: string, idx: number) => {
-                            return (
+              <>
+                {item?.filterVisible ? (
+                  <div className="col-md-2 col-12 mb-2" key={index}>
+                    <div className="d-inline-block ">
+                      <>
+                        <>
+                          <div className="me-2 bold fs-14">{item?.label}</div>
+                          <div className={meltingStyle.custom_dropdown_wrapper} key={item.key}>
+                            <input
+                              type="text"
+                              className={`${meltingStyle.custom_dropdown_input} ${meltingStyle.dropdown_width}`}
+                              name={item.value}
+                              value={item?.stateValue}
+                              onChange={handleValueChange}
+                              onFocus={() => handleInputFocus(item.value)}
+                              placeholder={`search ${item.label}`}
+                              ref={inputRef}
+                              onKeyDown={(e) => handleKeyDown(e, item.value)}
+                              id={item?.key}
+                            />
+                            {activeDropdown === item.value && (
                               <div
-                                key={idx}
-                                className={`${meltingStyle.custom_dropdown_option} ${
-                                  highlightedIndex[`${item?.value}}`] === idx ? meltingStyle.highlighted : ''
-                                }`}
-                                onClick={() => handleOptionClick(list, `${item?.value}`)}
+                                className={`${meltingStyle.custom_dropdown_options} ${isDropdownOpen ? meltingStyle.open : ''}`}
                               >
-                                {list}
+                                {filteredData[item?.value]?.map((list: string, idx: number) => {
+                                  return (
+                                    <div
+                                      key={idx}
+                                      className={`${meltingStyle.custom_dropdown_option} ${
+                                        highlightedIndex[`${item?.value}}`] === idx ? meltingStyle.highlighted : ''
+                                      }`}
+                                      onClick={() => handleOptionClick(list, `${item?.value}`)}
+                                    >
+                                      {list}
+                                    </div>
+                                  );
+                                })}
+                                {filteredData[item?.value]?.length === 0 && (
+                                  <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
+                                )}
                               </div>
-                            );
-                          })}
-                          {filteredData[item?.value]?.length === 0 && (
-                            <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
-                          )}
-                        </div>
-                      )}
+                            )}
+                          </div>
+                        </>
+                      </>
                     </div>
-                  </>
-                </div>
-              </div>
+                  </div>
+                ) : (
+                  ''
+                )}
+              </>
             );
           })}
         </div>
