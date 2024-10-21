@@ -572,7 +572,7 @@ const useMeltingLotSalesOrder = () => {
     if (deletedItemsSoiNames.length > 0) {
       try {
         // Send the DELETE API call to delete the selected sales orders as query params
-        const response = await DELETESalesOrders(deletedItemsSoiNames, token);
+        const response = await DELETESalesOrders(deletedItemsSoiNames, meltingPlan, token);
 
         if (response?.status === 200) {
           if (
