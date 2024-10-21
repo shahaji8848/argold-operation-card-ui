@@ -13,7 +13,7 @@ interface FilterOptions {
   purity?: string;
   design?: string;
   cust_name?: string;
-  product ?: string;
+  product?: string;
 }
 
 interface FilterItem {
@@ -21,13 +21,13 @@ interface FilterItem {
   label: string;
   value: keyof FilterOptions;
   options: string[];
-  stateValue ?: any
+  stateValue?: any;
 }
 
 const ViewSalesOrderMaster = () => {
-  const { filterOptions, handleFilterChange, meltingFiltersList,handleGetSalesOrders, dataForSalesOrder} = useMeltingViewHook();
+  const { filterOptions, handleFilterChange, meltingFiltersList, handleGetSalesOrders, dataForSalesOrder } = useMeltingViewHook();
   const [filteredData, setFilteredData] = useState<any>();
-  const [value,setValue] = useState(filterOptions)
+  const [value, setValue] = useState(filterOptions);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<any>({});
   const inputRef = useRef<HTMLInputElement>(null);
@@ -52,7 +52,7 @@ const ViewSalesOrderMaster = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    
+
     handleFilterChange(e);
     // Update filtered data
     setIsDropdownOpen(true);
@@ -60,17 +60,15 @@ const ViewSalesOrderMaster = () => {
     setHighlightedIndex({ [name]: 0 });
   };
 
-const handleValueChange = ((e: React.ChangeEvent<HTMLInputElement>)=>{
-  const { name, value:inputValue } = e.target;
-  console.log(inputValue,"valuee",name)
-  setValue((prev) => ({ ...prev, [name]: inputValue }));
-  setFilteredData((prevData: any) => ({
-    ...prevData,
-    [name]: meltingFiltersList?.[name]?.filter((item: string) => item.toLowerCase().includes(inputValue.toLowerCase())) || [],
-  }));
-  handleInputChange(e)
-})
-
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value: inputValue } = e.target;
+    setValue((prev) => ({ ...prev, [name]: inputValue }));
+    setFilteredData((prevData: any) => ({
+      ...prevData,
+      [name]: meltingFiltersList?.[name]?.filter((item: string) => item.toLowerCase().includes(inputValue.toLowerCase())) || [],
+    }));
+    handleInputChange(e);
+  };
 
   const handleOptionClick = (option: string, field: string) => {
     setIsDropdownOpen(false);
@@ -80,7 +78,7 @@ const handleValueChange = ((e: React.ChangeEvent<HTMLInputElement>)=>{
   };
 
   const handleInputFocus = (field: string) => {
-    setFilteredData(meltingFiltersList)
+    setFilteredData(meltingFiltersList);
     setIsDropdownOpen(true);
     setActiveDropdown(field);
     setHighlightedIndex({ [field]: 0 });
@@ -110,8 +108,8 @@ const handleValueChange = ((e: React.ChangeEvent<HTMLInputElement>)=>{
       default:
         break;
     }
-  }
-  
+  };
+
   useEffect(() => {
     const handleOutsideClickAutoComplete = (event: any) => {
       // if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
@@ -136,28 +134,28 @@ const handleValueChange = ((e: React.ChangeEvent<HTMLInputElement>)=>{
       label: 'Product',
       value: 'product',
       options: meltingFiltersList?.product || [],
-      stateValue:value?.product
+      stateValue: value?.product,
     },
     {
       key: 'purity',
       label: 'Purity',
       value: 'purity',
       options: meltingFiltersList?.purity || [],
-      stateValue: value?.purity
+      stateValue: value?.purity,
     },
     {
       key: 'cust_name',
       label: 'Customer',
       value: 'cust_name',
       options: meltingFiltersList?.cust_name || [],
-      stateValue: value?.cust_name
+      stateValue: value?.cust_name,
     },
     {
       key: 'product_category',
       label: 'Product Category',
       value: 'product_category',
       options: meltingFiltersList?.product_category || [],
-      stateValue: value?.product_category
+      stateValue: value?.product_category,
     },
 
     {
@@ -165,23 +163,22 @@ const handleValueChange = ((e: React.ChangeEvent<HTMLInputElement>)=>{
       label: 'Design',
       value: 'design',
       options: meltingFiltersList?.design || [],
-      stateValue :value?.design
+      stateValue: value?.design,
     },
     {
       key: 'machine_size',
       label: 'Machine Size',
       value: 'machine_size',
       options: meltingFiltersList?.machine_size || [],
-      stateValue: value?.machine_size
+      stateValue: value?.machine_size,
     },
   ];
-
 
   return (
     <div className="container-fluid">
       <div className="spacing-pd mb-3 mt-3">
         <div className="row">
-          {arrForMappingFlters.map((item,index) => {
+          {arrForMappingFlters.map((item, index) => {
             return (
               <div className="col-md-2 col-12 mb-2" key={index}>
                 <div className="d-inline-block ">
@@ -228,20 +225,19 @@ const handleValueChange = ((e: React.ChangeEvent<HTMLInputElement>)=>{
           })}
         </div>
         <div className="row">
-          <div className="col-12 col-sm-3" >
-               <button className='text-end btn btn-blue btn-py me-3 mt-2' onClick={handleGetSalesOrders}>
-                Apply Filters
-               </button>
+          <div className="col-12 col-sm-3">
+            <button className="text-end btn btn-blue btn-py me-3 mt-2" onClick={handleGetSalesOrders}>
+              Apply Filters
+            </button>
           </div>
         </div>
         <div>
-          <SingleViewSalesOrder salesOrderData={dataForSalesOrder} formatDate={formatDate} /> 
-          <BunchViewSalesOrder salesOrderData={dataForSalesOrder} formatDate={formatDate} />   
-               </div>
+          <SingleViewSalesOrder salesOrderData={dataForSalesOrder} formatDate={formatDate} />
+          <BunchViewSalesOrder salesOrderData={dataForSalesOrder} formatDate={formatDate} />
+        </div>
       </div>
     </div>
   );
 };
 
 export default ViewSalesOrderMaster;
-
