@@ -95,6 +95,7 @@ const OperationCardIssueButton = ({
     'product',
     'category_size_combination',
     'next_machine_size',
+    'next_category_size_combination_id',
   ];
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
@@ -111,6 +112,7 @@ const OperationCardIssueButton = ({
   const [toneVlaueforNextProcess, setToneVlaueforNextProcess] = useState<any>([]);
   const [combinationValueForNextMachineSize, setCombinationValueForNextMachineSize] = useState<any>('');
   const [combinationValueForNextProductCategory, setCombinationValueForNextProductCategory] = useState<any>('');
+  const [combinationId, setCombinationId] = useState<any>('');
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
@@ -184,36 +186,20 @@ const OperationCardIssueButton = ({
     if (labelValue === 'category_size_combination' || labelValue === 'next_machine_size') {
       const nextMachineSize = selectedValue?.machine_size;
       const nextProductCategory = selectedValue?.product_category;
+      const combinationIdValue = selectedValue?.category_size_combination_id;
       setModalDropdownFields({
         ...modalDropdownFields,
 
         category_size_combination: selectedValue?.combination,
       });
 
-      // setCombinationValueForNextMachineSize(nextMachineSize);
-      // Check if nextMachineSize is defined before setting
-      if (nextMachineSize !== undefined) {
+      if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
+        setCombinationId(combinationIdValue);
         setCombinationValueForNextMachineSize(nextMachineSize);
-
-        console.log('Combination value set to:', nextMachineSize); // Log the value being set
-      }
-
-      if (nextProductCategory !== undefined) {
         setCombinationValueForNextProductCategory(nextProductCategory);
-
-        console.log('Combination value set to:', nextProductCategory); // Log the value being set
       }
-      console.log('category_size_combination', combinationValueForNextMachineSize);
-    }
-
-    if (labelValue === 'next_machine_size') {
-      setModalDropdownFields({
-        ...modalDropdownFields,
-        next_machine_size: combinationValueForNextMachineSize,
-      });
     }
   };
-  console.log('category_size_combination', combinationValueForNextMachineSize);
 
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
     const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
@@ -248,9 +234,11 @@ const OperationCardIssueButton = ({
       }),
       ...(modalDropdownFields.hasOwnProperty('next_machine_size') && { next_machine_size: combinationValueForNextMachineSize }),
       ...(modalDropdownFields.hasOwnProperty('category_size_combination') && {
-        category_size_combination: combinationValueForNextMachineSize,
+        category_size_combination: null,
+        next_category_size_combination_id: combinationId,
       }),
     };
+
     // showCategorySizeCombination === 1 ? combinationValueForNextMachineSize
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
@@ -465,6 +453,7 @@ const OperationCardIssueButton = ({
     setMachineSizeBasedOnDesignValue([]);
     setCombinationValueForNextMachineSize('');
     setCombinationValueForNextProductCategory('');
+    setCombinationId('');
   };
 
   const [showMeltingLotSalesOrder, setShowMeltingLotSalesOrder] = useState<any>();
@@ -649,9 +638,6 @@ const OperationCardIssueButton = ({
     }))
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
-  useEffect(() => {
-    console.log('Updated modalDropdownFields:', modalDropdownFields);
-  }, [modalDropdownFields]);
   // Log the filtered bunch orders with items
 
   return (
@@ -730,6 +716,7 @@ const OperationCardIssueButton = ({
                     next_machine_size: operationCardNextMachineSize,
                     // showCategorySizeCombination === 1 ? combinationValueForNextMachineSize : operationCardNextMachineSize,
                     category_size_combination: productCategoryAndMachineSizeCombination,
+                    next_category_size_combination_id: combinationId,
                   };
                   propToPass = propMappings[val];
                   return propToPass;
@@ -771,7 +758,11 @@ const OperationCardIssueButton = ({
                                   : initialValueForActiveField[val?.label]) ||
                                 (val?.label === 'next_product_category'
                                   ? combinationValueForNextProductCategory
-                                  : initialValueForActiveField[val?.label])
+                                  : initialValueForActiveField[val?.label]) ||
+                                (val?.label === 'next_category_size_combination_id'
+                                  ? combinationId
+                                  : initialValueForActiveField[val?.label]) ||
+                                initialValueForActiveField[val?.label]
                               }
                               // // initialValue={initialValueForNextProductProcess}
                               // initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}

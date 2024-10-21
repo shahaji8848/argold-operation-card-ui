@@ -152,41 +152,6 @@ const useOperationDetailCard = () => {
   useEffect(() => {
     getCarryForwardSalesOrderList();
   }, []);
-  // const operationCardDetail = async () => {
-  //   const hrefValue = window.location.href;
-  //   const splitVal = hrefValue.split('=');
-  //   const operationCardDetailVal = await GETOperationCardDetail(splitVal[1], token);
-  //   if (operationCardDetailVal?.status === 200 && Object.keys(operationCardDetailVal?.data?.data)?.length > 0) {
-  //     setOperationCardDetailData(operationCardDetailVal?.data?.data);
-
-  //     try {
-  //       const hrefValue = window.location.href;
-  //       const operationCardName = hrefValue.split('=');
-  //       const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
-
-  //
-
-  //       if (callCarryForwardSalesOrderAPI?.status === 200) {
-  //         const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
-  //
-
-  //         if (Array.isArray(salesOrderList)) {
-  //           setCarryForwardSalesOrder(salesOrderList);
-  //           setSalesOrderList(carryForwardSalesOrder);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error('Error in API call:', error);
-  //     }
-  //     // setSalesOrderList(carryForwardSalesOrder);
-  //
-  //     // setSalesOrderList(carryForwardSalesOrder);
-  //     // setSalesOrderList([...operationCardDetailVal?.data?.data?.operation_card_order_details]);
-  //   } else {
-  //     setOperationCardDetailData({});
-  //     setSalesOrderList(carryForwardSalesOrder);
-  //   }
-  // };
 
   const handleMeltingLotShowOrder = () => {
     localStorage.setItem('meltingLotShowOrder', '1'); // Store value in localStorage
@@ -563,20 +528,6 @@ const useOperationDetailCard = () => {
     }
   };
 
-  // const onChangeOfProductFetchNextProductProcess = async (product: any) => {
-  //   const getNextProductProcess = await GETOperationCardDetailNextProductProcess(product, 1, token);
-  //   if (getNextProductProcess?.status === 200) {
-  //     setOperationCardNextProductProcess(
-  //       getNextProductProcess?.data?.data?.map((nextProductProcess: any) => ({
-  //         name: nextProductProcess?.name,
-  //         value: nextProductProcess?.title,
-  //       }))
-  //     );
-  //   } else {
-  //     setOperationCardNextProductProcess([]);
-  //   }
-  // };
-
   const onChangeOfProductFetchNextProductProcess = async (product: any) => {
     const getNextProductProcess = await GETOperationCardDetailNextProductProcess(product, 1, token);
     if (getNextProductProcess?.status === 200) {
@@ -676,6 +627,7 @@ const useOperationDetailCard = () => {
           value: combinationData?.combination,
           product_category: combinationData?.product_category,
           machine_size: combinationData?.machine_size,
+          category_size_combination_id: combinationData?.category_size_combination_id,
         }))
       );
     } else {
@@ -725,17 +677,6 @@ const useOperationDetailCard = () => {
     }
   };
 
-  // const getCarryForwardSalesOrderList = async () => {
-  //   const hrefValue = window.location.href;
-  //   const operationCardName = hrefValue.split('=');
-  //   const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
-
-  //   if (callCarryForwardSalesOrderAPI?.status === 200) {
-  //     setCarryForwardSalesOrder([...callCarryForwardSalesOrderAPI?.data?.message]);
-
-  //   }
-  // };
-
   const getSalesOrder = async () => {
     const hrefValue = window.location.href;
     const operationCardName = hrefValue.split('=');
@@ -743,18 +684,8 @@ const useOperationDetailCard = () => {
 
     if (callSalesOrderAPI?.status === 200 && callSalesOrderAPI?.data?.message?.data?.length > 0) {
       setSalesOrderList([...callSalesOrderAPI?.data?.message?.data]);
-    } else if (
-      // operationCardDetailData?.opertion_card_order_details &&
-      // operationCardDetailData?.opertion_card_order_details?.length > 0
-      carryForwardSalesOrder?.length > 0
-    ) {
-      // setSalesOrderList([...operationCardDetailData?.opertion_card_order_details]);
-      // const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
-
-      // if (callCarryForwardSalesOrderAPI?.status === 200) {
+    } else if (carryForwardSalesOrder?.length > 0) {
       setSalesOrderList([...carryForwardSalesOrder]);
-
-      // }
     } else {
       setSalesOrderList([]);
       toast.error('No data found');
@@ -771,57 +702,6 @@ const useOperationDetailCard = () => {
     });
     setSalesOrderList(updatedList);
   };
-
-  // const HandleSalesOrderSave = async () => {
-  //
-  //   let transformedDataList: any[] = [];
-
-  //   salesOrderList.forEach((order: any) => {
-  //     if (order.qty_size_list && order.qty_size_list.length > 0) {
-  //       order.qty_size_list.forEach((qtyItem: any) => {
-  //         let newOrder = {
-  //           order_id: order.order_id,
-  //           sales_order: order.sales_order,
-  //           customer: order.customer ?? '',
-  //           item: order.item,
-  //           item_name: order.item_name,
-  //           size: qtyItem.size,
-  //           production_qty: qtyItem.production_qty,
-  //           ready_qty: qtyItem.production_qty,
-  //           soisd_item: qtyItem.soisd_item,
-  //           is_bunch: qtyItem.is_bunch,
-  //           order_weight: qtyItem.order_weight,
-  //           estimate_bunch_weight: qtyItem.estimate_bunch_weight,
-  //         };
-  //         transformedDataList.push(newOrder);
-  //       });
-  //     } else {
-  //       let newOrder = {
-  //         order_id: order.order_id,
-  //         sales_order: order.sales_order,
-  //         customer: order.customer ?? '',
-  //         item: order.item,
-  //         item_name: order.item_name,
-  //         size: null,
-  //         production_qty: null,
-  //         ready_qty: null,
-  //         soisd_item: null,
-  //       };
-  //       transformedDataList.push(newOrder);
-  //     }
-  //   });
-
-  //
-
-  //   try {
-  //     const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
-  //     if (updatedData?.status === 200) {
-  //       toast.success('Sales order updated successfully');
-  //     }
-  //   } catch (error) {
-  //     toast.error('Failed to update sales order');
-  //   }
-  // };
 
   const singleOrdersWithItems = salesOrderList
     .map((order: any) => ({

@@ -72,6 +72,7 @@ const AutoCompleteField = ({
                 (label === 'machine_size' && initialValue ? initialValue : inputValueAutoComplete?.value) ||
                 (label === 'next_machine_size' ? initialValue : inputValueAutoComplete?.value) ||
                 (label === 'next_product_category' ? initialValue : inputValueAutoComplete?.value) ||
+                (label === 'next_category_size_combination_id' ? initialValue : inputValueAutoComplete?.value) ||
                 inputValueAutoComplete?.value
               }
               // value={inputValueAutoComplete?.value}
