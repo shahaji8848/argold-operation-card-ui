@@ -130,7 +130,7 @@ const OperationCardFilterOptionSelect = ({ meltingFiltersList, filterOptions, ha
     return () => {
       window.removeEventListener('click', handleOutsideClickAutoComplete);
     };
-  }, []);
+  });
 
   return (
     <>

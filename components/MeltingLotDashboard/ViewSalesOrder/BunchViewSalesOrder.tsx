@@ -1,6 +1,9 @@
 import React from 'react';
 
 const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign }: any) => {
+  if (salesOrderData?.bunch_orders?.length === 0) {
+    return <p>No Bunch Orders available</p>;
+  }
   return (
     <>
       {salesOrderData?.bunch_orders?.length > 0 && (
@@ -15,15 +18,16 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign }
                   {[
                     'order date',
                     'delivery date',
+                    'sales order number',
                     'customer',
                     'description',
-                    'sales order number',
-                    'order weight',
-                    groupOrdersByDesign === 0 ? 'market design name' : 'design',
-                    'Bunch Weight',
-                    'Bunch Length',
-                    'Per Inch Weight',
-                    'Estimate Bunch Weight',
+                    'Product Category',
+                    'Machine Size',
+                    'Design Line',
+                    'Design',
+                    'weight',
+                    'Size',
+                    'Quantity',
                   ].map((val: any, index: any) => (
                     <th className="thead-dark text-center" scope="col" key={index}>
                       {val}
@@ -34,84 +38,73 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign }
               <tbody>
                 {salesOrderData?.bunch_orders &&
                   salesOrderData?.bunch_orders?.map((ordersData: any, idx: any) => {
+                    const productCategory = ordersData?.item_group_data
+                      ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.product_category
+                      : '--';
+                    const machineSize = ordersData?.item_group_data
+                      ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.machine_size
+                      : '--';
+                    const designLine = ordersData?.item_group_data
+                      ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.design_line
+                      : '--';
                     return (
-                      <>
-                        {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
-                          return (
-                            <tr>
-                              <td className="text-center">
-                                {ordersData?.order_date !== ' ' && ordersData?.order_date !== null
-                                  ? formatDate(ordersData?.order_date)
-                                  : '--'}
-                              </td>
-                              <td className="text-center">
-                                {ordersData?.delivery_date !== ' ' && ordersData?.delivery_date !== null
-                                  ? formatDate(ordersData?.delivery_date)
-                                  : '--'}
-                              </td>
-                              <td className="text-center">
-                                {ordersData?.customer !== ' ' && ordersData?.customer !== null ? ordersData?.customer : '--'}
-                              </td>
-                              <td className="text-center">
-                                {ordersData?.description !== ' ' && ordersData?.description !== null
-                                  ? ordersData?.description
-                                  : '--'}
-                              </td>
-                              <td className="text-center">
-                                {ordersData?.sales_order !== ' ' && ordersData?.sales_order !== null
-                                  ? ordersData?.sales_order.split('-').pop()
-                                  : '--'}
-                              </td>
-                              <td className="text-center">
-                                {itemGroupData?.total_estimate_bunch_weight !== ' ' &&
-                                itemGroupData?.total_estimate_bunch_weight !== null
-                                  ? itemGroupData?.total_estimate_bunch_weight?.toFixed(3)
-                                  : '--'}
-                              </td>
+                      <tr>
+                        <td className="text-center">
+                          {ordersData?.order_date !== ' ' && ordersData?.order_date !== null
+                            ? formatDate(ordersData?.order_date)
+                            : '--'}
+                        </td>
+                        <td className="text-center">
+                          {ordersData?.delivery_date !== ' ' && ordersData?.delivery_date !== null
+                            ? formatDate(ordersData?.delivery_date)
+                            : '--'}
+                        </td>
+                        <td className="text-center">
+                          {ordersData?.sales_order !== ' ' && ordersData?.sales_order !== null
+                            ? ordersData?.sales_order.split('-').pop()
+                            : '--'}
+                        </td>
+                        <td className="text-center">
+                          {ordersData?.customer !== '' && ordersData?.customer !== null ? ordersData?.customer : '--'}
+                        </td>
+                        <td className="text-center">
+                          {ordersData?.description !== ' ' && ordersData?.description !== null ? ordersData?.description : '--'}
+                        </td>
 
-                              <td className="text-center">
-                                {groupOrdersByDesign === 0 ? itemGroupData?.market_design_name : itemGroupData?.design}
-                              </td>
-                              <td className="text-center">
-                                {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
-                                  return (
-                                    <>
-                                      <div>{marketDesign?.estimate_bunch_weight}</div>
-                                    </>
-                                  );
-                                })}
-                              </td>
-                              <td className="text-center">
-                                {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
-                                  return (
-                                    <>
-                                      <div>{marketDesign?.bunch_length}</div>
-                                    </>
-                                  );
-                                })}
-                              </td>
-                              <td className="text-center">
-                                {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
-                                  return (
-                                    <>
-                                      <div>{marketDesign?.per_inch_weight}</div>
-                                    </>
-                                  );
-                                })}
-                              </td>
-                              <td className="text-center">
-                                {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
-                                  return (
-                                    <>
-                                      <div>{marketDesign?.estimate_bunch_weight}</div>
-                                    </>
-                                  );
-                                })}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </>
+                        <td className="text-center">{productCategory || '--'}</td>
+                        <td className="text-center">{machineSize || '--'}</td>
+                        <td className="text-center">{designLine || '--'}</td>
+                        <td className="text-center">{ordersData?.design || '--'}</td>
+                        <td>
+                          {ordersData.item_group_data.map((itemGroupData: any) =>
+                            itemGroupData.market_design_name_values.map((e: any) => (
+                              <div className="text-center" key={e.soi_name}>
+                                {e.order_weight?.toFixed(2) || '--'}
+                              </div>
+                            ))
+                          )}
+                        </td>
+
+                        <td>
+                          {ordersData.item_group_data.map((itemGroupData: any) =>
+                            itemGroupData.market_design_name_values.map((e: any) => (
+                              <div className="text-center" key={e.soi_name}>
+                                {e.size?.toFixed(2) || '--'}
+                              </div>
+                            ))
+                          )}
+                        </td>
+
+                        <td>
+                          {ordersData.item_group_data.map((itemGroupData: any) =>
+                            itemGroupData.market_design_name_values.map((e: any) => (
+                              <div className="text-center" key={e.soi_name}>
+                                {e.quantity?.toFixed(2) || '--'}
+                              </div>
+                            ))
+                          )}
+                        </td>
+                      </tr>
                     );
                   })}
               </tbody>
