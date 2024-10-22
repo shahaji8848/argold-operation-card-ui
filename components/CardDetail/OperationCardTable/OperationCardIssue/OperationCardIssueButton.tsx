@@ -494,7 +494,7 @@ const OperationCardIssueButton = ({
   const handleShow = (
     value: any,
     add_melting_plan_reference_details: any,
-    show_melting_lot_orders: any,
+    view_melting_lot_orders: any,
     show_category_size_combination: any
   ) => {
     setShow(true);
@@ -503,8 +503,8 @@ const OperationCardIssueButton = ({
     const operationCardValue = operationCardProductDept?.issue_items?.filter((issueVal: any) => issueVal.item === value);
 
     setMeltingPlanReference(add_melting_plan_reference_details);
-    setShowMeltingLotSalesOrder(show_melting_lot_orders);
-    setShowMeltingLotSalesOrder(show_melting_lot_orders);
+    setShowMeltingLotSalesOrder(view_melting_lot_orders);
+    // setShowMeltingLotSalesOrder(show_melting_lot_orders);
     setShowCategorySizeCombination(show_category_size_combination);
 
     // Find a specific item object in operationCardDetailData, with specific logic for "hook"
@@ -690,7 +690,7 @@ const OperationCardIssueButton = ({
                       handleShow(
                         val.item,
                         val?.add_melting_plan_reference_details,
-                        val?.show_melting_lot_orders,
+                        val?.view_melting_lot_orders,
                         val?.show_category_size_combination
                       )
                     }
