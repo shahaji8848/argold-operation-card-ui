@@ -152,6 +152,8 @@ const OperationCardListingTable = ({ data, handleApprove }: any) => {
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
+              <td></td>
               <td className="bold">Total</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_weight')}</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_gross_weight')}</td>

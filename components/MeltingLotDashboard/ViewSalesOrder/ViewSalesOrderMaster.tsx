@@ -6,6 +6,7 @@ import useMeltingViewHook from '@/hooks/meltingViewHokks';
 import { callGetAPI } from '@/services/config/api-config';
 import BunchViewSalesOrder from './BunchViewSalesOrder';
 import SingleViewSalesOrder from './SingleViewSalesOrder';
+import { column } from 'mathjs';
 
 interface FilterOptions {
   product_category?: string;
@@ -26,9 +27,15 @@ interface FilterItem {
 }
 
 const ViewSalesOrderMaster = () => {
-  const { filterOptions, handleFilterChange, meltingFiltersList, handleGetSalesOrders, dataForSalesOrder, filtersVisible } =
-    useMeltingViewHook();
-  console.log(filtersVisible, 'fiolter svisi');
+  const {
+    filterOptions,
+    handleFilterChange,
+    meltingFiltersList,
+    handleGetSalesOrders,
+    dataForSalesOrder,
+    filtersVisible,
+    columnList,
+  } = useMeltingViewHook();
   const [filteredData, setFilteredData] = useState<any>();
   const [value, setValue] = useState(filterOptions);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -101,9 +108,9 @@ const ViewSalesOrderMaster = () => {
         setHighlightedIndex((prev: any) => ({ ...prev, [field]: Math.max(prev[field] - 1, 0) }));
         e.preventDefault();
         break;
-      case 'Enter':
-        handleOptionClick(filteredData[field][highlightedIndex[field]], field);
-        break;
+      // case 'Enter':
+      //   handleOptionClick(filteredData[field][highlightedIndex[field]], field);
+      //   break;
       case 'Escape':
         setIsDropdownOpen(false);
         setActiveDropdown(null);
@@ -115,10 +122,6 @@ const ViewSalesOrderMaster = () => {
 
   useEffect(() => {
     const handleOutsideClickAutoComplete = (event: any) => {
-      // if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-      //   setIsDropdownOpen(false);
-      //   setActiveDropdown(null);
-      // }
       if (!event.target.closest(`.${meltingStyle.custom_dropdown_wrapper}`)) {
         setIsDropdownOpen(false);
         setActiveDropdown(null);
@@ -244,15 +247,21 @@ const ViewSalesOrderMaster = () => {
           })}
         </div>
         <div className="row">
-          <div className="col-12 col-sm-3">
-            <button className="text-end btn btn-blue btn-py me-3 mt-2" onClick={handleGetSalesOrders}>
-              Apply Filters
-            </button>
-          </div>
+          {filterOptions?.product && (
+            <div className="col-12 col-sm-3">
+              <button className="text-end btn btn-blue btn-py me-3 mt-2" onClick={handleGetSalesOrders}>
+                Apply Filters
+              </button>
+            </div>
+          )}
         </div>
         <div>
-          <SingleViewSalesOrder salesOrderData={dataForSalesOrder} formatDate={formatDate} />
-          <BunchViewSalesOrder salesOrderData={dataForSalesOrder} formatDate={formatDate} />
+          {filterOptions?.product && (
+            <>
+              <SingleViewSalesOrder salesOrderData={dataForSalesOrder} formatDate={formatDate} columnList={columnList} />
+              <BunchViewSalesOrder salesOrderData={dataForSalesOrder} formatDate={formatDate} columnList={columnList} />
+            </>
+          )}
         </div>
       </div>
     </div>
