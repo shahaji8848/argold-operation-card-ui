@@ -30,6 +30,8 @@ const useOperationCardList = () => {
     karigar: '',
     // show_zero_balance: 0 || 1,
   });
+  const [productValue, setProductValue] = useState<any>('');
+  const [departmentValue, setDepartmentValue] = useState<any>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     //
@@ -45,6 +47,17 @@ const useOperationCardList = () => {
       ...prevFiltersData,
       [fieldName]: e.target.value,
     }));
+    if (fieldName === 'product') {
+      setProductValue(e.target.value);
+      handleDepartmentDropdown();
+    }
+  };
+
+  console.log('product', productValue);
+
+  const handleDepartmentDropdown = () => {
+    setDepartmentValue('');
+    console.log('product from depratment');
   };
 
   const constructUrl = (filtersData: any) => {
@@ -214,6 +227,7 @@ const useOperationCardList = () => {
       }
     }
   };
+
   return {
     listData,
     filtersData,
