@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import inputField from '../../DataSet/operationCardListingField';
 import { useRouter } from 'next/navigation';
+import meltingStyle from '../../styles/melting-lot-data.module.css';
 
 const OperationCardListingField = ({
   filtersData,
@@ -14,6 +15,9 @@ const OperationCardListingField = ({
   showZeroBalance,
   handleButtonFilter,
   premittedProducts,
+  handleDepartmentDropdown,
+  departmentValue,
+  handleDepartmentChange,
 }: any) => {
   const focusRef = useRef<any>(null);
   const [searchField, setSearchField] = useState<string>('');
@@ -38,7 +42,7 @@ const OperationCardListingField = ({
   useEffect(() => {
     focusRef.current.focus();
   }, []);
-
+  console.log('monika', departmentValue);
   return (
     <div className="spacing-mt">
       <div className="row">
@@ -48,14 +52,58 @@ const OperationCardListingField = ({
               <div className="">
                 <>
                   <label className="w-100 dark-blue fw-bold text-capitalize fs-13">{data?.label}</label>
-                  <input
-                    type="text"
-                    className="form-control inputFields fs-13 rounded-2"
-                    value={filtersData[data?.name]}
-                    onChange={(e) => handleInputChange(e, data.name)}
-                    onKeyDown={handleKeyDownEnter}
-                    ref={data?.name === 'search' ? focusRef : null}
-                  />
+                  {/* Handle department dropdown separately */}
+                  {data.label === 'department' ? (
+                    <div className="d-inline-block ">
+                      <div className={meltingStyle.custom_dropdown_wrapper}>
+                        <input
+                          type="text"
+                          className={`${meltingStyle.custom_dropdown_input}  form-control inputFields fs-13 rounded-2`}
+                          value={filtersData[data?.name]}
+                          onChange={(e) => {
+                            handleDepartmentChange(e, data.name);
+                          }}
+                          // onFocus={() => handleInputFocus('product')} // Show dropdown when focused
+                          placeholder="search department"
+                          ref={data?.name === 'search' ? focusRef : null}
+                          // onKeyDown={(e) => handleKeyDown(e, 'product')}
+                        />
+                        {/* {isDropdownOpen && ( */}
+                        {/* {activeDropdown === 'product' && ( */}
+
+                        <div className={`${meltingStyle.custom_dropdown_options} `}>
+                          {departmentValue?.map((list: any, idx: number) => (
+                            <div
+                              key={idx}
+                              className={`${meltingStyle.custom_dropdown_option} 
+                            
+                              `}
+                              // onClick={() => handleOptionClick(list, 'product')}
+                            >
+                              {list?.title}
+                            </div>
+                          ))}
+                          {departmentValue?.length === 0 && (
+                            <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <input
+                      type="text"
+                      className="form-control inputFields fs-13 rounded-2"
+                      value={filtersData[data?.name]}
+                      onChange={(e) => {
+                        handleInputChange(e, data.name);
+                        if (data.name === 'product') {
+                          handleDepartmentDropdown(e.target.value); // Call handleProductChange when product input changes
+                        }
+                      }}
+                      onKeyDown={handleKeyDownEnter}
+                      ref={data?.name === 'search' ? focusRef : null}
+                    />
+                  )}
                 </>
               </div>
             </form>

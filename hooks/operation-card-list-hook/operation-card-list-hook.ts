@@ -1,4 +1,5 @@
 import POSTApproveAPI from '@/services/api/operation-card-list-page/approve-post-api';
+import GETDepartmentFilters from '@/services/api/operation-card-list-page/get-department-filter';
 import GETOperationCardListData from '@/services/api/operation-card-list-page/operation-card-list-api';
 import GETPremittedUserAPI from '@/services/api/operation-card-list-page/premitted-user-api';
 import { get_access_token, storeToken } from '@/store/slice/login-slice';
@@ -49,16 +50,32 @@ const useOperationCardList = () => {
     }));
     if (fieldName === 'product') {
       setProductValue(e.target.value);
-      handleDepartmentDropdown();
+      handleDepartmentDropdown(e.target.value);
+    }
+    if (fieldName === 'department') {
+      handleDepartmentDropdown(e.target.value);
     }
   };
 
   console.log('product', productValue);
 
-  const handleDepartmentDropdown = () => {
-    setDepartmentValue('');
-    console.log('product from depratment');
+  const handleDepartmentDropdown = async (product: any) => {
+    const getDepartmentBasedOnProduct = await GETDepartmentFilters(product, token);
+    if (getDepartmentBasedOnProduct?.status === 200) {
+      setDepartmentValue(getDepartmentBasedOnProduct?.data?.message?.data);
+    } else {
+      setDepartmentValue([]);
+    }
   };
+
+  const handleDepartmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    handleInputChange(e, 'department');
+    handleDepartmentDropdown(value); // Call provided function when department changes
+    handleDepartmentDropdown(e.target.value);
+  };
+
+  console.log('monika', departmentValue);
 
   const constructUrl = (filtersData: any) => {
     const currentUrl = new URL(window.location.href);
@@ -241,6 +258,9 @@ const useOperationCardList = () => {
     handleButtonFilter,
     premittedProducts,
     handleApprove,
+    handleDepartmentDropdown,
+    departmentValue,
+    handleDepartmentChange,
   };
 };
 

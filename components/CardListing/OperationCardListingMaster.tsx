@@ -25,6 +25,9 @@ const OperationCardListingMaster = () => {
     handleButtonFilter,
     premittedProducts,
     handleApprove,
+    handleDepartmentDropdown,
+    departmentValue,
+    handleDepartmentChange,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
@@ -166,6 +169,9 @@ const OperationCardListingMaster = () => {
           showZeroBalance={showZeroBalance}
           handleButtonFilter={handleButtonFilter}
           premittedProducts={premittedProducts}
+          handleDepartmentDropdown={handleDepartmentDropdown}
+          departmentValue={departmentValue}
+          handleDepartmentChange={handleDepartmentChange}
         />
         <div className="spacing-mt">
           <OperationCardListingTable data={listData} handleApprove={handleApprove} />
