@@ -8,6 +8,7 @@ const ExistingMelingLotMaster = ({
   selectedOrders,
   handleCheckboxChange,
   handleDeleteSalesOrder,
+  groupOrdersByDesign,
 }: any) => {
   return (
     <>
@@ -16,12 +17,14 @@ const ExistingMelingLotMaster = ({
         formatDate={formatDate}
         selectedOrders={selectedOrders}
         handleCheckboxChange={handleCheckboxChange}
+        groupOrdersByDesign={groupOrdersByDesign}
       />
       <ExistingMeltingLotBunchOrder
         existingSalesOrderData={existingSalesOrderData}
         formatDate={formatDate}
         selectedOrders={selectedOrders}
         handleCheckboxChange={handleCheckboxChange}
+        groupOrdersByDesign={groupOrdersByDesign}
       />
       {(existingSalesOrderData?.single_orders?.length > 0 || existingSalesOrderData?.bunch_orders?.length > 0) && (
         <button
