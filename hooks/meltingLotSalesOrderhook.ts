@@ -14,10 +14,6 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import DELETESalesOrders from '@/services/api/melting-lot-dashboard-page/delete-sales-order';
-import GETViewSalesOrder from '@/services/api/melting-lot-dashboard-page/view-sales-order';
-import GETProductFiltersGroupOrdersByDesign from '@/services/api/melting-lot-dashboard-page/product-filters-group-by-design';
-import GETViewSalesOrderShowFields from '@/services/api/melting-lot-dashboard-page/view-sales-order-show-fields';
 
 const useMeltingLotSalesOrder = () => {
   const { token } = useSelector(get_access_token);
@@ -28,8 +24,18 @@ const useMeltingLotSalesOrder = () => {
   const [existingSalesOrderData, setExistingSalesOrderData] = useState<any>([]);
   // View sales order
   const [viewSalesOrderData, setViewSalesOrderData] = useState<any>([]);
+  const [allowMultipleDesign, setAllowMultipleDesign] = useState<any>();
   const [groupOrdersByDesign, setGroupOrdersByDesign] = useState<any>();
   const [viewSalesOrderFields, setViewSalesOrderFields] = useState<any>({});
+  const [combinationNameValue, setCombinationNameValue] = useState<any>('');
+  const searchParams = useSearchParams();
+  const meltingPlan = searchParams.get('melting_plan');
+  const lotDataParam = searchParams.get('lot_data'); // No redeclaration
+
+  const meltingPlanFilterParams = {
+    melting_plan: searchParams.get('melting_plan'),
+    lot_data: searchParams.get('lot_data'),
+  };
 
   useEffect(() => {
     if (meltingPlan) {
@@ -74,8 +80,33 @@ const useMeltingLotSalesOrder = () => {
     }
   };
 
+  const fetchProductFiltersForDesign = async () => {
+    const getProductFiltersForDesign = await GETProductFiltersForDesign(meltingPlanFilters?.product, token);
+    if (getProductFiltersForDesign?.status === 200) {
+      setAllowMultipleDesign(getProductFiltersForDesign?.data?.data[0]?.allow_multiple_designs_in_orders);
+    }
+  };
+
+  const fetchNextProductProcessDepartment = async () => {
+    const fetchNextProductProcessDepartmentData: any = await GETProductFiltersGroupOrdersByDesign(
+      meltingPlanFilters?.product,
+      token
+    );
+    if (fetchNextProductProcessDepartmentData?.status === 200) {
+      setGroupOrdersByDesign(fetchNextProductProcessDepartmentData?.data?.data[0]?.group_orders_by_design);
+    }
+  };
+
+  useEffect(() => {
+    if (meltingPlanFilters?.product !== null) {
+      fetchNextProductProcessDepartment();
+      fetchProductFiltersForDesign();
+    }
+  }, [meltingPlanFilters?.product]);
+
   const handleGetSalesOrders = () => {
     fetchMeltingPlanBasedOnFilters();
+    fetchNextProductProcessDepartment();
   };
 
   const handleCheckboxChange = (unique_key: any, design: string, isChecked: boolean, isDisabled: boolean) => {
