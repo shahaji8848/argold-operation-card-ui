@@ -31,8 +31,56 @@ const useOperationCardList = () => {
     karigar: '',
     // show_zero_balance: 0 || 1,
   });
-  const [productValue, setProductValue] = useState<any>('');
+
   const [departmentValue, setDepartmentValue] = useState<any>([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [departmentInput, setDepartmentInput] = useState(''); // Input field value
+  const [filteredDepartments, setFilteredDepartments] = useState([]); // Filtered department
+
+  const onDepartmentFocusValue = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Show the dropdown when input is focused
+    setIsDropdownOpen(true);
+
+    // Fetch department data based on the value typed in the department input field
+    await handleDepartmentDropdown(e.target.value);
+  };
+
+  const handleDepartmentChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+    const value = e.target.value;
+    handleInputChange(e, fieldName);
+    setDepartmentInput(value); // Update input field value
+    // Optionally fetch department dropdown options based on the selected product
+    await handleDepartmentDropdown(value); // Fetch options based on the new value
+    // Filter the department list based on the input value
+    const filtered = departmentValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
+
+    setFilteredDepartments(filtered); // Update the filtered departments list
+
+    setFiltersData((prevFiltersData: any) => ({
+      ...prevFiltersData,
+      [fieldName]: e.target.value,
+    }));
+
+    // Fetch the updated operation card list using the updated filters
+    const updatedUrl = constructUrl({ ...filtersData, [fieldName]: value });
+    await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
+
+    // Update the URL in the browser
+    // URLForFiltersHandler(); // Ensure the URL reflects the new filter state
+  };
+
+  const handleOptionClick = (selectedItem: any) => {
+    setFiltersData((prevFiltersData) => ({
+      ...prevFiltersData,
+      product_process_department: selectedItem?.department, // Set the selected department title
+    }));
+    setDepartmentInput(selectedItem?.title);
+    // Close the dropdown after selection
+    setDepartmentValue([]); // Optionally clear the dropdown data or manage dropdown state
+    setIsDropdownOpen(false);
+    // // Update the URL
+    // URLForFiltersHandler();
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     //
@@ -43,21 +91,16 @@ const useOperationCardList = () => {
     //   }));
     // } else {
     // }
-
+    console.log('fieldName', fieldName);
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
       [fieldName]: e.target.value,
     }));
     if (fieldName === 'product') {
-      setProductValue(e.target.value);
       handleDepartmentDropdown(e.target.value);
-    }
-    if (fieldName === 'department') {
-      handleDepartmentDropdown(e.target.value);
+      // handleDepartmentChange(e, 'department');
     }
   };
-
-  console.log('product', productValue);
 
   const handleDepartmentDropdown = async (product: any) => {
     const getDepartmentBasedOnProduct = await GETDepartmentFilters(product, token);
@@ -66,13 +109,6 @@ const useOperationCardList = () => {
     } else {
       setDepartmentValue([]);
     }
-  };
-
-  const handleDepartmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    handleInputChange(e, 'department');
-    handleDepartmentDropdown(value); // Call provided function when department changes
-    handleDepartmentDropdown(e.target.value);
   };
 
   console.log('monika', departmentValue);
@@ -86,7 +122,7 @@ const useOperationCardList = () => {
     // Return the updated URL
     return `${currentUrl.pathname}?${queryString}`;
   };
-
+  console.log('filtersData', filtersData);
   const URLForFiltersHandler = () => {
     const getconstructedUrl: any = constructUrl(filtersData);
 
@@ -261,6 +297,12 @@ const useOperationCardList = () => {
     handleDepartmentDropdown,
     departmentValue,
     handleDepartmentChange,
+    handleOptionClick,
+    isDropdownOpen,
+    setIsDropdownOpen,
+    onDepartmentFocusValue,
+    filteredDepartments,
+    departmentInput,
   };
 };
 

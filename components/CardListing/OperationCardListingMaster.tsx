@@ -28,6 +28,12 @@ const OperationCardListingMaster = () => {
     handleDepartmentDropdown,
     departmentValue,
     handleDepartmentChange,
+    handleOptionClick,
+    isDropdownOpen,
+    setIsDropdownOpen,
+    onDepartmentFocusValue,
+    filteredDepartments,
+    departmentInput,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
@@ -172,6 +178,12 @@ const OperationCardListingMaster = () => {
           handleDepartmentDropdown={handleDepartmentDropdown}
           departmentValue={departmentValue}
           handleDepartmentChange={handleDepartmentChange}
+          handleOptionClick={handleOptionClick}
+          isDropdownOpen={isDropdownOpen}
+          setIsDropdownOpen={setIsDropdownOpen}
+          onDepartmentFocusValue={onDepartmentFocusValue}
+          filteredDepartments={filteredDepartments}
+          departmentInput={departmentInput}
         />
         <div className="spacing-mt">
           <OperationCardListingTable data={listData} handleApprove={handleApprove} />

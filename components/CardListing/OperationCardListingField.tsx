@@ -18,6 +18,12 @@ const OperationCardListingField = ({
   handleDepartmentDropdown,
   departmentValue,
   handleDepartmentChange,
+  handleOptionClick,
+  isDropdownOpen,
+  setIsDropdownOpen,
+  onDepartmentFocusValue,
+  filteredDepartments,
+  departmentInput,
 }: any) => {
   const focusRef = useRef<any>(null);
   const [searchField, setSearchField] = useState<string>('');
@@ -42,7 +48,7 @@ const OperationCardListingField = ({
   useEffect(() => {
     focusRef.current.focus();
   }, []);
-  console.log('monika', departmentValue);
+
   return (
     <div className="spacing-mt">
       <div className="row">
@@ -54,39 +60,43 @@ const OperationCardListingField = ({
                   <label className="w-100 dark-blue fw-bold text-capitalize fs-13">{data?.label}</label>
                   {/* Handle department dropdown separately */}
                   {data.label === 'department' ? (
-                    <div className="d-inline-block ">
+                    <div className="d-inline-block w-100">
                       <div className={meltingStyle.custom_dropdown_wrapper}>
                         <input
                           type="text"
                           className={`${meltingStyle.custom_dropdown_input}  form-control inputFields fs-13 rounded-2`}
-                          value={filtersData[data?.name]}
+                          value={departmentInput}
                           onChange={(e) => {
+                            setSearchField(e.target.value); // Update search field state
                             handleDepartmentChange(e, data.name);
+                            setIsDropdownOpen(true); // Open dropdown when typing starts
                           }}
+                          // onFocus={setIsDropdownOpen(true)} // Open dropdown when input is focused
+                          onFocus={onDepartmentFocusValue}
                           // onFocus={() => handleInputFocus('product')} // Show dropdown when focused
                           placeholder="search department"
                           ref={data?.name === 'search' ? focusRef : null}
                           // onKeyDown={(e) => handleKeyDown(e, 'product')}
                         />
-                        {/* {isDropdownOpen && ( */}
-                        {/* {activeDropdown === 'product' && ( */}
-
-                        <div className={`${meltingStyle.custom_dropdown_options} `}>
-                          {departmentValue?.map((list: any, idx: number) => (
-                            <div
-                              key={idx}
-                              className={`${meltingStyle.custom_dropdown_option} 
+                        {isDropdownOpen && (
+                          <div className={`${meltingStyle.custom_dropdown_options}`}>
+                            {filteredDepartments?.map((list: any, idx: number) => (
+                              <div
+                                key={idx}
+                                className={`${meltingStyle.custom_dropdown_option} 
                             
                               `}
-                              // onClick={() => handleOptionClick(list, 'product')}
-                            >
-                              {list?.title}
-                            </div>
-                          ))}
-                          {departmentValue?.length === 0 && (
-                            <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
-                          )}
-                        </div>
+                                // onClick={() => handleOptionClick(list, 'product')}
+                                onClick={() => handleOptionClick(list)} // Handle selection when a dropdown item is clicked
+                              >
+                                {list?.title}
+                              </div>
+                            ))}
+                            {filteredDepartments?.length === 0 && (
+                              <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                   ) : (
