@@ -139,7 +139,7 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                           {ordersData.item_group_data.map((itemGroupData: any) =>
                             itemGroupData.market_design_name_values.map((e: any) => (
                               <div className="text-center" key={e.soi_name}>
-                                {e.order_weight?.toFixed(2) || '--'}
+                                {e.order_weight?.toFixed(3) || '--'}
                               </div>
                             ))
                           )}
@@ -149,7 +149,7 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                           {ordersData.item_group_data.map((itemGroupData: any) =>
                             itemGroupData.market_design_name_values.map((e: any) => (
                               <div className="text-center" key={e.soi_name}>
-                                {e.size?.toFixed(2) || '--'}
+                                {e.size?.toFixed(3) || '--'}
                               </div>
                             ))
                           )}
@@ -159,7 +159,7 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                           {ordersData.item_group_data.map((itemGroupData: any) =>
                             itemGroupData.market_design_name_values.map((e: any) => (
                               <div className="text-center" key={e.soi_name}>
-                                {e.quantity?.toFixed(2) || '--'}
+                                {e.quantity?.toFixed(3) || '--'}
                               </div>
                             ))
                           )}
