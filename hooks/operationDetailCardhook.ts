@@ -41,8 +41,11 @@ import GETBunchSalesOrder from '@/services/api/operation-card-detail-page/get-bu
 import GETMeltingPlanReferenceFromLot from '@/services/api/operation-card-detail-page/melting-plan-reference';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 import GETOperationCardDetailCustomer from '@/services/api/operation-card-detail-page/operation-card-detail-customer';
+import GETProductProcessProductCategoryMeltingPlan from '@/services/api/operation-card-detail-page/product-category-melting-plan';
+import GETOperationCardDetailNextMachineSizeMeltingPlan from '@/services/api/operation-card-detail-page/next-machine-size-melting-plan';
 import GETToneShowToneForChain from '@/services/api/operation-card-detail-page/show-tone-for-chain';
 import GETNextProcessAsPerTone from '@/services/api/operation-card-detail-page/show-tone-for-chain';
+import GETProductCategoryAndMachineSizeCombination from '@/services/api/operation-card-detail-page/get-product-size-combination';
 const useOperationDetailCard = () => {
   const { token } = useSelector(get_access_token);
 
@@ -104,6 +107,10 @@ const useOperationDetailCard = () => {
   // set machine size value on base of selected design value
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
   const [showToneForChain, setShowToneForChain] = useState([]);
+  const [operationCardNextMachineSize, setoperationCardNextMachineSize] = useState<any>([]);
+
+  // input field for category size combination to set next product category and next machine size on based of selected combination value
+  const [productCategoryAndMachineSizeCombination, setProductCategoryAndMachineSizeCombination] = useState<any>([]);
   const searchParams = useSearchParams();
   const search: any = searchParams.get('name');
 
@@ -150,41 +157,6 @@ const useOperationDetailCard = () => {
   useEffect(() => {
     getCarryForwardSalesOrderList();
   }, []);
-  // const operationCardDetail = async () => {
-  //   const hrefValue = window.location.href;
-  //   const splitVal = hrefValue.split('=');
-  //   const operationCardDetailVal = await GETOperationCardDetail(splitVal[1], token);
-  //   if (operationCardDetailVal?.status === 200 && Object.keys(operationCardDetailVal?.data?.data)?.length > 0) {
-  //     setOperationCardDetailData(operationCardDetailVal?.data?.data);
-
-  //     try {
-  //       const hrefValue = window.location.href;
-  //       const operationCardName = hrefValue.split('=');
-  //       const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
-
-  //
-
-  //       if (callCarryForwardSalesOrderAPI?.status === 200) {
-  //         const salesOrderList = callCarryForwardSalesOrderAPI?.data?.message;
-  //
-
-  //         if (Array.isArray(salesOrderList)) {
-  //           setCarryForwardSalesOrder(salesOrderList);
-  //           setSalesOrderList(carryForwardSalesOrder);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error('Error in API call:', error);
-  //     }
-  //     // setSalesOrderList(carryForwardSalesOrder);
-  //
-  //     // setSalesOrderList(carryForwardSalesOrder);
-  //     // setSalesOrderList([...operationCardDetailVal?.data?.data?.operation_card_order_details]);
-  //   } else {
-  //     setOperationCardDetailData({});
-  //     setSalesOrderList(carryForwardSalesOrder);
-  //   }
-  // };
 
   const handleMeltingLotShowOrder = () => {
     localStorage.setItem('meltingLotShowOrder', '1'); // Store value in localStorage
@@ -421,8 +393,6 @@ const useOperationDetailCard = () => {
   };
   const getOperationCardDetailMachineSizeAPICall = async () => {
     const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
-
-    //
     if (getMachineSizeData?.status === 200) {
       setOperationCardMachineSize(
         getMachineSizeData?.data?.data?.map((machine_size_data: any) => ({
@@ -434,7 +404,37 @@ const useOperationDetailCard = () => {
       setOperationCardMachineSize([]);
     }
   };
-  //
+
+  const getOperationCardDetailNextMachineSizeAPICall = async () => {
+    if (operationCardDetailData?.melting_plan && operationCardDetailData?.melting_plan !== ' ') {
+      const getMachineSizeMeltingPlan = await GETOperationCardDetailNextMachineSizeMeltingPlan(
+        operationCardDetailData?.melting_plan,
+        token
+      );
+      if (getMachineSizeMeltingPlan?.status === 200) {
+        setoperationCardNextMachineSize(
+          getMachineSizeMeltingPlan?.data?.message?.data?.map((machine_size_data: any) => ({
+            name: machine_size_data?.machine_size,
+            value: machine_size_data?.machine_size,
+          }))
+        );
+      } else {
+        setoperationCardNextMachineSize([]);
+      }
+    } else {
+      const getMachineSizeData = await GETOperationCardDetailMachineSize(operationCardDetailData?.product, token);
+      if (getMachineSizeData?.status === 200) {
+        setoperationCardNextMachineSize(
+          getMachineSizeData?.data?.data?.map((machine_size_data: any) => ({
+            name: machine_size_data?.name,
+            value: machine_size_data?.name1,
+          }))
+        );
+      } else {
+        setoperationCardNextMachineSize([]);
+      }
+    }
+  };
 
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
     const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue(designName, token);
@@ -445,21 +445,6 @@ const useOperationDetailCard = () => {
       setMachineSizeBasedOnDesignValue([]);
     }
   };
-  //
-
-  // const getMachineSizeBasedOnDesignValueAPICall = async () => {
-  //   const fetchMachineSizeBasedOnDesignValue = await GETMachineSizeBasedOnDesignValue('RC-RC-12gm-ROPE', token);
-  //
-  //   if (fetchMachineSizeBasedOnDesignValue?.status === 200) {
-  //     setMachineSizeBasedOnDesignValue(fetchMachineSizeBasedOnDesignValue?.data?.message);
-  //   } else {
-  //     setMachineSizeBasedOnDesignValue([]);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getMachineSizeBasedOnDesignValueAPICall();
-  // }, []);
 
   const getOperationCardDetailMachineAPICall = async () => {
     const getMachineData = await GETOperationCardDetailMachine(
@@ -580,20 +565,6 @@ const useOperationDetailCard = () => {
     }
   };
 
-  // const onChangeOfProductFetchNextProductProcess = async (product: any) => {
-  //   const getNextProductProcess = await GETOperationCardDetailNextProductProcess(product, 1, token);
-  //   if (getNextProductProcess?.status === 200) {
-  //     setOperationCardNextProductProcess(
-  //       getNextProductProcess?.data?.data?.map((nextProductProcess: any) => ({
-  //         name: nextProductProcess?.name,
-  //         value: nextProductProcess?.title,
-  //       }))
-  //     );
-  //   } else {
-  //     setOperationCardNextProductProcess([]);
-  //   }
-  // };
-
   const onChangeOfProductFetchNextProductProcess = async (product: any) => {
     const getNextProductProcess = await GETOperationCardDetailNextProductProcess(product, 1, token);
     if (getNextProductProcess?.status === 200) {
@@ -667,16 +638,54 @@ const useOperationDetailCard = () => {
   };
 
   const getOperationCardDetailNextProductCategoryAPICallFunc = async () => {
-    const getNextProductCategory = await GETProductProcessProductCategory(operationCardDetailData?.product, token);
-    if (getNextProductCategory?.status === 200) {
-      setOperationCardNextProductCategory(
-        getNextProductCategory?.data?.data?.map((product_category: any) => ({
-          name: product_category?.name,
-          value: product_category?.name,
+    if (operationCardDetailData?.melting_plan && operationCardDetailData?.melting_plan !== ' ') {
+      const getNextProductCategoryMeltingPlan = await GETProductProcessProductCategoryMeltingPlan(
+        operationCardDetailData?.melting_plan,
+        token
+      );
+      if (getNextProductCategoryMeltingPlan?.status === 200) {
+        setOperationCardNextProductCategory(
+          getNextProductCategoryMeltingPlan?.data?.message?.data?.map((product_category: any) => ({
+            name: product_category?.product_category,
+            value: product_category?.product_category,
+          }))
+        );
+      } else {
+        setOperationCardNextProductCategory([]);
+      }
+    } else {
+      const getNextProductCategory = await GETProductProcessProductCategory(operationCardDetailData?.product, token);
+      if (getNextProductCategory?.status === 200) {
+        setOperationCardNextProductCategory(
+          getNextProductCategory?.data?.data?.map((product_category: any) => ({
+            name: product_category?.name,
+            value: product_category?.name,
+          }))
+        );
+      } else {
+        setOperationCardNextProductCategory([]);
+      }
+    }
+  };
+
+  const getProductCategoryAndMachineSizeCombinationAPICallFunc = async () => {
+    const getProductCategoryAndMachineSizeCombination = await GETProductCategoryAndMachineSizeCombination(
+      operationCardDetailData?.melting_lot,
+      token
+    );
+
+    if (getProductCategoryAndMachineSizeCombination?.status === 200) {
+      setProductCategoryAndMachineSizeCombination(
+        getProductCategoryAndMachineSizeCombination?.data?.message?.map((combinationData: any) => ({
+          name: combinationData?.combination,
+          value: combinationData?.combination,
+          product_category: combinationData?.product_category,
+          machine_size: combinationData?.machine_size,
+          category_size_combination_id: combinationData?.category_size_combination_id,
         }))
       );
     } else {
-      setOperationCardNextProductCategory([]);
+      setProductCategoryAndMachineSizeCombination([]);
     }
   };
 
@@ -722,17 +731,6 @@ const useOperationDetailCard = () => {
     }
   };
 
-  // const getCarryForwardSalesOrderList = async () => {
-  //   const hrefValue = window.location.href;
-  //   const operationCardName = hrefValue.split('=');
-  //   const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
-
-  //   if (callCarryForwardSalesOrderAPI?.status === 200) {
-  //     setCarryForwardSalesOrder([...callCarryForwardSalesOrderAPI?.data?.message]);
-
-  //   }
-  // };
-
   const getSalesOrder = async () => {
     const hrefValue = window.location.href;
     const operationCardName = hrefValue.split('=');
@@ -740,18 +738,8 @@ const useOperationDetailCard = () => {
 
     if (callSalesOrderAPI?.status === 200 && callSalesOrderAPI?.data?.message?.data?.length > 0) {
       setSalesOrderList([...callSalesOrderAPI?.data?.message?.data]);
-    } else if (
-      // operationCardDetailData?.opertion_card_order_details &&
-      // operationCardDetailData?.opertion_card_order_details?.length > 0
-      carryForwardSalesOrder?.length > 0
-    ) {
-      // setSalesOrderList([...operationCardDetailData?.opertion_card_order_details]);
-      // const callCarryForwardSalesOrderAPI = await GETCarryForwardSalesOrder(operationCardName[1], token);
-
-      // if (callCarryForwardSalesOrderAPI?.status === 200) {
+    } else if (carryForwardSalesOrder?.length > 0) {
       setSalesOrderList([...carryForwardSalesOrder]);
-
-      // }
     } else {
       setSalesOrderList([]);
       toast.error('No data found');
@@ -768,57 +756,6 @@ const useOperationDetailCard = () => {
     });
     setSalesOrderList(updatedList);
   };
-
-  // const HandleSalesOrderSave = async () => {
-  //
-  //   let transformedDataList: any[] = [];
-
-  //   salesOrderList.forEach((order: any) => {
-  //     if (order.qty_size_list && order.qty_size_list.length > 0) {
-  //       order.qty_size_list.forEach((qtyItem: any) => {
-  //         let newOrder = {
-  //           order_id: order.order_id,
-  //           sales_order: order.sales_order,
-  //           customer: order.customer ?? '',
-  //           item: order.item,
-  //           item_name: order.item_name,
-  //           size: qtyItem.size,
-  //           production_qty: qtyItem.production_qty,
-  //           ready_qty: qtyItem.production_qty,
-  //           soisd_item: qtyItem.soisd_item,
-  //           is_bunch: qtyItem.is_bunch,
-  //           order_weight: qtyItem.order_weight,
-  //           estimate_bunch_weight: qtyItem.estimate_bunch_weight,
-  //         };
-  //         transformedDataList.push(newOrder);
-  //       });
-  //     } else {
-  //       let newOrder = {
-  //         order_id: order.order_id,
-  //         sales_order: order.sales_order,
-  //         customer: order.customer ?? '',
-  //         item: order.item,
-  //         item_name: order.item_name,
-  //         size: null,
-  //         production_qty: null,
-  //         ready_qty: null,
-  //         soisd_item: null,
-  //       };
-  //       transformedDataList.push(newOrder);
-  //     }
-  //   });
-
-  //
-
-  //   try {
-  //     const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
-  //     if (updatedData?.status === 200) {
-  //       toast.success('Sales order updated successfully');
-  //     }
-  //   } catch (error) {
-  //     toast.error('Failed to update sales order');
-  //   }
-  // };
 
   const singleOrdersWithItems = salesOrderList
     .map((order: any) => ({
@@ -913,6 +850,7 @@ const useOperationDetailCard = () => {
 
     try {
       const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+
       if (updatedData?.status === 200) {
         toast.success('Sales order updated successfully');
       }
@@ -924,6 +862,11 @@ const useOperationDetailCard = () => {
   const handleOperationCardSave = async () => {
     const filteredData = Object.fromEntries(Object.entries(headerSave).filter(([key, value]) => value !== ''));
     const saveOP = await POSTOperationCardSave(search, filteredData, token);
+    if (saveOP?.data?.message?.msg === 'success') {
+      toast.success(saveOP?.data?.message?.data?.msg);
+    } else {
+      toast.error(saveOP?.data?.message?.error);
+    }
   };
 
   // Validation for in_weight input filed in modal
@@ -1027,6 +970,7 @@ const useOperationDetailCard = () => {
       getOperationCardDetailKarigar(operationCardDetailData?.product_process_department ?? '');
       getOperationCardDetailThicknessAPICall();
       getOperationCardDetailMachineSizeAPICall();
+      getOperationCardDetailNextMachineSizeAPICall();
       getOperationCardDetailVariantAPICall();
       getOperationCardDetailConceptAPIFunc();
       getOperationCardDetailLossReportList();
@@ -1058,6 +1002,7 @@ const useOperationDetailCard = () => {
       // getDesignInputField();
       getBunchSalesOrderList();
       getMPReferenceList();
+      getProductCategoryAndMachineSizeCombinationAPICallFunc();
     }
   }, [operationCardDetailData]);
 
@@ -1078,6 +1023,7 @@ const useOperationDetailCard = () => {
     operationCardConcept,
     operationCardVariant,
     operationCardMachineSize,
+    operationCardNextMachineSize,
     operationCardProduct,
     operationCardDesignCodeCategory,
     operationCardNextProductProcess,
@@ -1130,6 +1076,7 @@ const useOperationDetailCard = () => {
     handleSalesOrderDeleteSelectedItems,
     getMachineSizeBasedOnDesignValueAPICall,
     showToneForChain,
+    productCategoryAndMachineSizeCombination,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,

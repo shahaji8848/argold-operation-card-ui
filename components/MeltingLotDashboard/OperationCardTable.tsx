@@ -1,10 +1,9 @@
+import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
+import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import meltingStyles from '../../styles/melting-lot-data.module.css';
-import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
+import meltingStyles from '../../styles/melting-lot-data.module.css';
 
 const OperationCardTable = ({ meltingLotList }: any) => {
   const { handleMeltingLotShowOrder }: any = useOperationDetailCard();
@@ -72,7 +71,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                 <p className="text-uppercase text-success bold mt-1 fs-14">{meltingData?.title || '--'}</p>
               </div>
               <div>
-                <button
+                {/* <button
                   className="text-end btn btn-blue btn-py me-2 "
                   onClick={() => handleViewSalesOrderOnProductAndPurity(meltingData?.melting_plan)}
                 >
@@ -83,21 +82,12 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                   >
                     View Sales Order
                   </Link>
-                </button>
+                </button> */}
                 {meltingData?.docstatus === 0 && (
                   <>
                     <button className="text-end btn btn-blue btn-py me-2">
                       <Link href={meltingData?.melting_plan_url} className="text-white" target="_blank">
                         Edit Melting Plan
-                      </Link>
-                    </button>
-                    <button className="text-end btn btn-blue btn-py ">
-                      <Link
-                        href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
-                        className="text-white"
-                        target="_blank"
-                      >
-                        Add Sales Order
                       </Link>
                     </button>
                   </>
@@ -130,15 +120,6 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         View Melting Lot
                       </Link>
                     </button>
-                    <button className="text-end btn btn-blue btn-py ">
-                      <Link
-                        href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
-                        className="text-white"
-                        target="_blank"
-                      >
-                        Add Sales Order
-                      </Link>
-                    </button>
                   </>
                 )}
               </div>
@@ -154,13 +135,15 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                     ))} */}
                     {meltingData?.linked_operations &&
                       meltingData?.linked_operations.length > 0 &&
-                      Object.keys(meltingData.linked_operations[0]).map((key, colIndex) => (
-                        <>
-                          <th className="thead-dark text-center" scope="col" key={colIndex}>
-                            {key.replace(/_/g, ' ')}
-                          </th>
-                        </>
-                      ))}
+                      Object.keys(meltingData.linked_operations[0]).map((key, colIndex) =>
+                        key === 'type' || key === 'combination_name' ? null : (
+                          <>
+                            <th className="thead-dark text-center" scope="col" key={colIndex}>
+                              {key.replace(/_/g, ' ')}
+                            </th>
+                          </>
+                        )
+                      )}
                     <th className="text-center">add order details</th>
                   </tr>
                 </thead>
@@ -222,6 +205,28 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                                 target="_blank"
                               >
                                 Edit Operation Card
+                              </Link>
+                            </button>
+                          ) : (
+                            '--'
+                          )}
+                        </td>
+                        <td className="text-center">
+                          {/* Do not show "Add Sales Order" button if the 'type' is 'OP Data' */}
+                          {operation?.type !== 'OP Data' ? (
+                            <button
+                              className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
+                              onClick={handleMeltingLotShowOrder}
+                            >
+                              <Link
+                                href={{
+                                  pathname: '/add-sales-order',
+                                  query: { melting_plan: meltingData?.melting_plan, lot_data: JSON.stringify(operation) },
+                                }}
+                                className="text-white text-center"
+                                target="_blank"
+                              >
+                                Add Sales Order
                               </Link>
                             </button>
                           ) : (

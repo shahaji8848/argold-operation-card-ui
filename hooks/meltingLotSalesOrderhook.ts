@@ -1,9 +1,16 @@
 'use client';
+
+import DELETESalesOrders from '@/services/api/melting-lot-dashboard-page/delete-sales-order';
 import GETMeltingPlanBasedOnFilters from '@/services/api/melting-lot-dashboard-page/get-data-base-on-filters';
 import GETMeltingPlanOrders from '@/services/api/melting-lot-dashboard-page/get-melting-plan-order';
 import GETMeltingPlanFilters from '@/services/api/melting-lot-dashboard-page/melting-plan-filters';
 import POSTAddOrders from '@/services/api/melting-lot-dashboard-page/post-add-orders';
+import GETProductFiltersForDesign from '@/services/api/melting-lot-dashboard-page/product-filters-for-design';
+import GETProductFiltersGroupOrdersByDesign from '@/services/api/melting-lot-dashboard-page/product-filters-group-by-design';
+import GETViewSalesOrder from '@/services/api/melting-lot-dashboard-page/view-sales-order';
+import GETViewSalesOrderShowFields from '@/services/api/melting-lot-dashboard-page/view-sales-order-show-fields';
 import { get_access_token } from '@/store/slice/login-slice';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -14,7 +21,6 @@ import GETViewSalesOrderShowFields from '@/services/api/melting-lot-dashboard-pa
 
 const useMeltingLotSalesOrder = () => {
   const { token } = useSelector(get_access_token);
-  const [meltingPlan, setMeltingPlan] = useState<any>('');
   const [meltingPlanFilters, setMeltingPlanFilters] = useState<any>({});
   const [salesOrderData, setSalesOrderData] = useState<any>([]);
   const [selectedOrders, setSelectedOrders] = useState<{ [key: string]: boolean }>({});
@@ -26,19 +32,22 @@ const useMeltingLotSalesOrder = () => {
   const [viewSalesOrderFields, setViewSalesOrderFields] = useState<any>({});
 
   useEffect(() => {
-    const url = window.location.href;
-    const meltingPlanValue = url.split('=')[1];
+    if (meltingPlan) {
+      fetchMeltingPlanFilter();
+      fetchExistingMeltingPlanOrder(meltingPlan);
+      handleViewSalesOrderOnProductAndPurity(meltingPlan);
+    }
+    if (lotDataParam) {
+      const parsedLotData = JSON.parse(decodeURIComponent(lotDataParam)); // Use a new variable name
 
-    setMeltingPlan(meltingPlanValue || '');
-    if (meltingPlanValue) {
-      fetchMeltingPlanFilter(meltingPlanValue);
-      fetchExistingMeltingPlanOrder(meltingPlanValue);
-      handleViewSalesOrderOnProductAndPurity(meltingPlanValue);
+      // Access the combination_name from the parsed data
+      const combinationName = parsedLotData.combination_name;
+      setCombinationNameValue(combinationName);
     }
   }, [meltingPlan]);
 
-  const fetchMeltingPlanFilter = async (meltingPlanValue: any) => {
-    const getMelitngPlanFilters = await GETMeltingPlanFilters(token, meltingPlanValue);
+  const fetchMeltingPlanFilter = async () => {
+    const getMelitngPlanFilters = await GETMeltingPlanFilters(token, meltingPlanFilterParams);
 
     if (getMelitngPlanFilters?.status === 200) {
       setMeltingPlanFilters(getMelitngPlanFilters?.data?.message);
@@ -123,7 +132,13 @@ const useMeltingLotSalesOrder = () => {
 
   //function to get  Selected add melting lot sales order data
   const fetchExistingMeltingPlanOrder = async (meltingPlanValue: any) => {
-    const getMeltingPlanOrders = await GETMeltingPlanOrders(meltingPlanValue, token);
+    const lotDataParam: any = searchParams.get('lot_data');
+    const parsedLotData = JSON.parse(decodeURIComponent(lotDataParam)); // Use a new variable name
+
+    // Access the combination_name from the parsed data
+    const combinationName = parsedLotData.combination_name || ' ';
+
+    const getMeltingPlanOrders = await GETMeltingPlanOrders(meltingPlanValue, combinationName, token);
     if (getMeltingPlanOrders?.status === 200) {
       setExistingSalesOrderData(getMeltingPlanOrders?.data?.message);
     } else {
@@ -136,6 +151,7 @@ const useMeltingLotSalesOrder = () => {
 
     transformedDataList.push({
       melting_plan: meltingPlan,
+      combination_name: combinationNameValue,
     });
 
     // Iterate over the single orders in salesOrderData
@@ -224,66 +240,66 @@ const useMeltingLotSalesOrder = () => {
     });
 
     // Now, also include deleted orders for single in the POST request
-    existingSalesOrderData?.single_orders?.forEach((deletedOrder: any) => {
-      deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
-        itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
-          const deletedOrderData = {
-            design: itemGroupData?.design,
-            sales_order: deletedOrder?.sales_order,
-            order_date: deletedOrder?.order_date,
-            delivery_date: deletedOrder?.delivery_date,
-            customer: deletedOrder?.customer,
-            description: deletedOrder?.description,
-            total_order_weight: deletedOrder?.total_order_weight,
-            soi_name: marketDesign?.soi_name,
-            item: marketDesign?.item,
-            market_design_name: marketDesign?.market_design_name,
-            product: marketDesign?.product,
-            size: marketDesign?.size,
-            quantity: marketDesign?.quantity,
-            is_bunch: marketDesign?.is_bunch,
-            weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
-            product_category: marketDesign?.product_category,
-            bunch_length: marketDesign?.bunch_length,
-            per_inch_weight: marketDesign?.per_inch_weight,
-            estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
-            order_weight: marketDesign?.order_weight,
-          };
-          transformedDataList.push(deletedOrderData);
-        });
-      });
-    });
+    // existingSalesOrderData?.single_orders?.forEach((deletedOrder: any) => {
+    //   deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
+    //     itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
+    //       const deletedOrderData = {
+    //         design: itemGroupData?.design,
+    //         sales_order: deletedOrder?.sales_order,
+    //         order_date: deletedOrder?.order_date,
+    //         delivery_date: deletedOrder?.delivery_date,
+    //         customer: deletedOrder?.customer,
+    //         description: deletedOrder?.description,
+    //         total_order_weight: deletedOrder?.total_order_weight,
+    //         soi_name: marketDesign?.soi_name,
+    //         item: marketDesign?.item,
+    //         market_design_name: marketDesign?.market_design_name,
+    //         product: marketDesign?.product,
+    //         size: marketDesign?.size,
+    //         quantity: marketDesign?.quantity,
+    //         is_bunch: marketDesign?.is_bunch,
+    //         weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
+    //         product_category: marketDesign?.product_category,
+    //         bunch_length: marketDesign?.bunch_length,
+    //         per_inch_weight: marketDesign?.per_inch_weight,
+    //         estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
+    //         order_weight: marketDesign?.order_weight,
+    //       };
+    //       transformedDataList.push(deletedOrderData);
+    //     });
+    //   });
+    // });
 
     // Now, also include deleted orders for bunch in the POST request
-    existingSalesOrderData?.bunch_orders?.forEach((deletedOrder: any) => {
-      deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
-        itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
-          const deletedOrderData = {
-            design: itemGroupData?.design,
-            sales_order: deletedOrder?.sales_order,
-            order_date: deletedOrder?.order_date,
-            delivery_date: deletedOrder?.delivery_date,
-            customer: deletedOrder?.customer,
-            description: deletedOrder?.description,
-            total_order_weight: deletedOrder?.total_order_weight,
-            soi_name: marketDesign?.soi_name,
-            item: marketDesign?.item,
-            market_design_name: marketDesign?.market_design_name,
-            product: marketDesign?.product,
-            size: marketDesign?.size,
-            quantity: marketDesign?.quantity,
-            is_bunch: marketDesign?.is_bunch,
-            weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
-            product_category: marketDesign?.product_category,
-            bunch_length: marketDesign?.bunch_length,
-            per_inch_weight: marketDesign?.per_inch_weight,
-            estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
-            order_weight: marketDesign?.order_weight,
-          };
-          transformedDataList.push(deletedOrderData);
-        });
-      });
-    });
+    // existingSalesOrderData?.bunch_orders?.forEach((deletedOrder: any) => {
+    //   deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
+    //     itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
+    //       const deletedOrderData = {
+    //         design: itemGroupData?.design,
+    //         sales_order: deletedOrder?.sales_order,
+    //         order_date: deletedOrder?.order_date,
+    //         delivery_date: deletedOrder?.delivery_date,
+    //         customer: deletedOrder?.customer,
+    //         description: deletedOrder?.description,
+    //         total_order_weight: deletedOrder?.total_order_weight,
+    //         soi_name: marketDesign?.soi_name,
+    //         item: marketDesign?.item,
+    //         market_design_name: marketDesign?.market_design_name,
+    //         product: marketDesign?.product,
+    //         size: marketDesign?.size,
+    //         quantity: marketDesign?.quantity,
+    //         is_bunch: marketDesign?.is_bunch,
+    //         weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
+    //         product_category: marketDesign?.product_category,
+    //         bunch_length: marketDesign?.bunch_length,
+    //         per_inch_weight: marketDesign?.per_inch_weight,
+    //         estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
+    //         order_weight: marketDesign?.order_weight,
+    //       };
+    //       transformedDataList.push(deletedOrderData);
+    //     });
+    //   });
+    // });
 
     // Debugging: Check the transformed data list
 
@@ -541,7 +557,7 @@ const useMeltingLotSalesOrder = () => {
         toast.error('Error deleting sales orders:', error);
       }
     } else {
-      toast.error('No sales order is selected');
+      toast.error('cannot delete selected sales order');
     }
   };
 

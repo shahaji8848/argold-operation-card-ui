@@ -23,9 +23,9 @@
 }
 
 .custom_dropdown_options {
-  position: absolute;
+  /* position: absolute; */
   border: 1px solid rgb(204, 204, 204);
-  /* height: 200px; */
+  /* height: 500px; */
   overflow-y: auto;
   background: white;
   z-index: 4;
