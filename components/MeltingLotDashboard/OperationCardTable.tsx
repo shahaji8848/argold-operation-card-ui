@@ -71,23 +71,23 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                 <p className="text-uppercase text-success bold mt-1 fs-14">{meltingData?.title || '--'}</p>
               </div>
               <div>
-                {/* <button
-                  className="text-end btn btn-blue btn-py me-2 "
-                  onClick={() => handleViewSalesOrderOnProductAndPurity(meltingData?.melting_plan)}
-                >
-                  <Link
-                    href={`view-sales-order?melting_plan=${meltingData?.melting_plan}`}
-                    className="text-white"
-                    target="_blank"
-                  >
-                    View Sales Order
-                  </Link>
-                </button> */}
                 {meltingData?.docstatus === 0 && (
                   <>
                     <button className="text-end btn btn-blue btn-py me-2">
                       <Link href={meltingData?.melting_plan_url} className="text-white" target="_blank">
                         Edit Melting Plan
+                      </Link>
+                    </button>
+                    <button
+                      className="text-end btn btn-blue btn-py me-2 "
+                      onClick={() => handleViewSalesOrderOnProductAndPurity(meltingData?.melting_plan)}
+                    >
+                      <Link
+                        href={`view-sales-order?melting_plan=${meltingData?.melting_plan}`}
+                        className="text-white"
+                        target="_blank"
+                      >
+                        View Sales Order
                       </Link>
                     </button>
                   </>
@@ -118,6 +118,15 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                     <button className="text-end btn btn-blue btn-py me-2">
                       <Link href={meltingData?.view_url} className="text-white" target="_blank">
                         View Melting Lot
+                      </Link>
+                    </button>
+                    <button className="text-end btn btn-blue btn-py ">
+                      <Link
+                        href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
+                        className="text-white"
+                        target="_blank"
+                      >
+                        Add Sales Order
                       </Link>
                     </button>
                   </>
@@ -211,8 +220,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                             '--'
                           )}
                         </td>
-                        <td className="text-center">
-                          {/* Do not show "Add Sales Order" button if the 'type' is 'OP Data' */}
+                        {/* <td className="text-center">
                           {operation?.type !== 'OP Data' ? (
                             <button
                               className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
@@ -232,7 +240,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                           ) : (
                             '--'
                           )}
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   ) : (
