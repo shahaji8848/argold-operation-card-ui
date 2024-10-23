@@ -167,7 +167,7 @@ const useMeltingLotSalesOrder = () => {
     const parsedLotData = JSON.parse(decodeURIComponent(lotDataParam)); // Use a new variable name
 
     // Access the combination_name from the parsed data
-    const combinationName = parsedLotData.combination_name || ' ';
+    const combinationName = parsedLotData?.combination_name || ' ';
 
     const getMeltingPlanOrders = await GETMeltingPlanOrders(meltingPlanValue, combinationName, token);
     if (getMeltingPlanOrders?.status === 200) {
