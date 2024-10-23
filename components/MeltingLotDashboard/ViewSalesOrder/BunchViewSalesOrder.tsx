@@ -20,7 +20,7 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign, 
     { key: 'Factory Design Name', value: columnList?.factory_design_name },
     { key: 'design line', value: columnList?.design_line },
     { key: 'design', value: columnList?.design },
-    { key: 'order weight', value: true },
+    { key: 'Bunch order weight', value: true },
     { key: 'size', value: true },
     { key: 'quantity', value: true },
   ];
@@ -134,12 +134,14 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign, 
                         ) : (
                           <td className="d-none"></td>
                         )}
-
+                        <td className="text-center">
+                          {ordersData?.total_estimate_bunch_weight ? ordersData?.total_estimate_bunch_weight?.toFixed(3) : '--'}
+                        </td>
                         <td>
                           {ordersData.item_group_data.map((itemGroupData: any) =>
                             itemGroupData.market_design_name_values.map((e: any) => (
                               <div className="text-center" key={e.soi_name}>
-                                {e.order_weight?.toFixed(2) || '--'}
+                                {e.size?.toFixed(3) || '--'}
                               </div>
                             ))
                           )}
@@ -149,17 +151,7 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign, 
                           {ordersData.item_group_data.map((itemGroupData: any) =>
                             itemGroupData.market_design_name_values.map((e: any) => (
                               <div className="text-center" key={e.soi_name}>
-                                {e.size?.toFixed(2) || '--'}
-                              </div>
-                            ))
-                          )}
-                        </td>
-
-                        <td>
-                          {ordersData.item_group_data.map((itemGroupData: any) =>
-                            itemGroupData.market_design_name_values.map((e: any) => (
-                              <div className="text-center" key={e.soi_name}>
-                                {e.quantity?.toFixed(2) || '--'}
+                                {e.quantity?.toFixed(3) || '--'}
                               </div>
                             ))
                           )}
