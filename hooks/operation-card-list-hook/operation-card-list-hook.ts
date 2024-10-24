@@ -5,7 +5,7 @@ import GETPremittedUserAPI from '@/services/api/operation-card-list-page/premitt
 import { get_access_token, storeToken } from '@/store/slice/login-slice';
 import { FieldTypes } from '@/types/oc-list-input-field-types';
 import { useSearchParams, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -26,8 +26,8 @@ const useOperationCardList = () => {
     melting_lot: '',
     product_purity: '',
     product: '',
+    product_process: '',
     operation_department: '',
-    product_process_department: '',
     karigar: '',
     // show_zero_balance: 0 || 1,
   });
@@ -36,13 +36,16 @@ const useOperationCardList = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [departmentInput, setDepartmentInput] = useState(''); // Input field value
   const [filteredDepartments, setFilteredDepartments] = useState([]); // Filtered department
+  const dropdownRef = useRef<HTMLDivElement | null>(null); // Create a ref for the dropdown
 
   const onDepartmentFocusValue = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Show the dropdown when input is focused
-    setIsDropdownOpen(true);
+    const inputValue = e.target.value;
+    const filtered = departmentValue.filter(
+      (department: any) => department?.title?.toLowerCase().includes(inputValue.toLowerCase() || [])
+    );
 
-    // Fetch department data based on the value typed in the department input field
-    await handleDepartmentDropdown(e.target.value);
+    setFilteredDepartments(filtered); // Update the filtered departments list
+    setIsDropdownOpen(true);
   };
 
   const handleDepartmentChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
@@ -51,6 +54,12 @@ const useOperationCardList = () => {
     setDepartmentInput(value); // Update input field value
     // Optionally fetch department dropdown options based on the selected product
     await handleDepartmentDropdown(value); // Fetch options based on the new value
+    // Fetch all departments initially if input is empty, otherwise filter
+    if (!value) {
+      await handleDepartmentDropdown(''); // Fetch all departments when there's no input
+    } else {
+      await handleDepartmentDropdown(value); // Fetch filtered departments based on input
+    }
     // Filter the department list based on the input value
     const filtered = departmentValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
 
@@ -60,7 +69,7 @@ const useOperationCardList = () => {
       ...prevFiltersData,
       [fieldName]: e.target.value,
     }));
-
+    setIsDropdownOpen(true);
     // Fetch the updated operation card list using the updated filters
     const updatedUrl = constructUrl({ ...filtersData, [fieldName]: value });
     await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
@@ -69,17 +78,20 @@ const useOperationCardList = () => {
     // URLForFiltersHandler(); // Ensure the URL reflects the new filter state
   };
 
-  const handleOptionClick = (selectedItem: any) => {
+  // Handle input change for filtering and dropdown options
+  const handleOptionClick = async (selectedItem: any) => {
     setFiltersData((prevFiltersData) => ({
       ...prevFiltersData,
-      product_process_department: selectedItem?.department, // Set the selected department title
+      operation_department: selectedItem?.title, // Set the selected department title
     }));
     setDepartmentInput(selectedItem?.title);
     // Close the dropdown after selection
     setDepartmentValue([]); // Optionally clear the dropdown data or manage dropdown state
     setIsDropdownOpen(false);
     // // Update the URL
-    // URLForFiltersHandler();
+
+    const updatedUrl = constructUrl({ ...filtersData, operation_department: selectedItem?.title });
+    await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
@@ -91,7 +103,7 @@ const useOperationCardList = () => {
     //   }));
     // } else {
     // }
-    console.log('fieldName', fieldName);
+
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
       [fieldName]: e.target.value,
@@ -103,15 +115,13 @@ const useOperationCardList = () => {
   };
 
   const handleDepartmentDropdown = async (product: any) => {
-    const getDepartmentBasedOnProduct = await GETDepartmentFilters(product, token);
+    const getDepartmentBasedOnProduct = await GETDepartmentFilters(product || '', token);
     if (getDepartmentBasedOnProduct?.status === 200) {
       setDepartmentValue(getDepartmentBasedOnProduct?.data?.message?.data);
     } else {
       setDepartmentValue([]);
     }
   };
-
-  console.log('monika', departmentValue);
 
   const constructUrl = (filtersData: any) => {
     const currentUrl = new URL(window.location.href);
@@ -122,7 +132,7 @@ const useOperationCardList = () => {
     // Return the updated URL
     return `${currentUrl.pathname}?${queryString}`;
   };
-  console.log('filtersData', filtersData);
+
   const URLForFiltersHandler = () => {
     const getconstructedUrl: any = constructUrl(filtersData);
 
@@ -132,6 +142,12 @@ const useOperationCardList = () => {
   const handleKeyDownEnter = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       e.preventDefault();
+      // Add the selected department to filtersData before constructing the URL
+      setFiltersData((prevFiltersData: any) => ({
+        ...prevFiltersData,
+        operation_department: departmentInput, // Use the current department input value
+      }));
+
       URLForFiltersHandler();
     }
   };
@@ -171,8 +187,8 @@ const useOperationCardList = () => {
       melting_lot: '',
       product_purity: '',
       product: '',
+      product_process: '',
       operation_department: '',
-      product_process_department: '',
       karigar: '',
       // show_zero_balance: false,
     };
@@ -204,8 +220,8 @@ const useOperationCardList = () => {
       melting_lot: '',
       product_purity: '',
       product: '',
+      product_process: '',
       operation_department: '',
-      product_process_department: '',
       karigar: '',
       // show_zero_balance: false,
     });
@@ -281,6 +297,24 @@ const useOperationCardList = () => {
     }
   };
 
+  // Close the dropdown if clicked outside
+  const handleClickOutside = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    handleDepartmentDropdown(' ');
+  }, []);
+
   return {
     listData,
     filtersData,
@@ -303,6 +337,7 @@ const useOperationCardList = () => {
     onDepartmentFocusValue,
     filteredDepartments,
     departmentInput,
+    dropdownRef,
   };
 };
 

@@ -34,6 +34,7 @@ const OperationCardListingMaster = () => {
     onDepartmentFocusValue,
     filteredDepartments,
     departmentInput,
+    dropdownRef,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
@@ -73,8 +74,8 @@ const OperationCardListingMaster = () => {
       melting_lot: '',
       product_purity: '',
       product: '',
+      product_process: '',
       operation_department: '',
-      product_process_department: '',
       karigar: '',
       show_zero_balance: showZeroBalance ? '1' : '0', // Corrected value here
     };
@@ -126,8 +127,9 @@ const OperationCardListingMaster = () => {
       melting_lot: '',
       product_purity: '',
       product: '',
+      product_process: '',
       operation_department: '',
-      product_process_department: '',
+      // product_process_department: '',
       karigar: '',
     };
 
@@ -184,6 +186,7 @@ const OperationCardListingMaster = () => {
           onDepartmentFocusValue={onDepartmentFocusValue}
           filteredDepartments={filteredDepartments}
           departmentInput={departmentInput}
+          dropdownRef={dropdownRef}
         />
         <div className="spacing-mt">
           <OperationCardListingTable data={listData} handleApprove={handleApprove} />
