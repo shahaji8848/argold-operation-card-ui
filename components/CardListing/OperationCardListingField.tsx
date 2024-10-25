@@ -68,17 +68,13 @@ const OperationCardListingField = ({
                           className={`${meltingStyle.custom_dropdown_input}  form-control inputFields fs-13 rounded-2`}
                           value={departmentInput}
                           onChange={(e) => {
-                            setSearchField(e.target.value); // Update search field state
+                            // setSearchField(e.target.value); // Update search field state
                             handleDepartmentChange(e, data.name);
-                            // setIsDropdownOpen(true); // Open dropdown when typing starts
                           }}
-                          // onFocus={setIsDropdownOpen(true)} // Open dropdown when input is focused
                           onFocus={(e) => onDepartmentFocusValue(e)}
                           onKeyDown={handleKeyDownEnter}
-                          // onFocus={() => handleInputFocus('product')} // Show dropdown when focused
                           placeholder="search department"
                           ref={data?.name === 'search' ? focusRef : null}
-                          // onKeyDown={(e) => handleKeyDown(e, 'product')}
                         />
                         {isDropdownOpen && (
                           <div className={`${meltingStyle.custom_dropdown_options}`}>
@@ -88,7 +84,6 @@ const OperationCardListingField = ({
                                 className={`${meltingStyle.custom_dropdown_option} 
                             
                               `}
-                                // onClick={() => handleOptionClick(list, 'product')}
                                 onClick={() => handleOptionClick(list)} // Handle selection when a dropdown item is clicked
                               >
                                 {list?.title}
