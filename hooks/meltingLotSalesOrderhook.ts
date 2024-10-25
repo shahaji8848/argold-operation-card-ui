@@ -64,11 +64,10 @@ const useMeltingLotSalesOrder = () => {
 
   const fetchMeltingPlanBasedOnFilters = async () => {
     const getMeltingPlanBasedOnFiltersData = await GETMeltingPlanBasedOnFilters(
-      meltingPlanFilters?.product,
-      meltingPlanFilters?.product_category,
-      meltingPlanFilters?.machine_size,
       meltingPlanFilters?.design,
-      meltingPlanFilters?.purity,
+      meltingPlanFilters?.product,
+      meltingPlanFilters?.machine_size,
+      meltingPlanFilters?.product_category,
       token
     );
 
@@ -126,17 +125,15 @@ const useMeltingLotSalesOrder = () => {
 
         return updatedData;
       } else {
-        if (allowMultipleDesign === 0) {
-          if (selectedDesign && selectedDesign !== design) {
-            // If the checkbox is being checked
-            toast.error('You can only select orders with the same design.');
-            return prevData; // Do not update state if different design
-          }
+        // If the checkbox is being checked
+        if (selectedDesign && selectedDesign !== design) {
+          toast.error('You can only select orders with the same design.');
+          return prevData; // Do not update state if different design
+        }
 
-          // Set selectedDesign if none is selected
-          if (!selectedDesign) {
-            setSelectedDesign(design);
-          }
+        // Set selectedDesign if none is selected
+        if (!selectedDesign) {
+          setSelectedDesign(design);
         }
 
         // Add the checked order to the selected orders
@@ -170,7 +167,7 @@ const useMeltingLotSalesOrder = () => {
     const parsedLotData = JSON.parse(decodeURIComponent(lotDataParam)); // Use a new variable name
 
     // Access the combination_name from the parsed data
-    const combinationName = parsedLotData.combination_name || ' ';
+    const combinationName = parsedLotData?.combination_name || ' ';
 
     const getMeltingPlanOrders = await GETMeltingPlanOrders(meltingPlanValue, combinationName, token);
     if (getMeltingPlanOrders?.status === 200) {
@@ -575,15 +572,12 @@ const useMeltingLotSalesOrder = () => {
         const response = await DELETESalesOrders(deletedItemsSoiNames, meltingPlan, token);
 
         if (response?.status === 200) {
-          if (
-            response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.' &&
-            response?.data?.message !== 'Cannot delete the Sales Order.'
-          ) {
+          if (response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.') {
             toast.success(response?.data?.message);
           } else {
             toast.error(response?.data?.message);
             // Optionally reload the page after showing the error toast
-            setTimeout(() => window.location.reload(), 2000);
+            // setTimeout(() => window.location.reload(), 2000);
             fetchExistingMeltingPlanOrder(meltingPlan);
           }
         }

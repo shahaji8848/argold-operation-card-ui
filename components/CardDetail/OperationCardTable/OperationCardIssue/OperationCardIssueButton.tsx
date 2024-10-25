@@ -51,7 +51,6 @@ const OperationCardIssueButton = ({
   salesOrderList,
   bunchSalesOrderList,
   mpReferenceList,
-  productCategoryAndMachineSizeCombination,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -94,9 +93,7 @@ const OperationCardIssueButton = ({
     'next_worker',
     'machine',
     'product',
-    'category_size_combination',
     'next_machine_size',
-    'next_category_size_combination_id',
   ];
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
@@ -111,9 +108,6 @@ const OperationCardIssueButton = ({
   // set machine size value on base of selected design value
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
   const [toneVlaueforNextProcess, setToneVlaueforNextProcess] = useState<any>([]);
-  const [combinationValueForNextMachineSize, setCombinationValueForNextMachineSize] = useState<any>('');
-  const [combinationValueForNextProductCategory, setCombinationValueForNextProductCategory] = useState<any>('');
-  const [combinationId, setCombinationId] = useState<any>('');
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
@@ -162,9 +156,7 @@ const OperationCardIssueButton = ({
   };
 
   // const { getMachineSizeBasedOnDesignValueAPICall }: any = useOperationDetailCard();
-
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
-    const updatedFields: any = { ...modalDropdownFields };
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
       setModalDropdownFields({
         ...modalDropdownFields,
@@ -184,22 +176,6 @@ const OperationCardIssueButton = ({
 
     if (labelValue === 'next_design') {
       getMachineSizeBasedOnDesignValueAPICall(selectedValue?.name);
-    }
-    if (labelValue === 'category_size_combination' || labelValue === 'next_machine_size') {
-      const nextMachineSize = selectedValue?.machine_size;
-      const nextProductCategory = selectedValue?.product_category;
-      const combinationIdValue = selectedValue?.category_size_combination_id;
-      setModalDropdownFields({
-        ...modalDropdownFields,
-
-        category_size_combination: selectedValue?.combination,
-      });
-
-      if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
-        setCombinationId(combinationIdValue);
-        setCombinationValueForNextMachineSize(nextMachineSize);
-        setCombinationValueForNextProductCategory(nextProductCategory);
-      }
     }
     const department: any = operationCardDetailData?.product_process_department?.split('-')[0];
     if (operationCardDetailData?.product === 'KA Chain' && labelValue === 'tone' && department === 'Hammering 2') {
@@ -228,6 +204,7 @@ const OperationCardIssueButton = ({
       setMachineSizeBasedOnDesignValue([]);
     }
   };
+
   const getOperationCardDetailNextProcessAsPerToneAPICall = async (toneVlaueforNextProcess: any) => {
     const getNextProcessAsPerToneData = await GETNextProcessAsPerTone(toneVlaueforNextProcess, token);
     if (getNextProcessAsPerToneData?.status === 200) {
@@ -260,17 +237,7 @@ const OperationCardIssueButton = ({
       ...(selectedSalesOrderData?.length > 0 && { order_detail: updateSalesTableData }),
       ...(modalFieldValuesState.hasOwnProperty('customer') && { customer: selectedCustomer }), // Conditionally include 'customer'
       ...(selectedCustomer && { customer: selectedCustomer }),
-      ...(modalDropdownFields.hasOwnProperty('next_product_category') && {
-        next_product_category: combinationValueForNextProductCategory,
-      }),
-      ...(modalDropdownFields.hasOwnProperty('next_machine_size') && { next_machine_size: combinationValueForNextMachineSize }),
-      ...(modalDropdownFields.hasOwnProperty('category_size_combination') && {
-        category_size_combination: null,
-        next_category_size_combination_id: combinationId,
-      }),
     };
-
-    // showCategorySizeCombination === 1 ? combinationValueForNextMachineSize
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
 
@@ -482,9 +449,6 @@ const OperationCardIssueButton = ({
     setSelectedSalesOrderData([]); // Reset selected items
     setSelectedCustomer(''); // Reset customer as well
     setMachineSizeBasedOnDesignValue([]);
-    setCombinationValueForNextMachineSize('');
-    setCombinationValueForNextProductCategory('');
-    setCombinationId('');
   };
 
   const [showMeltingLotSalesOrder, setShowMeltingLotSalesOrder] = useState<any>();
@@ -539,7 +503,6 @@ const OperationCardIssueButton = ({
         }));
       }
     }
-
     setInitialValueForActiveField(initialValuesOfSelectedItem);
 
     const showKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('show'));
@@ -646,7 +609,6 @@ const OperationCardIssueButton = ({
 
     setModalDropdownFields(alteredObjToCreateDropDownFields);
   };
-
   let funcData: any;
   let setKey: any;
   const propertiesToCheck: string[] = ['label', 'show_in_weight', 'set_in_weight'];
@@ -748,9 +710,6 @@ const OperationCardIssueButton = ({
                     next_worker: operationCardWorkerList,
                     product: operationCardProduct,
                     next_machine_size: operationCardNextMachineSize,
-                    // showCategorySizeCombination === 1 ? combinationValueForNextMachineSize : operationCardNextMachineSize,
-                    category_size_combination: productCategoryAndMachineSizeCombination,
-                    next_category_size_combination_id: combinationId,
                   };
                   propToPass = propMappings[val];
                   return propToPass;
@@ -761,113 +720,93 @@ const OperationCardIssueButton = ({
                 return (
                   <>
                     {val?.label !== 'melting_lot_orders' && (
-                      <>
-                        {val?.label !== 'melting_lot_orders' && (
-                          <div className="col-md-4 " key={i}>
-                            {checkArray?.includes(val?.label) ? (
-                              <div>
-                                <label
-                                  htmlFor="staticEmail"
-                                  className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
-                                >
-                                  {val?.label
-                                    ?.split('_')
-                                    ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
-                                    ?.map((val: any, index: any) =>
-                                      index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val
-                                    )
-                                    .join(' ')}
-                                </label>
-                                <AutoCompleteField
-                                  listOfDropdownObjs={funcData}
-                                  modalDropdownFieldsProp={modalDropdownFields}
-                                  handleDropDownValuesChange={handleDropDownValuesChange}
-                                  getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
-                                  getOperationCardProductCategory={getOperationCardProductCategory}
-                                  // getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
-                                  handleSubmit={handleSubmit}
-                                  label={val?.label}
-                                  initialValue={
-                                    (val?.label === 'machine_size'
-                                      ? machineSizeBasedOnDesignValue?.name
-                                      : initialValueForActiveField[val?.label]) ||
-                                    (val?.label === 'next_machine_size'
-                                      ? combinationValueForNextMachineSize
-                                      : initialValueForActiveField[val?.label]) ||
-                                    (val?.label === 'next_product_category'
-                                      ? combinationValueForNextProductCategory
-                                      : initialValueForActiveField[val?.label]) ||
-                                    (val?.label === 'next_category_size_combination_id'
-                                      ? combinationId
-                                      : initialValueForActiveField[val?.label]) ||
-                                    initialValueForActiveField[val?.label]
-                                  }
-                                  // // initialValue={initialValueForNextProductProcess}
-                                  // initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}
-                                  isReadOnly={false}
-                                  operationCardDetailData={operationCardDetailData}
-                                />
-                              </div>
-                            ) : checkboxFieldsList?.includes(val?.label) ? (
-                              <div className="checkbox-wrapper-mt ">
-                                <input
-                                  type="checkbox"
-                                  id={val?.label}
-                                  name={val?.label}
-                                  value={modalFieldValuesState[val?.label]}
-                                  onChange={handleModalFieldsChange}
-                                  disabled={validateInWeight?.order_status === 0}
-                                />
-                                <label
-                                  htmlFor="staticEmail"
-                                  className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold ps-1`}
-                                >
-                                  {val?.label
-                                    ?.split('_')
-                                    ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
-                                    ?.map((val: any, index: any) =>
-                                      index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val
-                                    )
-                                    .join(' ')}
-                                </label>
-                              </div>
-                            ) : (
-                              <>
-                                <label
-                                  htmlFor="staticEmail"
-                                  className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
-                                >
-                                  {val?.label
-                                    ?.split('_')
-                                    ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
-                                    ?.map((val: any, index: any) =>
-                                      index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val
-                                    )
-                                    .join(' ')}
-                                </label>
-                                <div className={` text-left ${styles.inputFlex} `}>
-                                  <input
-                                    type="text"
-                                    className="form-control inputFields dark-blue input_in_weight"
-                                    name={val?.label}
-                                    id={val?.label}
-                                    // ref={inputInWeightRef}
-                                    ref={i === 0 ? inputInWeightRef : null}
-                                    disabled={val[setKey] === 0}
-                                    value={val?.label === 'customer' ? selectedCustomer : modalFieldValuesState[val?.label]}
-                                    onChange={handleModalFieldsChange}
-                                    onKeyDown={(e: any) => {
-                                      if (e.key === 'Enter') {
-                                        handleSubmit();
-                                      }
-                                    }}
-                                  />
-                                </div>
-                              </>
-                            )}
+                      <div className="col-md-4 " key={i}>
+                        {checkArray?.includes(val?.label) ? (
+                          <div>
+                            <label
+                              htmlFor="staticEmail"
+                              className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
+                            >
+                              {val?.label
+                                ?.split('_')
+                                ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                                ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
+                                .join(' ')}
+                            </label>
+                            <AutoCompleteField
+                              listOfDropdownObjs={funcData}
+                              modalDropdownFieldsProp={modalDropdownFields}
+                              handleDropDownValuesChange={handleDropDownValuesChange}
+                              getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
+                              getOperationCardProductCategory={getOperationCardProductCategory}
+                              // getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
+                              handleSubmit={handleSubmit}
+                              label={val?.label}
+                              initialValue={
+                                val?.label === 'machine_size'
+                                  ? machineSizeBasedOnDesignValue?.name
+                                  : initialValueForActiveField[val?.label]
+                              }
+                              // // initialValue={initialValueForNextProductProcess}
+                              // initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}
+                              isReadOnly={false}
+                              operationCardDetailData={operationCardDetailData}
+                            />
                           </div>
+                        ) : checkboxFieldsList?.includes(val?.label) ? (
+                          <div className="checkbox-wrapper-mt ">
+                            <input
+                              type="checkbox"
+                              id={val?.label}
+                              name={val?.label}
+                              value={modalFieldValuesState[val?.label]}
+                              onChange={handleModalFieldsChange}
+                              disabled={validateInWeight?.order_status === 0}
+                            />
+                            <label
+                              htmlFor="staticEmail"
+                              className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold ps-1`}
+                            >
+                              {val?.label
+                                ?.split('_')
+                                ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                                ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
+                                .join(' ')}
+                            </label>
+                          </div>
+                        ) : (
+                          <>
+                            <label
+                              htmlFor="staticEmail"
+                              className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
+                            >
+                              {val?.label
+                                ?.split('_')
+                                ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                                ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
+                                .join(' ')}
+                            </label>
+                            <div className={` text-left ${styles.inputFlex} `}>
+                              <input
+                                type="text"
+                                className="form-control inputFields dark-blue input_in_weight"
+                                name={val?.label}
+                                id={val?.label}
+                                // ref={inputInWeightRef}
+                                ref={i === 0 ? inputInWeightRef : null}
+                                disabled={val[setKey] === 0}
+                                value={val?.label === 'customer' ? selectedCustomer : modalFieldValuesState[val?.label]}
+                                onChange={handleModalFieldsChange}
+                                onKeyDown={(e: any) => {
+                                  if (e.key === 'Enter') {
+                                    handleSubmit();
+                                  }
+                                }}
+                              />
+                            </div>
+                          </>
                         )}
-                      </>
+                      </div>
                     )}
                   </>
                 );
