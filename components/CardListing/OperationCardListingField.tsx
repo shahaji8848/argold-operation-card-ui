@@ -130,6 +130,7 @@ const OperationCardListingField = ({
                 <button
                   className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
                   onClick={() => handleButtonFilter(ele)}
+                  key={idx}
                 >
                   {ele}
                 </button>
