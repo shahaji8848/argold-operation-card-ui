@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../../../../styles/operationDetail.module.css';
 import Modal from 'react-bootstrap/Modal';
 import POSTModalData from '@/services/api/operation-card-detail-page/modal-save';
-import AutoCompleteField from '../OperationCardIssue/AutoCompleteField';
+// import AutoCompleteField from '../OperationCardIssue/AutoCompleteField';
 
 const OperationCardReciptButton = ({
   search,
@@ -57,10 +57,7 @@ const OperationCardReciptButton = ({
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
 
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
-<<<<<<< HEAD
-=======
     //
->>>>>>> 907b2788dd7cc1384c5278d3fe714303e6b7fd09
     setModalDropdownFields({
       ...modalDropdownFields,
       [labelValue]: selectedValue?.name,
@@ -73,20 +70,20 @@ const OperationCardReciptButton = ({
       ...modalDropdownFields,
       item: itemName,
     };
-    const callSaveAPI: any = await POSTModalData(search, mergedObjs);
+    // const callSaveAPI: any = await POSTModalData(search, mergedObjs);
 
-    if (callSaveAPI?.status === 200) {
-      operationCardDetail();
-      handleClose();
-    } else {
-      handleClose();
-      const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
+    // if (callSaveAPI?.status === 200) {
+    //   operationCardDetail();
+    //   handleClose();
+    // } else {
+    //   handleClose();
+    //   const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
 
-      // Access the "message" property
-      const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
-      setErrMessage(messageValue);
-      setShowToastErr(true);
-    }
+    //   // Access the "message" property
+    //   const messageValue = parsedObject[0] ? JSON.parse(parsedObject[0]).message : null;
+    //   setErrMessage(messageValue);
+    //   setShowToastErr(true);
+    // }
   };
   const handleClose = () => setShow(false);
   const handleModalFieldsChange = (e: any) => {
@@ -260,12 +257,12 @@ const OperationCardReciptButton = ({
                               ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
                               .join(' ')}
                           </label>
-                          <AutoCompleteField
+                          {/* <AutoCompleteField
                             listOfDropdownObjs={funcData}
                             modalDropdownFieldsProp={modalDropdownFields}
                             handleDropDownValuesChange={handleDropDownValuesChange}
                             label={val?.label}
-                          />
+                          /> */}
                         </>
                       ) : (
                         <>
