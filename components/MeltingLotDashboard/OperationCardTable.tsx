@@ -154,6 +154,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         )
                       )}
                     <th className="text-center">add order details</th>
+                    <th className="text-center">Edit Operation card</th>
                   </tr>
                 </thead>
                 <tbody className="card-listing-body">
