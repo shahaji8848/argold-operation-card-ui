@@ -65,7 +65,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                 <p className="text-uppercase text-success bold mt-1 fs-14">{meltingData?.title || '--'}</p>
               </div>
               <div>
-                <button
+                {/* <button
                   className="text-end btn btn-blue btn-py me-2 "
                   onClick={() => handleViewSalesOrderOnProductAndPurity(meltingData?.melting_plan)}
                 >
@@ -76,7 +76,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                   >
                     View Sales Order
                   </Link>
-                </button>
+                </button> */}
                 {meltingData?.docstatus === 0 && (
                   <>
                     <button className="text-end btn btn-blue btn-py me-2">
