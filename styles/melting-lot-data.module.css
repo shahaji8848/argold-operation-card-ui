@@ -2,14 +2,15 @@
   width: 220px !important;
 }
 .edit_order_details_btn {
-  width: 130px !important;
+  /* width: 130px !important; */
+  width: 145px !important;
 }
 .btn_width {
   /* min-width: 86px;
   text-align: center; */
 }
 .custom_dropdown_wrapper {
-  position: relative;
+  position: relative !important;
 }
 .custom_dropdown_input {
   width: 100%;
@@ -22,9 +23,9 @@
 }
 
 .custom_dropdown_options {
-  position: absolute;
+  position: absolute !important;
   border: 1px solid rgb(204, 204, 204);
-  /* height: 200px; */
+  /* height: 500px; */
   overflow-y: auto;
   background: white;
   z-index: 4;

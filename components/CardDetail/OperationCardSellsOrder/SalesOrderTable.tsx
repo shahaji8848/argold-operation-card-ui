@@ -7,21 +7,26 @@ const hasGPCItem = (operationCardDetailData: any) => {
   return findGPCItem;
 };
 
-const columnsBuilder = (operationCardDetailData: any) => {
+const columnsBuilder = (operationCardDetailData: any, operationCardProductDept: any) => {
   let columnsList: string[] = [
     'Customer Name',
     'Sales Order',
+    'Order Weight',
     operationCardDetailData?.product === 'KA Chain' || operationCardDetailData?.product === 'Ball Chain'
-      ? 'Market Design Name'
+      ? operationCardProductDept?.group_orders_by_design === 0
+        ? 'Market Design Name'
+        : ''
       : 'item',
-    'Design Name',
+    operationCardProductDept?.group_orders_by_design === 1 ? 'Design Name' : '',
     'Production Qty',
     'Size',
   ];
   if (hasGPCItem(operationCardDetailData)) {
     columnsList.push('Ready Qty');
   }
-  return columnsList;
+  // return columnsList;
+  // Filter out any null values from the columns list
+  return columnsList.filter((column) => column !== '');
 };
 
 const rowsBuilder = (
@@ -31,7 +36,8 @@ const rowsBuilder = (
   selectedItems: any,
   handleCheckboxChange: (order_id: string) => void,
   handleChangesInReadyQty: (key: any, changedValue: number, order_id: string) => void,
-  handleCustomerChange: (order_id: any, value: any) => void
+  handleCustomerChange: (order_id: any, value: any) => void,
+  operationCardProductDept: any
 ) => {
   return (
     <tr className="table-text" key={rowData?.order_id}>
@@ -51,12 +57,29 @@ const rowsBuilder = (
         />
       </td>
       <td className="text-center">{rowData?.sales_order && rowData?.sales_order.split('-')?.pop()}</td>
+
       <td className="text-center">
-        {operationCardDetailData?.product === 'KA Chain' || operationCardDetailData?.product === 'Ball Chain'
-          ? rowData?.market_design_name
-          : rowData?.item}
+        {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
+          return (
+            <>
+              <div key={idx}>{qtyList?.order_weight.toFixed(3)}</div>
+            </>
+          );
+        })}
       </td>
-      <td className="text-center">{doGetAllOrders ? rowData?.item_name : rowData?.design}</td>
+
+      {operationCardDetailData?.product === 'KA Chain' || operationCardDetailData?.product === 'Ball Chain' ? (
+        operationCardProductDept?.group_orders_by_design === 0 && <td className="text-center">{rowData?.market_design_name} </td>
+      ) : (
+        <td className="text-center">{rowData?.item}</td>
+      )}
+
+      {doGetAllOrders ? (
+        <td className="text-center"> {rowData?.item_name} </td>
+      ) : (
+        operationCardProductDept?.group_orders_by_design === 1 && <td className="text-center">{rowData?.design}</td>
+      )}
+
       <td className="text-center">
         {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
           return (
@@ -305,7 +328,7 @@ function SalesOrderTable({
                       checked={isSingleHeaderChecked}
                     />
                   </th>
-                  {columnsBuilder(operationCardDetailData)?.map((val, i: any) => (
+                  {columnsBuilder(operationCardDetailData, operationCardProductDept)?.map((val, i: any) => (
                     <th className="thead-dark text-center" scope="col" key={i}>
                       {val}
                     </th>
@@ -327,7 +350,8 @@ function SalesOrderTable({
                             selectedSingleOrderItems,
                             (order_id: string) => handleSalesOrderCheckboxChange(order_id, false),
                             handleChangesInReadyQty,
-                            handleCustomerChange
+                            handleCustomerChange,
+                            operationCardProductDept
                           )}
                         </>
                       );
@@ -364,7 +388,7 @@ function SalesOrderTable({
                       checked={isBunchHeaderChecked}
                     />
                   </th>
-                  {columnsBuilder(operationCardDetailData)?.map((val, i: any) => (
+                  {columnsBuilder(operationCardDetailData, operationCardProductDept)?.map((val, i: any) => (
                     <th className="thead-dark text-center" scope="col" key={i}>
                       {val}
                     </th>
@@ -386,7 +410,8 @@ function SalesOrderTable({
                             selectedBunchOrderItems,
                             (order_id: string) => handleSalesOrderCheckboxChange(order_id, true),
                             handleChangesInReadyQty,
-                            handleCustomerChange
+                            handleCustomerChange,
+                            operationCardProductDept
                           )}
                         </>
                       );

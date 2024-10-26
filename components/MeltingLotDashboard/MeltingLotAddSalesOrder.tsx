@@ -18,6 +18,7 @@ const MeltingLotAddSalesOrder = () => {
     selectedDesign,
     existingSalesOrderData,
     handleDeleteSalesOrder,
+    groupOrdersByDesign,
   }: any = useMeltingLotSalesOrder();
 
   return (
@@ -28,33 +29,64 @@ const MeltingLotAddSalesOrder = () => {
             <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Melting Plan</label>
             <input type="text" className="form-control inputFields fs-13 rounded-2" value={meltingPlan} readOnly />
           </div>
-          <div className="col-md-3 mb-2">
-            <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Product Category</label>
-            <input
-              type="text"
-              className="form-control inputFields fs-13 rounded-2"
-              value={meltingPlanFilters?.product_category}
-              readOnly
-            />
-          </div>
-          <div className="col-md-3 mb-2">
-            <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Machine Size</label>
-            <input
-              type="text"
-              className="form-control inputFields fs-13 rounded-2"
-              value={meltingPlanFilters?.machine_size}
-              readOnly
-            />
-          </div>
-          <div className="col-md-3 mb-2">
-            <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Design</label>
-            <input
-              type="text"
-              className="form-control inputFields fs-13 rounded-2"
-              value={meltingPlanFilters?.design || ' '}
-              readOnly
-            />
-          </div>
+          {meltingPlanFilters?.product && meltingPlanFilters?.product !== null && (
+            <div className="col-md-3 mb-2">
+              <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Product</label>
+              <input
+                type="text"
+                className="form-control inputFields fs-13 rounded-2"
+                value={meltingPlanFilters?.product}
+                readOnly
+              />
+            </div>
+          )}
+          {meltingPlanFilters?.product_category && meltingPlanFilters?.product_category !== null && (
+            <div className="col-md-3 mb-2">
+              <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Product Category</label>
+              <input
+                type="text"
+                className="form-control inputFields fs-13 rounded-2"
+                value={meltingPlanFilters?.product_category}
+                readOnly
+              />
+            </div>
+          )}
+
+          {meltingPlanFilters?.machine_size && meltingPlanFilters?.machine_size !== null && (
+            <div className="col-md-3 mb-2">
+              <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Machine Size</label>
+              <input
+                type="text"
+                className="form-control inputFields fs-13 rounded-2"
+                value={meltingPlanFilters?.machine_size}
+                readOnly
+              />
+            </div>
+          )}
+
+          {meltingPlanFilters?.design && meltingPlanFilters?.design !== null && (
+            <div className="col-md-3 mb-2">
+              <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Design</label>
+              <input
+                type="text"
+                className="form-control inputFields fs-13 rounded-2"
+                value={meltingPlanFilters?.design || ' '}
+                readOnly
+              />
+            </div>
+          )}
+
+          {meltingPlanFilters?.purity && meltingPlanFilters?.purity !== null && (
+            <div className="col-md-3 mb-2">
+              <label className="w-100 dark-blue fw-bold text-capitalize fs-13">Purity</label>
+              <input
+                type="text"
+                className="form-control inputFields fs-13 rounded-2"
+                value={meltingPlanFilters?.purity}
+                readOnly
+              />
+            </div>
+          )}
         </div>
         <div>
           <ExistingMelingLotMaster
@@ -63,6 +95,7 @@ const MeltingLotAddSalesOrder = () => {
             handleDeleteSalesOrder={handleDeleteSalesOrder}
             selectedOrders={selectedOrders}
             handleCheckboxChange={handleCheckboxChange}
+            groupOrdersByDesign={groupOrdersByDesign}
           />
         </div>
         <div>
@@ -77,6 +110,7 @@ const MeltingLotAddSalesOrder = () => {
           formatDate={formatDate}
           handleSaveSalesOrder={handleSaveSalesOrder}
           selectedDesign={selectedDesign}
+          groupOrdersByDesign={groupOrdersByDesign}
         />
         <MeltingLotBunchOrdersTable
           salesOrderData={salesOrderData}
@@ -85,6 +119,7 @@ const MeltingLotAddSalesOrder = () => {
           formatDate={formatDate}
           handleSaveSalesOrder={handleSaveSalesOrder}
           selectedDesign={selectedDesign}
+          groupOrdersByDesign={groupOrdersByDesign}
         />
 
         {(salesOrderData?.single_orders?.length > 0 || salesOrderData?.bunch_orders?.length > 0) && (

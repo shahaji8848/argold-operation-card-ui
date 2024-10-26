@@ -12,6 +12,11 @@ const MeltingLotHeaderButton = ({ productList, meltingFiltersList, handleProduct
               Add Melting Plan
             </Link>
           </button>
+          <button className="text-end btn btn-blue btn-py me-3 mt-2">
+            <Link href={'view-sales-order'} className="text-white" target="_blank">
+              View Sales Order
+            </Link>
+          </button>
         </div>
         {meltingFiltersList?.product &&
           meltingFiltersList?.product?.length > 0 &&

@@ -22,6 +22,7 @@ const OperationCardTableMaster = ({
   operationCardWorkerList,
   operationCardMachine,
   operationCardMachineSize,
+  operationCardNextMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextDesign,
   operationCardNextProductProcess,
@@ -44,6 +45,7 @@ const OperationCardTableMaster = ({
   salesOrderList,
   bunchSalesOrderList,
   mpReferenceList,
+  productCategoryAndMachineSizeCombination,
 }: any) => {
   return (
     <div className="row spacing-mt">
@@ -92,6 +94,7 @@ const OperationCardTableMaster = ({
           operationCardTone={operationCardTone}
           operationCardVariant={operationCardVariant}
           operationCardMachineSize={operationCardMachineSize}
+          operationCardNextMachineSize={operationCardNextMachineSize}
           operationCardDesignCodeCategory={operationCardDesignCodeCategory}
           // onChangeOfProductFetchNextProductProcess={onChangeOfProductFetchNextProductProcess}
           operationCardNextProductProcess={operationCardNextProductProcess}
@@ -114,6 +117,7 @@ const OperationCardTableMaster = ({
           salesOrderList={salesOrderList}
           bunchSalesOrderList={bunchSalesOrderList}
           mpReferenceList={mpReferenceList}
+          productCategoryAndMachineSizeCombination={productCategoryAndMachineSizeCombination}
         />
       </div>
     </div>

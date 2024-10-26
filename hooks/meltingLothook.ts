@@ -19,7 +19,7 @@ const useMeltingLot = () => {
     machine_size: searchParams.get('machine_size') || '',
     design_code: searchParams.get('design_code') || '',
     cutting_process: searchParams.get('cutting_process') || '',
-    status: searchParams.get('status') || '',
+    status: searchParams.get('status') || 'Pending(Process)',
     purity: searchParams.get('purity') || '',
     design: searchParams.get('design') || '',
   };
@@ -46,6 +46,7 @@ const useMeltingLot = () => {
       [name]: value,
     }));
   };
+
   const handleProductBtnClicked = (products: any) => {
     setFilterOptions((prevState) => ({
       ...prevState,

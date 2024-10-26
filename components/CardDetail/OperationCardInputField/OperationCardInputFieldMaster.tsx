@@ -47,9 +47,10 @@ const OperationCardInputFieldMaster = ({
     (field: string) =>
       editableFieldsList?.includes(field) && !editableFieldsWithDropdownData.some((fieldObj: any) => fieldObj.name === field)
   );
+
   return (
     <div className="d-flex  spacing-mt ">
-      <div className="col-md-12 border  rounded-3" style={{ border: '2px solid red' }}>
+      <div className="col-md-12 border  rounded-3">
         <div className={`row text-center py-2 mx-2 gap-3`}>
           {operationCardFields.some((field: string) => editableFieldsList?.includes(field)) && (
             <EditableOperationCardFields

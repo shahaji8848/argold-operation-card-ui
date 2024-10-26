@@ -16,6 +16,7 @@ import UpdateSalesOrderWithBooleanValueAPI from '@/services/api/operation-card-d
 import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import GETMachineSizeBasedOnDesignValue from '@/services/api/operation-card-detail-page/get-machine-size';
 import { toast } from 'react-toastify';
+import GETNextProcessAsPerTone from '@/services/api/operation-card-detail-page/next-process-as-per-tone';
 
 const OperationCardIssueButton = ({
   headerSave,
@@ -31,6 +32,7 @@ const OperationCardIssueButton = ({
   operationCardVariant,
   operationCardMachine,
   operationCardMachineSize,
+  operationCardNextMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextProductProcess,
   // onChangeOfProductFetchNextProductProcess,
@@ -64,6 +66,7 @@ const OperationCardIssueButton = ({
   const [selectedSalesOrderData, setSelectedSalesOrderData] = useState<any>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<string>('');
   const [initialValueForActiveField, setInitialValueForActiveField] = useState<any>({});
+  const [nextProcessAsPerTone, setNextProcessAsPerTone] = useState<any>([]);
 
   const checkArray = [
     'karigar',
@@ -90,6 +93,7 @@ const OperationCardIssueButton = ({
     'next_worker',
     'machine',
     'product',
+    'next_machine_size',
   ];
 
   // Below State is to iterate over an array of objs to display fields inside the modal.
@@ -101,10 +105,14 @@ const OperationCardIssueButton = ({
   // Below State is to set the value of input fields inside the modal. These values are coming from OC Detail API.
   const [modalFieldValuesState, setModalFieldValuesState] = useState<any>({});
   const [meltingPlanReference, setMeltingPlanReference] = useState<any>('');
+  // set machine size value on base of selected design value
+  const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+  const [toneVlaueforNextProcess, setToneVlaueforNextProcess] = useState<any>([]);
 
   // Below State is to create an object of dropdown values
   const [modalDropdownFields, setModalDropdownFields] = useState<any>({});
   const inputInWeightRef: any = useRef(null);
+  const department: any = operationCardDetailData?.product_process_department?.split('-')[0];
 
   const checkIfValuesAreEmpty = () => {
     const mergedObjs = {
@@ -146,8 +154,7 @@ const OperationCardIssueButton = ({
       }
     }
   };
-  // set machine size value on base of selected design value
-  const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
+
   // const { getMachineSizeBasedOnDesignValueAPICall }: any = useOperationDetailCard();
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
     if (labelValue === 'next_karigar' || labelValue === 'karigar') {
@@ -170,6 +177,22 @@ const OperationCardIssueButton = ({
     if (labelValue === 'next_design') {
       getMachineSizeBasedOnDesignValueAPICall(selectedValue?.name);
     }
+    const department: any = operationCardDetailData?.product_process_department?.split('-')[0];
+    if (operationCardDetailData?.product === 'KA Chain' && labelValue === 'tone' && department === 'Hammering 2') {
+      setToneVlaueforNextProcess(selectedValue?.name);
+      getOperationCardDetailNextProcessAsPerToneAPICall(selectedValue?.name);
+    }
+    if (
+      operationCardDetailData?.product === 'KA Chain' &&
+      labelValue === 'next_product_process' &&
+      department === 'Hammering 2'
+    ) {
+      getOperationCardDetailNextProcessAsPerToneAPICall(toneVlaueforNextProcess);
+      setModalDropdownFields({
+        ...modalDropdownFields,
+        next_product_process: selectedValue?.name,
+      });
+    }
   };
 
   const getMachineSizeBasedOnDesignValueAPICall = async (designName: any) => {
@@ -182,9 +205,20 @@ const OperationCardIssueButton = ({
     }
   };
 
-  const { selectedSingleOrderItems, selectedBunchOrderItems, salesOrderSelectedDataModal }: any = useOperationDetailCard();
-  //
-  //
+  const getOperationCardDetailNextProcessAsPerToneAPICall = async (toneVlaueforNextProcess: any) => {
+    const getNextProcessAsPerToneData = await GETNextProcessAsPerTone(toneVlaueforNextProcess, token);
+    if (getNextProcessAsPerToneData?.status === 200) {
+      setNextProcessAsPerTone(
+        getNextProcessAsPerToneData?.data?.message?.data?.map((tone_data: any) => ({
+          name: tone_data?.name,
+          value: tone_data?.name,
+        }))
+      );
+    } else {
+      setNextProcessAsPerTone([]);
+    }
+  };
+
   const handleSubmit = async () => {
     const hrefValue = window.location.href;
     const splitValue = hrefValue.split('=');
@@ -263,12 +297,18 @@ const OperationCardIssueButton = ({
             });
 
             const callSalesOrderAPI: any = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+
             if (callSalesOrderAPI?.status === 200) {
               const callSaveAPI: any = await POSTModalData('issue', decodeURI(splitValue[1]), mergedObjs, token);
 
               if (callSaveAPI?.status === 200) {
                 operationCardDetail();
                 handleClose();
+                if (callSaveAPI?.data?.message?.msg === 'success') {
+                  toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+                } else {
+                  toast.error(callSaveAPI?.data?.message?.error);
+                }
               } else {
                 handleClose();
                 const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
@@ -332,6 +372,11 @@ const OperationCardIssueButton = ({
               if (callSaveAPI?.status === 200) {
                 operationCardDetail();
                 handleClose();
+                if (callSaveAPI?.data?.message?.msg === 'success') {
+                  toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+                } else {
+                  toast.error(callSaveAPI?.data?.message?.error);
+                }
               } else {
                 handleClose();
                 const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
@@ -346,6 +391,11 @@ const OperationCardIssueButton = ({
             if (callSaveAPI?.status === 200) {
               operationCardDetail();
               handleClose();
+              if (callSaveAPI?.data?.message?.msg === 'success') {
+                toast.success(callSaveAPI?.data?.message?.data?.success_msg);
+              } else {
+                toast.error(callSaveAPI?.data?.message?.error);
+              }
             } else {
               handleClose();
               const parsedObject = JSON.parse(callSaveAPI?.response?.data?._server_messages);
@@ -400,13 +450,26 @@ const OperationCardIssueButton = ({
     setSelectedCustomer(''); // Reset customer as well
     setMachineSizeBasedOnDesignValue([]);
   };
-  const handleShow = (value: any, add_melting_plan_reference_details: any) => {
+
+  const [showMeltingLotSalesOrder, setShowMeltingLotSalesOrder] = useState<any>();
+
+  const [showCategorySizeCombination, setShowCategorySizeCombination] = useState<any>();
+
+  const handleShow = (
+    value: any,
+    add_melting_plan_reference_details: any,
+    view_melting_lot_orders: any,
+    show_category_size_combination: any
+  ) => {
     setShow(true);
     setItemName(value);
 
     const operationCardValue = operationCardProductDept?.issue_items?.filter((issueVal: any) => issueVal.item === value);
 
     setMeltingPlanReference(add_melting_plan_reference_details);
+    setShowMeltingLotSalesOrder(view_melting_lot_orders);
+    // setShowMeltingLotSalesOrder(show_melting_lot_orders);
+    setShowCategorySizeCombination(show_category_size_combination);
 
     // Find a specific item object in operationCardDetailData, with specific logic for "hook"
     const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => {
@@ -571,7 +634,6 @@ const OperationCardIssueButton = ({
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
   // Log the filtered bunch orders with items
-
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
@@ -586,7 +648,14 @@ const OperationCardIssueButton = ({
                   <button
                     type="button"
                     className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
-                    onClick={() => handleShow(val.item, val?.add_melting_plan_reference_details)}
+                    onClick={() =>
+                      handleShow(
+                        val.item,
+                        val?.add_melting_plan_reference_details,
+                        val?.view_melting_lot_orders,
+                        val?.show_category_size_combination
+                      )
+                    }
                     key={i}
                   >
                     {val?.item}
@@ -603,7 +672,7 @@ const OperationCardIssueButton = ({
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-between "></div>
-          <div className="row" style={{ backgroundColor: '2px solid red' }}>
+          <div className="row">
             {getValues?.length > 0 &&
               getValues?.map((val: any, i: any) => {
                 let propToPass: any;
@@ -628,7 +697,11 @@ const OperationCardIssueButton = ({
                     next_design_code_type: operationCardNextDesignCodeType,
                     design_code_category: operationCardDesignCodeCategory,
                     next_process: operationCardNextProductProcess,
-                    next_product_process: operationCardNextProductProcess,
+                    next_product_process:
+                      operationCardDetailData?.product === 'KA Chain' && department === 'Hammering 2'
+                        ? nextProcessAsPerTone
+                        : operationCardNextProductProcess,
+
                     next_product_process_department: operationCardNextProductProcessDepartment,
                     product_category: operationCardProductCategory,
                     next_product_category: operationCardNextProductCategory,
@@ -636,6 +709,7 @@ const OperationCardIssueButton = ({
                     worker: operationCardWorkerList,
                     next_worker: operationCardWorkerList,
                     product: operationCardProduct,
+                    next_machine_size: operationCardNextMachineSize,
                   };
                   propToPass = propMappings[val];
                   return propToPass;
@@ -644,93 +718,97 @@ const OperationCardIssueButton = ({
                 {
                 }
                 return (
-                  <div className="col-md-4 " key={i}>
-                    {checkArray?.includes(val?.label) ? (
-                      <div>
-                        <label
-                          htmlFor="staticEmail"
-                          className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
-                        >
-                          {val?.label
-                            ?.split('_')
-                            ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
-                            ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
-                            .join(' ')}
-                        </label>
-                        <AutoCompleteField
-                          listOfDropdownObjs={funcData}
-                          modalDropdownFieldsProp={modalDropdownFields}
-                          handleDropDownValuesChange={handleDropDownValuesChange}
-                          getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
-                          getOperationCardProductCategory={getOperationCardProductCategory}
-                          // getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
-                          handleSubmit={handleSubmit}
-                          label={val?.label}
-                          initialValue={
-                            val?.label === 'machine_size'
-                              ? machineSizeBasedOnDesignValue?.name
-                              : initialValueForActiveField[val?.label]
-                          }
-                          // // initialValue={initialValueForNextProductProcess}
-                          // initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}
-                          isReadOnly={false}
-                          operationCardDetailData={operationCardDetailData}
-                        />
-                      </div>
-                    ) : checkboxFieldsList?.includes(val?.label) ? (
-                      <div className="checkbox-wrapper-mt ">
-                        <input
-                          type="checkbox"
-                          id={val?.label}
-                          name={val?.label}
-                          value={modalFieldValuesState[val?.label]}
-                          onChange={handleModalFieldsChange}
-                          disabled={validateInWeight?.order_status === 0}
-                        />
-                        <label
-                          htmlFor="staticEmail"
-                          className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold ps-1`}
-                        >
-                          {val?.label
-                            ?.split('_')
-                            ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
-                            ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
-                            .join(' ')}
-                        </label>
-                      </div>
-                    ) : (
-                      <>
-                        <label
-                          htmlFor="staticEmail"
-                          className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
-                        >
-                          {val?.label
-                            ?.split('_')
-                            ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
-                            ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
-                            .join(' ')}
-                        </label>
-                        <div className={` text-left ${styles.inputFlex} `}>
-                          <input
-                            type="text"
-                            className="form-control inputFields dark-blue input_in_weight"
-                            name={val?.label}
-                            id={val?.label}
-                            // ref={inputInWeightRef}
-                            ref={i === 0 ? inputInWeightRef : null}
-                            disabled={val[setKey] === 0}
-                            value={val?.label === 'customer' ? selectedCustomer : modalFieldValuesState[val?.label]}
-                            onChange={handleModalFieldsChange}
-                            onKeyDown={(e: any) => {
-                              if (e.key === 'Enter') {
-                                handleSubmit();
+                  <>
+                    {val?.label !== 'melting_lot_orders' && (
+                      <div className="col-md-4 " key={i}>
+                        {checkArray?.includes(val?.label) ? (
+                          <div>
+                            <label
+                              htmlFor="staticEmail"
+                              className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
+                            >
+                              {val?.label
+                                ?.split('_')
+                                ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                                ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
+                                .join(' ')}
+                            </label>
+                            <AutoCompleteField
+                              listOfDropdownObjs={funcData}
+                              modalDropdownFieldsProp={modalDropdownFields}
+                              handleDropDownValuesChange={handleDropDownValuesChange}
+                              getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
+                              getOperationCardProductCategory={getOperationCardProductCategory}
+                              // getOperationCardNextProductProcess={onChangeOfProductFetchNextProductProcess}
+                              handleSubmit={handleSubmit}
+                              label={val?.label}
+                              initialValue={
+                                val?.label === 'machine_size'
+                                  ? machineSizeBasedOnDesignValue?.name
+                                  : initialValueForActiveField[val?.label]
                               }
-                            }}
-                          />
-                        </div>
-                      </>
+                              // // initialValue={initialValueForNextProductProcess}
+                              // initialValue={val?.label === 'next_product_process' ? initialValueForNextProductProcess : ''}
+                              isReadOnly={false}
+                              operationCardDetailData={operationCardDetailData}
+                            />
+                          </div>
+                        ) : checkboxFieldsList?.includes(val?.label) ? (
+                          <div className="checkbox-wrapper-mt ">
+                            <input
+                              type="checkbox"
+                              id={val?.label}
+                              name={val?.label}
+                              value={modalFieldValuesState[val?.label]}
+                              onChange={handleModalFieldsChange}
+                              disabled={validateInWeight?.order_status === 0}
+                            />
+                            <label
+                              htmlFor="staticEmail"
+                              className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold ps-1`}
+                            >
+                              {val?.label
+                                ?.split('_')
+                                ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                                ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
+                                .join(' ')}
+                            </label>
+                          </div>
+                        ) : (
+                          <>
+                            <label
+                              htmlFor="staticEmail"
+                              className={`${styles.labelFlex} col-sm-10 col-form-label dark-blue mt-2 font-weight-bold`}
+                            >
+                              {val?.label
+                                ?.split('_')
+                                ?.filter((val: any) => val !== 'set' && val !== 'readonly' && val !== 'show')
+                                ?.map((val: any, index: any) => (index === 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val))
+                                .join(' ')}
+                            </label>
+                            <div className={` text-left ${styles.inputFlex} `}>
+                              <input
+                                type="text"
+                                className="form-control inputFields dark-blue input_in_weight"
+                                name={val?.label}
+                                id={val?.label}
+                                // ref={inputInWeightRef}
+                                ref={i === 0 ? inputInWeightRef : null}
+                                disabled={val[setKey] === 0}
+                                value={val?.label === 'customer' ? selectedCustomer : modalFieldValuesState[val?.label]}
+                                onChange={handleModalFieldsChange}
+                                onKeyDown={(e: any) => {
+                                  if (e.key === 'Enter') {
+                                    handleSubmit();
+                                  }
+                                }}
+                              />
+                            </div>
+                          </>
+                        )}
+                      </div>
                     )}
-                  </div>
+                  </>
                 );
               })}
           </div>
@@ -744,6 +822,7 @@ const OperationCardIssueButton = ({
                 selectedCustomer={selectedCustomer}
                 setSelectedCustomer={setSelectedCustomer}
                 operationCardDetailData={operationCardDetailData}
+                showCheckbox={true}
               />
             </>
           )}
@@ -757,12 +836,27 @@ const OperationCardIssueButton = ({
                 selectedCustomer={selectedCustomer}
                 setSelectedCustomer={setSelectedCustomer}
                 operationCardDetailData={operationCardDetailData}
+                showCheckbox={true}
               />
             </>
           )}
 
           {selectedIssueBtnData?.item && selectedIssueBtnData?.item_type === 'Gold Accessory' && meltingPlanReference === 1 && (
             <MPReferenceModal mpReferenceList={mpReferenceList} />
+          )}
+
+          {showMeltingLotSalesOrder !== 0 && (
+            <>
+              <ModalSalesTable
+                salesOrderList={singleOrdersWithItems}
+                selectedSalesOrderData={selectedSalesOrderData}
+                setSelectedSalesOrderData={setSelectedSalesOrderData}
+                selectedCustomer={selectedCustomer}
+                setSelectedCustomer={setSelectedCustomer}
+                operationCardDetailData={operationCardDetailData}
+                showCheckbox={false}
+              />
+            </>
           )}
 
           {getValues?.length > 0 ? (

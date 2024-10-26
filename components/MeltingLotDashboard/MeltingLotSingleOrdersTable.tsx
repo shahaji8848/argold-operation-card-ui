@@ -7,7 +7,20 @@ const MeltingLotSingleOrdersTable = ({
   formatDate,
   handleSaveSalesOrder,
   selectedDesign,
+  groupOrdersByDesign,
 }: any) => {
+  // Calculate totals for order weight
+  const calculateTotals = () => {
+    let totalOrderWeight = 0;
+    salesOrderData?.single_orders?.forEach((orderData: any) => {
+      // orderData?.total_order_weight?.forEach((values: any) => {
+      totalOrderWeight += orderData?.total_order_weight || 0;
+      // });
+      // totalOrderWeight += orderData.total_weight || 0;
+    });
+    return totalOrderWeight.toFixed(3);
+  };
+
   return (
     <>
       {salesOrderData?.single_orders?.length > 0 && (
@@ -28,7 +41,7 @@ const MeltingLotSingleOrdersTable = ({
                     'description',
                     'sales order number',
                     'order weight',
-                    'market design name',
+                    groupOrdersByDesign === 0 ? 'market design name' : 'design',
                     'size',
                     'qty',
                   ].map((val: any, index: any) => (
@@ -85,12 +98,14 @@ const MeltingLotSingleOrdersTable = ({
                                   : '--'}
                               </td>
                               <td className="text-center">
-                                {ordersData?.total_order_weight !== ' ' && ordersData?.total_order_weight !== null
-                                  ? ordersData?.total_order_weight?.toFixed(3)
+                                {itemGroupData?.total_order_weight !== ' ' && itemGroupData?.total_order_weight !== null
+                                  ? itemGroupData?.total_order_weight?.toFixed(3)
                                   : '--'}
                               </td>
 
-                              <td className="text-center">{itemGroupData?.market_design_name}</td>
+                              <td className="text-center">
+                                {groupOrdersByDesign === 0 ? itemGroupData?.market_design_name : itemGroupData?.design}
+                              </td>
 
                               <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
@@ -116,6 +131,18 @@ const MeltingLotSingleOrdersTable = ({
                       </>
                     );
                   })}
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td className="text-center fw-bold">Total</td>
+                  <td className="text-center">{calculateTotals()}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
               </tbody>
             </table>
           </div>

@@ -20,11 +20,12 @@ const inputField = [
     label: 'product',
   },
   {
-    name: 'operation_department',
+    name: 'product_process',
     label: 'process',
   },
   {
-    name: 'product_process_department',
+    // name: 'product_process_department',
+    name: 'operation_department',
     label: 'department',
   },
   {

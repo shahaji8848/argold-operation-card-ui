@@ -21,6 +21,7 @@ const OperationCardIssueMaster = ({
   operationCardVariant,
   operationCardMachine,
   operationCardMachineSize,
+  operationCardNextMachineSize,
   operationCardDesignCodeCategory,
   operationCardNextDesign,
   operationCardNextProductProcess,
@@ -42,6 +43,7 @@ const OperationCardIssueMaster = ({
   salesOrderList,
   bunchSalesOrderList,
   mpReferenceList,
+  productCategoryAndMachineSizeCombination,
 }: any) => {
   return (
     <>
@@ -66,6 +68,7 @@ const OperationCardIssueMaster = ({
         operationCardVariant={operationCardVariant}
         operationCardWorkerList={operationCardWorkerList}
         operationCardMachineSize={operationCardMachineSize}
+        operationCardNextMachineSize={operationCardNextMachineSize}
         operationCardNextDesign={operationCardNextDesign}
         operationCardDesignCodeCategory={operationCardDesignCodeCategory}
         operationCardNextProductProcess={operationCardNextProductProcess}
@@ -86,6 +89,7 @@ const OperationCardIssueMaster = ({
         salesOrderList={salesOrderList}
         bunchSalesOrderList={bunchSalesOrderList}
         mpReferenceList={mpReferenceList}
+        productCategoryAndMachineSizeCombination={productCategoryAndMachineSizeCombination}
       />
       <div className="mt-2">
         <OperationCardIssueItem operationCardDetailData={operationCardDetailData} />
