@@ -208,7 +208,9 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                             className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
                             onClick={handleMeltingLotShowOrder}
                           >
+
                             <Link
+                            
                               href={{
                                 pathname: '/add-sales-order',
                                 query: { melting_plan: meltingData?.melting_plan, lot_data: JSON.stringify(operation) },
