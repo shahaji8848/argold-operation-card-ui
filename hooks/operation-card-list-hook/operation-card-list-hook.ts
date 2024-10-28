@@ -55,8 +55,13 @@ const useOperationCardList = () => {
     // Optionally fetch department dropdown options based on the selected product
     await handleDepartmentDropdown(value); // Fetch options based on the new value
     // Fetch all departments initially if input is empty, otherwise filter
-    if (!value) {
-      await handleDepartmentDropdown(''); // Fetch all departments when there's no input
+    if (!value && !filtersData.product) {
+      console.log(filtersData?.product);
+      await handleDepartmentDropdown(filtersData?.product);
+    } else if (!value && filtersData?.product) {
+      await handleDepartmentDropdown(filtersData?.product);
+    } else if (filtersData.product) {
+      await handleDepartmentDropdown(filtersData?.product);
     } else {
       await handleDepartmentDropdown(value); // Fetch filtered departments based on input
     }
