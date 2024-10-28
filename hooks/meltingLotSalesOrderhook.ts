@@ -340,19 +340,22 @@ const useMeltingLotSalesOrder = () => {
       setAddOrderBtndisabled(true);
       const updatedData = await POSTAddOrders(transformedDataList, token);
       if (updatedData?.status === 200) {
-        setAddOrderBtndisabled(false)
         const isSucess = updatedData?.data?.message?.message;
         if (isSucess) {
           toast.success(updatedData?.data?.message?.message);
           setTimeout(() => {
             window.location.reload();
           }, 2000);
+          setTimeout(() => {
+            setAddOrderBtndisabled(false);
+          }, 3000);
         } else {
+          setAddOrderBtndisabled(false);
           toast.error(updatedData?.data?.message);
         }
       } else {
         toast.error('Failed to update sales order');
-        setAddOrderBtndisabled(false)
+        setAddOrderBtndisabled(false);
       }
     } catch (error) {
       toast.error('Failed to update sales order');
@@ -680,7 +683,7 @@ const useMeltingLotSalesOrder = () => {
     handleGetViewSalesOrders,
     groupOrdersByDesign,
     viewSalesOrderFields,
-    addOrderBtndisabled
+    addOrderBtndisabled,
   };
 };
 
