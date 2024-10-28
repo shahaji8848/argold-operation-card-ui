@@ -127,15 +127,17 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         {column.replace(/_/g, ' ')}
                       </th>
                     ))} */}
-                    {meltingData?.linked_operations &&
+                  {meltingData?.linked_operations &&
                       meltingData?.linked_operations.length > 0 &&
-                      Object.keys(meltingData.linked_operations[0]).map((key, colIndex) => (
-                        <>
-                          <th className="thead-dark text-center" scope="col" key={colIndex}>
-                            {key.replace(/_/g, ' ')}
-                          </th>
-                        </>
-                      ))}
+                      Object.keys(meltingData.linked_operations[0]).map((key, colIndex) =>
+                        key === 'type' || key === 'combination_name' ? null : (
+                          <>
+                            <th className="thead-dark text-center" scope="col" key={colIndex}>
+                              {key.replace(/_/g, ' ')}
+                            </th>
+                          </>
+                        )
+                      )}
                     <th className="text-center">add order details</th>
                     <th className="text-center">add sales order</th>
                   </tr>
@@ -176,7 +178,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
 
                     meltingData?.linked_operations.map((operation: any, opIdx: any) => (
                       <tr key={opIdx}>
-                        {Object.keys(operation).map(
+                       {Object.keys(operation).map(
                           (key, colIndex) =>
                             key !== 'combination_name' &&
                             key !== 'type' && ( // Add a condition to skip the column
