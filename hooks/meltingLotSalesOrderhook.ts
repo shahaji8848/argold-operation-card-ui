@@ -27,6 +27,7 @@ const useMeltingLotSalesOrder = () => {
   const [allowMultipleDesign, setAllowMultipleDesign] = useState<any>();
   const [groupOrdersByDesign, setGroupOrdersByDesign] = useState<any>();
   const [viewSalesOrderFields, setViewSalesOrderFields] = useState<any>({});
+  const [addOrderBtndisabled, setAddOrderBtndisabled] = useState<any>(false);
   const [combinationNameValue, setCombinationNameValue] = useState<any>('');
   const searchParams = useSearchParams();
   const meltingPlan = searchParams.get('melting_plan');
@@ -336,6 +337,7 @@ const useMeltingLotSalesOrder = () => {
 
     // Make the API call
     try {
+      setAddOrderBtndisabled(true);
       const updatedData = await POSTAddOrders(transformedDataList, token);
       if (updatedData?.status === 200) {
         const isSucess = updatedData?.data?.message?.message;
@@ -344,16 +346,22 @@ const useMeltingLotSalesOrder = () => {
           setTimeout(() => {
             window.location.reload();
           }, 2000);
+          setTimeout(() => {
+            setAddOrderBtndisabled(false);
+          }, 3000);
         } else {
+          setAddOrderBtndisabled(false);
           toast.error(updatedData?.data?.message);
         }
       } else {
         toast.error('Failed to update sales order');
+        setAddOrderBtndisabled(false);
       }
     } catch (error) {
       toast.error('Failed to update sales order');
     }
   };
+
 
   // Handle checkbox change
   // const handleExistingCheckboxChange = (uniqueKey: any) => {
