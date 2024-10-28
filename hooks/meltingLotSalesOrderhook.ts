@@ -27,6 +27,7 @@ const useMeltingLotSalesOrder = () => {
   const [allowMultipleDesign, setAllowMultipleDesign] = useState<any>();
   const [groupOrdersByDesign, setGroupOrdersByDesign] = useState<any>();
   const [viewSalesOrderFields, setViewSalesOrderFields] = useState<any>({});
+  const [addOrderBtndisabled, setAddOrderBtndisabled] = useState<any>(false);
   const [combinationNameValue, setCombinationNameValue] = useState<any>('');
   const searchParams = useSearchParams();
   const meltingPlan = searchParams.get('melting_plan');
@@ -336,8 +337,10 @@ const useMeltingLotSalesOrder = () => {
 
     // Make the API call
     try {
+      setAddOrderBtndisabled(true);
       const updatedData = await POSTAddOrders(transformedDataList, token);
       if (updatedData?.status === 200) {
+        setAddOrderBtndisabled(false)
         const isSucess = updatedData?.data?.message?.message;
         if (isSucess) {
           toast.success(updatedData?.data?.message?.message);
@@ -349,6 +352,7 @@ const useMeltingLotSalesOrder = () => {
         }
       } else {
         toast.error('Failed to update sales order');
+        setAddOrderBtndisabled(false)
       }
     } catch (error) {
       toast.error('Failed to update sales order');
@@ -676,6 +680,7 @@ const useMeltingLotSalesOrder = () => {
     handleGetViewSalesOrders,
     groupOrdersByDesign,
     viewSalesOrderFields,
+    addOrderBtndisabled
   };
 };
 
