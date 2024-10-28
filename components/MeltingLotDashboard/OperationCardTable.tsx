@@ -255,5 +255,4 @@ const OperationCardTable = ({ meltingLotList }: any) => {
     </div>
   );
 };
-
 export default OperationCardTable;
