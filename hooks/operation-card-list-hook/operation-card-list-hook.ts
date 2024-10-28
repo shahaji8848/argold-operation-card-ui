@@ -51,25 +51,19 @@ const useOperationCardList = () => {
   const handleDepartmentChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     const value = e.target.value;
     handleInputChange(e, fieldName);
-    setDepartmentInput(value); // Update input field value
-    // Optionally fetch department dropdown options based on the selected product
-    await handleDepartmentDropdown(value); // Fetch options based on the new value
-    // Fetch all departments initially if input is empty, otherwise filter
+    setDepartmentInput(value);
     if (!value && !filtersData.product) {
-      console.log(filtersData?.product);
       await handleDepartmentDropdown(filtersData?.product);
     } else if (!value && filtersData?.product) {
       await handleDepartmentDropdown(filtersData?.product);
     } else if (filtersData.product) {
       await handleDepartmentDropdown(filtersData?.product);
     } else {
-      await handleDepartmentDropdown(value); // Fetch filtered departments based on input
+      await handleDepartmentDropdown(value);
     }
-    // Filter the department list based on the input value
     const filtered = departmentValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
 
-    setFilteredDepartments(filtered); // Update the filtered departments list
-
+    setFilteredDepartments(filtered);
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
       [fieldName]: e.target.value,
@@ -108,7 +102,6 @@ const useOperationCardList = () => {
     //   }));
     // } else {
     // }
-
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
       [fieldName]: e.target.value,
@@ -132,7 +125,7 @@ const useOperationCardList = () => {
     const currentUrl = new URL(window.location.href);
     const queryString = Object.entries(filtersData)
       .filter(([key, value]: any) => value !== '')
-      .map(([key, value]: any) => `${key}=${value}`)
+      .map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
       .join('&');
     // Return the updated URL
     return `${currentUrl.pathname}?${queryString}`;
@@ -140,7 +133,6 @@ const useOperationCardList = () => {
 
   const URLForFiltersHandler = () => {
     const getconstructedUrl: any = constructUrl(filtersData);
-
     router.push(`${getconstructedUrl}`);
   };
 
@@ -205,20 +197,20 @@ const useOperationCardList = () => {
         updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
       }
     });
+    setDepartmentInput(updatedFiltersData?.operation_department);
 
     // Update the state with the new values
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
-
     getOperationCardListFromAPI(searchParamsString);
 
     // URLForFiltersHandler();
   }, [searchParams]);
 
-  const handleClearFilters = async () => {
-    await setFiltersData({
+  const handleClearFilters = () => {
+    setFiltersData({
       search: '',
       name: '',
       parent_melting_lot: '',
@@ -230,7 +222,7 @@ const useOperationCardList = () => {
       karigar: '',
       // show_zero_balance: false,
     });
-
+    setDepartmentInput('');
     setFiltersClear(1);
   };
   const getOperationCardListFromAPI = async (url: string) => {
