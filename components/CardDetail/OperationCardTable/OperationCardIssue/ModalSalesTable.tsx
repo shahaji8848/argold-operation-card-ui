@@ -113,8 +113,8 @@ const ModalSalesTable: any = ({
                             </td>
                           )}
                           <td className="text-center">{orderData?.customer === '' ? '--' : orderData.customer}</td>
-                          <td className="text-center">{orderData.sales_order}</td>
-                          <td className="text-center">{orderData.market_design_name}</td>
+                          <td className="text-center">{orderData?.sales_order?.split('-')?.pop()}</td>
+                          <td className="text-center">{orderData?.market_design_name}</td>
                           <td className="text-center">
                             {orderData.qty_size_list.length > 0 &&
                               orderData.qty_size_list.map((values: any, id: any) => <div key={id}>{values.production_qty}</div>)}
