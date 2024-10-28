@@ -19,6 +19,7 @@ const MeltingLotAddSalesOrder = () => {
     existingSalesOrderData,
     handleDeleteSalesOrder,
     groupOrdersByDesign,
+    addOrderBtndisabled
   }: any = useMeltingLotSalesOrder();
 
   return (
@@ -123,7 +124,7 @@ const MeltingLotAddSalesOrder = () => {
         />
 
         {(salesOrderData?.single_orders?.length > 0 || salesOrderData?.bunch_orders?.length > 0) && (
-          <button className="text-end btn btn-blue btn-py mt-1" onClick={handleSaveSalesOrder}>
+          <button className="text-end btn btn-blue btn-py mt-1" disabled={addOrderBtndisabled} onClick={handleSaveSalesOrder}>
             Save
           </button>
         )}
