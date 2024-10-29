@@ -130,42 +130,24 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                           <td className="d-none"></td>
                         )}
                         {showDesignLine ? <td className="text-center">{designLine || '--'}</td> : <td className="d-none"></td>}
-                        {ordersData.item_group_data.map((itemGroupData: any, index: any) => (
-                          <>
-                            {showDesign ? (
-                              <td>
-                                <div className="text-center" key={index}>
-                                  {itemGroupData?.design || '--'}
-                                </div>
-                              </td>
-                            ) : (
-                              <td className="d-none"></td>
-                            )}
-                            <td>
-                              {itemGroupData.market_design_name_values.map((e: any) => (
-                                <div className="text-center" key={e.soi_name}>
-                                  {e.order_weight?.toFixed(3) || '--'}
-                                </div>
-                              ))}
-                            </td>
-                            <td>
-                              {itemGroupData.market_design_name_values.map((e: any) => (
-                                <div className="text-center" key={e.soi_name}>
-                                  {e.size?.toFixed(3) || '--'}
-                                </div>
-                              ))}
-                            </td>
+                        {showDesign ? (
+                          <td>
+                            {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
+                              <div key={index}>
+                                <div>{itemGroupData?.design || '--'}</div>
+                                {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
+                                  <div key={i} style={{ opacity: '0' }}>
+                                    --
+                                  </div>
+                                ))}
+                              </div>
+                            ))}
+                          </td>
+                        ) : (
+                          <td className="d-none"></td>
+                        )}
 
-                            <td>
-                              {itemGroupData.market_design_name_values.map((e: any) => (
-                                <div className="text-center" key={e.soi_name}>
-                                  {e.quantity?.toFixed(3) || '--'}
-                                </div>
-                              ))}
-                            </td>
-                          </>
-                        ))}
-                        {/* <td>
+                        <td>
                           {ordersData.item_group_data.map((itemGroupData: any) =>
                             itemGroupData.market_design_name_values.map((e: any) => (
                               <div className="text-center" key={e.soi_name}>
@@ -173,9 +155,9 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                               </div>
                             ))
                           )}
-                        </td> */}
+                        </td>
 
-                        {/* <td>
+                        <td>
                           {ordersData.item_group_data.map((itemGroupData: any) =>
                             itemGroupData.market_design_name_values.map((e: any) => (
                               <div className="text-center" key={e.soi_name}>
@@ -193,7 +175,7 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                               </div>
                             ))
                           )}
-                        </td> */}
+                        </td>
                       </tr>
                     );
                   })}
