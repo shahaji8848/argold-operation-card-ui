@@ -2,6 +2,7 @@ import useMeltingViewHook from '@/hooks/meltingViewHokks';
 import React from 'react';
 
 const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign, columnList }: any) => {
+  console.log(salesOrderData?.single_orders, 'Single Orders');
   if (salesOrderData?.single_orders?.length === 0) {
     return (
       <div className="d-flex justify-content-center align-items-center">
@@ -129,13 +130,42 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                           <td className="d-none"></td>
                         )}
                         {showDesignLine ? <td className="text-center">{designLine || '--'}</td> : <td className="d-none"></td>}
-                        {showDesign ? (
-                          <td className="text-center">{ordersData?.design || '--'}</td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
+                        {ordersData.item_group_data.map((itemGroupData: any, index: any) => (
+                          <>
+                            {showDesign ? (
+                              <td>
+                                <div className="text-center" key={index}>
+                                  {itemGroupData?.design || '--'}
+                                </div>
+                              </td>
+                            ) : (
+                              <td className="d-none"></td>
+                            )}
+                            <td>
+                              {itemGroupData.market_design_name_values.map((e: any) => (
+                                <div className="text-center" key={e.soi_name}>
+                                  {e.order_weight?.toFixed(3) || '--'}
+                                </div>
+                              ))}
+                            </td>
+                            <td>
+                              {itemGroupData.market_design_name_values.map((e: any) => (
+                                <div className="text-center" key={e.soi_name}>
+                                  {e.size?.toFixed(3) || '--'}
+                                </div>
+                              ))}
+                            </td>
 
-                        <td>
+                            <td>
+                              {itemGroupData.market_design_name_values.map((e: any) => (
+                                <div className="text-center" key={e.soi_name}>
+                                  {e.quantity?.toFixed(3) || '--'}
+                                </div>
+                              ))}
+                            </td>
+                          </>
+                        ))}
+                        {/* <td>
                           {ordersData.item_group_data.map((itemGroupData: any) =>
                             itemGroupData.market_design_name_values.map((e: any) => (
                               <div className="text-center" key={e.soi_name}>
@@ -143,9 +173,9 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                               </div>
                             ))
                           )}
-                        </td>
+                        </td> */}
 
-                        <td>
+                        {/* <td>
                           {ordersData.item_group_data.map((itemGroupData: any) =>
                             itemGroupData.market_design_name_values.map((e: any) => (
                               <div className="text-center" key={e.soi_name}>
@@ -163,7 +193,7 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                               </div>
                             ))
                           )}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
