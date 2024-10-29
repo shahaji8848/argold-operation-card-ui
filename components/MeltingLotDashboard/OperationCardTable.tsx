@@ -218,7 +218,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                                 className="text-white text-center"
                                 target="_blank"
                               >
-                                Edit Operation Card
+                              Edit Operation Card
                               </Link>
                             </button>
                           ) : (
