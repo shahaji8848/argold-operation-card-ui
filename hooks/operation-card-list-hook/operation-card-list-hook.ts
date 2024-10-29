@@ -43,8 +43,7 @@ const useOperationCardList = () => {
     const filtered = departmentValue.filter(
       (department: any) => department?.title?.toLowerCase().includes(inputValue.toLowerCase() || [])
     );
-
-    setFilteredDepartments(filtered); // Update the filtered departments list
+    setFilteredDepartments(filtered);
     setIsDropdownOpen(true);
   };
 
@@ -309,7 +308,9 @@ const useOperationCardList = () => {
   }, []);
 
   useEffect(() => {
-    handleDepartmentDropdown(' ');
+    const product = searchParams.get('product');
+    console.log(product, 'Product in useEffetct');
+    handleDepartmentDropdown(product);
   }, []);
 
   return {
