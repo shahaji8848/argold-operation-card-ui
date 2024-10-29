@@ -111,11 +111,21 @@ const ExistingMeltingLotBunchOrder = ({
                                   );
                                 })}
                               </td>
+
                               <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
                                   return (
                                     <>
-                                      <div>{marketDesign?.bunch_length}</div>
+                                      <div>
+                                        <input
+                                          type="checkbox"
+                                          checked={isChecked} // Set the checkbox checked state
+                                          onChange={() =>
+                                            handleCheckboxChange(itemGroupData?.unique_key, itemGroupData?.design, isChecked, '')
+                                          }
+                                        />
+                                        {marketDesign?.bunch_length}
+                                      </div>
                                     </>
                                   );
                                 })}

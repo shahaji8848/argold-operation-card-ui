@@ -119,9 +119,30 @@ const MeltingLotBunchOrdersTable = ({
                               </td>
                               <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
+                                  console.log('market design', marketDesign,selectedOrders);
+                                  const isWtChecked = !!selectedOrders[marketDesign?.soi_name];
+                                  const isDisabled = selectedDesign && selectedDesign !== itemGroupData?.design;
+
                                   return (
                                     <>
-                                      <div>{marketDesign?.bunch_length}</div>
+                                      <div className="d-flex justify-content-between">
+                                        <span className="text-start">
+                                          <input
+                                            type="checkbox"
+                                            checked={isWtChecked || isChecked} // Set the checkbox checked state
+                                            disabled={isDisabled} // Disable if a different design is selected
+                                            onChange={() =>
+                                              handleCheckboxChange(
+                                                marketDesign?.soi_name,
+                                                itemGroupData?.design,
+                                                isWtChecked,
+                                                isDisabled
+                                              )
+                                            }
+                                          />
+                                        </span>
+                                        <span className="">{marketDesign?.bunch_length}</span>
+                                      </div>
                                     </>
                                   );
                                 })}
