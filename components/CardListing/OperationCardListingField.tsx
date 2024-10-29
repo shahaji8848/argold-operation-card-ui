@@ -45,6 +45,9 @@ const OperationCardListingField = ({
       router.push(`/operation-card-list?search=${searchField}`);
     }
   };
+  // useEffect(() => {
+  //   handleDepartmentDropdown(filtersData?.product);
+  // }, []);
 
   useEffect(() => {
     focusRef.current.focus();
