@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 
 const ModalSalesTable: any = ({
+  tableHeading,
   salesOrderList,
   operationCardDetailData,
   selectedSalesOrderData,
@@ -51,11 +52,13 @@ const ModalSalesTable: any = ({
 
   const { totalProductionQty, totalOrderWeight } = calculateTotals();
 
+  console.log({ salesOrderList });
   return (
     <>
       <div className="row mt-2">
         <div className="col-md-12">
           <div className="table-responsive mt-2">
+            <h6 className="bold">{tableHeading}</h6>
             <table className="table table-bordered">
               <thead>
                 <tr className="table-text">
@@ -113,8 +116,8 @@ const ModalSalesTable: any = ({
                             </td>
                           )}
                           <td className="text-center">{orderData?.customer === '' ? '--' : orderData.customer}</td>
-                          <td className="text-center">{orderData.sales_order}</td>
-                          <td className="text-center">{orderData.market_design_name}</td>
+                          <td className="text-center">{orderData?.sales_order?.split('-')?.pop()}</td>
+                          <td className="text-center">{orderData?.market_design_name}</td>
                           <td className="text-center">
                             {orderData.qty_size_list.length > 0 &&
                               orderData.qty_size_list.map((values: any, id: any) => <div key={id}>{values.production_qty}</div>)}

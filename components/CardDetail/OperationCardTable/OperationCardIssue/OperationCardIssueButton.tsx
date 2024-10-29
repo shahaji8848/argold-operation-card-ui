@@ -624,6 +624,7 @@ const OperationCardIssueButton = ({
     .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
 
   // Log the filtered bunch orders with items
+
   return (
     <div>
       <div className={`row ${styles.mob_wrapper} `}>
@@ -831,7 +832,19 @@ const OperationCardIssueButton = ({
           {showMeltingLotSalesOrder !== 0 && (
             <>
               <ModalSalesTable
+                tableHeading={'Single Orders'}
                 salesOrderList={singleOrdersWithItems}
+                selectedSalesOrderData={selectedSalesOrderData}
+                setSelectedSalesOrderData={setSelectedSalesOrderData}
+                selectedCustomer={selectedCustomer}
+                setSelectedCustomer={setSelectedCustomer}
+                operationCardDetailData={operationCardDetailData}
+                showCheckbox={false}
+              />
+
+              <ModalSalesTable
+                tableHeading={'Bunch Orders'}
+                salesOrderList={bunchOrdersWithItems}
                 selectedSalesOrderData={selectedSalesOrderData}
                 setSelectedSalesOrderData={setSelectedSalesOrderData}
                 selectedCustomer={selectedCustomer}
