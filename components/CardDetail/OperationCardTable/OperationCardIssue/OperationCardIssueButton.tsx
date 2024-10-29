@@ -832,6 +832,7 @@ const OperationCardIssueButton = ({
           {showMeltingLotSalesOrder !== 0 && (
             <>
               <ModalSalesTable
+                tableHeading={'Single Orders'}
                 salesOrderList={singleOrdersWithItems}
                 selectedSalesOrderData={selectedSalesOrderData}
                 setSelectedSalesOrderData={setSelectedSalesOrderData}
@@ -842,6 +843,7 @@ const OperationCardIssueButton = ({
               />
 
               <ModalSalesTable
+                tableHeading={'Bunch Orders'}
                 salesOrderList={bunchOrdersWithItems}
                 selectedSalesOrderData={selectedSalesOrderData}
                 setSelectedSalesOrderData={setSelectedSalesOrderData}
