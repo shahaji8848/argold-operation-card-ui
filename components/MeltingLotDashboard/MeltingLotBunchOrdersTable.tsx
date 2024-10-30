@@ -59,21 +59,21 @@ const MeltingLotBunchOrdersTable = ({
                     return (
                       <>
                         {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
-                          const isChecked = !!selectedOrders[itemGroupData?.unique_key];
-                          // Determine if the checkbox should be disabled
-                          const isDisabled = selectedDesign && selectedDesign !== itemGroupData?.design;
+                         const isChecked = !!selectedOrders[itemGroupData?.unique_key];
 
                           return (
                             <tr>
                               <td className="text-center">
-                                <input
-                                  type="checkbox"
-                                  checked={isChecked} // Set the checkbox checked state
-                                  disabled={isDisabled} // Disable if a different design is selected
-                                  onChange={() =>
-                                    handleCheckboxChange(itemGroupData?.unique_key, itemGroupData?.design, isChecked, isDisabled)
-                                  }
-                                />
+                              <input
+          type="checkbox"
+          checked={isChecked}
+          disabled={itemGroupData?.market_design_name_values.some(
+            (marketDesign: any) => !!selectedOrders[marketDesign.soi_name]
+          )} // Disable if any "bunch_length" checkbox is selected
+          onChange={() =>
+            handleCheckboxChange(itemGroupData?.unique_key, itemGroupData?.design, isChecked, 'main')
+          }
+        />
                               </td>
                               <td className="text-center">
                                 {ordersData?.order_date !== ' ' && ordersData?.order_date !== null
@@ -119,29 +119,22 @@ const MeltingLotBunchOrdersTable = ({
                               </td>
                               <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
-                                  console.log('market design', marketDesign,selectedOrders);
                                   const isWtChecked = !!selectedOrders[marketDesign?.soi_name];
-                                  const isDisabled = selectedDesign && selectedDesign !== itemGroupData?.design;
 
                                   return (
                                     <>
                                       <div className="d-flex justify-content-between">
                                         <span className="text-start">
-                                          <input
-                                            type="checkbox"
-                                            checked={isWtChecked || isChecked} // Set the checkbox checked state
-                                            disabled={isDisabled} // Disable if a different design is selected
-                                            onChange={() =>
-                                              handleCheckboxChange(
-                                                marketDesign?.soi_name,
-                                                itemGroupData?.design,
-                                                isWtChecked,
-                                                isDisabled
-                                              )
-                                            }
-                                          />
+                                        <input
+                  type="checkbox"
+                  checked={isWtChecked || isChecked}
+                  disabled={isChecked} // Disable when main checkbox is selected
+                  onChange={() =>
+                    handleCheckboxChange(marketDesign?.soi_name, itemGroupData?.design, isWtChecked, 'bunch')
+                  }
+                />
                                         </span>
-                                        <span className="">{marketDesign?.bunch_length}</span>
+                                        <span>{marketDesign?.bunch_length}</span>
                                       </div>
                                     </>
                                   );

@@ -110,39 +110,45 @@ const useMeltingLotSalesOrder = () => {
     fetchNextProductProcessDepartment();
   };
 
-  const handleCheckboxChange = (unique_key: any, design: string, isChecked: boolean, isDisabled: boolean) => {
-    if (isDisabled) return; // Do nothing if the checkbox is disabled
-
-    setSelectedOrders((prevData) => {
+  const handleCheckboxChange = (
+    unique_key: any,
+    design: string,
+    isChecked: boolean,
+    type: 'main' | 'bunch'
+  ) => {
+    setSelectedOrders((prevData:any) => {
       if (isChecked) {
-        // If the checkbox is already checked and is being unchecked
+        // Checkbox is being unchecked
         const updatedData = { ...prevData };
-        console.log("updateddd",updatedData)
-        delete updatedData[unique_key]; // Remove the unchecked order from the selected orders
-
-        // If all checkboxes are unchecked, reset selectedDesign
+        delete updatedData[unique_key];
+  
+        // Reset selectedDesign if all are unchecked
         if (Object.keys(updatedData).length === 0) {
           setSelectedDesign(null);
         }
-
+  
         return updatedData;
       } else {
-        // If the checkbox is being checked
+        // Checkbox is being checked
         if (selectedDesign && selectedDesign !== design) {
           toast.error('You can only select orders with the same design.');
-          return prevData; // Do not update state if different design
+          return prevData;
         }
-
-        // Set selectedDesign if none is selected
+  
         if (!selectedDesign) {
           setSelectedDesign(design);
         }
-
-        // Add the checked order to the selected orders
-        return { ...prevData, [unique_key]: true };
+  
+        // Ensure alternate checkbox type is disabled
+        if (type === 'main') {
+          return { ...prevData, [unique_key]: true };
+        } else if (type === 'bunch') {
+          return { ...prevData, [unique_key]: true };
+        }
       }
     });
   };
+  
 
   // Function to format date formate
   const formatDate = (dateString: any) => {
@@ -179,6 +185,7 @@ const useMeltingLotSalesOrder = () => {
     }
   };
 
+  console.log('selected orders', selectedOrders);
   const handleSaveSalesOrder = async () => {
     console.log('sales order data', salesOrderData, selectedOrders);
     let transformedDataList: any[] = [];
@@ -238,7 +245,7 @@ const useMeltingLotSalesOrder = () => {
           console.log('soi mamee sele', selectedOrders);
 
           if (selectedOrders[itemGroupData?.unique_key] || selectedOrders[marketDesign?.soi_name]) {
-            console.log('soi mamee', marketDesign.soi_name);
+            
             const newOrder = {
               design: itemGroupData?.design,
               sales_order: order?.sales_order,
@@ -278,71 +285,7 @@ const useMeltingLotSalesOrder = () => {
       pending_sales_orders_data: transformedDataList,
     };
 
-    console.log({updatedSalesOrderData})
-
-    // Now, also include deleted orders for single in the POST request
-    // existingSalesOrderData?.single_orders?.forEach((deletedOrder: any) => {
-    //   deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
-    //     itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
-    //       const deletedOrderData = {
-    //         design: itemGroupData?.design,
-    //         sales_order: deletedOrder?.sales_order,
-    //         order_date: deletedOrder?.order_date,
-    //         delivery_date: deletedOrder?.delivery_date,
-    //         customer: deletedOrder?.customer,
-    //         description: deletedOrder?.description,
-    //         total_order_weight: deletedOrder?.total_order_weight,
-    //         soi_name: marketDesign?.soi_name,
-    //         item: marketDesign?.item,
-    //         market_design_name: marketDesign?.market_design_name,
-    //         product: marketDesign?.product,
-    //         size: marketDesign?.size,
-    //         quantity: marketDesign?.quantity,
-    //         is_bunch: marketDesign?.is_bunch,
-    //         weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
-    //         product_category: marketDesign?.product_category,
-    //         bunch_length: marketDesign?.bunch_length,
-    //         per_inch_weight: marketDesign?.per_inch_weight,
-    //         estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
-    //         order_weight: marketDesign?.order_weight,
-    //       };
-    //       transformedDataList.push(deletedOrderData);
-    //     });
-    //   });
-    // });
-
-    // Now, also include deleted orders for bunch in the POST request
-    // existingSalesOrderData?.bunch_orders?.forEach((deletedOrder: any) => {
-    //   deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
-    //     itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
-    //       const deletedOrderData = {
-    //         design: itemGroupData?.design,
-    //         sales_order: deletedOrder?.sales_order,
-    //         order_date: deletedOrder?.order_date,
-    //         delivery_date: deletedOrder?.delivery_date,
-    //         customer: deletedOrder?.customer,
-    //         description: deletedOrder?.description,
-    //         total_order_weight: deletedOrder?.total_order_weight,
-    //         soi_name: marketDesign?.soi_name,
-    //         item: marketDesign?.item,
-    //         market_design_name: marketDesign?.market_design_name,
-    //         product: marketDesign?.product,
-    //         size: marketDesign?.size,
-    //         quantity: marketDesign?.quantity,
-    //         is_bunch: marketDesign?.is_bunch,
-    //         weight_per_unit_qty: marketDesign?.weight_per_unit_qty,
-    //         product_category: marketDesign?.product_category,
-    //         bunch_length: marketDesign?.bunch_length,
-    //         per_inch_weight: marketDesign?.per_inch_weight,
-    //         estimate_bunch_weight: marketDesign?.estimate_bunch_weight,
-    //         order_weight: marketDesign?.order_weight,
-    //       };
-    //       transformedDataList.push(deletedOrderData);
-    //     });
-    //   });
-    // });
-
-    // Debugging: Check the transformed data list
+    console.log("updatedSalesOrderData",updatedSalesOrderData );
 
     // Make the API call
     try {
@@ -533,18 +476,16 @@ const useMeltingLotSalesOrder = () => {
 
         // Collect all deleted `soi_name` from selected orders
         order.item_group_data
-          .filter((itemGroupData: any) => selectedOrders[itemGroupData?.unique_key]) // Filter selected orders
+          .filter((itemGroupData: any) => selectedOrders[itemGroupData?.unique_key])
           .forEach((itemGroupData: any) => {
             const marketValues = itemGroupData?.market_design_name_values || [];
-            // Collect all `soi_name` values and push to deletedItemsSoiNames
             marketValues.forEach((marketValue: any) => {
               if (marketValue?.soi_name) {
-                deletedItemsSoiNames.push(marketValue?.soi_name); // Push all selected `soi_name`
+                deletedItemsSoiNames.push(marketValue?.soi_name);
               }
             });
           });
 
-        // Return updated orders
         return { ...order, item_group_data: filteredItemGroupData };
       })
       .filter((order: any) => order.item_group_data.length > 0);
@@ -552,24 +493,31 @@ const useMeltingLotSalesOrder = () => {
     // Filter out the orders that are selected for bunch_orders
     const updatedBunchOrders = existingSalesOrderData?.bunch_orders
       .map((order: any) => {
-        const filteredItemGroupData = order.item_group_data.filter(
-          (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
-        );
+        const filteredItemGroupData = order.item_group_data.filter((itemGroupData: any) => {
+          // Check both the `unique_key` and `market_design_name_values`
+          return (
+            !selectedOrders[itemGroupData?.unique_key] &&
+            !itemGroupData?.market_design_name_values.some((marketDesign: any) => selectedOrders[marketDesign?.soi_name])
+          );
+        });
 
         // Collect all deleted `soi_name` from selected bunch orders
         order.item_group_data
-          .filter((itemGroupData: any) => selectedOrders[itemGroupData?.unique_key]) // Filter selected orders
+          .filter(
+            (itemGroupData: any) =>
+              itemGroupData?.market_design_name_values.some(
+                (marketDesign: any) => selectedOrders[itemGroupData?.unique_key] || selectedOrders[marketDesign?.soi_name]
+              )
+          )
           .forEach((itemGroupData: any) => {
             const marketValues = itemGroupData?.market_design_name_values || [];
-            // Collect all `soi_name` values and push to deletedItemsSoiNames
             marketValues.forEach((marketValue: any) => {
               if (marketValue?.soi_name) {
-                deletedItemsSoiNames.push(marketValue?.soi_name); // Push all selected `soi_name`
+                deletedItemsSoiNames.push(marketValue?.soi_name);
               }
             });
           });
 
-        // Return updated orders
         return { ...order, item_group_data: filteredItemGroupData };
       })
       .filter((order: any) => order.item_group_data.length > 0);
@@ -581,30 +529,28 @@ const useMeltingLotSalesOrder = () => {
       bunch_orders: updatedBunchOrders,
     }));
 
+    console.log('delete sales order', deletedItemsSoiNames, meltingPlan);
+
     // If there are items to delete, make the API call
     if (deletedItemsSoiNames.length > 0) {
       try {
-        // Send the DELETE API call to delete the selected sales orders as query params
-        const response = await DELETESalesOrders(deletedItemsSoiNames, meltingPlan, token);
-
-        if (response?.status === 200) {
-          if (response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.') {
-            toast.success(response?.data?.message);
-          } else {
-            toast.error(response?.data?.message);
-            // Optionally reload the page after showing the error toast
-            // setTimeout(() => window.location.reload(), 2000);
-            fetchExistingMeltingPlanOrder(meltingPlan);
-          }
-        }
-
-        // Reset selectedOrders state after deletion
-        setSelectedOrders({});
+        // Send the DELETE API call to delete the selected sales orders
+        // const response = await DELETESalesOrders(deletedItemsSoiNames, meltingPlan, token);
+        // if (response?.status === 200) {
+        //   if (response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.') {
+        //     toast.success(response?.data?.message);
+        //   } else {
+        //     toast.error(response?.data?.message);
+        //     fetchExistingMeltingPlanOrder(meltingPlan);
+        //   }
+        // }
+        // // Reset selectedOrders state after deletion
+        // setSelectedOrders({});
       } catch (error: any) {
         toast.error('Error deleting sales orders:', error);
       }
     } else {
-      toast.error('cannot delete selected sales order');
+      toast.error('Cannot delete selected sales order');
     }
   };
 

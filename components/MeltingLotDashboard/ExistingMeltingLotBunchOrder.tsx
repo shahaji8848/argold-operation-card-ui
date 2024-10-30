@@ -113,18 +113,30 @@ const ExistingMeltingLotBunchOrder = ({
                               </td>
 
                               <td className="text-center">
-                                {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
+                              {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
+                                console.log("selected",!!selectedOrders[marketDesign.soi_name],marketDesign.soi_name)
+                                  const isWtChecked = !!selectedOrders[marketDesign?.soi_name];
+                                  // const isDisabled = selectedDesign && selectedDesign !== itemGroupData?.design;
+
                                   return (
                                     <>
-                                      <div>
-                                        <input
-                                          type="checkbox"
-                                          checked={isChecked} // Set the checkbox checked state
-                                          onChange={() =>
-                                            handleCheckboxChange(itemGroupData?.unique_key, itemGroupData?.design, isChecked, '')
-                                          }
-                                        />
-                                        {marketDesign?.bunch_length}
+                                      <div className="d-flex justify-content-between">
+                                        <span className="text-start">
+                                          <input
+                                            type="checkbox"
+                                            checked={isWtChecked || isChecked} // Set the checkbox checked state
+                                            // disabled={isDisabled} 
+                                            onChange={() =>
+                                              handleCheckboxChange(
+                                                marketDesign?.soi_name,
+                                                itemGroupData?.design,
+                                                isWtChecked,
+                                                ''
+                                              )
+                                            }
+                                          />
+                                        </span>
+                                        <span>{marketDesign?.bunch_length}</span>
                                       </div>
                                     </>
                                   );
