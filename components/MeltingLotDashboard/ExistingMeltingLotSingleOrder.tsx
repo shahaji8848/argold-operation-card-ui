@@ -56,7 +56,8 @@ const ExistingMeltingLotSingleOrder = ({
                       <>
                         {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
                           // Check if the current marketDesign item is checked
-                          const isChecked = !!selectedOrders[itemGroupData?.unique_key];
+                          console.log("selectedOrders",selectedOrders)
+                          const isChecked = selectedOrders && !!selectedOrders[itemGroupData?.unique_key];
                           return (
                             <tr>
                               <td className="text-center">
@@ -64,7 +65,7 @@ const ExistingMeltingLotSingleOrder = ({
                                   type="checkbox"
                                   checked={isChecked} // Set the checkbox checked state
                                   onChange={() =>
-                                    handleCheckboxChange(itemGroupData?.unique_key, itemGroupData?.design, isChecked, '')
+                                    handleCheckboxChange(itemGroupData?.unique_key, itemGroupData?.design, isChecked, 'main')
                                   }
                                 />
                               </td>

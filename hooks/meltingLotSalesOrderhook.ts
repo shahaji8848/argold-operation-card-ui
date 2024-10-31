@@ -1,5 +1,4 @@
 'use client';
-
 import DELETESalesOrders from '@/services/api/melting-lot-dashboard-page/delete-sales-order';
 import GETMeltingPlanBasedOnFilters from '@/services/api/melting-lot-dashboard-page/get-data-base-on-filters';
 import GETMeltingPlanOrders from '@/services/api/melting-lot-dashboard-page/get-melting-plan-order';
@@ -110,23 +109,18 @@ const useMeltingLotSalesOrder = () => {
     fetchNextProductProcessDepartment();
   };
 
-  const handleCheckboxChange = (
-    unique_key: any,
-    design: string,
-    isChecked: boolean,
-    type: 'main' | 'bunch'
-  ) => {
-    setSelectedOrders((prevData:any) => {
+  const handleCheckboxChange = (unique_key: any, design: string, isChecked: boolean, type: 'main' | 'bunch') => {
+    setSelectedOrders((prevData: any) => {
       if (isChecked) {
         // Checkbox is being unchecked
         const updatedData = { ...prevData };
         delete updatedData[unique_key];
-  
+
         // Reset selectedDesign if all are unchecked
         if (Object.keys(updatedData).length === 0) {
           setSelectedDesign(null);
         }
-  
+
         return updatedData;
       } else {
         // Checkbox is being checked
@@ -134,11 +128,11 @@ const useMeltingLotSalesOrder = () => {
           toast.error('You can only select orders with the same design.');
           return prevData;
         }
-  
+
         if (!selectedDesign) {
           setSelectedDesign(design);
         }
-  
+
         // Ensure alternate checkbox type is disabled
         if (type === 'main') {
           return { ...prevData, [unique_key]: true };
@@ -148,7 +142,6 @@ const useMeltingLotSalesOrder = () => {
       }
     });
   };
-  
 
   // Function to format date formate
   const formatDate = (dateString: any) => {
@@ -187,7 +180,6 @@ const useMeltingLotSalesOrder = () => {
 
   console.log('selected orders', selectedOrders);
   const handleSaveSalesOrder = async () => {
-    console.log('sales order data', salesOrderData, selectedOrders);
     let transformedDataList: any[] = [];
     // Iterate over the single orders in salesOrderData
 
@@ -245,7 +237,6 @@ const useMeltingLotSalesOrder = () => {
           console.log('soi mamee sele', selectedOrders);
 
           if (selectedOrders[itemGroupData?.unique_key] || selectedOrders[marketDesign?.soi_name]) {
-            
             const newOrder = {
               design: itemGroupData?.design,
               sales_order: order?.sales_order,
@@ -285,30 +276,30 @@ const useMeltingLotSalesOrder = () => {
       pending_sales_orders_data: transformedDataList,
     };
 
-    console.log("updatedSalesOrderData",updatedSalesOrderData );
+    console.log('updatedSalesOrderData', updatedSalesOrderData);
 
     // Make the API call
     try {
-      // setAddOrderBtndisabled(true);
-      // const updatedData = await POSTAddOrders(updatedSalesOrderData, token);
-      // if (updatedData?.status === 200) {
-      //   const isSucess = updatedData?.data?.message?.message;
-      //   if (isSucess) {
-      //     toast.success(updatedData?.data?.message?.message);
-      //     setTimeout(() => {
-      //       window.location.reload();
-      //     }, 2000);
-      //     setTimeout(() => {
-      //       setAddOrderBtndisabled(false);
-      //     }, 3000);
-      //   } else {
-      //     setAddOrderBtndisabled(false);
-      //     toast.error(updatedData?.data?.message);
-      //   }
-      // } else {
-      //   toast.error('Failed to update sales order');
-      //   setAddOrderBtndisabled(false);
-      // }
+      setAddOrderBtndisabled(true);
+      const updatedData = await POSTAddOrders(updatedSalesOrderData, token);
+      if (updatedData?.status === 200) {
+        const isSucess = updatedData?.data?.message?.message;
+        if (isSucess) {
+          toast.success(updatedData?.data?.message?.message);
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+          setTimeout(() => {
+            setAddOrderBtndisabled(false);
+          }, 3000);
+        } else {
+          setAddOrderBtndisabled(false);
+          toast.error(updatedData?.data?.message);
+        }
+      } else {
+        toast.error('Failed to update sales order');
+        setAddOrderBtndisabled(false);
+      }
     } catch (error) {
       toast.error('Failed to update sales order');
     }
@@ -490,33 +481,34 @@ const useMeltingLotSalesOrder = () => {
       })
       .filter((order: any) => order.item_group_data.length > 0);
 
-    // Filter out the orders that are selected for bunch_orders
     const updatedBunchOrders = existingSalesOrderData?.bunch_orders
       .map((order: any) => {
         const filteredItemGroupData = order.item_group_data.filter((itemGroupData: any) => {
-          // Check both the `unique_key` and `market_design_name_values`
+          // Only filter out items that aren't selected
           return (
             !selectedOrders[itemGroupData?.unique_key] &&
             !itemGroupData?.market_design_name_values.some((marketDesign: any) => selectedOrders[marketDesign?.soi_name])
           );
         });
 
-        // Collect all deleted `soi_name` from selected bunch orders
-        order.item_group_data
-          .filter(
-            (itemGroupData: any) =>
-              itemGroupData?.market_design_name_values.some(
-                (marketDesign: any) => selectedOrders[itemGroupData?.unique_key] || selectedOrders[marketDesign?.soi_name]
-              )
-          )
-          .forEach((itemGroupData: any) => {
-            const marketValues = itemGroupData?.market_design_name_values || [];
-            marketValues.forEach((marketValue: any) => {
+        // Collect `soi_name` values based on checkbox selections
+        order.item_group_data.forEach((itemGroupData: any) => {
+          if (selectedOrders[itemGroupData?.unique_key]) {
+            // If the main checkbox is selected, add all soi_name values
+            itemGroupData.market_design_name_values.forEach((marketValue: any) => {
               if (marketValue?.soi_name) {
                 deletedItemsSoiNames.push(marketValue?.soi_name);
               }
             });
-          });
+          } else {
+            // If specific bunch checkboxes are selected, add only those `soi_name` values
+            itemGroupData.market_design_name_values.forEach((marketDesign: any) => {
+              if (selectedOrders[marketDesign?.soi_name]) {
+                deletedItemsSoiNames.push(marketDesign.soi_name);
+              }
+            });
+          }
+        });
 
         return { ...order, item_group_data: filteredItemGroupData };
       })
@@ -529,23 +521,21 @@ const useMeltingLotSalesOrder = () => {
       bunch_orders: updatedBunchOrders,
     }));
 
-    console.log('delete sales order', deletedItemsSoiNames, meltingPlan);
+    // console.log('delete sales order', deletedItemsSoiNames, meltingPlan);
 
-    // If there are items to delete, make the API call
     if (deletedItemsSoiNames.length > 0) {
       try {
-        // Send the DELETE API call to delete the selected sales orders
-        // const response = await DELETESalesOrders(deletedItemsSoiNames, meltingPlan, token);
-        // if (response?.status === 200) {
-        //   if (response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.') {
-        //     toast.success(response?.data?.message);
-        //   } else {
-        //     toast.error(response?.data?.message);
-        //     fetchExistingMeltingPlanOrder(meltingPlan);
-        //   }
-        // }
-        // // Reset selectedOrders state after deletion
-        // setSelectedOrders({});
+        const response = await DELETESalesOrders(deletedItemsSoiNames, meltingPlan, token);
+        if (response?.status === 200) {
+          if (response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.') {
+            toast.success(response?.data?.message);
+          } else {
+            toast.error(response?.data?.message);
+            fetchExistingMeltingPlanOrder(meltingPlan);
+          }
+        }
+        // Reset selectedOrders state after deletion
+        setSelectedOrders({});
       } catch (error: any) {
         toast.error('Error deleting sales orders:', error);
       }

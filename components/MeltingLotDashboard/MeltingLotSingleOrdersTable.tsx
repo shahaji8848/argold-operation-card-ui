@@ -70,7 +70,12 @@ const MeltingLotSingleOrdersTable = ({
                                   checked={isChecked} // Set the checkbox checked state
                                   disabled={isDisabled} // Disable if a different design is selected
                                   onChange={() =>
-                                    handleCheckboxChange(itemGroupData?.unique_key, itemGroupData?.design, isChecked, isDisabled)
+                                    handleCheckboxChange(
+                                      itemGroupData?.unique_key,
+                                      itemGroupData?.design,
+                                      isChecked,
+                                      'main'
+                                    )
                                   }
                                 />
                               </td>
