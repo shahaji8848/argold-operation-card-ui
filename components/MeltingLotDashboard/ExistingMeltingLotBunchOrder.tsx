@@ -120,7 +120,6 @@ const ExistingMeltingLotBunchOrder = ({
 
                               <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
-                                  console.log('selected', !!selectedOrders[marketDesign.soi_name], marketDesign.soi_name);
                                   const isWtChecked = !!selectedOrders[marketDesign?.soi_name];
 
                                   return (

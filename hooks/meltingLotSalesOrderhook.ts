@@ -112,7 +112,6 @@ const useMeltingLotSalesOrder = () => {
   const handleCheckboxChange = (unique_key: any, design: string, isChecked: boolean, type: 'main' | 'bunch') => {
     setSelectedOrders((prevData: any) => {
       if (isChecked) {
-        // Checkbox is being unchecked
         const updatedData = { ...prevData };
         delete updatedData[unique_key];
 
@@ -178,7 +177,6 @@ const useMeltingLotSalesOrder = () => {
     }
   };
 
-  console.log('selected orders', selectedOrders);
   const handleSaveSalesOrder = async () => {
     let transformedDataList: any[] = [];
     // Iterate over the single orders in salesOrderData
@@ -230,12 +228,8 @@ const useMeltingLotSalesOrder = () => {
       order?.item_group_data?.forEach((itemGroupData: any) => {
         // Check if the current item group is selected
 
-        // if (selectedOrders[itemGroupData?.unique_key]) {
         // Iterate over market design name values in the current item group
         itemGroupData?.market_design_name_values?.forEach((marketDesign: any) => {
-          // Create a new order object with the necessary details
-          console.log('soi mamee sele', selectedOrders);
-
           if (selectedOrders[itemGroupData?.unique_key] || selectedOrders[marketDesign?.soi_name]) {
             const newOrder = {
               design: itemGroupData?.design,
@@ -276,8 +270,6 @@ const useMeltingLotSalesOrder = () => {
       pending_sales_orders_data: transformedDataList,
     };
 
-    console.log('updatedSalesOrderData', updatedSalesOrderData);
-
     // Make the API call
     try {
       setAddOrderBtndisabled(true);
@@ -304,156 +296,6 @@ const useMeltingLotSalesOrder = () => {
       toast.error('Failed to update sales order');
     }
   };
-
-  // Handle checkbox change
-  // const handleExistingCheckboxChange = (uniqueKey: any) => {
-  //   setExistingSelectedOrders((prevSelectedOrders: any) => ({
-  //     ...prevSelectedOrders,
-  //     [uniqueKey]: !prevSelectedOrders[uniqueKey], // Toggle the selection
-  //   }));
-  // };
-
-  // const handleDeleteSalesOrder = () => {
-  //   // Filter out the orders that are selected
-  //   const updatedSingleOrders = existingSalesOrderData?.single_orders
-  //     .map((order: any) => {
-  //       const filteredItemGroupData = order.item_group_data.filter(
-  //         (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
-  //       );
-
-  //       // Capture deleted item_group_data to store in state
-  //       const deletedItemGroupData = order.item_group_data.filter(
-  //         (itemGroupData: any) => selectedOrders[itemGroupData?.unique_key]
-  //       );
-
-  //       // Store deleted items in state
-  //       if (deletedItemGroupData.length > 0) {
-  //         setDeletedSingleOrders((prevDeleted) => [...prevDeleted, { ...order, item_group_data: !deletedItemGroupData }]);
-  //       }
-
-  //       return { ...order, item_group_data: filteredItemGroupData };
-  //     })
-  //     .filter((order: any) => order.item_group_data.length > 0);
-
-  //   const updatedBunchOrders = existingSalesOrderData?.bunch_orders
-  //     .map((order: any) => {
-  //       const filteredItemGroupData = order.item_group_data.filter(
-  //         (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
-  //       );
-
-  //       // Capture deleted item_group_data to store in state
-  //       const deletedItemGroupData = order.item_group_data.filter(
-  //         (itemGroupData: any) => selectedOrders[itemGroupData?.unique_key]
-  //       );
-
-  //       // Store deleted items in state
-  //       if (deletedItemGroupData.length > 0) {
-  //         setDeletedSingleOrders((prevDeleted) => [...prevDeleted, { ...order, item_group_data: !deletedItemGroupData }]);
-  //       }
-
-  //       return { ...order, item_group_data: filteredItemGroupData };
-  //     })
-  //     .filter((order: any) => order.item_group_data.length > 0);
-
-  //   // Update the existingSalesOrderData state with the filtered data
-  //   setExistingSalesOrderData((prevState: any) => ({
-  //     ...prevState,
-  //     single_orders: updatedSingleOrders,
-  //     bunch_orders: updatedBunchOrders,
-  //   }));
-
-  //   // Reset selectedOrders state after deletion
-  //   setSelectedOrders({});
-  // };
-
-  // const handleDeleteSalesOrder = async () => {
-  //   const deletedItemsSoiNames: string[] = [];
-
-  //   // Filter out the orders that are selected for single_orders
-  //   const updatedSingleOrders = existingSalesOrderData?.single_orders
-  //     .map((order: any) => {
-  //       const filteredItemGroupData = order.item_group_data.filter(
-  //         (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
-  //       );
-
-  //       // Capture deleted item_group_data based on unique_key
-  //       const deletedItemGroupData = order.item_group_data.filter((itemGroupData: any) => {
-  //         const marketValues = itemGroupData?.market_design_name_values || [];
-  //         return selectedOrders[itemGroupData?.unique_key]; // Ensure we are matching with unique_key
-  //       });
-
-  //       // Collect the deleted items' soi_name for the API call
-  //       deletedItemGroupData.forEach((itemGroupData: any) => {
-  //         const marketValues = itemGroupData?.market_design_name_values || [];
-  //         if (marketValues[0]?.soi_name) {
-  //           deletedItemsSoiNames.push(marketValues[0].soi_name); // Push soi_name to array
-  //         }
-  //       });
-
-  //       // Return updated orders
-  //       return { ...order, item_group_data: filteredItemGroupData };
-  //     })
-  //     .filter((order: any) => order.item_group_data.length > 0);
-
-  //   // Filter out the orders that are selected for bunch_orders
-  //   const updatedBunchOrders = existingSalesOrderData?.bunch_orders
-  //     .map((order: any) => {
-  //       const filteredItemGroupData = order.item_group_data.filter(
-  //         (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
-  //       );
-
-  //       // Capture deleted item_group_data based on unique_key
-  //       const deletedItemGroupData = order.item_group_data.filter((itemGroupData: any) => {
-  //         const marketValues = itemGroupData?.market_design_name_values || [];
-  //         return selectedOrders[itemGroupData?.unique_key]; // Ensure we are matching with unique_key
-  //       });
-
-  //       // Collect the deleted items' soi_name for the API call
-  //       deletedItemGroupData.forEach((itemGroupData: any) => {
-  //         const marketValues = itemGroupData?.market_design_name_values || [];
-  //         if (marketValues[0]?.soi_name) {
-  //           deletedItemsSoiNames.push(marketValues[0].soi_name); // Push soi_name to array
-  //         }
-  //       });
-
-  //       // Return updated orders
-  //       return { ...order, item_group_data: filteredItemGroupData };
-  //     })
-  //     .filter((order: any) => order.item_group_data.length > 0);
-
-  //   // Update the existingSalesOrderData state with the filtered data
-  //   setExistingSalesOrderData((prevState: any) => ({
-  //     ...prevState,
-  //     single_orders: updatedSingleOrders,
-  //     bunch_orders: updatedBunchOrders,
-  //   }));
-
-  //   // If there are items to delete, make the API call
-  //   if (deletedItemsSoiNames.length > 0) {
-  //     try {
-  //       // Send the DELETE API call to delete the selected sales orders as query params
-  //       const response = await DELETESalesOrders(deletedItemsSoiNames, token);
-
-  //       if (response?.status === 200) {
-  //         if (response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.') {
-  //           toast.success(response?.data?.message);
-  //         } else {
-  //           toast.error(response?.data?.message);
-  //           // setTimeout(() => {
-  //           //   window.location.reload(); // Reload the page after showing the error toast
-  //           // }, 2000); // 2 seconds delay
-  //         }
-  //       }
-
-  //       // Reset selectedOrders state after deletion
-  //       setSelectedOrders({});
-  //     } catch (error: any) {
-  //       toast.error('Error deleting sales orders:', error);
-  //     }
-  //   } else {
-  //     toast.error('No sales order is selected');
-  //   }
-  // };
 
   const handleDeleteSalesOrder = async () => {
     const deletedItemsSoiNames: string[] = [];
@@ -521,7 +363,7 @@ const useMeltingLotSalesOrder = () => {
       bunch_orders: updatedBunchOrders,
     }));
 
-    // console.log('delete sales order', deletedItemsSoiNames, meltingPlan);
+   
 
     if (deletedItemsSoiNames.length > 0) {
       try {

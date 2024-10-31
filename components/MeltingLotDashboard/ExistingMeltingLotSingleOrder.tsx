@@ -7,14 +7,11 @@ const ExistingMeltingLotSingleOrder = ({
   handleCheckboxChange,
   groupOrdersByDesign,
 }: any) => {
-  // Calculate totals for order weight
+  
   const calculateTotals = () => {
     let totalOrderWeight = 0;
     existingSalesOrderData?.single_orders?.forEach((orderData: any) => {
-      // orderData?.total_order_weight?.forEach((values: any) => {
       totalOrderWeight += orderData?.total_order_weight || 0;
-      // });
-      // totalOrderWeight += orderData.total_weight || 0;
     });
     return totalOrderWeight.toFixed(3);
   };
@@ -55,8 +52,6 @@ const ExistingMeltingLotSingleOrder = ({
                     return (
                       <>
                         {ordersData?.item_group_data?.map((itemGroupData: any, idx: any) => {
-                          // Check if the current marketDesign item is checked
-                          console.log("selectedOrders",selectedOrders)
                           const isChecked = selectedOrders && !!selectedOrders[itemGroupData?.unique_key];
                           return (
                             <tr>
