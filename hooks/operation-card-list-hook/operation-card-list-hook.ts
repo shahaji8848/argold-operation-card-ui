@@ -33,10 +33,15 @@ const useOperationCardList = () => {
   });
 
   const [departmentValue, setDepartmentValue] = useState<any>([]);
+  const [processValue, setProcessValue] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProcessDropOpen, setIsProcessDropOpen] = useState(false);
   const [departmentInput, setDepartmentInput] = useState(''); // Input field value
-  const [filteredDepartments, setFilteredDepartments] = useState([]); // Filtered department
+  const [processInput, setProcessInput] = useState(''); // Input field value
+  const [filteredDepartments, setFilteredDepartments] = useState([]); // Filtered department|
+  const [filterProcess, setFilterProcess] = useState([]);
   const dropdownRef = useRef<HTMLDivElement | null>(null); // Create a ref for the dropdown
+  const processRef = useRef<HTMLDivElement | null>(null);
 
   const onDepartmentFocusValue = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -45,6 +50,17 @@ const useOperationCardList = () => {
     );
     setFilteredDepartments(filtered);
     setIsDropdownOpen(true);
+    await handleDepartmentDropdown(inputValue);
+  };
+
+  const onProcessFocusVisible = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    const filtered = processValue.filter(
+      (department: any) => department?.title?.toLowerCase().includes(inputValue.toLowerCase() || [])
+    );
+    setFilterProcess(filtered);
+    setIsProcessDropOpen(true);
+    await handleDepartmentDropdown(inputValue);
   };
 
   const handleDepartmentChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
@@ -76,6 +92,34 @@ const useOperationCardList = () => {
     // URLForFiltersHandler(); // Ensure the URL reflects the new filter state
   };
 
+  const handleProcessChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+    const value = e.target.value;
+    handleInputChange(e, fieldName);
+    setProcessInput(value);
+    if (!value && !filtersData.product) {
+      await handleDepartmentDropdown(filtersData?.product);
+    } else if (!value && filtersData?.product) {
+      await handleDepartmentDropdown(filtersData?.product);
+    } else if (filtersData.product) {
+      await handleDepartmentDropdown(filtersData?.product);
+    } else {
+      await handleDepartmentDropdown(value);
+    }
+    const filtered = processValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
+    setFilterProcess(filtered);
+    setFiltersData((prevFiltersData: any) => ({
+      ...prevFiltersData,
+      [fieldName]: e.target.value,
+    }));
+    setIsProcessDropOpen(true);
+    // Fetch the updated operation card list using the updated filters
+    const updatedUrl = constructUrl({ ...filtersData, [fieldName]: value });
+    await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
+
+    // Update the URL in the browser
+    // URLForFiltersHandler(); // Ensure the URL reflects the new filter state
+  };
+
   // Handle input change for filtering and dropdown options
   const handleOptionClick = async (selectedItem: any) => {
     setFiltersData((prevFiltersData) => ({
@@ -89,6 +133,21 @@ const useOperationCardList = () => {
     // // Update the URL
 
     const updatedUrl = constructUrl({ ...filtersData, operation_department: selectedItem?.title });
+    await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
+  };
+
+  const handleProcessOptionClick = async (selectedItem: any) => {
+    setFiltersData((prevFiltersData) => ({
+      ...prevFiltersData,
+      product_process: selectedItem?.title, // Set the selected department title
+    }));
+    setProcessInput(selectedItem?.title);
+    // Close the dropdown after selection
+    setProcessValue([]); // Optionally clear the dropdown data or manage dropdown state
+    setIsProcessDropOpen(false);
+    // // Update the URL
+
+    const updatedUrl = constructUrl({ ...filtersData, product_process: selectedItem?.title });
     await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
   };
 
@@ -147,6 +206,20 @@ const useOperationCardList = () => {
       URLForFiltersHandler();
     }
   };
+
+  const handleProcessKeyDownEnter = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      // Add the selected department to filtersData before constructing the URL
+      setFiltersData((prevFiltersData: any) => ({
+        ...prevFiltersData,
+        product_process: processInput, // Use the current department input value
+      }));
+
+      URLForFiltersHandler();
+    }
+  };
+
   const handleApplyFilters = () => {
     URLForFiltersHandler();
   };
@@ -197,7 +270,6 @@ const useOperationCardList = () => {
       }
     });
     setDepartmentInput(updatedFiltersData?.operation_department);
-
     // Update the state with the new values
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
@@ -336,6 +408,12 @@ const useOperationCardList = () => {
     filteredDepartments,
     departmentInput,
     dropdownRef,
+    isProcessDropOpen,
+    setIsProcessDropOpen,
+    handleProcessKeyDownEnter,
+    processInput,
+    filterProcess,
+    processValue,
   };
 };
 
