@@ -2,10 +2,6 @@ import { CONSTANTS } from '@/services/config/api-config';
 import axios from 'axios';
 
 const POSTAddOrders = async (data_list: any, token: any) => {
-  //   const params = {
-  //     data_list,
-  //   };
-
   let response: any;
 
   const config = {
@@ -16,7 +12,7 @@ const POSTAddOrders = async (data_list: any, token: any) => {
   };
   await axios
     .put(
-      `${CONSTANTS.API_BASE_URL}/${CONSTANTS.CUSTOM_API_PATH}/custom_app.api.melting_plan_dashboard.add_orders`,
+      `${CONSTANTS.API_BASE_URL}/${CONSTANTS.CUSTOM_API_PATH}/custom_app.api.melting_plan_dashboard.add_pending_sales_orders_in_mp_ml_and_oc`,
       data_list,
       config
     )
