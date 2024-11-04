@@ -77,7 +77,7 @@ const useOperationCardList = () => {
       await handleDepartmentDropdown(value);
     }
     const filtered = departmentValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
-
+    console.log(departmentValue, 'Department value');
     setFilteredDepartments(filtered);
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
@@ -168,12 +168,8 @@ const useOperationCardList = () => {
   };
 
   const handleDepartmentDropdown = async (product: any) => {
-    setProducts(product);
-  };
-
-  const getProductNDepaartment = async () => {
-    const getDepartmentBasedOnProduct = await GETDepartmentFilters(products || '', token);
-    const getProcessBasedOnFilters = await GETProcessFilters(products || '', token);
+    const getDepartmentBasedOnProduct = await GETDepartmentFilters(product || '', token);
+    const getProcessBasedOnFilters = await GETProcessFilters(product || '', token);
     if (getDepartmentBasedOnProduct?.status === 200) {
       setDepartmentValue(getDepartmentBasedOnProduct?.data?.message?.data);
     } else {
@@ -186,12 +182,28 @@ const useOperationCardList = () => {
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      getProductNDepaartment();
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [products]);
+  // const getProductNDepaartment = async () => {
+  //   const getDepartmentBasedOnProduct = await GETDepartmentFilters(products || '', token);
+  //   const getProcessBasedOnFilters = await GETProcessFilters(products || '', token);
+  //   if (getDepartmentBasedOnProduct?.status === 200) {
+  //     console.log(getDepartmentBasedOnProduct?.data?.message?.data, 'gggggggggggggggggg');
+  //     setDepartmentValue(getDepartmentBasedOnProduct?.data?.message?.data);
+  //   } else {
+  //     setDepartmentValue([]);
+  //   }
+  //   if (getProcessBasedOnFilters?.status === 200) {
+  //     setProcessValue(getProcessBasedOnFilters?.data?.message?.data);
+  //   } else {
+  //     setProcessValue([]);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     getProductNDepaartment();
+  //   }, 300);
+  //   return () => clearTimeout(timer);
+  // }, [products]);
 
   const constructUrl = (filtersData: any) => {
     const currentUrl = new URL(window.location.href);
@@ -204,7 +216,6 @@ const useOperationCardList = () => {
   };
 
   const URLForFiltersHandler = () => {
-    console.log(filtersData, 'FFFFFFFFFF');
     const getconstructedUrl: any = constructUrl(filtersData);
     router.push(`${getconstructedUrl}`);
   };
