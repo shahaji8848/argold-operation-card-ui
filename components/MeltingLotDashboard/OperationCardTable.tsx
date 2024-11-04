@@ -154,6 +154,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         )
                       )}
                     <th className="text-center">add order details</th>
+                    <th className="text-center">add sales order</th>
                   </tr>
                 </thead>
                 <tbody className="card-listing-body">
@@ -192,15 +193,19 @@ const OperationCardTable = ({ meltingLotList }: any) => {
 
                     meltingData?.linked_operations.map((operation: any, opIdx: any) => (
                       <tr key={opIdx}>
-                        {Object.keys(operation).map((key, colIndex) => (
-                          <td key={colIndex} className="text-center">
-                            {operation[key] !== null && operation[key] !== undefined && operation[key] !== ''
-                              ? typeof operation[key] === 'number' && key === 'purity'
-                                ? operation[key].toFixed(3)
-                                : operation[key]
-                              : '--'}
-                          </td>
-                        ))}
+                        {Object.keys(operation).map(
+                          (key, colIndex) =>
+                            key !== 'combination_name' &&
+                            key !== 'type' && ( // Add a condition to skip the column
+                              <td key={colIndex} className="text-center">
+                                {operation[key] !== null && operation[key] !== undefined && operation[key] !== ''
+                                  ? typeof operation[key] === 'number' && key === 'purity'
+                                    ? operation[key].toFixed(3)
+                                    : operation[key]
+                                  : '--'}
+                              </td>
+                            )
+                        )}
 
                         <td className="text-center">
                           {operation?.operation_card ? (
@@ -213,14 +218,14 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                                 className="text-white text-center"
                                 target="_blank"
                               >
-                                Edit Operation Card
+                              Edit Operation Card
                               </Link>
                             </button>
                           ) : (
                             '--'
                           )}
                         </td>
-                        {/* <td className="text-center">
+                        <td className="text-center">
                           {operation?.type !== 'OP Data' ? (
                             <button
                               className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
@@ -240,7 +245,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                           ) : (
                             '--'
                           )}
-                        </td> */}
+                        </td>
                       </tr>
                     ))
                   ) : (
@@ -267,5 +272,4 @@ const OperationCardTable = ({ meltingLotList }: any) => {
     </div>
   );
 };
-
 export default OperationCardTable;
