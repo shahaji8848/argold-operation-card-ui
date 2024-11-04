@@ -105,7 +105,7 @@ const OperationCardListingMaster = () => {
 
     // Trigger API call with the updated state
     const updatedURL: any = url.search.split('?').pop();
-    getOperationCardListFromAPI(updatedURL);
+    // getOperationCardListFromAPI(updatedURL);
 
     // URLForFiltersHandler();
   };
@@ -151,9 +151,7 @@ const OperationCardListingMaster = () => {
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
-
-    getOperationCardListFromAPI(searchParamsString);
-
+    // getOperationCardListFromAPI(searchParamsString);
     // URLForFiltersHandler();
   }, [searchParams]);
   return (

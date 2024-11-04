@@ -37,6 +37,7 @@ const OperationCardListingField = ({
     processRef,
     filterProcess,
     isProcessDropOpen,
+    isLoading,
   } = useOperationCardList();
   const focusRef = useRef<any>(null);
   const focuusProcessRef = useRef<any>(null);
@@ -67,7 +68,7 @@ const OperationCardListingField = ({
   }, []);
 
   return (
-    <div className="spacing-mt">
+    <div className="spacing-mt" style={{ paddingBottom: '7rem' }}>
       <div className="row">
         {inputField.map((data: any, index: any) => (
           <div className="col-md-3 mb-2" key={index}>
@@ -92,23 +93,26 @@ const OperationCardListingField = ({
                           placeholder="search department"
                           ref={data?.name === 'search' ? focusRef : null}
                         />
-                        {isDropdownOpen && (
-                          <div className={`${meltingStyle.custom_dropdown_options}`}>
-                            {filteredDepartments?.map((list: any, idx: number) => (
-                              <div
-                                key={idx}
-                                className={`${meltingStyle.custom_dropdown_option} 
+                        {isDropdownOpen &&
+                          (isLoading ? (
+                            'Loading'
+                          ) : (
+                            <div className={`${meltingStyle.custom_dropdown_options}`}>
+                              {filteredDepartments?.map((list: any, idx: number) => (
+                                <div
+                                  key={idx}
+                                  className={`${meltingStyle.custom_dropdown_option} 
                               `}
-                                onClick={() => handleOptionClick(list)} // Handle selection when a dropdown item is clicked
-                              >
-                                {list?.title}
-                              </div>
-                            ))}
-                            {filteredDepartments?.length === 0 && (
-                              <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
-                            )}
-                          </div>
-                        )}
+                                  onClick={() => handleOptionClick(list)} // Handle selection when a dropdown item is clicked
+                                >
+                                  {list?.title}
+                                </div>
+                              ))}
+                              {filteredDepartments?.length === 0 && (
+                                <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
+                              )}
+                            </div>
+                          ))}
                       </div>
                     </div>
                   ) : (
