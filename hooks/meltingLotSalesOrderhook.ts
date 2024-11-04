@@ -180,11 +180,6 @@ const useMeltingLotSalesOrder = () => {
   const handleSaveSalesOrder = async () => {
     let transformedDataList: any[] = [];
 
-    transformedDataList.push({
-      melting_plan: meltingPlan,
-      combination_name: combinationNameValue,
-    });
-
     // Iterate over the single orders in salesOrderData
 
     salesOrderData?.single_orders?.forEach((order: any) => {
@@ -270,6 +265,11 @@ const useMeltingLotSalesOrder = () => {
       });
     });
 
+    let updatedSalesOrderData: any = {
+      melting_plan: meltingPlan,
+      combination_name: combinationNameValue,
+      pending_sales_orders_data: transformedDataList,
+    };
     // Now, also include deleted orders for single in the POST request
     // existingSalesOrderData?.single_orders?.forEach((deletedOrder: any) => {
     //   deletedOrder?.item_group_data?.forEach((itemGroupData: any) => {
@@ -336,7 +336,7 @@ const useMeltingLotSalesOrder = () => {
 
     // Make the API call
     try {
-      const updatedData = await POSTAddOrders(transformedDataList, token);
+      const updatedData = await POSTAddOrders(updatedSalesOrderData, token);
       if (updatedData?.status === 200) {
         const isSucess = updatedData?.data?.message?.message;
         if (isSucess) {
