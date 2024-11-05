@@ -62,8 +62,8 @@ const OperationCardListingTable = ({ data, handleApprove }: any) => {
                     </td>
                     <td>{rowData?.product && rowData?.product !== null ? rowData?.product : '--'}</td>
                     <td>
-                      {rowData?.product_process_department && rowData?.product_process_department !== null
-                        ? rowData?.product_process_department.split('-')[0]
+                      {rowData?.product_process && rowData?.product_process !== null
+                        ? rowData?.product_process.split('-')[0]
                         : '--'}
                     </td>
                     <td>{rowData?.operation_department ? rowData?.operation_department : '--'}</td>
