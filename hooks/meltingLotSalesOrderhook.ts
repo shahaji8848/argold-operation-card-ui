@@ -300,14 +300,14 @@ const useMeltingLotSalesOrder = () => {
   const handleDeleteSalesOrder = async () => {
     const deletedItemsSoiNames: string[] = [];
 
-    // Filter out the orders that are selected for single_orders
+    // Collect soi_names from selected single and bunch orders
     const updatedSingleOrders = existingSalesOrderData?.single_orders
       .map((order: any) => {
         const filteredItemGroupData = order.item_group_data.filter(
           (itemGroupData: any) => !selectedOrders[itemGroupData?.unique_key]
         );
 
-        // Collect all deleted `soi_name` from selected orders
+        // Collect deleted soi_names
         order.item_group_data
           .filter((itemGroupData: any) => selectedOrders[itemGroupData?.unique_key])
           .forEach((itemGroupData: any) => {
@@ -326,24 +326,21 @@ const useMeltingLotSalesOrder = () => {
     const updatedBunchOrders = existingSalesOrderData?.bunch_orders
       .map((order: any) => {
         const filteredItemGroupData = order.item_group_data.filter((itemGroupData: any) => {
-          // Only filter out items that aren't selected
           return (
             !selectedOrders[itemGroupData?.unique_key] &&
             !itemGroupData?.market_design_name_values.some((marketDesign: any) => selectedOrders[marketDesign?.soi_name])
           );
         });
 
-        // Collect `soi_name` values based on checkbox selections
+        // Collect soi_names for bunch orders
         order.item_group_data.forEach((itemGroupData: any) => {
           if (selectedOrders[itemGroupData?.unique_key]) {
-            // If the main checkbox is selected, add all soi_name values
             itemGroupData.market_design_name_values.forEach((marketValue: any) => {
               if (marketValue?.soi_name) {
                 deletedItemsSoiNames.push(marketValue?.soi_name);
               }
             });
           } else {
-            // If specific bunch checkboxes are selected, add only those `soi_name` values
             itemGroupData.market_design_name_values.forEach((marketDesign: any) => {
               if (selectedOrders[marketDesign?.soi_name]) {
                 deletedItemsSoiNames.push(marketDesign.soi_name);
@@ -356,28 +353,19 @@ const useMeltingLotSalesOrder = () => {
       })
       .filter((order: any) => order.item_group_data.length > 0);
 
-    // Update the existingSalesOrderData state with the filtered data
-    setExistingSalesOrderData((prevState: any) => ({
-      ...prevState,
-      single_orders: updatedSingleOrders,
-      bunch_orders: updatedBunchOrders,
-    }));
-
-   
-
     if (deletedItemsSoiNames.length > 0) {
       try {
         const response = await DELETESalesOrders(deletedItemsSoiNames, meltingPlan, token);
         if (response?.status === 200) {
           if (response?.data?.message !== 'Cannot delete the Sales Order as it has already been added to an Operation Card.') {
+            fetchExistingMeltingPlanOrder(meltingPlan);
             toast.success(response?.data?.message);
           } else {
             toast.error(response?.data?.message);
-            fetchExistingMeltingPlanOrder(meltingPlan);
           }
+          // Reset selectedOrders state after deletion
+          setSelectedOrders({});
         }
-        // Reset selectedOrders state after deletion
-        setSelectedOrders({});
       } catch (error: any) {
         toast.error('Error deleting sales orders:', error);
       }
