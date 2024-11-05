@@ -286,8 +286,7 @@ const OperationCardIssueButton = ({
         );
         if (
           fetchValidationForDesign?.status === 200 &&
-          Object.keys(fetchValidationForDesign?.data).length > 0 &&
-          fetchValidationForDesign?.data?.message?.message === 'Please Fill Design in the Melting Plan.'
+          Object.keys(fetchValidationForDesign?.data).length > 0 
         ) {
           setvalidationForDesignErr(fetchValidationForDesign?.data?.message);
           setDisableSubmitBtn(true);
