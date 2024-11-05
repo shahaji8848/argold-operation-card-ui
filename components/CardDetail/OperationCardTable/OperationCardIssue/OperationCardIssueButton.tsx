@@ -272,7 +272,7 @@ const OperationCardIssueButton = ({
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
 
     // await postSaveDesignInOP();
-
+    console.log("submit",mergedObjs,hasEmptyValue)
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
 
