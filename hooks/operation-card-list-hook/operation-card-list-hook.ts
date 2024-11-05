@@ -4,6 +4,7 @@ import GETOperationCardListData from '@/services/api/operation-card-list-page/op
 import GETPremittedUserAPI from '@/services/api/operation-card-list-page/premitted-user-api';
 import { get_access_token, storeToken } from '@/store/slice/login-slice';
 import { FieldTypes } from '@/types/oc-list-input-field-types';
+import { filter } from 'mathjs';
 import { useSearchParams, useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -66,7 +67,7 @@ const useOperationCardList = () => {
 
   const handleDepartmentChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     const value = e.target.value;
-    handleInputChange(e, fieldName);
+    // handleInputChange(e, fieldName);
     setDepartmentInput(value);
     // if (!value && !filtersData.product) {
     //   await handleDepartmentDropdown(filtersData?.product);
@@ -75,14 +76,14 @@ const useOperationCardList = () => {
     // } else if (filtersData.product) {
     //   await handleDepartmentDropdown(filtersData?.product);
     // } else {
-    //   await handleDepartmentDropdown(value);
+    // await handleDepartmentDropdown(value);
     // }
     // const filtered = departmentValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
     // setFilteredDepartments(filtered);
-    setFiltersData((prevFiltersData: any) => ({
-      ...prevFiltersData,
-      [fieldName]: e.target.value,
-    }));
+    // setFiltersData((prevFiltersData: any) => ({
+    //   ...prevFiltersData,
+    //   [fieldName]: e.target.value,
+    // }));
     setIsDropdownOpen(true);
     // Fetch the updated operation card list using the updated filters
     const updatedUrl = constructUrl({ ...filtersData, [fieldName]: value });
@@ -93,7 +94,7 @@ const useOperationCardList = () => {
 
   const handleProcessChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     const value = e.target.value;
-    handleInputChange(e, fieldName);
+    // handleInputChange(e, fieldName);
     setProcessInput(value);
     // if (!value && !filtersData.product) {
     //   await handleDepartmentDropdown(filtersData?.product);
@@ -159,26 +160,31 @@ const useOperationCardList = () => {
       [fieldName]: e.target.value,
     }));
     if (fieldName === 'product' || fieldName === 'product_process') {
-      // handleDepartmentDropdown(e.target.value);
+      handleDepartmentDropdown(e.target.value);
       // handleDepartmentChange(e, 'department');
     }
   };
 
   const handleDepartmentDropdown = async (product: any) => {
-    setLoading(true);
-    const getDepartmentBasedOnProduct = await GETDepartmentFilters(product || '', token);
-    const getProcessBasedOnFilters = await GETProcessFilters(product || '', token);
-    if (getDepartmentBasedOnProduct?.status === 200) {
-      setDepartmentValue(getDepartmentBasedOnProduct?.data?.message?.data);
-    } else {
-      setDepartmentValue([]);
+    try {
+      setLoading(true);
+      const getDepartmentBasedOnProduct = await GETDepartmentFilters(product || '', token);
+      const getProcessBasedOnFilters = await GETProcessFilters(product || '', token);
+      if (getDepartmentBasedOnProduct?.status === 200) {
+        setDepartmentValue(getDepartmentBasedOnProduct?.data?.message?.data);
+      } else {
+        setDepartmentValue([]);
+      }
+      if (getProcessBasedOnFilters?.status === 200) {
+        setProcessValue(getProcessBasedOnFilters?.data?.message?.data);
+      } else {
+        setProcessValue([]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-    if (getProcessBasedOnFilters?.status === 200) {
-      setProcessValue(getProcessBasedOnFilters?.data?.message?.data);
-    } else {
-      setProcessValue([]);
-    }
-    setLoading(false);
   };
 
   // const getProductNDepaartment = async () => {
@@ -227,7 +233,7 @@ const useOperationCardList = () => {
         ...prevFiltersData,
         operation_department: departmentInput, // Use the current department input value
       }));
-      URLForFiltersHandler();
+      // URLForFiltersHandler();
     }
   };
 
@@ -239,8 +245,7 @@ const useOperationCardList = () => {
         ...prevFiltersData,
         product_process: processInput, // Use the current department input value
       }));
-
-      URLForFiltersHandler();
+      // URLForFiltersHandler();
     }
   };
 
@@ -250,14 +255,18 @@ const useOperationCardList = () => {
 
   const handleButtonFilter = (searchValue: any) => {
     handleDepartmentDropdown(searchValue);
-    const currentURLValue = window.location.href;
-    // Construct the new URL
-    const newURL = new URL(currentURLValue);
-    // Handle spaces in searchValue
-    const encodedSearchValue = encodeURIComponent(searchValue);
-    // newURL.searchParams.set('product', encodedSearchValue);
-    const newURLWithParam = `${newURL.pathname}?product=${encodedSearchValue}`;
-    router.push(newURLWithParam);
+    setFiltersData((prevFiltersData: FieldTypes) => ({
+      ...prevFiltersData,
+      product: searchValue,
+    }));
+    // const currentURLValue = window.location.href;
+    // // Construct the new URL
+    // const newURL = new URL(currentURLValue);
+    // // Handle spaces in searchValue
+    // const encodedSearchValue = encodeURIComponent(searchValue);
+    // // newURL.searchParams.set('product', encodedSearchValue);
+    // const newURLWithParam = `${newURL.pathname}?product=${encodedSearchValue}`;
+    // router.push(newURLWithParam);
   };
 
   const handelCheckbox = () => {
@@ -266,13 +275,11 @@ const useOperationCardList = () => {
 
   useEffect(() => {
     const url = new URL(window.location.href);
-
     // Get the search parameters
     const searchParams = url.searchParams;
     // Convert the search parameters to a string
     const searchParamsString = searchParams.toString();
     const keyValuePairs = searchParamsString.split('&');
-
     // Create an object to store the updated state
     const updatedFiltersData: any = {
       search: '',
@@ -300,8 +307,8 @@ const useOperationCardList = () => {
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
-    queueMicrotask(() => getOperationCardListFromAPI(searchParamsString));
-    URLForFiltersHandler();
+    getOperationCardListFromAPI(searchParamsString);
+    // URLForFiltersHandler();
   }, [searchParams]);
 
   const handleClearFilters = () => {
@@ -329,7 +336,6 @@ const useOperationCardList = () => {
     } else {
       setListData([]);
     }
-    setFiltersClear(0);
   };
 
   useEffect(() => {

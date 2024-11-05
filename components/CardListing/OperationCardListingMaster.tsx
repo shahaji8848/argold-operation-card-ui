@@ -14,7 +14,7 @@ const OperationCardListingMaster = () => {
     router.push('/');
   };
   const {
-    // listData,
+    listData,
     filtersData,
     handleInputChange,
     // handleApplyFilters,
@@ -46,17 +46,17 @@ const OperationCardListingMaster = () => {
   const { token, username } = useSelector(get_access_token);
   const [data, setData] = useState(filtersData);
   const [showZeroBalance, setShowZeroBalance] = useState(false);
-  const [listData, setListData] = useState<any>([]);
+  // const [listData, setListData] = useState<any>([]);
   const searchParams = useSearchParams();
-  const getOperationCardListFromAPI = async (url: string) => {
-    const getList: any = await GETOperationCardListData(url, token, username);
-    if (getList?.status === 200 && getList?.data?.message?.length > 0) {
-      setListData([...getList?.data?.message]);
-    } else {
-      setListData([]);
-    }
-    // setFiltersClear(0);
-  };
+  // const getOperationCardListFromAPI = async (url: string) => {
+  //   const getList: any = await GETOperationCardListData(url, token, username);
+  //   if (getList?.status === 200 && getList?.data?.message?.length > 0) {
+  //     setListData([...getList?.data?.message]);
+  //   } else {
+  //     setListData([]);
+  //   }
+  //   setFiltersClear(0);
+  // };
   const handleCheckbox = () => {
     // Toggle the value
     setShowZeroBalance((prevShowZeroBalance) => !prevShowZeroBalance);
@@ -114,46 +114,46 @@ const OperationCardListingMaster = () => {
     router.push(`${CONSTANTS.API_BASE_URL}app`);
   };
 
-  useEffect(() => {
-    const url = new URL(window.location.href);
+  // useEffect(() => {
+  //   const url = new URL(window.location.href);
 
-    // Get the search parameters
-    const searchParams = url.searchParams;
-    // Convert the search parameters to a string
-    const searchParamsString = searchParams.toString();
+  //   // Get the search parameters
+  //   const searchParams = url.searchParams;
+  //   // Convert the search parameters to a string
+  //   const searchParamsString = searchParams.toString();
 
-    const keyValuePairs = searchParamsString.split('&');
+  //   const keyValuePairs = searchParamsString.split('&');
 
-    // Create an object to store the updated state
-    const updatedFiltersData: any = {
-      search: '',
-      name: '',
-      parent_melting_lot: '',
-      melting_lot: '',
-      product_purity: '',
-      product: '',
-      product_process: '',
-      operation_department: '',
-      // product_process_department: '',
-      karigar: '',
-    };
+  //   // Create an object to store the updated state
+  //   const updatedFiltersData: any = {
+  //     search: '',
+  //     name: '',
+  //     parent_melting_lot: '',
+  //     melting_lot: '',
+  //     product_purity: '',
+  //     product: '',
+  //     product_process: '',
+  //     operation_department: '',
+  //     // product_process_department: '',
+  //     karigar: '',
+  //   };
 
-    keyValuePairs.forEach((keyValuePair) => {
-      const [key, value] = keyValuePair.split('=');
-      if (key in updatedFiltersData) {
-        // Replace '+' with space before updating the state
-        updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
-      }
-    });
+  //   keyValuePairs.forEach((keyValuePair) => {
+  //     const [key, value] = keyValuePair.split('=');
+  //     if (key in updatedFiltersData) {
+  //       // Replace '+' with space before updating the state
+  //       updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+  //     }
+  //   });
 
-    // Update the state with the new values
-    setData((prevFiltersData: any) => ({
-      ...prevFiltersData,
-      ...updatedFiltersData,
-    }));
-    // getOperationCardListFromAPI(searchParamsString);
-    // URLForFiltersHandler();
-  }, [searchParams]);
+  //   // Update the state with the new values
+  //   setData((prevFiltersData: any) => ({
+  //     ...prevFiltersData,
+  //     ...updatedFiltersData,
+  //   }));
+  //   // getOperationCardListFromAPI(searchParamsString);
+  //   // URLForFiltersHandler();
+  // }, [searchParams]);
   return (
     <div className="container-fuild">
       {/* <div className="row spacing-pd mt-3">
