@@ -35,6 +35,12 @@ const OperationCardListingMaster = () => {
     filteredDepartments,
     departmentInput,
     dropdownRef,
+    isProcessDropOpen,
+    setIsProcessDropOpen,
+    handleProcessKeyDownEnter,
+    processInput,
+    processValue,
+    filterProcess,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
@@ -186,6 +192,12 @@ const OperationCardListingMaster = () => {
           filteredDepartments={filteredDepartments}
           departmentInput={departmentInput}
           dropdownRef={dropdownRef}
+          isProcessDropOpen={isProcessDropOpen}
+          setIsProcessDropOpen={setIsProcessDropOpen}
+          handleProcessKeyDownEnter={handleProcessKeyDownEnter}
+          processInput={processInput}
+          processValue={processValue}
+          filterProcess={filterProcess}
         />
         <div className="spacing-mt">
           <OperationCardListingTable data={listData} handleApprove={handleApprove} />
