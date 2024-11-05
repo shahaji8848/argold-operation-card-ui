@@ -45,13 +45,13 @@ const useOperationCardList = () => {
   const [isLoading, setLoading] = useState(false);
 
   const onDepartmentFocusValue = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    const filtered = departmentValue.filter(
-      (department: any) => department?.title?.toLowerCase().includes(inputValue.toLowerCase() || [])
-    );
-    setFilteredDepartments(filtered);
+    // const inputValue = e.target.value;
+    // const filtered = departmentValue.filter(
+    //   (department: any) => department?.title?.toLowerCase().includes(inputValue.toLowerCase() || [])
+    // );
+    // setFilteredDepartments(filtered);
     setIsDropdownOpen(true);
-    await handleDepartmentDropdown(filtersData?.product);
+    // await handleDepartmentDropdown(filtersData?.product);
   };
 
   const onProcessFocusVisible = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,24 +61,24 @@ const useOperationCardList = () => {
       (department: any) => department?.title?.toLowerCase().includes(inputValue.toLowerCase() || [])
     );
     setFilterProcess(filtered);
-    await handleDepartmentDropdown(filtersData?.product);
+    // await handleDepartmentDropdown(filtersData?.product);
   };
 
   const handleDepartmentChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     const value = e.target.value;
     handleInputChange(e, fieldName);
     setDepartmentInput(value);
-    if (!value && !filtersData.product) {
-      await handleDepartmentDropdown(filtersData?.product);
-    } else if (!value && filtersData?.product) {
-      await handleDepartmentDropdown(filtersData?.product);
-    } else if (filtersData.product) {
-      await handleDepartmentDropdown(filtersData?.product);
-    } else {
-      await handleDepartmentDropdown(value);
-    }
-    const filtered = departmentValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
-    setFilteredDepartments(filtered);
+    // if (!value && !filtersData.product) {
+    //   await handleDepartmentDropdown(filtersData?.product);
+    // } else if (!value && filtersData?.product) {
+    //   await handleDepartmentDropdown(filtersData?.product);
+    // } else if (filtersData.product) {
+    //   await handleDepartmentDropdown(filtersData?.product);
+    // } else {
+    //   await handleDepartmentDropdown(value);
+    // }
+    // const filtered = departmentValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
+    // setFilteredDepartments(filtered);
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
       [fieldName]: e.target.value,
@@ -95,20 +95,17 @@ const useOperationCardList = () => {
     const value = e.target.value;
     handleInputChange(e, fieldName);
     setProcessInput(value);
-    if (!value && !filtersData.product) {
-      await handleDepartmentDropdown(filtersData?.product);
-    } else if (!value && filtersData?.product) {
-      await handleDepartmentDropdown(filtersData?.product);
-    } else if (filtersData.product) {
-      await handleDepartmentDropdown(filtersData?.product);
-    } else {
-      await handleDepartmentDropdown(value);
-    }
-    setTimeout(() => {
-      // Code to be executed after the delay
-    }, 300);
-    const filtered = processValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
-    setFilterProcess(filtered);
+    // if (!value && !filtersData.product) {
+    //   await handleDepartmentDropdown(filtersData?.product);
+    // } else if (!value && filtersData?.product) {
+    //   await handleDepartmentDropdown(filtersData?.product);
+    // } else if (filtersData.product) {
+    //   await handleDepartmentDropdown(filtersData?.product);
+    // } else {
+    //   await handleDepartmentDropdown(value);
+    // }
+    // const filtered = processValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
+    // setFilterProcess(filtered);
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
       [fieldName]: e.target.value,
@@ -129,13 +126,12 @@ const useOperationCardList = () => {
     }));
     setDepartmentInput(selectedItem?.title);
     // Close the dropdown after selection
-    setDepartmentValue([]); // Optionally clear the dropdown data or manage dropdown state
+    // setDepartmentValue([]); // Optionally clear the dropdown data or manage dropdown state
     setIsDropdownOpen(false);
     // // Update the URL
     const updatedUrl = constructUrl({ ...filtersData, operation_department: selectedItem?.title });
     // await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
   };
-
   const handleProcessOptionClick = async (selectedItem: any) => {
     setFiltersData((prevFiltersData) => ({
       ...prevFiltersData,
@@ -143,7 +139,7 @@ const useOperationCardList = () => {
     }));
     setProcessInput(selectedItem?.title);
     // Close the dropdown after selection
-    setProcessValue([]); // Optionally clear the dropdown data or manage dropdown state
+    // setProcessValue([]); // Optionally clear the dropdown data or manage dropdown state
     setIsProcessDropOpen(false);
     // // Update the URL
 
@@ -232,7 +228,6 @@ const useOperationCardList = () => {
         ...prevFiltersData,
         operation_department: departmentInput, // Use the current department input value
       }));
-
       URLForFiltersHandler();
     }
   };
@@ -292,7 +287,6 @@ const useOperationCardList = () => {
       karigar: '',
       // show_zero_balance: false,
     };
-
     keyValuePairs.forEach((keyValuePair) => {
       const [key, value] = keyValuePair.split('=');
       if (key in updatedFiltersData) {
@@ -307,8 +301,7 @@ const useOperationCardList = () => {
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
-    // getOperationCardListFromAPI(searchParamsString);
-
+    getOperationCardListFromAPI(searchParamsString);
     // URLForFiltersHandler();
   }, [searchParams]);
 
@@ -356,10 +349,6 @@ const useOperationCardList = () => {
       setPremittedProducts([]);
     }
   };
-
-  useEffect(() => {
-    PremittedProductAPI();
-  }, []);
 
   const disabledItems: any = {};
   const handleApprove = async (rowData: any) => {
@@ -411,15 +400,13 @@ const useOperationCardList = () => {
   };
 
   useEffect(() => {
+    const product = searchParams.get('product');
+    handleDepartmentDropdown(product);
+    PremittedProductAPI();
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
-
-  useEffect(() => {
-    const product = searchParams.get('product');
-    handleDepartmentDropdown(product);
   }, []);
 
   return {

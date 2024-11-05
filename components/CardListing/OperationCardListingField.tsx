@@ -66,7 +66,6 @@ const OperationCardListingField = ({
   useEffect(() => {
     focusRef.current.focus();
   }, []);
-
   return (
     <div className="spacing-mt" style={{ paddingBottom: '7rem' }}>
       <div className="row">
@@ -98,17 +97,22 @@ const OperationCardListingField = ({
                             'Loading'
                           ) : (
                             <div className={`${meltingStyle.custom_dropdown_options}`}>
-                              {filteredDepartments?.map((list: any, idx: number) => (
-                                <div
-                                  key={idx}
-                                  className={`${meltingStyle.custom_dropdown_option} 
+                              {departmentValue
+                                .filter(
+                                  (department: any) =>
+                                    department?.title?.toLowerCase().includes(departmentInput.toLowerCase() || [])
+                                )
+                                ?.map((list: any, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    className={`${meltingStyle.custom_dropdown_option} 
                               `}
-                                  onClick={() => handleOptionClick(list)} // Handle selection when a dropdown item is clicked
-                                >
-                                  {list?.title}
-                                </div>
-                              ))}
-                              {filteredDepartments?.length === 0 && (
+                                    onClick={() => handleOptionClick(list)} // Handle selection when a dropdown item is clicked
+                                  >
+                                    {list?.title}
+                                  </div>
+                                ))}
+                              {departmentValue?.length === 0 && (
                                 <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
                               )}
                             </div>
@@ -157,9 +161,9 @@ const OperationCardListingField = ({
                       value={filtersData[data?.name]}
                       onChange={(e) => {
                         handleInputChange(e, data.name);
-                        if (data.name === 'product') {
-                          handleDepartmentDropdown(e.target.value); // Call handleProductChange when product input changes
-                        }
+                        // if (data.name === 'product') {
+                        //   handleDepartmentDropdown(e.target.value); // Call handleProductChange when product input changes
+                        // }
                       }}
                       onKeyDown={handleKeyDownEnter}
                       ref={data?.name === 'search' ? focusRef : null}
