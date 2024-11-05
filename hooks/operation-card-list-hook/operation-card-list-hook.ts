@@ -56,11 +56,11 @@ const useOperationCardList = () => {
 
   const onProcessFocusVisible = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsProcessDropOpen(true);
-    const inputValue = e.target.value;
-    const filtered = processValue.filter(
-      (department: any) => department?.title?.toLowerCase().includes(inputValue.toLowerCase() || [])
-    );
-    setFilterProcess(filtered);
+    // const inputValue = e.target.value;
+    // const filtered = processValue.filter(
+    //   (department: any) => department?.title?.toLowerCase().includes(inputValue.toLowerCase() || [])
+    // );
+    // setFilterProcess(filtered);
     // await handleDepartmentDropdown(filtersData?.product);
   };
 
@@ -147,7 +147,6 @@ const useOperationCardList = () => {
     // await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
-    //
     // if (fieldName === 'show_zero_balance') {
     //   setFiltersData((prevFiltersData: any) => ({
     //     ...prevFiltersData,
@@ -160,7 +159,7 @@ const useOperationCardList = () => {
       [fieldName]: e.target.value,
     }));
     if (fieldName === 'product' || fieldName === 'product_process') {
-      handleDepartmentDropdown(e.target.value);
+      // handleDepartmentDropdown(e.target.value);
       // handleDepartmentChange(e, 'department');
     }
   };
@@ -264,6 +263,7 @@ const useOperationCardList = () => {
   const handelCheckbox = () => {
     URLForFiltersHandler();
   };
+
   useEffect(() => {
     const url = new URL(window.location.href);
 
@@ -271,7 +271,6 @@ const useOperationCardList = () => {
     const searchParams = url.searchParams;
     // Convert the search parameters to a string
     const searchParamsString = searchParams.toString();
-
     const keyValuePairs = searchParamsString.split('&');
 
     // Create an object to store the updated state
@@ -301,8 +300,8 @@ const useOperationCardList = () => {
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
-    getOperationCardListFromAPI(searchParamsString);
-    // URLForFiltersHandler();
+    queueMicrotask(() => getOperationCardListFromAPI(searchParamsString));
+    URLForFiltersHandler();
   }, [searchParams]);
 
   const handleClearFilters = () => {
@@ -370,7 +369,6 @@ const useOperationCardList = () => {
     }
     try {
       const saveApprove = await POSTApproveAPI(rowData, token);
-
       if (saveApprove.status === 200) {
         window.location.reload();
       } else {
