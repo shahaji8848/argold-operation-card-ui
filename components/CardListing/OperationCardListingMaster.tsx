@@ -46,6 +46,7 @@ const OperationCardListingMaster = () => {
   const { token, username } = useSelector(get_access_token);
   const [data, setData] = useState(filtersData);
   const [showZeroBalance, setShowZeroBalance] = useState(false);
+  const [selectAllCheckbox, setSelectAllCheckbox] = useState<any>(false);
   const [listData, setListData] = useState<any>([]);
   const searchParams = useSearchParams();
   const getOperationCardListFromAPI = async (url: string) => {
@@ -60,6 +61,10 @@ const OperationCardListingMaster = () => {
   const handleCheckbox = () => {
     // Toggle the value
     setShowZeroBalance((prevShowZeroBalance) => !prevShowZeroBalance);
+  };
+  const handleSelectAllCheckbox = () => {
+    // Toggle the value
+    setSelectAllCheckbox((prevSelectAll: any) => !prevSelectAll);
   };
   const handleApplyFilters = () => {
     URLForFiltersHandler();
@@ -179,7 +184,9 @@ const OperationCardListingMaster = () => {
           URLForFiltersHandler={URLForFiltersHandler}
           constructUrl={constructUrl}
           handleCheckbox={handleCheckbox}
+          handleSelectAllCheckbox={handleSelectAllCheckbox}
           showZeroBalance={showZeroBalance}
+          selectAllCheckbox={selectAllCheckbox}
           handleButtonFilter={handleButtonFilter}
           premittedProducts={premittedProducts}
           handleDepartmentDropdown={handleDepartmentDropdown}
@@ -200,7 +207,7 @@ const OperationCardListingMaster = () => {
           filterProcess={filterProcess}
         />
         <div className="spacing-mt">
-          <OperationCardListingTable data={listData} handleApprove={handleApprove} />
+          <OperationCardListingTable data={listData} handleApprove={handleApprove} selectAllCheckbox={selectAllCheckbox} />
         </div>
       </div>
     </div>

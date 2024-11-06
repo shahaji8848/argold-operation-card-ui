@@ -13,6 +13,8 @@ const OperationCardListingField = ({
   URLForFiltersHandler,
   handleKeyDownEnter,
   handleCheckbox,
+  selectAllCheckbox,
+  handleSelectAllCheckbox,
   showZeroBalance,
   handleButtonFilter,
   premittedProducts,
@@ -167,20 +169,17 @@ const OperationCardListingField = ({
           </div>
         ))}
       </div>
-      <div className="filter-wrapper row">
+
+      <div className="filter-wrapper mt-2 row align-items-center">
         <div className="col-12">
-          <button className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2" onClick={handleApplyFilters}>
+          <button className="btn btn-primary text-capitalize filter-btn fs-13 me-2" onClick={handleApplyFilters}>
             Apply filter
           </button>
           {premittedProducts &&
             premittedProducts?.length > 0 &&
             premittedProducts?.map((ele: any, idx: any) => {
               return (
-                <button
-                  className="btn btn-primary text-capitalize filter-btn  fs-13 mt-2 me-2"
-                  onClick={() => handleButtonFilter(ele)}
-                  key={idx}
-                >
+                <button className="btn btn-primary text-capitalize filter-btn fs-13 me-2" onClick={() => handleButtonFilter(ele)}>
                   {ele}
                 </button>
               );
@@ -191,8 +190,13 @@ const OperationCardListingField = ({
           </Link>
 
           <label>
-            <input type="checkbox" checked={showZeroBalance} onChange={handleCheckbox} />
+            <input type="checkbox" checked={showZeroBalance} onChange={handleCheckbox} style={{ cursor: 'pointer' }} />
             <span className="ps-2">Show zero balance record</span>
+          </label>
+
+          <label className="ps-3">
+            <input type="checkbox" checked={selectAllCheckbox} onChange={handleSelectAllCheckbox} style={{ cursor: 'pointer' }} />
+            <span className="ps-2">Select all</span>
           </label>
         </div>
       </div>
