@@ -332,7 +332,8 @@ const useOperationCardList = () => {
       karigar: '',
       // show_zero_balance: false,
     });
-
+    setProcessInput('');
+    setDepartmentInput('');
     setFiltersClear(1);
     handleDepartmentDropdown('');
   };
