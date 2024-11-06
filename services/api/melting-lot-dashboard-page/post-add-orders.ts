@@ -2,10 +2,6 @@ import { CONSTANTS } from '@/services/config/api-config';
 import axios from 'axios';
 
 const POSTAddOrders = async (data_list: any, token: any) => {
-  //   const params = {
-  //     data_list,
-  //   };
-
   let response: any;
 
   const config = {
