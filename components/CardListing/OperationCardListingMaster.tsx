@@ -14,13 +14,12 @@ const OperationCardListingMaster = () => {
     router.push('/');
   };
   const {
-    // listData,
+    listData,
     filtersData,
     handleInputChange,
     // handleApplyFilters,
     handleClearFilters,
     handleKeyDownEnter,
-    URLForFiltersHandler,
     constructUrl,
     handleButtonFilter,
     premittedProducts,
@@ -41,32 +40,45 @@ const OperationCardListingMaster = () => {
     processInput,
     processValue,
     filterProcess,
+    handleProcessOptionClick,
+    handleProcessChange,
+    onProcessFocusVisible,
+    isLoading,
+    processRef,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
   const [data, setData] = useState(filtersData);
   const [showZeroBalance, setShowZeroBalance] = useState(false);
   const [selectAllCheckbox, setSelectAllCheckbox] = useState<any>(false);
-  const [listData, setListData] = useState<any>([]);
+
   const searchParams = useSearchParams();
-  const getOperationCardListFromAPI = async (url: string) => {
-    const getList: any = await GETOperationCardListData(url, token, username);
-    if (getList?.status === 200 && getList?.data?.message?.length > 0) {
-      setListData([...getList?.data?.message]);
-    } else {
-      setListData([]);
-    }
-    // setFiltersClear(0);
-  };
+  // const getOperationCardListFromAPI = async (url: string) => {
+  //   const getList: any = await GETOperationCardListData(url, token, username);
+  //   if (getList?.status === 200 && getList?.data?.message?.length > 0) {
+  //     setListData([...getList?.data?.message]);
+  //   } else {
+  //     setListData([]);
+  //   }
+  //   setFiltersClear(0);
+  // };
   const handleCheckbox = () => {
     // Toggle the value
     setShowZeroBalance((prevShowZeroBalance) => !prevShowZeroBalance);
   };
+
   const handleSelectAllCheckbox = () => {
     // Toggle the value
     setSelectAllCheckbox((prevSelectAll: any) => !prevSelectAll);
+  }
+  const URLForFiltersHandler = () => {
+    console.log(filtersData, 'FIlTR DATA');
+    const getconstructedUrl: any = constructUrl(filtersData);
+    router.push(`${getconstructedUrl}`);
+
   };
   const handleApplyFilters = () => {
+    console.log(filtersData, 'FIlTER DATA');
     URLForFiltersHandler();
     const url = new URL(window.location.href);
 
@@ -104,13 +116,12 @@ const OperationCardListingMaster = () => {
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
-
     // Set the value of show_zero_balance in the URL
     searchParams.set('show_zero_balance', showZeroBalance ? '1' : '0');
 
     // Trigger API call with the updated state
     const updatedURL: any = url.search.split('?').pop();
-    getOperationCardListFromAPI(updatedURL);
+    // getOperationCardListFromAPI(updatedURL);
 
     // URLForFiltersHandler();
   };
@@ -119,48 +130,47 @@ const OperationCardListingMaster = () => {
     router.push(`${CONSTANTS.API_BASE_URL}app`);
   };
 
-  useEffect(() => {
-    const url = new URL(window.location.href);
+  // useEffect(() => {
+  //   const url = new URL(window.location.href);
 
-    // Get the search parameters
-    const searchParams = url.searchParams;
-    // Convert the search parameters to a string
-    const searchParamsString = searchParams.toString();
+  //   // Get the search parameters
+  //   const searchParams = url.searchParams;
+  //   // Convert the search parameters to a string
+  //   const searchParamsString = searchParams.toString();
 
-    const keyValuePairs = searchParamsString.split('&');
+  //   const keyValuePairs = searchParamsString.split('&');
 
-    // Create an object to store the updated state
-    const updatedFiltersData: any = {
-      search: '',
-      name: '',
-      parent_melting_lot: '',
-      melting_lot: '',
-      product_purity: '',
-      product: '',
-      product_process: '',
-      operation_department: '',
-      // product_process_department: '',
-      karigar: '',
-    };
+  //   // Create an object to store the updated state
+  //   const updatedFiltersData: any = {
+  //     search: '',
+  //     name: '',
+  //     parent_melting_lot: '',
+  //     melting_lot: '',
+  //     product_purity: '',
+  //     product: '',
+  //     product_process: '',
+  //     operation_department: '',
+  //     // product_process_department: '',
+  //     karigar: '',
+  //   };
 
-    keyValuePairs.forEach((keyValuePair) => {
-      const [key, value] = keyValuePair.split('=');
-      if (key in updatedFiltersData) {
-        // Replace '+' with space before updating the state
-        updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
-      }
-    });
+  //   keyValuePairs.forEach((keyValuePair) => {
+  //     const [key, value] = keyValuePair.split('=');
+  //     if (key in updatedFiltersData) {
+  //       // Replace '+' with space before updating the state
+  //       updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+  //     }
+  //   });
 
-    // Update the state with the new values
-    setData((prevFiltersData: any) => ({
-      ...prevFiltersData,
-      ...updatedFiltersData,
-    }));
+  //   // Update the state with the new values
+  //   setData((prevFiltersData: any) => ({
+  //     ...prevFiltersData,
+  //     ...updatedFiltersData,
+  //   }));
+  //   // getOperationCardListFromAPI(searchParamsString);
+  //   // URLForFiltersHandler();
+  // }, [searchParams]);
 
-    getOperationCardListFromAPI(searchParamsString);
-
-    // URLForFiltersHandler();
-  }, [searchParams]);
   return (
     <div className="container-fuild">
       {/* <div className="row spacing-pd mt-3">
@@ -205,6 +215,11 @@ const OperationCardListingMaster = () => {
           processInput={processInput}
           processValue={processValue}
           filterProcess={filterProcess}
+          handleProcessOptionClick={handleProcessOptionClick}
+          handleProcessChange={handleProcessChange}
+          onProcessFocusVisible={onProcessFocusVisible}
+          processRef={processRef}
+          isLoading={isLoading}
         />
         <div className="spacing-mt">
           <OperationCardListingTable data={listData} handleApprove={handleApprove} selectAllCheckbox={selectAllCheckbox} />
