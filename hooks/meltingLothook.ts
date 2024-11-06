@@ -4,15 +4,21 @@ import GETMeltingLotList from '@/services/api/melting-lot-dashboard-page/melting
 import { get_access_token } from '@/store/slice/login-slice';
 import { useSelector } from 'react-redux';
 import GETProductList from '@/services/api/melting-lot-dashboard-page/get-product-list';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const useMeltingLot = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams:any = useSearchParams();
   const [meltingFiltersList, setMeltingFiltersList] = useState<any>([]);
   const [productList, setProductList] = useState<any>([]);
   const [meltingLotList, setMeltingLotList] = useState<any>([]);
   const { token } = useSelector(get_access_token);
+  
+  const pathname = usePathname();
+
+  // Get the current page from the URL, defaulting to 1
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+
   const initialFilterOptions = {
     product: searchParams.get('product') || '',
     product_category: searchParams.get('product_category') || '',
@@ -74,10 +80,11 @@ const useMeltingLot = () => {
   };
 
   // Table Data
-  const getMeltingLotListFromAPI = async () => {
+  const getMeltingLotListFromAPI = async (limit_start?:any) => {
     const getMeltingLotList = await GETMeltingLotList({
       token,
       filterOptions: filterOptions,
+      limit_start:limit_start
     });
     if (getMeltingLotList?.status === 200) {
       setMeltingLotList(getMeltingLotList?.data?.message?.data);
@@ -86,17 +93,38 @@ const useMeltingLot = () => {
     }
   };
 
+  
   useEffect(() => {
     getProductListFromAPI();
-    // getMeltingFiltersFromAPI();
-    // getMeltingLotListFromAPI();
   }, []);
 
+  const handlePageChange = (selectedItem: any) => {
+    const selectedPage = selectedItem.selected + 1; // React Paginate is zero-based
+    const params = new URLSearchParams(window.location.search);
+    const pathname = window.location.pathname;
+    let dataLimit = 25;
+  
+    params.set('page', selectedPage.toString());
+  
+    // Navigate to the new URL with the updated page query
+    window.history.pushState({}, '', `${pathname}?${params}`);
+    
+    let start = selectedPage !== 1 ? (selectedPage - 1) * dataLimit : 0;
+    setFilterOptions((prevState) => ({
+      ...prevState,
+      page: selectedPage,
+    }));
+    getMeltingLotListFromAPI(start);
+  };
+  
   useEffect(() => {
     updateUrlWithFilters();
     getMeltingFiltersFromAPI();
     getMeltingLotListFromAPI();
   }, [filterOptions]);
+
+  
+
 
   return {
     meltingLotList,
@@ -105,6 +133,7 @@ const useMeltingLot = () => {
     handleFilterChange,
     productList,
     handleProductBtnClicked,
+    handlePageChange
   };
 };
 
