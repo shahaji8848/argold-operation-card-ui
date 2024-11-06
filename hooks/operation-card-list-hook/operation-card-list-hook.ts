@@ -42,7 +42,6 @@ const useOperationCardList = () => {
   const [filterProcess, setFilterProcess] = useState([]);
   const dropdownRef = useRef<HTMLDivElement | null>(null); // Create a ref for the dropdown
   const processRef = useRef<HTMLDivElement | null>(null);
-  const [products, setProducts] = useState<any>('');
   const [isLoading, setLoading] = useState(false);
 
   const onDepartmentFocusValue = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,11 +108,11 @@ const useOperationCardList = () => {
     // setFilterProcess(filtered);
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
-      [fieldName]: e.target.value,
+      product_process: e.target.value,
     }));
     setIsProcessDropOpen(true);
     // Fetch the updated operation card list using the updated filters
-    const updatedUrl = constructUrl({ ...filtersData, [fieldName]: value });
+    // const updatedUrl = constructUrl({ ...filtersData, [fieldName]: value });
     // await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
     // Update the URL in the browser
     // URLForFiltersHandler(); // Ensure the URL reflects the new filter state
@@ -148,6 +147,9 @@ const useOperationCardList = () => {
     // await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+    setDepartmentInput('');
+    setProcessInput('');
+
     // if (fieldName === 'show_zero_balance') {
     //   setFiltersData((prevFiltersData: any) => ({
     //     ...prevFiltersData,
@@ -157,9 +159,11 @@ const useOperationCardList = () => {
     // }
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
+      product_process: '',
+      operation_department: '',
       [fieldName]: e.target.value,
     }));
-    if (fieldName === 'product' || fieldName === 'product_process') {
+    if (fieldName === 'product') {
       handleDepartmentDropdown(e.target.value);
       // handleDepartmentChange(e, 'department');
     }
@@ -254,9 +258,13 @@ const useOperationCardList = () => {
   };
 
   const handleButtonFilter = (searchValue: any) => {
+    setDepartmentInput('');
+    setProcessInput('');
     handleDepartmentDropdown(searchValue);
     setFiltersData((prevFiltersData: FieldTypes) => ({
       ...prevFiltersData,
+      product_process: '',
+      operation_department: '',
       product: searchValue,
     }));
     // const currentURLValue = window.location.href;
@@ -268,7 +276,6 @@ const useOperationCardList = () => {
     // const newURLWithParam = `${newURL.pathname}?product=${encodedSearchValue}`;
     // router.push(newURLWithParam);
   };
-
   const handelCheckbox = () => {
     URLForFiltersHandler();
   };
@@ -300,13 +307,14 @@ const useOperationCardList = () => {
         updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
       }
     });
-    setDepartmentInput(updatedFiltersData?.operation_department);
-    setProcessInput(updatedFiltersData?.operation_department);
+
     // Update the state with the new values
     setFiltersData((prevFiltersData: any) => ({
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
+    setProcessInput(updatedFiltersData?.product_process);
+    setDepartmentInput(updatedFiltersData?.operation_department);
     getOperationCardListFromAPI(searchParamsString);
     // URLForFiltersHandler();
   }, [searchParams]);
@@ -324,8 +332,7 @@ const useOperationCardList = () => {
       karigar: '',
       // show_zero_balance: false,
     });
-    setDepartmentInput('');
-    setProcessInput('');
+
     setFiltersClear(1);
     handleDepartmentDropdown('');
   };

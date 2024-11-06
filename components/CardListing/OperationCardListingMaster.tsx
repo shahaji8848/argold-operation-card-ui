@@ -20,7 +20,6 @@ const OperationCardListingMaster = () => {
     // handleApplyFilters,
     handleClearFilters,
     handleKeyDownEnter,
-    URLForFiltersHandler,
     constructUrl,
     handleButtonFilter,
     premittedProducts,
@@ -41,6 +40,11 @@ const OperationCardListingMaster = () => {
     processInput,
     processValue,
     filterProcess,
+    handleProcessOptionClick,
+    handleProcessChange,
+    onProcessFocusVisible,
+    isLoading,
+    processRef,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
@@ -61,7 +65,13 @@ const OperationCardListingMaster = () => {
     // Toggle the value
     setShowZeroBalance((prevShowZeroBalance) => !prevShowZeroBalance);
   };
+  const URLForFiltersHandler = () => {
+    console.log(filtersData, 'FIlTR DATA');
+    const getconstructedUrl: any = constructUrl(filtersData);
+    router.push(`${getconstructedUrl}`);
+  };
   const handleApplyFilters = () => {
+    console.log(filtersData, 'FIlTER DATA');
     URLForFiltersHandler();
     const url = new URL(window.location.href);
 
@@ -99,7 +109,6 @@ const OperationCardListingMaster = () => {
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
-
     // Set the value of show_zero_balance in the URL
     searchParams.set('show_zero_balance', showZeroBalance ? '1' : '0');
 
@@ -154,6 +163,7 @@ const OperationCardListingMaster = () => {
   //   // getOperationCardListFromAPI(searchParamsString);
   //   // URLForFiltersHandler();
   // }, [searchParams]);
+
   return (
     <div className="container-fuild">
       {/* <div className="row spacing-pd mt-3">
@@ -196,6 +206,11 @@ const OperationCardListingMaster = () => {
           processInput={processInput}
           processValue={processValue}
           filterProcess={filterProcess}
+          handleProcessOptionClick={handleProcessOptionClick}
+          handleProcessChange={handleProcessChange}
+          onProcessFocusVisible={onProcessFocusVisible}
+          processRef={processRef}
+          isLoading={isLoading}
         />
         <div className="spacing-mt">
           <OperationCardListingTable data={listData} handleApprove={handleApprove} />
