@@ -10,9 +10,7 @@ import { CONSTANTS } from '@/services/config/api-config';
 
 const OperationCardListingMaster = () => {
   const router = useRouter();
-  const redirectToHomepage = () => {
-    router.push('/');
-  };
+
   const {
     // listData,
     filtersData,
@@ -41,6 +39,7 @@ const OperationCardListingMaster = () => {
   const [data, setData] = useState(filtersData);
   const [showZeroBalance, setShowZeroBalance] = useState(false);
   const [selectAllCheckbox, setSelectAllCheckbox] = useState<any>(false);
+  const [selectedRows, setSelectedRows] = useState<any>([]);
   const [listData, setListData] = useState<any>([]);
   const searchParams = useSearchParams();
   const getOperationCardListFromAPI = async (url: string) => {
@@ -56,10 +55,38 @@ const OperationCardListingMaster = () => {
     // Toggle the value
     setShowZeroBalance((prevShowZeroBalance) => !prevShowZeroBalance);
   };
-  const handleSelectAllCheckbox = () => {
-    // Toggle the value
-    setSelectAllCheckbox((prevSelectAll: any) => !prevSelectAll);
+  const handleSelectAllCheckbox: any = () => {
+    setSelectAllCheckbox((prevSelectAll: any) => {
+      const newSelectAll = !prevSelectAll;
+      if (newSelectAll) {
+        // Select all rows
+        setSelectedRows(listData?.length > 0 && listData?.map((row: any) => row?.name));
+      } else {
+        // Deselect all rows
+        setSelectedRows([]);
+      }
+      return newSelectAll;
+    });
   };
+
+  const handleCheckboxInput = (rowName: string) => {
+    setSelectedRows((prevSelectedRows: any) => {
+      if (prevSelectedRows?.includes(rowName)) {
+        // If the row is already selected, remove it from the array
+        const updatedRows = prevSelectedRows?.length > 0 && prevSelectedRows.filter((name: any) => name !== rowName);
+        // Deselect "Select All" if any individual checkbox is unchecked
+        setSelectAllCheckbox(updatedRows?.length === listData?.length);
+        return updatedRows;
+      } else {
+        // Otherwise, add the row to the array
+        const updatedRows = [...prevSelectedRows, rowName];
+        // Check "Select All" if all rows are selected
+        setSelectAllCheckbox(updatedRows?.length === listData?.length);
+        return updatedRows;
+      }
+    });
+  };
+
   const handleApplyFilters = () => {
     URLForFiltersHandler();
     const url = new URL(window.location.href);
@@ -145,15 +172,12 @@ const OperationCardListingMaster = () => {
       }
     });
 
-    // Update the state with the new values
     setData((prevFiltersData: any) => ({
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
 
     getOperationCardListFromAPI(searchParamsString);
-
-    // URLForFiltersHandler();
   }, [searchParams]);
   return (
     <div className="container-fuild">
@@ -195,7 +219,12 @@ const OperationCardListingMaster = () => {
           dropdownRef={dropdownRef}
         />
         <div className="spacing-mt">
-          <OperationCardListingTable data={listData} handleApprove={handleApprove} selectAllCheckbox={selectAllCheckbox} />
+          <OperationCardListingTable
+            data={listData}
+            handleApprove={handleApprove}
+            handleCheckboxInput={handleCheckboxInput}
+            selectedRows={selectedRows}
+          />
         </div>
       </div>
     </div>
