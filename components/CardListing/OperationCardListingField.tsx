@@ -122,14 +122,17 @@ const OperationCardListingField = ({
 
       <div className="filter-wrapper mt-2 row align-items-center">
         <div className="col-12">
-          <button className="btn btn-primary text-capitalize filter-btn fs-13 me-2" onClick={handleApplyFilters}>
+          <button className="btn btn-primary text-capitalize filter-btn fs-13 me-2 mb-2" onClick={handleApplyFilters}>
             Apply filter
           </button>
           {premittedProducts &&
             premittedProducts?.length > 0 &&
             premittedProducts?.map((ele: any, idx: any) => {
               return (
-                <button className="btn btn-primary text-capitalize filter-btn fs-13 me-2" onClick={() => handleButtonFilter(ele)}>
+                <button
+                  className="btn btn-primary text-capitalize filter-btn fs-13 me-2 mb-2"
+                  onClick={() => handleButtonFilter(ele)}
+                >
                   {ele}
                 </button>
               );
