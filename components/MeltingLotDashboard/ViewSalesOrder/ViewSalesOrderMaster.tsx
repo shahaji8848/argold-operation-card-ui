@@ -257,10 +257,20 @@ const ViewSalesOrderMaster = () => {
         </div>
         <div>
           {filterOptions?.product && (
-            <>
-              <SingleViewSalesOrder salesOrderData={dataForSalesOrder} formatDate={formatDate} columnList={columnList} />
-              <BunchViewSalesOrder salesOrderData={dataForSalesOrder} formatDate={formatDate} columnList={columnList} />
-            </>
+            <div style={{ width: '100%' }}>
+              <SingleViewSalesOrder
+                salesOrderData={dataForSalesOrder?.single_orders}
+                formatDate={formatDate}
+                columnList={columnList}
+                title={'Single Orders'}
+              />
+              <SingleViewSalesOrder
+                salesOrderData={dataForSalesOrder?.bunch_orders}
+                formatDate={formatDate}
+                columnList={columnList}
+                title={'Bunch Orders'}
+              />
+            </div>
           )}
         </div>
       </div>
