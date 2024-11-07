@@ -1,41 +1,47 @@
-'use client'
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
+import styles from '@/styles/pagination.module.css';
 
+const PaginationComponent = ({ handlePageChange, meltingLotList }: any) => {
+  const searchParams: any = useSearchParams();
+  const pathname = usePathname();
 
-const PaginationComponent = ({ itemsPerPage, handlePageChange }: any) => {
-    const searchParams: any = useSearchParams();
-    const pathname = usePathname();
-  
-    // Get the current page from the URL, defaulting to 1
-    const currentPage = parseInt(searchParams.get('page') || '1', 10);
-  
-    useEffect(() => {
-      // Ensure the page parameter stays in the URL on initial load or when manually updated
-      if (!searchParams.get('page')) {
-        const params = new URLSearchParams(searchParams);
-        params.set('page', '1');
-        window.history.replaceState({}, '', `${pathname}?${params}`);
-      }
-    }, [searchParams, pathname]);
-  
-    return (
-      <>
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+
+  useEffect(() => {
+    if (!searchParams.get('page')) {
+      const params = new URLSearchParams(searchParams);
+      params.set('page', '1');
+      window.history.replaceState({}, '', `${pathname}?${params}`);
+    }
+  }, [searchParams, pathname]);
+
+  return (
+    <>
+      <div className="mt-2">
         <ReactPaginate
           previousLabel={'Previous'}
           nextLabel={'Next'}
           breakLabel={'...'}
-          pageCount={6} // Total number of pages
+          pageCount={200 / 25}
           marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={2}
           onPageChange={handlePageChange}
-          forcePage={currentPage - 1} // Sync the current page with URL
-          containerClassName={'pagination'}
-          activeClassName={'active'}
+          forcePage={currentPage - 1}
+          containerClassName={styles.pagination}
+          pageClassName={styles.paginationItem}
+          pageLinkClassName={styles.paginationLink}
+          activeClassName={styles.active}
+          breakClassName={styles.paginationItem}
+          breakLinkClassName={styles.paginationLink}
+          previousClassName={styles.paginationItem}
+          nextClassName={styles.paginationItem}
+          disabledClassName={styles.disabled}
         />
-      </>
-    );
-  };
-  
-  export default PaginationComponent;
+      </div>
+    </>
+  );
+};
+
+export default PaginationComponent;
