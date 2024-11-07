@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import style from '../../styles/operation-card-list.module.css';
 
-const OperationCardListingTable = ({ data, handleApprove }: any) => {
+const OperationCardListingTable = ({ data, handleApprove, selectAllCheckbox }: any) => {
   const renderData = () => {
     if (data?.length !== 0) {
       return (
@@ -91,7 +91,7 @@ const OperationCardListingTable = ({ data, handleApprove }: any) => {
                         : rowData?.balance_weight.toFixed(3)}
                     </td>
                     <td className="text-center">
-                      <input type="checkbox" style={{ cursor: 'pointer' }} />
+                      <input type="checkbox" checked={selectAllCheckbox} style={{ cursor: 'pointer' }} />
                     </td>
                     <td className="text-end">
                       {rowData?.balance_gross_weight && rowData?.balance_gross_weight !== 0
