@@ -2,8 +2,6 @@ import useMeltingViewHook from '@/hooks/meltingViewHokks';
 import React from 'react';
 import styles from '../../../styles/operation-card-list.module.css';
 const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign, columnList, title }: any) => {
-  console.log(salesOrderData, 'SALES OORDER DAA');
-
   if (salesOrderData?.length === 0) {
     return (
       <div className="d-flex justify-content-center align-items-center">
@@ -76,6 +74,7 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                     const showDesignLine = arrayforColumnNames.find((col) => col.key === 'design line')?.value;
                     const showDesign = arrayforColumnNames.find((col) => col.key === 'design')?.value;
                     const showFactoryDesign = arrayforColumnNames.find((col) => col.key === 'Factory Design Name')?.value;
+
                     return (
                       <tr style={{ fontSize: '12px' }}>
                         {showOrderDate ? (
@@ -250,6 +249,7 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                       </tr>
                     );
                   })}
+                <div className="card">{salesOrderData?.map((ordersData: any, idx: any) => {})}</div>
               </tbody>
             </table>
           </div>
