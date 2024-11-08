@@ -17,10 +17,10 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign, 
     { key: 'description', value: columnList?.description },
     { key: 'product category', value: columnList?.product_category },
     { key: 'machine size', value: columnList?.machine_size },
+    { key: 'design', value: columnList?.design },
     { key: 'Factory Design Name', value: columnList?.factory_design_name },
     { key: 'design line', value: columnList?.design_line },
-    { key: 'design', value: columnList?.design },
-    { key: 'Bunch order weight', value: true },
+    { key: 'Bunch weight', value: true },
     { key: 'size', value: true },
     { key: 'quantity', value: true },
   ];
@@ -58,12 +58,12 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign, 
                     const machineSize = ordersData?.item_group_data
                       ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.machine_size
                       : '--';
-                    const factoryDesign = ordersData?.item_group_data
-                      ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.factory_design_name
-                      : '--';
-                    const designLine = ordersData?.item_group_data
-                      ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.design_line
-                      : '--';
+                    // const factoryDesign = ordersData?.item_group_data
+                    //   ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.factory_design_name
+                    //   : '--';
+                    // const designLine = ordersData?.item_group_data
+                    //   ? ordersData?.item_group_data[0]?.market_design_name_values?.[0]?.design_line
+                    //   : '--';
                     const showOrderDate = arrayforColumnNames.find((col) => col.key === 'order date')?.value;
                     const showDeliveryDate = arrayforColumnNames.find((col) => col.key === 'delivery date')?.value;
                     const showSalesOrder = arrayforColumnNames.find((col) => col.key === 'sales order')?.value;
@@ -123,20 +123,59 @@ const BunchViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign, 
                           <td className="d-none"></td>
                         )}
                         {showMachineSize ? <td className="text-center">{machineSize || '--'}</td> : <td className="d-none"></td>}
-                        {showFactoryDesign ? (
-                          <td className="text-center">{factoryDesign || ''}</td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
-                        {showDesignLine ? <td className="text-center">{designLine || '--'}</td> : <td className="d-none"></td>}
                         {showDesign ? (
-                          <td className="text-center">{ordersData?.design || '--'}</td>
+                          <td>
+                            {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
+                              <div key={index} className="text-center">
+                                <div>{itemGroupData?.design || '--'}</div>
+                                {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
+                                  <div key={i} style={{ opacity: '0' }}>
+                                    --
+                                  </div>
+                                ))}
+                              </div>
+                            ))}
+                          </td>
                         ) : (
                           <td className="d-none"></td>
                         )}
-                        <td className="text-center">
-                          {ordersData?.total_estimate_bunch_weight ? ordersData?.total_estimate_bunch_weight?.toFixed(3) : '--'}
+                        {showFactoryDesign ? (
+                          <td>
+                            {ordersData.item_group_data.map((itemGroupData: any) =>
+                              itemGroupData.market_design_name_values.map((e: any) => (
+                                <div className="text-center" key={e.soi_name}>
+                                  {e?.factory_design_name || '--'}
+                                </div>
+                              ))
+                            )}
+                          </td>
+                        ) : (
+                          <td className="d-none"></td>
+                        )}
+                        {showDesignLine ? (
+                          <td>
+                            {ordersData.item_group_data.map((itemGroupData: any) =>
+                              itemGroupData.market_design_name_values.map((e: any) => (
+                                <div className="text-center" key={e.soi_name}>
+                                  {e?.design_line || '--'}
+                                </div>
+                              ))
+                            )}
+                          </td>
+                        ) : (
+                          <td className="d-none"></td>
+                        )}
+
+                        <td>
+                          {ordersData.item_group_data.map((itemGroupData: any) =>
+                            itemGroupData.market_design_name_values.map((e: any) => (
+                              <div className="text-center" key={e.soi_name}>
+                                {e.estimate_bunch_weight?.toFixed(3) || '--'}
+                              </div>
+                            ))
+                          )}
                         </td>
+
                         <td>
                           {ordersData.item_group_data.map((itemGroupData: any) =>
                             itemGroupData.market_design_name_values.map((e: any) => (

@@ -51,6 +51,7 @@ const useOperationDetailCard = () => {
 
   const [operationCardKarigarQuantitySettings, setOperationCardKarigarQuantitySettings] = useState({});
 
+  
   const [headerSave, setHeaderSave] = useState({
     karigar: '',
     quantity: '',

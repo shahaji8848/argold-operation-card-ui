@@ -25,7 +25,6 @@ const storeAccessTokenSlice = createSlice({
 
 //add data to store
 export const get_access_token = (state: RootState) => state.loginTokenScreen;
-
 // Export the actions and reducer
 export const { storeToken, clearToken } = storeAccessTokenSlice.actions; // Add any actions you want to export
 export default storeAccessTokenSlice.reducer;

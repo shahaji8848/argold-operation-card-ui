@@ -10,6 +10,7 @@ import OperationCardInputField from '../CardDetail/OperationCardHeader/Operation
 import useOperationCardList from '@/hooks/operation-card-list-hook/operation-card-list-hook';
 import ExcelJS, { Alignment } from 'exceljs';
 import { BorderStyle } from 'exceljs';
+import { Dropdown } from 'react-bootstrap';
 
 const CustomNavbar = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -20,6 +21,7 @@ const CustomNavbar = () => {
   const pathName = usePathname();
 
   const token: any = useSelector(get_access_token);
+  console.log(token?.username, 'tOEKN');
 
   const redirectToHome = () => {
     router.push(`${CONSTANTS.API_BASE_URL}app`);
@@ -45,15 +47,15 @@ const CustomNavbar = () => {
       const worksheet = workbook.addWorksheet('operation_card_list');
 
       // Add headers
-      const headers = Object.keys(listData[0]).map(header => header.replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase()));
-        worksheet.addRow(headers).font = { bold: true };
+      const headers = Object.keys(listData[0]).map((header) => header.replace(/_/g, ' ').replace(/^\w/, (c) => c.toUpperCase()));
+      worksheet.addRow(headers).font = { bold: true };
 
       // Add data rows
       listData.length > 0 &&
         listData !== null &&
         listData?.map((rowData: any) => {
-          const rowValues = Object.values(rowData).map(value => value !== null && value !== '' ? value : '--');
-            worksheet.addRow(rowValues);
+          const rowValues = Object.values(rowData).map((value) => (value !== null && value !== '' ? value : '--'));
+          worksheet.addRow(rowValues);
         });
 
       // Set column widths
@@ -63,7 +65,7 @@ const CustomNavbar = () => {
       const alignment: Partial<Alignment> = {
         vertical: 'middle',
         horizontal: 'center',
-    };
+      };
       // Apply styles to the worksheet (to mimic CSS styles)
       const style = {
         border: {
@@ -75,7 +77,7 @@ const CustomNavbar = () => {
         alignment: alignment,
         font: { bold: false, size: 12 },
       };
-      
+
       // Determine the range of rows
       const rowCount = worksheet.rowCount;
 
@@ -103,6 +105,19 @@ const CustomNavbar = () => {
       document.body.removeChild(link);
     }
   };
+
+  const CustomToggle = React.forwardRef(({ children, onClick }: any, ref: any) => (
+    <i
+      ref={ref}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick(e);
+      }}
+      style={{ display: 'flex', alignItems: 'center' }}
+    >
+      <i className="fa-solid fa-user light-grey" aria-hidden="true" style={{ fontSize: '20px' }}></i> {children}
+    </i>
+  ));
 
   return (
     <>
@@ -150,9 +165,21 @@ const CustomNavbar = () => {
               </button>
             </div>
             <div className="d-flex align-items-center  ps-3 pe-3">
-              <button className="btn-none  pt-1" onClick={handleLogout}>
-                <i className="fa fa-sign-out light-grey" aria-hidden="true" style={{ fontSize: '20px' }}></i>{' '}
-              </button>
+              <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic" as={CustomToggle}>
+                  <div aria-hidden="true"></div>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item>{token?.username}</Dropdown.Item>
+                  <Dropdown.Item>
+                    <div className=" pt-1 w-100 d-flex justify-content-between align-items-center" onClick={handleLogout}>
+                      <span className="me-1">Logout</span>
+                      <i className="fa fa-sign-out light-grey" aria-hidden="true" style={{ fontSize: '14px' }}></i>{' '}
+                    </div>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           </div>
         </div>

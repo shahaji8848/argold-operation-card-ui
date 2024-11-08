@@ -188,7 +188,7 @@ const ViewSalesOrderMaster = () => {
 
   return (
     <div className="container-fluid">
-      <div className="spacing-pd mb-3 mt-3" style={{ minHeight: '99vh' }}>
+      <div className="spacing-pd mb-3 mt-3" style={{minHeight:'99vh'}}>
         <div className="row">
           {arrForMappingFlters.map((item, index) => {
             return (
