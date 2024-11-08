@@ -2,6 +2,8 @@ import useMeltingViewHook from '@/hooks/meltingViewHokks';
 import React from 'react';
 import styles from '../../../styles/operation-card-list.module.css';
 const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign, columnList, title }: any) => {
+  console.log(salesOrderData, 'SALES OORDER DAA');
+
   if (salesOrderData?.length === 0) {
     return (
       <div className="d-flex justify-content-center align-items-center">
@@ -74,7 +76,6 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                     const showDesignLine = arrayforColumnNames.find((col) => col.key === 'design line')?.value;
                     const showDesign = arrayforColumnNames.find((col) => col.key === 'design')?.value;
                     const showFactoryDesign = arrayforColumnNames.find((col) => col.key === 'Factory Design Name')?.value;
-
                     return (
                       <tr style={{ fontSize: '12px' }}>
                         {showOrderDate ? (
@@ -135,7 +136,7 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                           <td>
                             {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
                               <div key={index} className={`text-center ${styles.textFormat}`}>
-                                <div style={{ display: 'ruby-text' }}>{itemGroupData?.factory_design_name || '--'}</div>
+                                <div style={{ display: 'ruby-text' }}>{itemGroupData?.machine_size || '--'}</div>
                                 {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
                                   <div key={i} style={{ opacity: '0' }}>
                                     --
@@ -249,7 +250,6 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                       </tr>
                     );
                   })}
-                <div className="card">{salesOrderData?.map((ordersData: any, idx: any) => {})}</div>
               </tbody>
             </table>
           </div>

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import inputField from '../../DataSet/operationCardListingField';
 import { useRouter } from 'next/navigation';
 import meltingStyle from '../../styles/melting-lot-data.module.css';
+import useOperationCardList from '@/hooks/operation-card-list-hook/operation-card-list-hook';
 
 const OperationCardListingField = ({
   filtersData,
@@ -31,13 +32,13 @@ const OperationCardListingField = ({
   const focusRef = useRef<any>(null);
   const [searchField, setSearchField] = useState<string>('');
   const router = useRouter();
-
+  const { departmentInput: newDepartmentInput } = useOperationCardList();
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       redirectToListPage();
     }
   };
-
+  console.log(departmentInput, newDepartmentInput, 'DEPARTMENT');
   const redirectToListPage = () => {
     if (searchField === '') {
       router.push('');
