@@ -8,11 +8,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 const useMeltingLot = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams: any = useSearchParams();
   const [meltingFiltersList, setMeltingFiltersList] = useState<any>([]);
   const [productList, setProductList] = useState<any>([]);
   const [meltingLotList, setMeltingLotList] = useState<any>([]);
   const { token } = useSelector(get_access_token);
+  let dataLimit = 25;
+
   const initialFilterOptions = {
     product: searchParams.get('product') || '',
     product_category: searchParams.get('product_category') || '',
@@ -22,6 +24,7 @@ const useMeltingLot = () => {
     status: searchParams.get('status') || 'Pending(Process)',
     purity: searchParams.get('purity') || '',
     design: searchParams.get('design') || '',
+    page: searchParams.get('page') || '',
   };
   const [filterOptions, setFilterOptions] = useState(initialFilterOptions);
 
@@ -44,6 +47,7 @@ const useMeltingLot = () => {
     setFilterOptions((prevState) => ({
       ...prevState,
       [name]: value,
+      page: 1, // Reset page to 1 whenever a filter is changed
     }));
   };
 
@@ -74,11 +78,17 @@ const useMeltingLot = () => {
   };
 
   // Table Data
-  const getMeltingLotListFromAPI = async () => {
+  const getMeltingLotListFromAPI = async (page_limit_start?: any) => {
+    // Check if page_limit_start is undefined and calculate based on filterOptions
+    const currentPage = parseInt(filterOptions.page || '1', 10);
+    const calculatedLimitStart = page_limit_start !== undefined ? page_limit_start : (currentPage - 1) * dataLimit;
+
     const getMeltingLotList = await GETMeltingLotList({
       token,
       filterOptions: filterOptions,
+      page_limit_start: calculatedLimitStart,
     });
+
     if (getMeltingLotList?.status === 200) {
       setMeltingLotList(getMeltingLotList?.data?.message?.data);
     } else {
@@ -88,9 +98,27 @@ const useMeltingLot = () => {
 
   useEffect(() => {
     getProductListFromAPI();
-    // getMeltingFiltersFromAPI();
-    // getMeltingLotListFromAPI();
   }, []);
+
+  const handlePageChange = (selectedItem: any) => {
+    const selectedPage = selectedItem.selected + 1;
+    const params = new URLSearchParams(window.location.search);
+
+    const pathname = window.location.pathname;
+
+    params.set('page', selectedPage.toString());
+
+    // Navigate to the new URL with the updated page query
+    window.history.pushState({}, '', `${pathname}?${params}`);
+    console.log('selected', (selectedPage - 1) * dataLimit);
+
+    let start = selectedPage !== 1 ? (selectedPage - 1) * dataLimit : 0;
+    setFilterOptions((prevState) => ({
+      ...prevState,
+      page: selectedPage,
+    }));
+    getMeltingLotListFromAPI(start);
+  };
 
   useEffect(() => {
     updateUrlWithFilters();
@@ -105,6 +133,7 @@ const useMeltingLot = () => {
     handleFilterChange,
     productList,
     handleProductBtnClicked,
+    handlePageChange,
   };
 };
 

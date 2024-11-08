@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import useMeltingLot from '@/hooks/meltingLothook';
 import MeltingLotHeaderButton from './MeltingLotHeaderButton';
@@ -5,10 +6,20 @@ import OperationCardFiltersOption from './OperationCardFIlterOption';
 import OperationCardTable from './OperationCardTable';
 import OperationCardTableDataset from './OperationCardTableDataset';
 import OperationCardFilterOptionSelect from './OperationCardFilterOptionSelect';
+import PaginationComponent from '../pagination';
+
 // import meltingLotList from './get_melting_lot_api_response.json';
 const MeltingLotDashboardMaster = () => {
-  const { meltingLotList, meltingFiltersList, filterOptions, handleFilterChange, productList, handleProductBtnClicked } =
-    useMeltingLot();
+  const {
+    meltingLotList,
+    meltingFiltersList,
+    filterOptions,
+    handleFilterChange,
+    productList,
+    handleProductBtnClicked,
+    handlePageChange,
+  } = useMeltingLot();
+  console.log('meltingLotList', meltingLotList);
   return (
     <div className="container-fluid">
       <div className="spacing-pd mb-3">
@@ -45,7 +56,14 @@ const MeltingLotDashboardMaster = () => {
             />
           );
         })} */}
+        {meltingLotList && meltingLotList?.data?.length > 0 && (
+          <PaginationComponent handlePageChange={handlePageChange} meltingLotList={meltingLotList} />
+        )}
+
         <OperationCardTable meltingLotList={meltingLotList} />
+        {meltingLotList && meltingLotList?.data?.length > 0 && (
+          <PaginationComponent handlePageChange={handlePageChange} meltingLotList={meltingLotList} />
+        )}
       </div>
     </div>
   );
