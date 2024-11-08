@@ -2,6 +2,8 @@ import useMeltingViewHook from '@/hooks/meltingViewHokks';
 import React from 'react';
 import styles from '../../../styles/operation-card-list.module.css';
 const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign, columnList, title }: any) => {
+  console.log(salesOrderData, 'SALES OORDER DAA');
+
   if (salesOrderData?.length === 0) {
     return (
       <div className="d-flex justify-content-center align-items-center">
@@ -25,6 +27,15 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
     { key: 'size', value: true },
     { key: 'quantity', value: true },
   ];
+
+  const calculateTotals = (data: any) => {
+    let totalOrderWeight = 0;
+    data?.forEach((orderData: any) => {
+      totalOrderWeight += Number(orderData?.total_order_weight) || 0;
+    });
+    return totalOrderWeight.toFixed(3);
+  };
+
   return (
     <>
       {salesOrderData?.length > 0 && (
@@ -74,184 +85,193 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
                     const showDesignLine = arrayforColumnNames.find((col) => col.key === 'design line')?.value;
                     const showDesign = arrayforColumnNames.find((col) => col.key === 'design')?.value;
                     const showFactoryDesign = arrayforColumnNames.find((col) => col.key === 'Factory Design Name')?.value;
-
                     return (
-                      <tr style={{ fontSize: '12px' }}>
-                        {showOrderDate ? (
-                          <td className={`text-center`}>
-                            <div>
-                              {ordersData?.order_date !== ' ' && ordersData?.order_date !== null
-                                ? formatDate(ordersData?.order_date)
+                      <>
+                        <tr style={{ fontSize: '12px' }}>
+                          {showOrderDate ? (
+                            <td className={`text-center`}>
+                              <div>
+                                {ordersData?.order_date !== ' ' && ordersData?.order_date !== null
+                                  ? formatDate(ordersData?.order_date)
+                                  : '--'}
+                              </div>
+                            </td>
+                          ) : (
+                            <td className="d-none"></td>
+                          )}
+                          {showDeliveryDate ? (
+                            <td className={`text-center`}>
+                              {ordersData?.delivery_date !== ' ' && ordersData?.delivery_date !== null
+                                ? formatDate(ordersData?.delivery_date)
                                 : '--'}
-                            </div>
-                          </td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
-                        {showDeliveryDate ? (
-                          <td className={`text-center`}>
-                            {ordersData?.delivery_date !== ' ' && ordersData?.delivery_date !== null
-                              ? formatDate(ordersData?.delivery_date)
-                              : '--'}
-                          </td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
-                        {showSalesOrder ? (
-                          <td className={`text-center`}>
-                            {ordersData?.sales_order !== ' ' && ordersData?.sales_order !== null
-                              ? ordersData?.sales_order.split('-').pop()
-                              : '--'}
-                          </td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
-                        {showCustomer ? (
-                          <td className={`text-center`}>
-                            {ordersData?.customer !== '' && ordersData?.customer !== null ? ordersData?.customer : '--'}
-                          </td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
+                            </td>
+                          ) : (
+                            <td className="d-none"></td>
+                          )}
+                          {showSalesOrder ? (
+                            <td className={`text-center`}>
+                              {ordersData?.sales_order !== ' ' && ordersData?.sales_order !== null
+                                ? ordersData?.sales_order.split('-').pop()
+                                : '--'}
+                            </td>
+                          ) : (
+                            <td className="d-none"></td>
+                          )}
+                          {showCustomer ? (
+                            <td className={`text-center`}>
+                              {ordersData?.customer !== '' && ordersData?.customer !== null ? ordersData?.customer : '--'}
+                            </td>
+                          ) : (
+                            <td className="d-none"></td>
+                          )}
 
-                        {showProductCategory ? (
-                          <td>
-                            {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
-                              <div key={index} className={`text-center ${styles.textFormat}`}>
-                                <div style={{ display: 'ruby-text' }}>{itemGroupData?.product_category || '--'}</div>
-                                {/* as i dont want to count first and value */}
-                                {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
-                                  <div key={i} style={{ opacity: '0', borderBottom: '2px solid red' }}>
-                                    --
+                          {showProductCategory ? (
+                            <td>
+                              {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
+                                <div key={index} className={`text-center ${styles.textFormat}`}>
+                                  <div style={{ display: 'ruby-text' }}>{itemGroupData?.product_category || '--'}</div>
+                                  {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
+                                    <div key={i} style={{ opacity: '0' }}>
+                                      --
+                                    </div>
+                                  ))}
+                                </div>
+                              ))}
+                            </td>
+                          ) : (
+                            <td className="d-none"></td>
+                          )}
+                          {showMachineSize ? (
+                            <td>
+                              {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
+                                <div key={index} className={`text-center ${styles.textFormat}`}>
+                                  <div style={{ display: 'ruby-text' }}>{itemGroupData?.machine_size || '--'}</div>
+                                  {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
+                                    <div key={i} style={{ opacity: '0' }}>
+                                      --
+                                    </div>
+                                  ))}
+                                </div>
+                              ))}
+                            </td>
+                          ) : (
+                            <td className="d-none"></td>
+                          )}
+                          {showDesign ? (
+                            <td>
+                              {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
+                                <div key={index} className={`text-center ${styles.textFormat}`}>
+                                  <div style={{ display: 'ruby-text' }}>{itemGroupData?.design || '--'}</div>
+                                  {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
+                                    <div key={i} style={{ opacity: '0' }}>
+                                      --
+                                    </div>
+                                  ))}
+                                </div>
+                              ))}
+                            </td>
+                          ) : (
+                            <td className="d-none"></td>
+                          )}
+                          {showFactoryDesign ? (
+                            <td>
+                              {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
+                                <div key={index} className={`text-center ${styles.textFormat}`}>
+                                  <div style={{ display: 'ruby-text' }}>{itemGroupData?.factory_design_name || '--'}</div>
+                                  {/* as i dont want to count first and value */}
+                                  {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
+                                    <div key={i} style={{ opacity: '0' }}>
+                                      --
+                                    </div>
+                                  ))}
+                                </div>
+                              ))}
+                            </td>
+                          ) : (
+                            <td className="d-none"></td>
+                          )}
+                          {showDesignLine ? (
+                            <td>
+                              {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
+                                <div key={index} className={`text-center ${styles.textFormat}`}>
+                                  <div style={{ display: 'ruby-text' }}>{itemGroupData?.design_line || '--'}</div>
+                                  {/* as i dont want to count first and value */}
+                                  {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
+                                    <div key={i} style={{ opacity: '0' }}>
+                                      --
+                                    </div>
+                                  ))}
+                                </div>
+                              ))}
+                            </td>
+                          ) : (
+                            <td className="d-none"></td>
+                          )}
+                          {showDescription ? (
+                            <td>
+                              {ordersData.item_group_data.map((itemGroupData: any) =>
+                                itemGroupData.market_design_name_values.map((e: any, index: any) => (
+                                  <div className={`text-center ${styles.textFormat}`}>
+                                    <div style={{ display: 'ruby-text' }}>
+                                      {e?.description?.length > 50
+                                        ? `${e?.description?.slice(0, 50)}...`
+                                        : e?.description || '--'}
+                                    </div>
                                   </div>
-                                ))}
-                              </div>
-                            ))}
-                          </td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
-                        {showMachineSize ? (
-                          <td>
-                            {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
-                              <div key={index} className={`text-center ${styles.textFormat}`}>
-                                <div style={{ display: 'ruby-text' }}>{itemGroupData?.factory_design_name || '--'}</div>
-                                {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
-                                  <div key={i} style={{ opacity: '0' }}>
-                                    --
-                                  </div>
-                                ))}
-                              </div>
-                            ))}
-                          </td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
-                        {showDesign ? (
-                          <td>
-                            {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
-                              <div key={index} className={`text-center ${styles.textFormat}`}>
-                                <div style={{ display: 'ruby-text' }}>{itemGroupData?.design || '--'}</div>
-                                {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
-                                  <div key={i} style={{ opacity: '0' }}>
-                                    --
-                                  </div>
-                                ))}
-                              </div>
-                            ))}
-                          </td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
-                        {showFactoryDesign ? (
-                          <td>
-                            {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
-                              <div key={index} className={`text-center ${styles.textFormat}`}>
-                                <div style={{ display: 'ruby-text' }}>{itemGroupData?.factory_design_name || '--'}</div>
-                                {/* as i dont want to count first and value */}
-                                {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
-                                  <div key={i} style={{ opacity: '0' }}>
-                                    --
-                                  </div>
-                                ))}
-                              </div>
-                            ))}
-                          </td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
-                        {showDesignLine ? (
-                          <td>
-                            {ordersData?.item_group_data.map((itemGroupData: any, index: any) => (
-                              <div key={index} className={`text-center ${styles.textFormat}`}>
-                                <div style={{ display: 'ruby-text' }}>{itemGroupData?.design_line || '--'}</div>
-                                {/* as i dont want to count first and value */}
-                                {itemGroupData?.market_design_name_values?.slice(0, -1).map((e: any, i: any) => (
-                                  <div key={i} style={{ opacity: '0' }}>
-                                    --
-                                  </div>
-                                ))}
-                              </div>
-                            ))}
-                          </td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
-                        {showDescription ? (
+                                ))
+                              )}
+                            </td>
+                          ) : (
+                            <td className="d-none"></td>
+                          )}
                           <td>
                             {ordersData.item_group_data.map((itemGroupData: any) =>
-                              itemGroupData.market_design_name_values.map((e: any, index: any) => (
-                                <div className={`text-center ${styles.textFormat}`}>
+                              itemGroupData.market_design_name_values.map((e: any) => (
+                                <div className={`text-center`} key={e.soi_name}>
                                   <div style={{ display: 'ruby-text' }}>
-                                    {e?.description?.length > 50 ? `${e?.description?.slice(0, 50)}...` : e?.description || '--'}
+                                    {title === 'Single Orders'
+                                      ? e.order_weight?.toFixed(3) || '--'
+                                      : e.estimate_bunch_weight?.toFixed(3) || '--'}
                                   </div>
                                 </div>
                               ))
                             )}
                           </td>
-                        ) : (
-                          <td className="d-none"></td>
-                        )}
-                        <td>
-                          {ordersData.item_group_data.map((itemGroupData: any) =>
-                            itemGroupData.market_design_name_values.map((e: any) => (
-                              <div className={`text-center`} key={e.soi_name}>
-                                <div style={{ display: 'ruby-text' }}>
-                                  {title === 'Single Orders'
-                                    ? e.order_weight?.toFixed(3) || '--'
-                                    : e.estimate_bunch_weight?.toFixed(3) || '--'}
+                          <td>
+                            {ordersData.item_group_data.map((itemGroupData: any) =>
+                              itemGroupData.market_design_name_values.map((e: any) => (
+                                <div className={`text-center`} key={e.soi_name}>
+                                  <div style={{ display: 'ruby-text' }}>{e.size?.toFixed(3) || '--'}</div>
                                 </div>
-                              </div>
-                            ))
-                          )}
-                        </td>
-                        <td>
-                          {ordersData.item_group_data.map((itemGroupData: any) =>
-                            itemGroupData.market_design_name_values.map((e: any) => (
-                              <div className={`text-center`} key={e.soi_name}>
-                                <div style={{ display: 'ruby-text' }}>{e.size?.toFixed(3) || '--'}</div>
-                              </div>
-                            ))
-                          )}
-                        </td>
+                              ))
+                            )}
+                          </td>
 
-                        <td>
-                          {ordersData.item_group_data.map((itemGroupData: any) => (
-                            <div className={``}>
-                              {itemGroupData.market_design_name_values.map((e: any) => (
-                                <div className={`text-center `} key={e.soi_name}>
-                                  <div style={{ display: 'ruby-text' }}>{e.quantity?.toFixed(3) || '--'}</div>
-                                </div>
-                              ))}
-                            </div>
-                          ))}
-                        </td>
-                      </tr>
+                          <td>
+                            {ordersData.item_group_data.map((itemGroupData: any) => (
+                              <div className={``}>
+                                {itemGroupData.market_design_name_values.map((e: any) => (
+                                  <div className={`text-center `} key={e.soi_name}>
+                                    <div style={{ display: 'ruby-text' }}>{e.quantity?.toFixed(3) || '--'}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            ))}
+                          </td>
+                        </tr>
+                      </>
                     );
                   })}
-                <div className="card">{salesOrderData?.map((ordersData: any, idx: any) => {})}</div>
+                <tr>
+                  {Array.from({ length: 9 }).map((_, index) => (
+                    <td key={index}></td>
+                  ))}
+                  <td className="text-center">Total</td>
+                  <td className="text-center">{calculateTotals(salesOrderData)}</td>
+                </tr>
               </tbody>
             </table>
+            {/* <div className="card p-2"> Total Weight: {calculateTotals(salesOrderData)}</div> */}
           </div>
         </>
       )}

@@ -7,7 +7,6 @@ const ExistingMeltingLotSingleOrder = ({
   handleCheckboxChange,
   groupOrdersByDesign,
 }: any) => {
-  
   const calculateTotals = () => {
     let totalOrderWeight = 0;
     existingSalesOrderData?.single_orders?.forEach((orderData: any) => {
@@ -33,10 +32,10 @@ const ExistingMeltingLotSingleOrder = ({
                     'order date',
                     'delivery date',
                     'customer',
-                    'description',
                     'sales order number',
                     'order weight',
                     groupOrdersByDesign === 0 ? 'market design name' : 'design',
+                    'description',
                     'size',
                     'qty',
                   ].map((val: any, index: any) => (
@@ -77,11 +76,7 @@ const ExistingMeltingLotSingleOrder = ({
                               <td className="text-center">
                                 {ordersData?.customer !== ' ' && ordersData?.customer !== null ? ordersData?.customer : '--'}
                               </td>
-                              <td className="text-center">
-                                {ordersData?.description !== ' ' && ordersData?.description !== null
-                                  ? ordersData?.description
-                                  : '--'}
-                              </td>
+
                               <td className="text-center">
                                 {ordersData?.sales_order !== ' ' && ordersData?.sales_order !== null
                                   ? ordersData?.sales_order.split('-').pop()
@@ -92,11 +87,22 @@ const ExistingMeltingLotSingleOrder = ({
                                   ? ordersData?.total_order_weight?.toFixed(3)
                                   : '--'}
                               </td>
-
                               <td className="text-center">
                                 {groupOrdersByDesign === 0 ? itemGroupData?.market_design_name : itemGroupData?.design}
                               </td>
-
+                              <td className="text-center">
+                                {itemGroupData?.market_design_name_values?.map((marketDesign: any, index: any) => {
+                                  const descriptionParts = marketDesign?.description?.split('-');
+                                  const firstDescriptionPart = descriptionParts
+                                    ? descriptionParts[0]
+                                    : marketDesign?.description || '--';
+                                  return (
+                                    <div key={index}>
+                                      <div>{firstDescriptionPart}</div>
+                                    </div>
+                                  );
+                                })}
+                              </td>
                               <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
                                   return (
@@ -127,9 +133,9 @@ const ExistingMeltingLotSingleOrder = ({
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td></td>
                   <td className="text-center fw-bold">Total</td>
                   <td className="text-center">{calculateTotals()}</td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>

@@ -35,12 +35,12 @@ const ExistingMeltingLotBunchOrder = ({
                     'order date',
                     'delivery date',
                     'customer',
-                    'description',
                     'sales order number',
                     'order weight',
                     groupOrdersByDesign === 0 ? 'market design name' : 'design',
                     'Bunch Weight',
                     'Bunch Length',
+                    'description',
                     'Per Inch Weight',
                     'Estimate Bunch Weight',
                   ].map((val: any, index: any) => (
@@ -88,11 +88,7 @@ const ExistingMeltingLotBunchOrder = ({
                               <td className="text-center">
                                 {ordersData?.customer !== ' ' && ordersData?.customer !== null ? ordersData?.customer : '--'}
                               </td>
-                              <td className="text-center">
-                                {ordersData?.description !== ' ' && ordersData?.description !== null
-                                  ? ordersData?.description
-                                  : '--'}
-                              </td>
+
                               <td className="text-center">
                                 {ordersData?.sales_order !== ' ' && ordersData?.sales_order !== null
                                   ? ordersData?.sales_order.split('-').pop()
@@ -147,6 +143,19 @@ const ExistingMeltingLotBunchOrder = ({
                                 })}
                               </td>
                               <td className="text-center">
+                                {itemGroupData?.market_design_name_values?.map((marketDesign: any, index: any) => {
+                                  const descriptionParts = marketDesign?.description?.split('-');
+                                  const firstDescriptionPart = descriptionParts
+                                    ? descriptionParts[0]
+                                    : marketDesign?.description || '';
+                                  return (
+                                    <div key={index}>
+                                      <div>{firstDescriptionPart}</div>
+                                    </div>
+                                  );
+                                })}
+                              </td>
+                              <td className="text-center">
                                 {itemGroupData?.market_design_name_values?.map((marketDesign: any) => {
                                   return (
                                     <>
@@ -175,9 +184,9 @@ const ExistingMeltingLotBunchOrder = ({
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td></td>
                   <td className="text-center fw-bold">Total</td>
                   <td className="text-center">{calculateTotals()}</td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
