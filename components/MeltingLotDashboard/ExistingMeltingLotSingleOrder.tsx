@@ -133,9 +133,9 @@ const ExistingMeltingLotSingleOrder = ({
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td></td>
                   <td className="text-center fw-bold">Total</td>
                   <td className="text-center">{calculateTotals()}</td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
