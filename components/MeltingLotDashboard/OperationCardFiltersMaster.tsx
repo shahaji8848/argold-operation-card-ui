@@ -19,6 +19,7 @@ const MeltingLotDashboardMaster = () => {
     handleProductBtnClicked,
     handlePageChange,
   } = useMeltingLot();
+  console.log('meltingLotList', meltingLotList);
   return (
     <div className="container-fluid">
       <div className="spacing-pd mb-3">
@@ -55,12 +56,12 @@ const MeltingLotDashboardMaster = () => {
             />
           );
         })} */}
-        {meltingLotList?.length > 0 && (
+        {meltingLotList && meltingLotList?.data?.length > 0 && (
           <PaginationComponent handlePageChange={handlePageChange} meltingLotList={meltingLotList} />
         )}
 
         <OperationCardTable meltingLotList={meltingLotList} />
-        {meltingLotList?.length > 0 && (
+        {meltingLotList && meltingLotList?.data?.length > 0 && (
           <PaginationComponent handlePageChange={handlePageChange} meltingLotList={meltingLotList} />
         )}
       </div>

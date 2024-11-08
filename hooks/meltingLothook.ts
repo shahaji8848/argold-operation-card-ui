@@ -47,6 +47,7 @@ const useMeltingLot = () => {
     setFilterOptions((prevState) => ({
       ...prevState,
       [name]: value,
+      page: 1, // Reset page to 1 whenever a filter is changed
     }));
   };
 
@@ -77,18 +78,17 @@ const useMeltingLot = () => {
   };
 
   // Table Data
-  const getMeltingLotListFromAPI = async (limit_start?: any) => {
-    const params = new URLSearchParams(window.location.search);
-    const pageFromURL = parseInt(params.get('page') || '1', 10);
-
-    // Calculate limit_start if it's not provided as a parameter
-    const calculatedLimitStart = limit_start !== undefined ? limit_start : pageFromURL * dataLimit;
+  const getMeltingLotListFromAPI = async (page_limit_start?: any) => {
+    // Check if page_limit_start is undefined and calculate based on filterOptions
+    const currentPage = parseInt(filterOptions.page || '1', 10);
+    const calculatedLimitStart = page_limit_start !== undefined ? page_limit_start : (currentPage - 1) * dataLimit;
 
     const getMeltingLotList = await GETMeltingLotList({
       token,
       filterOptions: filterOptions,
-      limit_start: calculatedLimitStart,
+      page_limit_start: calculatedLimitStart,
     });
+
     if (getMeltingLotList?.status === 200) {
       setMeltingLotList(getMeltingLotList?.data?.message?.data);
     } else {
@@ -110,10 +110,9 @@ const useMeltingLot = () => {
 
     // Navigate to the new URL with the updated page query
     window.history.pushState({}, '', `${pathname}?${params}`);
+    console.log('selected', (selectedPage - 1) * dataLimit);
 
-    let start = selectedPage !== 1 ? selectedPage * dataLimit : dataLimit;
-    let end = start - dataLimit + 1;
-    console.log('pagess', end, start);
+    let start = selectedPage !== 1 ? (selectedPage - 1) * dataLimit : 0;
     setFilterOptions((prevState) => ({
       ...prevState,
       page: selectedPage,
