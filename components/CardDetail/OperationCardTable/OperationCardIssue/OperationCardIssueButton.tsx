@@ -51,7 +51,7 @@ const OperationCardIssueButton = ({
   salesOrderList,
   bunchSalesOrderList,
   mpReferenceList,
-  productCategoryAndMachineSizeCombination
+  productCategoryAndMachineSizeCombination,
 }: any) => {
   const { token } = useSelector(get_access_token);
 
@@ -174,10 +174,7 @@ const OperationCardIssueButton = ({
         ...modalDropdownFields,
         machine_size: machineSizeBasedOnDesignValue?.machine_size_name || selectedValue?.name,
       });
-
-
-    }
-    else {
+    } else {
       setModalDropdownFields({
         ...modalDropdownFields,
         [labelValue]: selectedValue?.name,
@@ -190,7 +187,7 @@ const OperationCardIssueButton = ({
 
     if (labelValue === 'category_size_combination' || labelValue === 'next_machine_size') {
       const nextMachineSize = selectedValue?.machine_size;
-      const nextProductCategory = selectedValue.product_category
+      const nextProductCategory = selectedValue.product_category;
 
       // const nextProductCategory = selectedValue?.product_category ? selectedValue?.product_category : selectedValue?.name;
       const combinationIdValue = selectedValue?.category_size_combination_id;
@@ -266,10 +263,10 @@ const OperationCardIssueButton = ({
       ...(selectedSalesOrderData?.length > 0 && { order_detail: updateSalesTableData }),
       ...(modalFieldValuesState.hasOwnProperty('customer') && { customer: selectedCustomer }), // Conditionally include 'customer'
       ...(selectedCustomer && { customer: selectedCustomer }),
-      ...(modalDropdownFields.hasOwnProperty("category_size_combination") && modalDropdownFields.hasOwnProperty('next_product_category') && {
-
-        next_product_category: combinationValueForNextProductCategory,
-      }),
+      ...(modalDropdownFields.hasOwnProperty('category_size_combination') &&
+        modalDropdownFields.hasOwnProperty('next_product_category') && {
+          next_product_category: combinationValueForNextProductCategory,
+        }),
       ...(modalDropdownFields.hasOwnProperty('next_machine_size') && { next_machine_size: combinationValueForNextMachineSize }),
       ...(modalDropdownFields.hasOwnProperty('category_size_combination') && {
         category_size_combination: null,
@@ -884,7 +881,19 @@ const OperationCardIssueButton = ({
           {showMeltingLotSalesOrder !== 0 && (
             <>
               <ModalSalesTable
+                tableHeading={'Single Orders'}
                 salesOrderList={singleOrdersWithItems}
+                selectedSalesOrderData={selectedSalesOrderData}
+                setSelectedSalesOrderData={setSelectedSalesOrderData}
+                selectedCustomer={selectedCustomer}
+                setSelectedCustomer={setSelectedCustomer}
+                operationCardDetailData={operationCardDetailData}
+                showCheckbox={false}
+              />
+
+              <ModalSalesTable
+                tableHeading={'Bunch Orders'}
+                salesOrderList={bunchOrdersWithItems}
                 selectedSalesOrderData={selectedSalesOrderData}
                 setSelectedSalesOrderData={setSelectedSalesOrderData}
                 selectedCustomer={selectedCustomer}
