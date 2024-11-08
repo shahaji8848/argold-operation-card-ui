@@ -1,0 +1,30 @@
+/* PaginationComponent.module.css */
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+}
+
+.paginationItem {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.paginationLink {
+  padding: 0px 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-decoration: none;
+  color: black;
+}
+
+.active .paginationLink {
+  background-color: #4395f3;
+  border: none;
+  color: white;
+}
+
+.hoverEffect:not(.active):hover {
+  background-color: #e2e6ea;
+}

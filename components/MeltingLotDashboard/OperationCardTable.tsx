@@ -11,8 +11,8 @@ const OperationCardTable = ({ meltingLotList }: any) => {
 
   return (
     <div className="card py-2 px-2">
-      {meltingLotList && meltingLotList.length > 0 ? (
-        meltingLotList.map((meltingData: any, idx: any) => (
+      {meltingLotList && meltingLotList?.data?.length > 0 ? (
+        meltingLotList?.data?.map((meltingData: any, idx: any) => (
           <div className="mb-2" key={idx}>
             <div className="d-flex justify-content-between">
               <div>
@@ -218,7 +218,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                                 className="text-white text-center"
                                 target="_blank"
                               >
-                              Edit Operation Card
+                                Edit Operation Card
                               </Link>
                             </button>
                           ) : (
