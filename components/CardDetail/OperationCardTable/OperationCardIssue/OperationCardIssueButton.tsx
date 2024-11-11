@@ -186,16 +186,17 @@ const OperationCardIssueButton = ({
     }
 
     if (labelValue === 'category_size_combination' || labelValue === 'next_machine_size') {
-      const nextMachineSize = selectedValue?.machine_size;
+      const nextMachineSize = selectedValue?.name;
       const nextProductCategory = selectedValue.product_category;
 
       // const nextProductCategory = selectedValue?.product_category ? selectedValue?.product_category : selectedValue?.name;
-      const combinationIdValue = selectedValue?.category_size_combination_id;
+      const combinationIdValue = selectedValue?.category_size_combination_id || '';
       setModalDropdownFields({
         ...modalDropdownFields,
 
-        category_size_combination: selectedValue?.combination,
+        ...(selectedValue?.combination && { category_size_combination: selectedValue.combination }),
       });
+
 
       if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
         setCombinationId(combinationIdValue);
@@ -265,10 +266,10 @@ const OperationCardIssueButton = ({
       ...(selectedCustomer && { customer: selectedCustomer }),
       ...(modalDropdownFields.hasOwnProperty('category_size_combination') &&
         modalDropdownFields.hasOwnProperty('next_product_category') && {
-          next_product_category: combinationValueForNextProductCategory,
-        }),
+        next_product_category: combinationValueForNextProductCategory,
+      }),
       ...(modalDropdownFields.hasOwnProperty('next_machine_size') && { next_machine_size: combinationValueForNextMachineSize }),
-      ...(modalDropdownFields.hasOwnProperty('category_size_combination') && {
+      ...(modalDropdownFields.hasOwnProperty('category_size_combination') && (modalDropdownFields?.category_size_combination) && {
         category_size_combination: null,
         next_category_size_combination_id: combinationId,
       }),
