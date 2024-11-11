@@ -44,13 +44,13 @@ const OperationCardListingField = ({
   const focuusProcessRef = useRef<any>(null);
   const [searchField, setSearchField] = useState<string>('');
   const router = useRouter();
-
+  const { departmentInput: newDepartmentInput } = useOperationCardList();
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       redirectToListPage();
     }
   };
-
+  console.log(departmentInput, newDepartmentInput, 'DEPARTMENT');
   const redirectToListPage = () => {
     if (searchField === '') {
       router.push('');
