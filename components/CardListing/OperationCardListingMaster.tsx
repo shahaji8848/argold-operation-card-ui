@@ -33,6 +33,13 @@ const OperationCardListingMaster = () => {
     filteredDepartments,
     departmentInput,
     dropdownRef,
+    processInput,
+    handleProcessChange,
+    onProcessFocusVisible,
+    handleProcessKeyDownEnter,
+    isProcessDropOpen,
+    handleProcessOptionClick,
+    processValue,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
@@ -217,6 +224,13 @@ const OperationCardListingMaster = () => {
           filteredDepartments={filteredDepartments}
           departmentInput={departmentInput}
           dropdownRef={dropdownRef}
+          processInput={processInput}
+          handleProcessChange={handleProcessChange}
+          onProcessFocusVisible={onProcessFocusVisible}
+          handleProcessKeyDownEnter={handleProcessKeyDownEnter}
+          isProcessDropOpen={isProcessDropOpen}
+          handleProcessOptionClick={handleProcessOptionClick}
+          processValue={processValue}
         />
         <div className="spacing-mt">
           <OperationCardListingTable
