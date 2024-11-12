@@ -197,6 +197,7 @@ const OperationCardIssueButton = ({
         category_size_combination: selectedValue?.combination,
       });
 
+
       if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
         setCombinationId(combinationIdValue);
         setCombinationValueForNextMachineSize(nextMachineSize);
@@ -265,8 +266,8 @@ const OperationCardIssueButton = ({
       ...(selectedCustomer && { customer: selectedCustomer }),
       ...(modalDropdownFields.hasOwnProperty('category_size_combination') &&
         modalDropdownFields.hasOwnProperty('next_product_category') && {
-          next_product_category: combinationValueForNextProductCategory,
-        }),
+        next_product_category: combinationValueForNextProductCategory,
+      }),
       ...(modalDropdownFields.hasOwnProperty('next_machine_size') && { next_machine_size: combinationValueForNextMachineSize }),
       ...(modalDropdownFields.hasOwnProperty('category_size_combination') && {
         category_size_combination: null,
@@ -492,7 +493,14 @@ const OperationCardIssueButton = ({
 
   const [showMeltingLotSalesOrder, setShowMeltingLotSalesOrder] = useState<any>();
 
-  const handleShow = (value: any, add_melting_plan_reference_details: any, view_melting_lot_orders: any) => {
+  const [showCategorySizeCombination, setShowCategorySizeCombination] = useState<any>();
+
+  const handleShow = (
+    value: any,
+    add_melting_plan_reference_details: any,
+    view_melting_lot_orders: any,
+    show_category_size_combination: any
+  ) => {
     setShow(true);
     setItemName(value);
 
@@ -500,6 +508,9 @@ const OperationCardIssueButton = ({
 
     setMeltingPlanReference(add_melting_plan_reference_details);
     setShowMeltingLotSalesOrder(view_melting_lot_orders);
+    // setShowMeltingLotSalesOrder(show_melting_lot_orders);
+    setShowCategorySizeCombination(show_category_size_combination);
+
     // Find a specific item object in operationCardDetailData, with specific logic for "hook"
     const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => {
       // Check if the value is "hook"
@@ -677,7 +688,14 @@ const OperationCardIssueButton = ({
                   <button
                     type="button"
                     className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
-                    onClick={() => handleShow(val.item, val?.add_melting_plan_reference_details, val?.view_melting_lot_orders)}
+                    onClick={() =>
+                      handleShow(
+                        val.item,
+                        val?.add_melting_plan_reference_details,
+                        val?.view_melting_lot_orders,
+                        val?.show_category_size_combination
+                      )
+                    }
                     key={i}
                   >
                     {val?.item}

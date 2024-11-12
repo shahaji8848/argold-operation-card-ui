@@ -39,13 +39,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                             <Tooltip id="info-tooltip">
                               <span className="text-captilize bold">order weight: </span>
                               {meltingData?.info?.order_weight.toFixed(2) || ' -- '}
-                              &nbsp;
-                              <span>
-                                {Number(meltingData?.info?.order_weight) > Number(meltingData?.info?.sum_of_balance_weight)
-                                  ? '>'
-                                  : '<'}
-                              </span>
-                              &nbsp;
+                              &nbsp;<span>&lt;</span>&nbsp;
                               <span className="text-captilize bold">sum of balance weight: </span>
                               {meltingData?.info?.sum_of_balance_weight.toFixed(2) || ' -- '}
                             </Tooltip>
@@ -71,23 +65,23 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                 <p className="text-uppercase text-success bold mt-1 fs-14">{meltingData?.title || '--'}</p>
               </div>
               <div>
+                {/* <button
+                  className="text-end btn btn-blue btn-py me-2 "
+                  onClick={() => handleViewSalesOrderOnProductAndPurity(meltingData?.melting_plan)}
+                >
+                  <Link
+                    href={`view-sales-order?melting_plan=${meltingData?.melting_plan}`}
+                    className="text-white"
+                    target="_blank"
+                  >
+                    View Sales Order
+                  </Link>
+                </button> */}
                 {meltingData?.docstatus === 0 && (
                   <>
                     <button className="text-end btn btn-blue btn-py me-2">
                       <Link href={meltingData?.melting_plan_url} className="text-white" target="_blank">
                         Edit Melting Plan
-                      </Link>
-                    </button>
-                    <button
-                      className="text-end btn btn-blue btn-py me-2 "
-                      onClick={() => handleViewSalesOrderOnProductAndPurity(meltingData?.melting_plan)}
-                    >
-                      <Link
-                        href={`view-sales-order?melting_plan=${meltingData?.melting_plan}`}
-                        className="text-white"
-                        target="_blank"
-                      >
-                        View Sales Order
                       </Link>
                     </button>
                   </>
@@ -120,15 +114,6 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         View Melting Lot
                       </Link>
                     </button>
-                    <button className="text-end btn btn-blue btn-py ">
-                      <Link
-                        href={`add-sales-order?melting_plan=${meltingData?.melting_plan}`}
-                        className="text-white"
-                        target="_blank"
-                      >
-                        Add Sales Order
-                      </Link>
-                    </button>
                   </>
                 )}
               </div>
@@ -142,7 +127,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         {column.replace(/_/g, ' ')}
                       </th>
                     ))} */}
-                    {meltingData?.linked_operations &&
+                  {meltingData?.linked_operations &&
                       meltingData?.linked_operations.length > 0 &&
                       Object.keys(meltingData.linked_operations[0]).map((key, colIndex) =>
                         key === 'type' || key === 'combination_name' ? null : (
@@ -193,7 +178,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
 
                     meltingData?.linked_operations.map((operation: any, opIdx: any) => (
                       <tr key={opIdx}>
-                        {Object.keys(operation).map(
+                       {Object.keys(operation).map(
                           (key, colIndex) =>
                             key !== 'combination_name' &&
                             key !== 'type' && ( // Add a condition to skip the column
