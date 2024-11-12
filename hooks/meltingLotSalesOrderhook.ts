@@ -458,6 +458,7 @@ const useMeltingLotSalesOrder = () => {
     handleGetViewSalesOrders,
     groupOrdersByDesign,
     viewSalesOrderFields,
+    addOrderBtndisabled,
   };
 };
 
