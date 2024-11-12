@@ -98,7 +98,6 @@ const OperationCardListingMaster = () => {
   const handleApplyFilters = () => {
     URLForFiltersHandler();
     const url = new URL(window.location.href);
-
     // Get the search parameters
     const searchParams = url.searchParams;
     // Convert the search parameters to a string
@@ -140,8 +139,7 @@ const OperationCardListingMaster = () => {
 
     // Trigger API call with the updated state
     const updatedURL: any = url.search.split('?').pop();
-    getOperationCardListFromAPI(updatedURL);
-
+    // getOperationCardListFromAPI(updatedURL);
     // URLForFiltersHandler();
   };
 
@@ -149,45 +147,46 @@ const OperationCardListingMaster = () => {
     router.push(`${CONSTANTS.API_BASE_URL}app`);
   };
 
-  // useEffect(() => {
-  //   const url = new URL(window.location.href);
+  useEffect(() => {
+    const url = new URL(window.location.href);
 
-  //   // Get the search parameters
-  //   const searchParams = url.searchParams;
-  //   // Convert the search parameters to a string
-  //   const searchParamsString = searchParams.toString();
+    // Get the search parameters
+    const searchParams = url.searchParams;
+    // Convert the search parameters to a string
+    const searchParamsString = searchParams.toString();
 
-  //   const keyValuePairs = searchParamsString.split('&');
+    const keyValuePairs = searchParamsString.split('&');
 
-  //   // Create an object to store the updated state
-  //   const updatedFiltersData: any = {
-  //     search: '',
-  //     name: '',
-  //     parent_melting_lot: '',
-  //     melting_lot: '',
-  //     product_purity: '',
-  //     product: '',
-  //     product_process: '',
-  //     operation_department: '',
-  //     // product_process_department: '',
-  //     karigar: '',
-  //   };
+    // Create an object to store the updated state
+    const updatedFiltersData: any = {
+      search: '',
+      name: '',
+      parent_melting_lot: '',
+      melting_lot: '',
+      product_purity: '',
+      product: '',
+      product_process: '',
+      operation_department: '',
+      // product_process_department: '',
+      karigar: '',
+    };
 
-  //   keyValuePairs.forEach((keyValuePair) => {
-  //     const [key, value] = keyValuePair.split('=');
-  //     if (key in updatedFiltersData) {
-  //       // Replace '+' with space before updating the state
-  //       updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
-  //     }
-  //   });
+    keyValuePairs.forEach((keyValuePair) => {
+      const [key, value] = keyValuePair.split('=');
+      if (key in updatedFiltersData) {
+        // Replace '+' with space before updating the state
+        updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+      }
+    });
 
-  //   setData((prevFiltersData: any) => ({
-  //     ...prevFiltersData,
-  //     ...updatedFiltersData,
-  //   }));
+    setData((prevFiltersData: any) => ({
+      ...prevFiltersData,
+      ...updatedFiltersData,
+    }));
+    console.log('API SI RUNNING');
+    getOperationCardListFromAPI(searchParamsString);
+  }, [searchParams]);
 
-  //   getOperationCardListFromAPI(searchParamsString);
-  // }, [searchParams]);
   return (
     <div className="container-fuild">
       {/* <div className="row spacing-pd mt-3">
