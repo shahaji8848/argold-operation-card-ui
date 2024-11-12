@@ -28,7 +28,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                 'machine',
                 'laser powder type',
                 'tracking number',
-                'Ord',
+                'ord',
                 'description',
                 'balance',
                 'check',
