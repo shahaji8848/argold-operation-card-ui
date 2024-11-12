@@ -39,7 +39,7 @@ const OperationCardListingField = ({
   isProcessDropOpen,
   isLoading,
 }: any) => {
-  const { } = useOperationCardList();
+
   const focusRef = useRef<any>(null);
   const focuusProcessRef = useRef<any>(null);
   const [searchField, setSearchField] = useState<string>('');
@@ -185,17 +185,6 @@ const OperationCardListingField = ({
               );
             })}
 
-          {premittedProducts &&
-            premittedProducts.length > 0 &&
-            premittedProducts.map((ele: any, idx: any) => (
-              <button
-                key={idx}
-                className="btn btn-primary text-capitalize filter-btn fs-13 mt-2 me-2"
-                onClick={() => handleButtonFilter(ele)}
-              >
-                {ele}
-              </button>
-            ))}
 
           <Link href="" className="px-3 py-0 my-0 fs-14" onClick={handleClearFilters}>
             Clear Filter

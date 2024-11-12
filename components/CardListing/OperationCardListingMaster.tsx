@@ -33,6 +33,14 @@ const OperationCardListingMaster = () => {
     filteredDepartments,
     departmentInput,
     dropdownRef,
+    processInput,
+    handleProcessChange,
+    onProcessFocusVisible,
+    handleProcessKeyDownEnter,
+    isProcessDropOpen,
+    handleProcessOptionClick,
+    processValue,
+    processRef,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
@@ -107,6 +115,7 @@ const OperationCardListingMaster = () => {
       product_purity: '',
       product: '',
       product_process: '',
+      bom_code: '',
       operation_department: '',
       karigar: '',
       show_zero_balance: showZeroBalance ? '1' : '0', // Corrected value here
@@ -140,45 +149,45 @@ const OperationCardListingMaster = () => {
     router.push(`${CONSTANTS.API_BASE_URL}app`);
   };
 
-  useEffect(() => {
-    const url = new URL(window.location.href);
+  // useEffect(() => {
+  //   const url = new URL(window.location.href);
 
-    // Get the search parameters
-    const searchParams = url.searchParams;
-    // Convert the search parameters to a string
-    const searchParamsString = searchParams.toString();
+  //   // Get the search parameters
+  //   const searchParams = url.searchParams;
+  //   // Convert the search parameters to a string
+  //   const searchParamsString = searchParams.toString();
 
-    const keyValuePairs = searchParamsString.split('&');
+  //   const keyValuePairs = searchParamsString.split('&');
 
-    // Create an object to store the updated state
-    const updatedFiltersData: any = {
-      search: '',
-      name: '',
-      parent_melting_lot: '',
-      melting_lot: '',
-      product_purity: '',
-      product: '',
-      product_process: '',
-      operation_department: '',
-      // product_process_department: '',
-      karigar: '',
-    };
+  //   // Create an object to store the updated state
+  //   const updatedFiltersData: any = {
+  //     search: '',
+  //     name: '',
+  //     parent_melting_lot: '',
+  //     melting_lot: '',
+  //     product_purity: '',
+  //     product: '',
+  //     product_process: '',
+  //     operation_department: '',
+  //     // product_process_department: '',
+  //     karigar: '',
+  //   };
 
-    keyValuePairs.forEach((keyValuePair) => {
-      const [key, value] = keyValuePair.split('=');
-      if (key in updatedFiltersData) {
-        // Replace '+' with space before updating the state
-        updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
-      }
-    });
+  //   keyValuePairs.forEach((keyValuePair) => {
+  //     const [key, value] = keyValuePair.split('=');
+  //     if (key in updatedFiltersData) {
+  //       // Replace '+' with space before updating the state
+  //       updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+  //     }
+  //   });
 
-    setData((prevFiltersData: any) => ({
-      ...prevFiltersData,
-      ...updatedFiltersData,
-    }));
+  //   setData((prevFiltersData: any) => ({
+  //     ...prevFiltersData,
+  //     ...updatedFiltersData,
+  //   }));
 
-    getOperationCardListFromAPI(searchParamsString);
-  }, [searchParams]);
+  //   getOperationCardListFromAPI(searchParamsString);
+  // }, [searchParams]);
   return (
     <div className="container-fuild">
       {/* <div className="row spacing-pd mt-3">
@@ -217,6 +226,14 @@ const OperationCardListingMaster = () => {
           filteredDepartments={filteredDepartments}
           departmentInput={departmentInput}
           dropdownRef={dropdownRef}
+          processInput={processInput}
+          handleProcessChange={handleProcessChange}
+          onProcessFocusVisible={onProcessFocusVisible}
+          handleProcessKeyDownEnter={handleProcessKeyDownEnter}
+          isProcessDropOpen={isProcessDropOpen}
+          handleProcessOptionClick={handleProcessOptionClick}
+          processValue={processValue}
+          processRef={processRef}
         />
         <div className="spacing-mt">
           <OperationCardListingTable
