@@ -26,7 +26,7 @@ const useMeltingLot = () => {
     design: searchParams.get('design') || '',
     page: searchParams.get('page') || '',
     melting_plan: searchParams.get('melting_plan') || '',
-    melting_lot: searchParams.get('melting_lot`') || '',
+    melting_lot: searchParams.get('melting_lot') || '',
     factory_design_name: searchParams.get('factory_design_name') || '',
   };
   const [filterOptions, setFilterOptions] = useState(initialFilterOptions);

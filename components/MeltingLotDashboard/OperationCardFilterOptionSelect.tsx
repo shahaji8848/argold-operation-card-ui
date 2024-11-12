@@ -9,7 +9,7 @@ const OperationCardFilterOptionSelect = ({ meltingFiltersList, filterOptions, ha
     cutting_process: meltingFiltersList?.cutting_process,
     purity: meltingFiltersList?.purity,
     design: meltingFiltersList?.design,
-    melting_plan: meltingFiltersList?.melting_lot,
+    melting_plan: meltingFiltersList?.melting_plan,
     melting_lot: meltingFiltersList?.melting_lot,
     factory_design_name: meltingFiltersList?.factory_design_name,
   });
@@ -134,11 +134,117 @@ const OperationCardFilterOptionSelect = ({ meltingFiltersList, filterOptions, ha
       window.removeEventListener('click', handleOutsideClickAutoComplete);
     };
   });
+  console.log(filteredData, activeDropdown, 'MMMMMMMMMMMMMMMMMMMMM');
 
   return (
     <>
       <div className="row">
         <div className="col-12 pt-2 pb-3">
+          <div className="d-inline-block me-3">
+            <div className="me-2 bold fs-14">Melting Plan</div>
+            <div className={meltingStyle.custom_dropdown_wrapper}>
+              <input
+                type="text"
+                className={`${meltingStyle.custom_dropdown_input} ${meltingStyle.dropdown_width}`}
+                name="melting_plan"
+                value={filterOptions?.melting_plan}
+                onChange={handleInputChange}
+                onFocus={() => handleInputFocus('melting_plan')} // Show dropdown when focused
+                placeholder="search melting Plan"
+                ref={inputRef}
+                onKeyDown={(e) => handleKeyDown(e, 'melting_plan')}
+              />
+              {/* {isDropdownOpen && ( */}
+              {activeDropdown === 'melting_plan' && (
+                <div className={`${meltingStyle.custom_dropdown_options} ${isDropdownOpen ? meltingStyle.open : ''}`}>
+                  {filteredData.melting_plan?.map((list: string, idx: number) => (
+                    <div
+                      key={idx}
+                      className={`${meltingStyle.custom_dropdown_option} ${
+                        highlightedIndex['melting_plan'] === idx ? meltingStyle.highlighted : ''
+                      }`}
+                      onClick={() => handleOptionClick(list, 'melting_plan')}
+                    >
+                      {list}
+                    </div>
+                  ))}
+                  {filteredData.melting_plan?.length === 0 && (
+                    <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="d-inline-block me-3">
+            <div className="me-2 bold fs-14">Melting Lot</div>
+            <div className={meltingStyle.custom_dropdown_wrapper}>
+              <input
+                type="text"
+                className={`${meltingStyle.custom_dropdown_input} ${meltingStyle.dropdown_width}`}
+                name="melting_lot"
+                value={filterOptions?.melting_lot}
+                onChange={handleInputChange}
+                onFocus={() => handleInputFocus('melting_lot')} // Show dropdown when focused
+                placeholder="search Melting Lot"
+                ref={inputRef}
+                onKeyDown={(e) => handleKeyDown(e, 'melting_lot')}
+              />
+              {/* {isDropdownOpen && ( */}
+              {activeDropdown === 'melting_lot' && (
+                <div className={`${meltingStyle.custom_dropdown_options} ${isDropdownOpen ? meltingStyle.open : ''}`}>
+                  {filteredData.melting_lot?.map((list: string, idx: number) => (
+                    <div
+                      key={idx}
+                      className={`${meltingStyle.custom_dropdown_option} ${
+                        highlightedIndex['melting_lot'] === idx ? meltingStyle.highlighted : ''
+                      }`}
+                      onClick={() => handleOptionClick(list, 'melting_lot')}
+                    >
+                      {list}
+                    </div>
+                  ))}
+                  {filteredData.melting_lot?.length === 0 && (
+                    <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="d-inline-block me-3">
+            <div className="me-2 bold fs-14">Factory Design Name</div>
+            <div className={meltingStyle.custom_dropdown_wrapper}>
+              <input
+                type="factory_design_name"
+                className={`${meltingStyle.custom_dropdown_input} ${meltingStyle.dropdown_width}`}
+                name="actory_design_name"
+                value={filterOptions?.actory_design_name}
+                onChange={handleInputChange}
+                onFocus={() => handleInputFocus('actory_design_name')} // Show dropdown when focused
+                placeholder="search actory_design_name"
+                ref={inputRef}
+                onKeyDown={(e) => handleKeyDown(e, 'actory_design_name')}
+              />
+              {/* {isDropdownOpen && ( */}
+              {activeDropdown === 'actory_design_name' && (
+                <div className={`${meltingStyle.custom_dropdown_options} ${isDropdownOpen ? meltingStyle.open : ''}`}>
+                  {filteredData.actory_design_name?.map((list: string, idx: number) => (
+                    <div
+                      key={idx}
+                      className={`${meltingStyle.custom_dropdown_option} ${
+                        highlightedIndex['actory_design_name'] === idx ? meltingStyle.highlighted : ''
+                      }`}
+                      onClick={() => handleOptionClick(list, 'actory_design_name')}
+                    >
+                      {list}
+                    </div>
+                  ))}
+                  {filteredData.actory_design_name?.length === 0 && (
+                    <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
           <div className="d-inline-block me-3">
             <div className="me-2 bold fs-14">Product</div>
             <div className={meltingStyle.custom_dropdown_wrapper}>
