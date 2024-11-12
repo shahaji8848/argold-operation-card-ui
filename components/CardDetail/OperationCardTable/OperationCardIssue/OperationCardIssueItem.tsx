@@ -102,6 +102,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
               'Line Number',
               'Tracking Number',
               'Machine',
+              'Machine Size',
               'Karigar',
               'Worker',
               'Next Karigar',
@@ -130,6 +131,7 @@ const OperationCardIssueItem = ({ operationCardDetailData }: any) => {
                 <td className="text-end">{data?.line_number === 0 ? '--' : data?.line_number}</td>
                 <td className="text-end">{data?.next_tracking_number === '' ? '--' : data?.next_tracking_number}</td>
                 <td className="text-end">{data?.machine ?? '--'}</td>
+                <td className="text-end">{data?.machine_size ?? '--'}</td>
                 <td className="text-end">{data?.karigar ?? '--'}</td>
                 <td className="text-end">{data?.next_worker ?? '--'}</td>
                 <td className="text-end">{data?.next_karigar ?? '--'}</td>
