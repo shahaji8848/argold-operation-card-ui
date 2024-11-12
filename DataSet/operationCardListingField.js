@@ -44,6 +44,10 @@ const inputField = [
     name: 'product_purity',
     label: 'purity',
   },
+  {
+    name: 'bom_code',
+    label: 'BOM Code',
+  },
 ];
 
 export default inputField;
