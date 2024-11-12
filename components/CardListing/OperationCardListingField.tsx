@@ -50,7 +50,7 @@ const OperationCardListingField = ({
       redirectToListPage();
     }
   };
-  console.log(departmentInput, newDepartmentInput, 'DEPARTMENT');
+
   const redirectToListPage = () => {
     if (searchField === '') {
       router.push('');

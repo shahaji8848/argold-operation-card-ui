@@ -67,6 +67,7 @@ const useOperationCardList = () => {
 
   const handleDepartmentChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     const value = e.target.value;
+    console.log(value, 'VALUR');
     // handleInputChange(e, fieldName);
     setDepartmentInput(value);
     // if (!value && !filtersData.product) {
@@ -79,11 +80,11 @@ const useOperationCardList = () => {
     // await handleDepartmentDropdown(value);
     // }
     // const filtered = departmentValue.filter((department: any) => department?.title?.toLowerCase().includes(value.toLowerCase()));
-    // setFilteredDepartments(filtered);
-    // setFiltersData((prevFiltersData: any) => ({
-    //   ...prevFiltersData,
-    //   [fieldName]: e.target.value,
-    // }));
+    // setFilteredDepartments(filtered:);
+    setFiltersData((prevFiltersData: any) => ({
+      ...prevFiltersData,
+      operation_department: e.target.value,
+    }));
     setIsDropdownOpen(true);
     // Fetch the updated operation card list using the updated filters
     const updatedUrl = constructUrl({ ...filtersData, [fieldName]: value });

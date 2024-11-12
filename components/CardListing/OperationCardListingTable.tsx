@@ -3,6 +3,7 @@ import React from 'react';
 import style from '../../styles/operation-card-list.module.css';
 
 const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCheckboxInput }: any) => {
+  console.log(data, 'DATATA');
   const renderData = () => {
     if (data?.length !== 0) {
       return (
@@ -14,6 +15,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                 'Refining Process Number',
                 'Melting lot',
                 'purity',
+                'BOM_code',
                 'product',
                 'process',
                 'department',
@@ -60,6 +62,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                     <td className="text-end">
                       {rowData?.product_purity && rowData?.product_purity !== 0 ? rowData?.product_purity : '--'}
                     </td>
+                    <td className="text-end">{rowData?.bom_code && rowData?.bom_code !== 0 ? rowData?.bom_code : '--'}</td>
                     <td>{rowData?.product && rowData?.product !== null ? rowData?.product : '--'}</td>
                     <td>
                       {rowData?.product_process && rowData?.product_process !== null
