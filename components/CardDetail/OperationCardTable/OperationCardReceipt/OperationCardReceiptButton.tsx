@@ -125,7 +125,7 @@ const OperationCardReciptButton = ({
     setShow(true);
     setItemName(value);
 
-    const operationCardValue = operationCardProductDept?.receipt_items?.filter((issueVal: any) => issueVal.item === value);
+    const operationCardValue = operationCardProductDept?.receipt_items?.filter((receiptVal: any) => receiptVal.item === value);
     const showKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('show'));
     const setKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('set'));
 
