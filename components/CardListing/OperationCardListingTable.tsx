@@ -15,7 +15,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                 'Refining Process Number',
                 'Melting lot',
                 'purity',
-                'BOM_code',
+                'BOM Code',
                 'product',
                 'process',
                 'department',
