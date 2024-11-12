@@ -29,6 +29,7 @@ const useOperationCardList = () => {
     product_process: '',
     operation_department: '',
     karigar: '',
+    ord:''
     // show_zero_balance: 0 || 1,
   });
 
@@ -219,6 +220,7 @@ const useOperationCardList = () => {
       product_process: '',
       operation_department: '',
       karigar: '',
+      ord:''
       // show_zero_balance: false,
     });
     setDepartmentInput('');

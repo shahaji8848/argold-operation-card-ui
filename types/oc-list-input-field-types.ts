@@ -10,4 +10,5 @@ export interface FieldTypes {
   karigar: string;
   show_zero_balance?: any;
   product_process: string;
+  ord:string
 }

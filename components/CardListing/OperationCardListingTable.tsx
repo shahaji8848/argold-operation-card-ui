@@ -28,6 +28,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                 'machine',
                 'laser powder type',
                 'tracking number',
+                'Ord',
                 'description',
                 'balance',
                 'check',
@@ -84,6 +85,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                     <td className="">
                       {rowData?.tracking_number && rowData?.tracking_number !== '' ? rowData?.tracking_number : '--'}
                     </td>
+                    <td>{rowData?.ord ?? '--'}</td>
                     <td>{rowData?.description && rowData?.description !== '' ? rowData?.description : '--'}</td>
                     <td className="text-end">
                       {rowData?.balance_weight && rowData?.balance_weight !== 0
