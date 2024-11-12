@@ -9,6 +9,9 @@ const OperationCardFilterOptionSelect = ({ meltingFiltersList, filterOptions, ha
     cutting_process: meltingFiltersList?.cutting_process,
     purity: meltingFiltersList?.purity,
     design: meltingFiltersList?.design,
+    melting_plan: meltingFiltersList?.melting_lot,
+    melting_lot: meltingFiltersList?.melting_lot,
+    factory_design_name: meltingFiltersList?.factory_design_name,
   });
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -322,6 +325,41 @@ const OperationCardFilterOptionSelect = ({ meltingFiltersList, filterOptions, ha
                 type="text"
                 className={`${meltingStyle.custom_dropdown_input} ${meltingStyle.dropdown_width}`}
                 name="design"
+                value={filterOptions?.design}
+                onChange={handleInputChange}
+                onFocus={() => handleInputFocus('design')} // Show dropdown when focused
+                placeholder="search design"
+                ref={inputRef}
+                onKeyDown={(e) => handleKeyDown(e, 'design')}
+              />
+              {/* {isDropdownOpen && ( */}
+              {activeDropdown === 'design' && (
+                <div className={`${meltingStyle.custom_dropdown_options} ${isDropdownOpen ? meltingStyle.open : ''}`}>
+                  {filteredData?.design?.map((list: string, idx: number) => (
+                    <div
+                      key={idx}
+                      className={`${meltingStyle.custom_dropdown_option} ${
+                        highlightedIndex['design'] === idx ? meltingStyle.highlighted : ''
+                      }`}
+                      onClick={() => handleOptionClick(list, 'design')}
+                    >
+                      {list}
+                    </div>
+                  ))}
+                  {filteredData.design?.length === 0 && (
+                    <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="d-inline-block me-3">
+            <div className="me-2 bold fs-14">Melting Plan</div>
+            <div className={meltingStyle.custom_dropdown_wrapper}>
+              <input
+                type="text"
+                className={`${meltingStyle.custom_dropdown_input} ${meltingStyle.dropdown_width}`}
+                name="melting_plan"
                 value={filterOptions?.design}
                 onChange={handleInputChange}
                 onFocus={() => handleInputFocus('design')} // Show dropdown when focused
