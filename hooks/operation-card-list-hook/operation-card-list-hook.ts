@@ -45,6 +45,7 @@ const useOperationCardList = () => {
   const dropdownRef = useRef<HTMLDivElement | null>(null); // Create a ref for the dropdown
   const processRef = useRef<HTMLDivElement | null>(null);
   const [isLoading, setLoading] = useState(false);
+  const [product, setProduct] = useState('');
 
   const onDepartmentFocusValue = async (e: React.ChangeEvent<HTMLInputElement>) => {
     // const inputValue = e.target.value;
@@ -171,7 +172,9 @@ const useOperationCardList = () => {
       // handleDepartmentChange(e, 'department');
     }
   };
-
+  const handleSetProduct = (prod: any) => {
+    setProcessInput(prod);
+  };
   const handleDepartmentDropdown = async (product: any) => {
     try {
       setLoading(true);

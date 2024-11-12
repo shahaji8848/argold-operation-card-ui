@@ -39,7 +39,6 @@ const OperationCardListingField = ({
   isProcessDropOpen,
   isLoading,
 }: any) => {
-
   const focusRef = useRef<any>(null);
   const focuusProcessRef = useRef<any>(null);
   const [searchField, setSearchField] = useState<string>('');
@@ -133,7 +132,9 @@ const OperationCardListingField = ({
                         ) : (
                           <div className={meltingStyle.custom_dropdown_options}>
                             {processValue
-                              ?.filter((department: any) => department?.title?.toLowerCase().includes(processInput.toLowerCase()))
+                              ?.filter(
+                                (department: any) => department?.title?.toLowerCase().includes(processInput?.toLowerCase())
+                              )
                               ?.map((list: any, idx: any) => (
                                 <div
                                   key={idx}
@@ -184,7 +185,6 @@ const OperationCardListingField = ({
                 </button>
               );
             })}
-
 
           <Link href="" className="px-3 py-0 my-0 fs-14" onClick={handleClearFilters}>
             Clear Filter
