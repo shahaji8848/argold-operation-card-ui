@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import IssueDescriptionModal from '../OperationCardIssue/IssueDescriptionModal';
 
 const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
   const router = useRouter();
@@ -63,6 +64,7 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
               'Fine Purity',
               'Fine Weight',
               'OP',
+              'Description',
             ].map((val, i: any) => (
               <th className="thead-dark text-center" scope="col" key={i}>
                 {val}
@@ -107,6 +109,13 @@ const OperationCardReceiptItem = ({ operationCardDetailData }: any) => {
                       >
                         {data?.reference?.split('-').pop()}
                       </Link>
+                    ) : (
+                      '--'
+                    )}
+                  </td>
+                  <td>
+                    {data?.description && data?.description !== '' ? (
+                      <IssueDescriptionModal description={data?.description} />
                     ) : (
                       '--'
                     )}

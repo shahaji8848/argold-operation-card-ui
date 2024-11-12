@@ -112,6 +112,7 @@ const OperationCardReciptButton = ({
     }
   };
   const handleClose = () => setShow(false);
+
   const handleModalFieldsChange = (e: any) => {
     const { name, value } = e.target;
     setModalFieldValuesState({
@@ -119,9 +120,63 @@ const OperationCardReciptButton = ({
       [name]: value,
     });
   };
+
   const handleShow = (value: any) => {
     setShow(true);
     setItemName(value);
+
+    const operationCardValue = operationCardProductDept?.receipt_items?.filter((issueVal: any) => issueVal.item === value);
+    const showKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('show'));
+    const setKeys = Object.keys(operationCardValue[0]).filter((key) => key.startsWith('set'));
+
+    const resultArray = groupByKeyWords(showKeys, setKeys);
+
+    function groupByKeyWords(showKeys: any, setKeys: any) {
+      const groupedKeys: any = {};
+
+      showKeys.concat(setKeys).forEach((key: any) => {
+        const keyword = key.substring(key.indexOf('_') + 1);
+
+        if (!groupedKeys[keyword]) {
+          groupedKeys[keyword] = {};
+        }
+
+        groupedKeys[keyword][key] = operationCardValue[0][key];
+      });
+
+      return Object.values(groupedKeys);
+    }
+
+    let filterArray: any[];
+    let storeNonZeroSetAndShow: any;
+
+    filterArray = resultArray?.filter((obj: any) => {
+      const hasNonZeroShow = Object.keys(obj).some((key) => key.startsWith('show') && obj[key] !== 0);
+
+      const hasNonZeroSet = Object.keys(obj).some(
+        (key) =>
+          key.startsWith('set') &&
+          key !== 'set_fine_purity_based_on_tounch_purity' &&
+          key !== 'set_operation_card_balance_weight_as_in_weight' &&
+          key !== 'set_line_number' &&
+          obj[key] !== 0
+      );
+      storeNonZeroSetAndShow = [hasNonZeroSet, hasNonZeroShow];
+
+      return hasNonZeroShow || hasNonZeroSet;
+    });
+
+    filterArray = filterArray.map((obj) => {
+      const updatedObj: any = { ...obj }; // Create a copy of the original object
+      Object.keys(updatedObj).forEach((key) => {
+        if (key.startsWith('show_')) {
+          const label = key.replace('show_', ''); // Remove "show_" from the key
+          updatedObj[key] = obj[key];
+          updatedObj['label'] = label; // Add the "label" key with the modified label value
+        }
+      });
+      return updatedObj;
+    });
 
     const modalObj: IModalFields = {
       show_in_weight: 1,
@@ -129,8 +184,19 @@ const OperationCardReciptButton = ({
       label: 'in_weight',
     };
 
-    setGetValues([modalObj]);
+    filterArray = [...filterArray, modalObj]
+
+    const index = filterArray?.findIndex((obj: any) => obj.label === 'in_weight');
+
+    // If 'in_weight' is found, move it to the start of the array
+    if (index !== -1) {
+      const inWeightObject = filterArray?.splice(index, 1)[0];
+      filterArray?.unshift(inWeightObject);
+    }
+
+    setGetValues(filterArray);
   };
+
 
   return (
     <>
