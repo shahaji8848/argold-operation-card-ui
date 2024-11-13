@@ -8,6 +8,7 @@ const hasGPCItem = (operationCardDetailData: any) => {
 };
 
 const columnsBuilder = (operationCardDetailData: any, operationCardProductDept: any) => {
+  console.log(operationCardProductDept?.show_get_orders, 'yyyyyyyyyyyyyyyyyyy');
   let columnsList: string[] = [
     'Customer Name',
     'Sales Order',
@@ -79,12 +80,12 @@ const rowsBuilder = (
       ) : (
         <td className="text-center">{rowData?.item}</td>
       )}
-
+      {/* 
       {doGetAllOrders ? (
         <td className="text-center"> {rowData?.item_name} </td>
       ) : (
         operationCardProductDept?.group_orders_by_design === 1 && <td className="text-center">{rowData?.design}</td>
-      )}
+      )} */}
 
       <td className="text-center">
         {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
