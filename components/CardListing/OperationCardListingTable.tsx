@@ -14,6 +14,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                 'Refining Process Number',
                 'Melting lot',
                 'purity',
+                'bom code',
                 'product',
                 'process',
                 'department',
@@ -60,6 +61,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                     <td className="text-end">
                       {rowData?.product_purity && rowData?.product_purity !== 0 ? rowData?.product_purity : '--'}
                     </td>
+                    <td className="text-end">{rowData?.bom_code && rowData?.bom_code !== 0 ? rowData?.bom_code : '--'}</td>
                     <td>{rowData?.product && rowData?.product !== null ? rowData?.product : '--'}</td>
                     <td>
                       {rowData?.product_process && rowData?.product_process !== null
@@ -163,8 +165,10 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
               <td className="bold text-center">Total</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_weight')}</td>
+              <td></td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_gross_weight')}</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_fine_weight')}</td>
               <td></td>
