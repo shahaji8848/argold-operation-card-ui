@@ -145,7 +145,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                     {meltingData?.linked_operations &&
                       meltingData?.linked_operations.length > 0 &&
                       Object.keys(meltingData.linked_operations[0]).map((key, colIndex) =>
-                        key === 'type' || key === 'combination_name' ? null : (
+                        key === 'type' || key === 'combination_name' || key === 'view_design_button' ? null : (
                           <>
                             <th className="thead-dark text-center" scope="col" key={colIndex}>
                               {key.replace(/_/g, ' ')}
@@ -153,6 +153,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                           </>
                         )
                       )}
+                    <th className="text-center">Add Design</th>
                     <th className="text-center">add order details</th>
                     <th className="text-center">add sales order</th>
                   </tr>
@@ -196,7 +197,8 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         {Object.keys(operation).map(
                           (key, colIndex) =>
                             key !== 'combination_name' &&
-                            key !== 'type' && ( // Add a condition to skip the column
+                            key !== 'type' &&
+                            key !== 'view_design_button' && (
                               <td key={colIndex} className="text-center">
                                 {operation[key] !== null && operation[key] !== undefined && operation[key] !== ''
                                   ? typeof operation[key] === 'number' && key === 'purity'
@@ -206,7 +208,25 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                               </td>
                             )
                         )}
-
+                        <td>
+                          {' '}
+                          {operation?.view_design_button ? (
+                            <button
+                              className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
+                              onClick={handleMeltingLotShowOrder}
+                            >
+                              <Link
+                                href={`${meltingData?.melting_plan_url}?view_combination=${operation?.combination_name}`}
+                                className="text-white text-center"
+                                target="_blank"
+                              >
+                                Add Design
+                              </Link>
+                            </button>
+                          ) : (
+                            '--'
+                          )}
+                        </td>
                         <td className="text-center">
                           {operation?.operation_card ? (
                             <button

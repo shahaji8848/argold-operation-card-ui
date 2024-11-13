@@ -29,6 +29,7 @@ const useMeltingLot = () => {
     melting_lot: searchParams.get('melting_lot') || '',
     factory_design_name: searchParams.get('factory_design_name') || '',
   };
+  console.log(searchParams, searchParams.get('melting_plan'), searchParams.get('melting_lot'), 'SSSSSSSSSSSSSSSSSSSSSSS');
   const [filterOptions, setFilterOptions] = useState(initialFilterOptions);
 
   const constructUrl = (filterOptions: any) => {
@@ -62,6 +63,7 @@ const useMeltingLot = () => {
   };
   // Dropdown
   const getMeltingFiltersFromAPI = async () => {
+    console.log(filterOptions, 'FFFFFFFFFFFFFFFFF');
     const getMeltingFiltersData = await GETMeltingFilters({ token, filterOptions: filterOptions });
     if (getMeltingFiltersData?.status === 200) {
       setMeltingFiltersList(getMeltingFiltersData?.data?.message);

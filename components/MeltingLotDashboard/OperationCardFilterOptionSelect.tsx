@@ -134,7 +134,7 @@ const OperationCardFilterOptionSelect = ({ meltingFiltersList, filterOptions, ha
       window.removeEventListener('click', handleOutsideClickAutoComplete);
     };
   });
-  console.log(filteredData, activeDropdown, 'MMMMMMMMMMMMMMMMMMMMM');
+  console.log(filterOptions, filteredData, activeDropdown, 'xxx');
 
   return (
     <>
@@ -216,29 +216,29 @@ const OperationCardFilterOptionSelect = ({ meltingFiltersList, filterOptions, ha
               <input
                 type="factory_design_name"
                 className={`${meltingStyle.custom_dropdown_input} ${meltingStyle.dropdown_width}`}
-                name="actory_design_name"
-                value={filterOptions?.actory_design_name}
+                name="factory_design_name"
+                value={filterOptions?.factory_design_name}
                 onChange={handleInputChange}
-                onFocus={() => handleInputFocus('actory_design_name')} // Show dropdown when focused
-                placeholder="search actory_design_name"
+                onFocus={() => handleInputFocus('factory_design_name')} // Show dropdown when focused
+                placeholder="search Factory Design Name"
                 ref={inputRef}
-                onKeyDown={(e) => handleKeyDown(e, 'actory_design_name')}
+                onKeyDown={(e) => handleKeyDown(e, 'factory_design_name')}
               />
               {/* {isDropdownOpen && ( */}
-              {activeDropdown === 'actory_design_name' && (
+              {activeDropdown === 'factory_design_name' && (
                 <div className={`${meltingStyle.custom_dropdown_options} ${isDropdownOpen ? meltingStyle.open : ''}`}>
-                  {filteredData.actory_design_name?.map((list: string, idx: number) => (
+                  {filteredData.factory_design_name?.map((list: string, idx: number) => (
                     <div
                       key={idx}
                       className={`${meltingStyle.custom_dropdown_option} ${
-                        highlightedIndex['actory_design_name'] === idx ? meltingStyle.highlighted : ''
+                        highlightedIndex['factory_design_name'] === idx ? meltingStyle.highlighted : ''
                       }`}
-                      onClick={() => handleOptionClick(list, 'actory_design_name')}
+                      onClick={() => handleOptionClick(list, 'factory_design_name')}
                     >
                       {list}
                     </div>
                   ))}
-                  {filteredData.actory_design_name?.length === 0 && (
+                  {filteredData.factory_design_name?.length === 0 && (
                     <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
                   )}
                 </div>
