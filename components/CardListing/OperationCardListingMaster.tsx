@@ -185,7 +185,7 @@ const OperationCardListingMaster = () => {
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
-    console.log('API SI RUNNING');
+
     getOperationCardListFromAPI(searchParamsString);
   }, [searchParams]);
 
