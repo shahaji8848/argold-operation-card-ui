@@ -110,6 +110,7 @@ const OperationCardListingMaster = () => {
       operation_department: '',
       karigar: '',
       show_zero_balance: showZeroBalance ? '1' : '0', // Corrected value here
+      bom_code: '',
     };
 
     keyValuePairs.forEach((keyValuePair) => {
@@ -162,6 +163,7 @@ const OperationCardListingMaster = () => {
       operation_department: '',
       // product_process_department: '',
       karigar: '',
+      bom_code: '',
     };
 
     keyValuePairs.forEach((keyValuePair) => {
@@ -179,6 +181,7 @@ const OperationCardListingMaster = () => {
 
     getOperationCardListFromAPI(searchParamsString);
   }, [searchParams]);
+  console.log(filtersData, 'FILTERR');
   return (
     <div className="container-fuild">
       {/* <div className="row spacing-pd mt-3">
