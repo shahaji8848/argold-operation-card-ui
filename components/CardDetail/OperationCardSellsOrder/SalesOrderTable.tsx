@@ -101,19 +101,25 @@ const rowsBuilder = (
 
       {hasGPCItem(operationCardDetailData) && (
         <td className="text-center d-flex justify-content-center">
-          <input
-            type="number"
-            className="input_fields px-2 py-1 rounded-2 text-center"
-            style={{ width: '100%', maxWidth: '120px' }}
-            value={rowData?.ready_qty ?? 0}
-            onChange={(e: any) => handleChangesInReadyQty(e.key, parseInt(e.target.value), rowData?.order_id)}
-            onKeyDown={(e: any) => {
-              if (e.key === 'Backspace') {
-                // Clear the value of the input field
-                handleChangesInReadyQty(e.key, e.target.value, rowData?.order_id);
-              }
-            }}
-          />
+          {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
+            return (
+              <>
+                <input
+                  type="number"
+                  className="input_fields px-2 py-1 rounded-2 text-center"
+                  style={{ width: '100%', maxWidth: '120px' }}
+                  value={qtyList?.ready_qty}
+                  onChange={(e: any) => handleChangesInReadyQty(e.key, parseInt(e.target.value), rowData?.order_id)}
+                  onKeyDown={(e: any) => {
+                    if (e.key === 'Backspace') {
+                      // Clear the value of the input field
+                      handleChangesInReadyQty(e.key, e.target.value, rowData?.order_id);
+                    }
+                  }}
+                />
+              </>
+            );
+          })}
         </td>
       )}
     </tr>
@@ -140,21 +146,19 @@ function SalesOrderTable({
   const [doGetAllOrders, setDoGetAllOrders] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [isHeaderCheckboxChecked, setIsHeaderCheckboxChecked] = useState<boolean>(false);
-  const singleOrdersWithItems = salesOrderList
-    .map((order: any) => ({
-      ...order,
-      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 0),
-    }))
-    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
-
+  const singleOrdersWithItems = salesOrderList.map((order: any) => ({
+    ...order,
+    qty_size_list: order.qty_size_list?.filter((sizeItem: any) => sizeItem.is_bunch === 0),
+  }));
+  // .filter((order: any) => order.qty_size_list?.length > 0); // Ensure at least one item is included
   // Log the filtered bunch orders with items
 
   const bunchOrdersWithItems = salesOrderList
     .map((order: any) => ({
       ...order,
-      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 1),
+      qty_size_list: order.qty_size_list?.filter((sizeItem: any) => sizeItem.is_bunch === 1),
     }))
-    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+    .filter((order: any) => order.qty_size_list?.length > 0); // Ensure at least one item is included
   // const handleHeaderCheckboxChange = () => {
   //   setIsHeaderCheckboxChecked(!isHeaderCheckboxChecked);
   //   setSelectedItems(isHeaderCheckboxChecked ? [] : salesOrderList.map((data: any) => data.order_id));
