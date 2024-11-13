@@ -69,7 +69,13 @@ const rowsBuilder = (
       </td>
 
       {operationCardDetailData?.product === 'KA Chain' || operationCardDetailData?.product === 'Ball Chain' ? (
-        operationCardProductDept?.group_orders_by_design === 0 && <td className="text-center">{rowData?.market_design_name} </td>
+        operationCardProductDept?.group_orders_by_design === 0 ? (
+          <td className="text-center">{rowData?.market_design_name} </td>
+        ) : operationCardProductDept?.group_orders_by_design === 1 ? (
+          <td className="text-center">{rowData?.design || rowData?.item_name} </td>
+        ) : (
+          ''
+        )
       ) : (
         <td className="text-center">{rowData?.item}</td>
       )}
