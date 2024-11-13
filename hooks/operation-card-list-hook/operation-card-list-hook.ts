@@ -172,10 +172,12 @@ const useOperationCardList = () => {
       // handleDepartmentChange(e, 'department');
     }
   };
-  const handleSetProduct = (prod: any) => {
-    setProcessInput(prod);
+  const handleSetProduct = (prod: any) => {};
+  const handleDepartmentDropdown = async (prod: any) => {
+    setProduct(prod);
   };
-  const handleDepartmentDropdown = async (product: any) => {
+
+  const functionTOFetchProductDepartment = async () => {
     try {
       setLoading(true);
       const getDepartmentBasedOnProduct = await GETDepartmentFilters(product || '', token);
@@ -197,6 +199,14 @@ const useOperationCardList = () => {
     }
   };
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      functionTOFetchProductDepartment();
+    }, 500);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [product]);
   // const getProductNDepaartment = async () => {
   //   const getDepartmentBasedOnProduct = await GETDepartmentFilters(products || '', token);
   //   const getProcessBasedOnFilters = await GETProcessFilters(products || '', token);
