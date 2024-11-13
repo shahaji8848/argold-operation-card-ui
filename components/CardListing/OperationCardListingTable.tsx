@@ -165,8 +165,10 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
               <td className="bold text-center">Total</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_weight')}</td>
+              <td></td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_gross_weight')}</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_fine_weight')}</td>
               <td></td>
