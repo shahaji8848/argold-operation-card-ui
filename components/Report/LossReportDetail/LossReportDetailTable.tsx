@@ -11,7 +11,7 @@ const LossReportDetailTable = ({
   handleFinancialYearValuesChange1,
   lossPeriodList,
   getLossPeriodValueFromURL,
-  handleLossPeriodValuesChange
+  financialValue
 }: any) => {
   const hrefValue = new URL(window.location.href);
   const splitVal: any = hrefValue.searchParams.get('department_group');
@@ -26,7 +26,6 @@ const LossReportDetailTable = ({
 
   const handleLossPeriodValuesChange1 = (value: any) => {
     setLossReportValue(value)
-    console.log("loss report val", value)
   }
 
   const CalculateTotal = (column: string, data: any[]) => {
@@ -95,64 +94,68 @@ const LossReportDetailTable = ({
       op_list: selectedLossReport,
       loss_period: lossReportValue
     }
-    
-    console.log("postData", postData)
+
   }
-  console.log("reportLossDetailData", reportLossDetailData)
-  console.log("selectedFiltersProducer", selectedLossReport)
 
   return (
     <>
-      <div className="mb-4 bold header-heading-mob d-flex justify-content-between">
-        <span className=" ">
-          <span className="blue"> Loss Report :</span> {decodedUrl != null ? decodedUrl : '--'} Report
-        </span>
+      <div className="mb-4 bold header-heading-mob container-fluid">
+        <div className='row'>
+          <span className="mb-3 mb-sm-0 col-md-3 col-xl-3 pb-3">
+            <span className="blue"> Loss Report :</span> {decodedUrl != null ? decodedUrl : '--'} Report
+          </span>
 
-     <div className='left-container d-flex'>
-        <div className='drop-down-container'>
-          <div className={`pe-3 ${style.spacing_report_header_mob}`}> Financial Year</div>
-          <div className={`me-3 ${style.spacing_report_header_mob}`}>
-            <select value={getFinancialYearValueFromURL} onChange={(e: any) => handleFinancialYearValuesChange1(e.target.value)}>
-              <option value=""></option>
-              {financialYearList?.length > 0 &&
-                financialYearList?.map((financial_year_data: any, index: number) => {
-                  return (
-                    <>
-                      <option value={financial_year_data?.name}>{financial_year_data?.name}</option>
-                    </>
-                  );
-                })}
-            </select>
-          </div>
-
-          <div>Loss Report</div>
-          <div className={`ms-3 ${style.spacing_report_header_mob}`}>
-            <select value={lossReportValue} onChange={(e: any) => handleLossPeriodValuesChange1(e.target.value)}>
-              <>
+          {/* <div className='left-container d-flex flex-wrap' style={{ flex: '0.7' }}> */}
+          <div className='drop-down-container d-sm-flex pb-3 col-md-8 col-lg-8 col-xl-5 justify-content-md-end justify-content-lg-end'>
+            <div className={`pe-3 ${style.spacing_report_header_mob}`}> Financial Year</div>
+            <div className={`me-3 ${style.spacing_report_header_mob}`}>
+              <select value={financialValue} onChange={(e: any) => handleFinancialYearValuesChange1(e.target.value)}>
                 <option value=""></option>
-                {lossPeriodList?.length > 0 &&
-                  lossPeriodList?.map((loss_period_data: any, index: number) => {
+                {financialYearList?.length > 0 &&
+                  financialYearList?.map((financial_year_data: any, index: number) => {
                     return (
                       <>
-                        <option value={loss_period_data?.name}>{loss_period_data?.name}</option>
+                        <option value={financial_year_data?.name}>{financial_year_data?.name}</option>
                       </>
                     );
                   })}
-              </>
-            </select>
-          </div>
-        </div>
+              </select>
+            </div>
 
-        <button className='btn btn-grey px-4 px-1 btn-py' onClick={handleUnrecoverableLoss}>
-          Convert to Unrecoverable Loss
-        </button>
-        <Link
-          className="btn btn-grey px-4 px-1 btn-py"
-          // onClick={redirectToReportList}
-          href={`/report/loss-report-list?financial_year=${getFinancialYearValueFromURL}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
-        >
-          Back
-        </Link>
+            <div className='ps-3'>Loss Report</div>
+            <div className={`ms-3 ${style.spacing_report_header_mob}`}>
+              <select value={lossReportValue} onChange={(e: any) => handleLossPeriodValuesChange1(e.target.value)}>
+                <>
+                  <option value=""></option>
+                  {lossPeriodList?.length > 0 &&
+                    lossPeriodList?.map((loss_period_data: any, index: number) => {
+                      return (
+                        <>
+                          <option value={loss_period_data?.name}>{loss_period_data?.name}</option>
+                        </>
+                      );
+                    })}
+                </>
+              </select>
+            </div>
+          </div>
+
+          <div className='btn-container pb-3 d-sm-flex gap-4 col-md-5 col-lg-5 col-xl-4 justify-content-md-end justify-content-lg-start justify-content-xl-end'>
+            <button className='btn btn-grey px-4 px-1 btn-py'
+              onClick={handleUnrecoverableLoss}
+              disabled={selectedLossReport.length === 0 || !lossReportValue}
+            >
+              Convert to Unrecoverable Loss
+            </button>
+            <Link
+              className="btn btn-grey px-4 px-1 btn-py"
+              // onClick={redirectToReportList}
+              href={`/report/loss-report-list?financial_year=${getFinancialYearValueFromURL}&loss_period=${getLossPeriodValueFromURL}&factory=${getFactoryValueFromURL}`}
+            >
+              Back
+            </Link>
+          </div>
+          {/* </div> */}
         </div>
       </div>
 
@@ -161,6 +164,7 @@ const LossReportDetailTable = ({
           <thead className="card-listing-head ">
             <tr>
               {[
+                'select',
                 'date',
                 'loss period',
                 'in loss gross',

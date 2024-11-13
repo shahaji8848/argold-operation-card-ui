@@ -25,6 +25,7 @@ const useReportLoss = () => {
   const [selectedLossPeriodValue, setSelectedLossPeriodValue] = useState<string>('');
   const [factoryList, setFactoryList] = useState<any>([]);
   const [financialYearList, setFinancialYear] = useState<any>([]);
+  const [financialValue, setFinancialValue] = useState<any>('')
   const [perKgLossVatav, setPerKgLossVatav] = useState<any>([]);
   const disabledItems: any = {};
   const getFinancialYearList = async () => {
@@ -112,7 +113,8 @@ const useReportLoss = () => {
 
   const handleFinancialYearValuesChange1 = (financialYearValue: any) => {
     getLossPeriodListAfterFinancialYear(financialYearValue);
-   
+    setFinancialValue(financialYearValue)
+
   };
 
   const handleLossPeriodValuesChange = (lossPeriodValue: any) => {
@@ -356,6 +358,7 @@ const useReportLoss = () => {
     handleFinancialYearValuesChange1,
     getFinancialYearValueFromURL,
     perKgLossVatav,
+    financialValue
   };
 };
 

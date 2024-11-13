@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import LossReportDetailTable from './LossReportDetailTable';
 import useReportLossDetail from '@/hooks/report-loss-detail.hooks';
 import useReportLoss from '@/hooks/report-loss-hook';
@@ -15,7 +15,8 @@ const MasterLossReportDetail = () => {
     financialYearList,
     handleFinancialYearValuesChange1,
     lossPeriodList,
-    handleLossPeriodValuesChange
+    handleLossPeriodValuesChange,
+    financialValue
   } = useReportLoss();
   return (
     <div className="spacing-mt spacing-pd">
@@ -30,6 +31,7 @@ const MasterLossReportDetail = () => {
             handleFinancialYearValuesChange1={handleFinancialYearValuesChange1}
             lossPeriodList={lossPeriodList}
             handleLossPeriodValuesChange={handleLossPeriodValuesChange}
+            financialValue={financialValue}
           />
         </div>
       </div>
