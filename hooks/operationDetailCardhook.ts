@@ -108,6 +108,7 @@ const useOperationDetailCard = () => {
   const [machineSizeBasedOnDesignValue, setMachineSizeBasedOnDesignValue] = useState<any>([]);
   const [showToneForChain, setShowToneForChain] = useState([]);
   const [operationCardNextMachineSize, setoperationCardNextMachineSize] = useState<any>([]);
+  const [error, setError] = useState(false);
 
   // input field for category size combination to set next product category and next machine size on based of selected combination value
   const [productCategoryAndMachineSizeCombination, setProductCategoryAndMachineSizeCombination] = useState<any>([]);
@@ -818,44 +819,57 @@ const useOperationDetailCard = () => {
 
   const HandleSalesOrderSave = async () => {
     // Combine the selected single and bunch order items
-    const selectedOrderIds = [...selectedSingleOrderItems, ...selectedBunchOrderItems];
+    // const selectedOrderIds = [...selectedSingleOrderItems, ...selectedBunchOrderItems];
 
     // Filter the salesOrderList to include only the selected orders
-    const filteredSalesOrderList = salesOrderList.filter((order: any) => selectedOrderIds.includes(order.order_id));
-
+    // const filteredSalesOrderList = salesOrderList.filter((order: any) => selectedOrderIds.includes(order.order_id));
+    let hasError;
+    const filteredSalesOrderList = salesOrderList;
     let transformedDataList: any[] = [];
-
-    filteredSalesOrderList?.forEach((order: any) => {
-      if (order.qty_size_list && order.qty_size_list.length > 0) {
-        order.qty_size_list.forEach((qtyItem: any) => {
-          let newOrder = {
-            order_id: order.order_id,
-            sales_order: order.sales_order,
-            customer: order.customer ?? '',
-            item: order.item,
-            item_name: order.item_name,
-            size: qtyItem.size,
-            production_qty: qtyItem.production_qty,
-            ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
-            soisd_item: qtyItem.soisd_item,
-            is_bunch: qtyItem.is_bunch,
-            order_weight: qtyItem.order_weight,
-            estimate_bunch_weight: qtyItem.estimate_bunch_weight,
-            market_design_name: qtyItem?.market_design_name,
-          };
-          transformedDataList.push(newOrder);
-        });
-      }
+    const changeReadySizeCheck = filteredSalesOrderList?.map((order: any) => {
+      order?.qty_size_list?.map((value: any) => {
+        console.log(value?.ready_qty, value?.production_qty, 'lllllllllllllll');
+        if (value?.qty_change === 1 && Number(value?.ready_qty) !== Number(value?.production_qty)) {
+          hasError = true;
+          setError(true);
+          toast.error('Ready Quantity must exactly match the total Quantity for this order!');
+        }
+      });
     });
+    if (!hasError) {
+      console.log('ya bhi chal ragah a');
+      filteredSalesOrderList?.forEach((order: any) => {
+        if (order.qty_size_list && order.qty_size_list.length > 0) {
+          order.qty_size_list.forEach((qtyItem: any) => {
+            let newOrder = {
+              order_id: order.order_id,
+              sales_order: order.sales_order,
+              customer: order.customer ?? '',
+              item: order.item,
+              item_name: order.item_name,
+              size: qtyItem.size,
+              production_qty: qtyItem.production_qty,
+              ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
+              soisd_item: qtyItem.soisd_item,
+              is_bunch: qtyItem.is_bunch,
+              order_weight: qtyItem.order_weight,
+              estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+              market_design_name: qtyItem?.market_design_name,
+            };
+            transformedDataList.push(newOrder);
+          });
+        }
+      });
 
-    try {
-      const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+      try {
+        const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
 
-      if (updatedData?.status === 200) {
-        toast.success('Sales order updated successfully');
+        if (updatedData?.status === 200) {
+          toast.success('Sales order updated successfully');
+        }
+      } catch (error) {
+        toast.error('Failed to update sales order');
       }
-    } catch (error) {
-      toast.error('Failed to update sales order');
     }
   };
 
@@ -1077,6 +1091,7 @@ const useOperationDetailCard = () => {
     getMachineSizeBasedOnDesignValueAPICall,
     showToneForChain,
     productCategoryAndMachineSizeCombination,
+    error,
     // getOperationCardSellsOrder,
     // sellsOrderData,
     // setSellsOrderData,

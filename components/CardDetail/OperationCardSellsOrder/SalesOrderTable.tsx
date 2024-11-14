@@ -8,7 +8,6 @@ const hasGPCItem = (operationCardDetailData: any) => {
 };
 
 const columnsBuilder = (operationCardDetailData: any, operationCardProductDept: any) => {
-  console.log(operationCardProductDept?.show_get_orders, 'yyyyyyyyyyyyyyyyyyy');
   let columnsList: string[] = [
     'Customer Name',
     'Sales Order',
@@ -36,7 +35,7 @@ const rowsBuilder = (
   doGetAllOrders: boolean,
   selectedItems: any,
   handleCheckboxChange: (order_id: string) => void,
-  handleChangesInReadyQty: (key: any, changedValue: number, order_id: string) => void,
+  handleChangesInReadyQty: (key: any, changedValue: number, order_id: string, innerArray: any) => void,
   handleCustomerChange: (order_id: any, value: any) => void,
   operationCardProductDept: any
 ) => {
@@ -116,11 +115,13 @@ const rowsBuilder = (
                   className="input_fields px-2 py-1 rounded-2 text-center"
                   style={{ width: '100%', maxWidth: '120px' }}
                   value={qtyList?.ready_qty}
-                  onChange={(e: any) => handleChangesInReadyQty(e.key, parseInt(e.target.value), rowData?.order_id)}
+                  onChange={(e: any) =>
+                    handleChangesInReadyQty(e.key, parseInt(e.target.value), rowData?.order_id, qtyList?.soisd_item)
+                  }
                   onKeyDown={(e: any) => {
                     if (e.key === 'Backspace') {
                       // Clear the value of the input field
-                      handleChangesInReadyQty(e.key, e.target.value, rowData?.order_id);
+                      handleChangesInReadyQty(e.key, e.target.value, rowData?.order_id, qtyList?.soisd_item);
                     }
                   }}
                 />
@@ -149,6 +150,7 @@ function SalesOrderTable({
   handleSalesOrderCheckboxChange,
   handleSalesOrderHeaderCheckboxChange,
   handleSalesOrderDeleteSelectedItems,
+  showError,
 }: any) {
   const [doGetAllOrders, setDoGetAllOrders] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -197,53 +199,80 @@ function SalesOrderTable({
   //   setIsHeaderCheckboxChecked(false);
   // };
 
-  const [showError, setShowError] = useState(false);
+  // const [showError, setShowError] = useState(false);
 
-  const handleChangesInReadyQty: any = (key: any, userEnteredValue: string, order_id: string) => {
+  const handleChangesInReadyQty: any = (key: any, userEnteredValue: string, order_id: string, innerArray: string) => {
     // Convert the entered value to a string
     const userValueStr = userEnteredValue.toString();
-
-    if (key === 'Backspace') {
-      setSalesOrderList((prevData: any[]) => {
-        return prevData.map((item: any) => {
-          if (item?.order_id === order_id) {
-            return { ...item, ready_qty: '' };
+    setSalesOrderList((prevData: any[]) => {
+      return prevData.map((item: any) => {
+        const updatedQtySizeList = item?.qty_size_list?.map((qty: any) => {
+          if (qty?.soisd_item === innerArray) {
+            return { ...qty, ready_qty: userValueStr, qty_change: 1 };
           }
-          return item;
+          return qty;
         });
+        return { ...item, qty_size_list: updatedQtySizeList };
       });
-    } else {
-      setSalesOrderList((prevData: any[]) => {
-        const updatedData = prevData.map((item: any) => {
-          if (item?.order_id === order_id) {
-            // Convert totalQty to string
-            const totalQtyStr = item.total_qty.toString();
+    });
+    // if (key === 'Backspace') {
+    //   setSalesOrderList((prevData: any[]) => {
+    //     return prevData.map((item: any) => {
+    //       const updatedQtySizeList = item?.qty_size_list?.map((qty: any) => {
+    //         if (qty?.soisd_item === innerArray) {
+    //           // Update the ready_qty for the matched qty
+    //           setShowError(false); // Reset error state if value is correct
+    //           return { ...qty, ready_qty: '' };
+    //         }
+    //         return qty; // Return unchanged qty if soisd_item doesn't match
+    //       });
 
-            // Check if userValue matches totalQty exactly as a string
-            if (userValueStr.length === totalQtyStr.length) {
-              if (userValueStr === totalQtyStr) {
-                setShowError(false); // Reset error state if value is correct
-                return { ...item, ready_qty: userEnteredValue };
-              } else {
-                if (!showError) {
-                  setShowError(true); // Set error state if value is incorrect
-                  toast.error('Ready Quantity must exactly match the total Quantity for this order!');
-                }
-                // Return item without updating ready_qty
-                return { ...item, ready_qty: '' };
-              }
-            } else {
-              // If the length does not match, do not show an error, just return the item
-              return { ...item, ready_qty: userEnteredValue };
-            }
-          }
-          return item;
-        });
-        return updatedData;
-      });
-    }
+    //       // Return updated item with the updated qty_size_list
+    //       return { ...item, qty_size_list: updatedQtySizeList };
+    //       return item;
+    //     });
+    //   });
+    // } else {
+    //   setSalesOrderList((prevData: any[]) => {
+    //     return prevData.map((item: any) => {
+    //       if (item?.order_id === order_id) {
+    //         const totalQtyStr = item.total_qty.toString();
+    //         if (userValueStr?.length === totalQtyStr?.length) {
+    //           if (userValueStr === totalQtyStr) {
+    //             const updatedQtySizeList = item?.qty_size_list?.map((qty: any) => {
+    //               if (qty?.soisd_item <= innerArray) {
+    //                 // Update the ready_qty for the matched qty
+    //                 setShowError(false); // Reset error state if value is correct
+    //                 return { ...qty, ready_qty: userEnteredValue };
+    //               }
+    //               return qty; // Return unchanged qty if soisd_item doesn't match
+    //             });
+
+    //             // Return updated item with the updated qty_size_list
+    //             return { ...item, qty_size_list: updatedQtySizeList };
+    //           } else {
+    //             if (!showError) {
+    //               setShowError(true);
+    //               toast.error('Ready Quantity must exactly match the total Quantity for this order!');
+    //             }
+    //             // If the entered value doesn't match total_qty, return the item as is
+    //             return { ...item };
+    //           }
+    //         } else {
+    //           const updatedQtySizeList = item?.qty_size_list?.map((qty: any) => {
+    //             if (qty?.soisd_item === innerArray) {
+    //               return { ...qty, ready_qty: userEnteredValue };
+    //             }
+    //             return qty;
+    //           });
+    //           return { ...item, qty_size_list: updatedQtySizeList };
+    //         }
+    //       }
+    //       return item; // Return unchanged item if the order_id doesn't match
+    //     });
+    //   });
+    // }
   };
-
   return (
     <div>
       <div>
