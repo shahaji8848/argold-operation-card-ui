@@ -799,7 +799,7 @@ const useOperationDetailCard = () => {
     } else {
       const isChecked = selectedSingleOrderItems.includes(itemId);
       if (isChecked) {
-        setSelectedSingleOrderItems(selectedSingleOrderItems.filter((item) => item !== itemId && isBunchTable));
+        setSelectedSingleOrderItems(selectedSingleOrderItems.filter((item) => item !== itemId));
       } else {
         setSelectedSingleOrderItems([...selectedSingleOrderItems, itemId]);
       }
@@ -814,7 +814,8 @@ const useOperationDetailCard = () => {
     setSalesOrderList(updatedData);
     setSelectedSingleOrderItems([]);
     setSelectedBunchOrderItems([]);
-    // setIsHeaderCheckboxChecked(false);
+    setIsBunchHeaderChecked(false);
+    setIsSingleHeaderChecked(false);
   };
 
   const HandleSalesOrderSave = async () => {
