@@ -828,7 +828,6 @@ const useOperationDetailCard = () => {
     let transformedDataList: any[] = [];
     const changeReadySizeCheck = filteredSalesOrderList?.map((order: any) => {
       order?.qty_size_list?.map((value: any) => {
-        console.log(value?.ready_qty, value?.production_qty, 'lllllllllllllll');
         if (value?.qty_change === 1 && Number(value?.ready_qty) !== Number(value?.production_qty)) {
           hasError = true;
           setError(true);
@@ -837,7 +836,6 @@ const useOperationDetailCard = () => {
       });
     });
     if (!hasError) {
-      console.log('ya bhi chal ragah a');
       filteredSalesOrderList?.forEach((order: any) => {
         if (order.qty_size_list && order.qty_size_list.length > 0) {
           order.qty_size_list.forEach((qtyItem: any) => {
