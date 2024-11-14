@@ -30,7 +30,7 @@ const useOperationCardList = () => {
     operation_department: '',
     karigar: '',
     bom_code: '',
-    ord:''
+    ord: '',
     // show_zero_balance: 0 || 1,
   });
 
@@ -151,25 +151,29 @@ const useOperationCardList = () => {
     // await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
-    setDepartmentInput('');
-    setProcessInput('');
-
-    // if (fieldName === 'show_zero_balance') {
-    //   setFiltersData((prevFiltersData: any) => ({
-    //     ...prevFiltersData,
-    //     [fieldName]: e.target.checked ? 1 : 0,
-    //   }));
-    // } else {
-    // }
-    setFiltersData((prevFiltersData: any) => ({
-      ...prevFiltersData,
-      product_process: '',
-      operation_department: '',
-      [fieldName]: e.target.value,
-    }));
-    if (fieldName === 'product') {
-      handleDepartmentDropdown(e.target.value);
-      // handleDepartmentChange(e, 'department');
+    if (fieldName === 'show_zero_balance') {
+      setFiltersData((prevFiltersData: any) => ({
+        ...prevFiltersData,
+        [fieldName]: e.target.checked ? 1 : 0,
+      }));
+    } else {
+      if (fieldName === 'product') {
+        setDepartmentInput('');
+        setProcessInput('');
+        setFiltersData((prevFiltersData: any) => ({
+          ...prevFiltersData,
+          product_process: '',
+          operation_department: '',
+          [fieldName]: e.target.value,
+        }));
+        handleDepartmentDropdown(e.target.value);
+        // handleDepartmentChange(e, 'department');
+      } else {
+        setFiltersData((prevFiltersData: any) => ({
+          ...prevFiltersData,
+          [fieldName]: e.target.value,
+        }));
+      }
     }
   };
   const handleSetProduct = (prod: any) => {};
@@ -202,7 +206,7 @@ const useOperationCardList = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       functionTOFetchProductDepartment();
-    }, 500);
+    }, 300);
     return () => {
       clearTimeout(timeoutId);
     };
@@ -348,7 +352,7 @@ const useOperationCardList = () => {
       operation_department: '',
       karigar: '',
       bom_code: '',
-      ord:''
+      ord: '',
       // show_zero_balance: false,
     });
     setProcessInput('');

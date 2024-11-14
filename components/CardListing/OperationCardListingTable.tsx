@@ -11,6 +11,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
           <thead className="card-listing-head">
             <tr>
               {[
+                'Sr NO',
                 'parent melting lot',
                 'Refining Process Number',
                 'Melting lot',
@@ -51,6 +52,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
               data?.map((rowData: any, index: number) => {
                 return (
                   <tr key={index}>
+                    <td className="text-end">{index + 1}</td>
                     <td className="text-uppercase">
                       {rowData?.parent_melting_lot && rowData?.parent_melting_lot !== null ? rowData?.parent_melting_lot : '--'}
                     </td>
@@ -168,8 +170,12 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td className="bold text-center">Total</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_weight')}</td>
+              <td></td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_gross_weight')}</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_fine_weight')}</td>
               <td></td>
