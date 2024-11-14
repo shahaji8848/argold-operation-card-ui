@@ -8,7 +8,7 @@ const LossReportDetailTable = ({
   getFactoryValueFromURL,
   financialYearList,
   getFinancialYearValueFromURL,
-  handleFinancialYearValuesChange1,
+  handleFinancialYearDetailValues,
   lossPeriodList,
   getLossPeriodValueFromURL,
   financialValue
@@ -24,7 +24,7 @@ const LossReportDetailTable = ({
     router.push('/report/loss-report-list');
   };
 
-  const handleLossPeriodValuesChange1 = (value: any) => {
+  const handleLossPeriodDetailValues = (value: any) => {
     setLossReportValue(value)
   }
 
@@ -109,7 +109,7 @@ const LossReportDetailTable = ({
           <div className='drop-down-container d-sm-flex pb-3 col-md-8 col-lg-8 col-xl-5 justify-content-md-end justify-content-lg-end'>
             <div className={`pe-3 ${style.spacing_report_header_mob}`}> Financial Year</div>
             <div className={`me-3 ${style.spacing_report_header_mob}`}>
-              <select value={financialValue} onChange={(e: any) => handleFinancialYearValuesChange1(e.target.value)}>
+              <select value={financialValue} onChange={(e: any) => handleFinancialYearDetailValues(e.target.value)}>
                 <option value=""></option>
                 {financialYearList?.length > 0 &&
                   financialYearList?.map((financial_year_data: any, index: number) => {
@@ -124,7 +124,7 @@ const LossReportDetailTable = ({
 
             <div className='ps-3'>Loss Report</div>
             <div className={`ms-3 ${style.spacing_report_header_mob}`}>
-              <select value={lossReportValue} onChange={(e: any) => handleLossPeriodValuesChange1(e.target.value)}>
+              <select value={lossReportValue} onChange={(e: any) => handleLossPeriodDetailValues(e.target.value)}>
                 <>
                   <option value=""></option>
                   {lossPeriodList?.length > 0 &&
@@ -286,6 +286,7 @@ const LossReportDetailTable = ({
             })}
 
             <tr className="table-text">
+              <td></td>
               <td className="font-weight-bold ">Total</td>
               <td></td>
 

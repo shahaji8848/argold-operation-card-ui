@@ -13,7 +13,7 @@ const MasterLossReportDetail = () => {
 
   const {
     financialYearList,
-    handleFinancialYearValuesChange1,
+    handleFinancialYearDetailValues,
     lossPeriodList,
     handleLossPeriodValuesChange,
     financialValue
@@ -28,7 +28,7 @@ const MasterLossReportDetail = () => {
             getLossPeriodValueFromURL={getLossPeriodValueFromURL}
             getFactoryValueFromURL={getFactoryValueFromURL}
             financialYearList={financialYearList}
-            handleFinancialYearValuesChange1={handleFinancialYearValuesChange1}
+            handleFinancialYearDetailValues={handleFinancialYearDetailValues}
             lossPeriodList={lossPeriodList}
             handleLossPeriodValuesChange={handleLossPeriodValuesChange}
             financialValue={financialValue}

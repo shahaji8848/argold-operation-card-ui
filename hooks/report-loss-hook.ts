@@ -111,7 +111,7 @@ const useReportLoss = () => {
     router.push(`${decodeURI(newUrl)}`);
   };
 
-  const handleFinancialYearValuesChange1 = (financialYearValue: any) => {
+  const handleFinancialYearDetailValues = (financialYearValue: any) => {
     getLossPeriodListAfterFinancialYear(financialYearValue);
     setFinancialValue(financialYearValue)
 
@@ -355,7 +355,7 @@ const useReportLoss = () => {
     factoryList,
     financialYearList,
     handleFinancialYearValuesChange,
-    handleFinancialYearValuesChange1,
+    handleFinancialYearDetailValues,
     getFinancialYearValueFromURL,
     perKgLossVatav,
     financialValue
