@@ -5,6 +5,7 @@ const UpdateSalesOrderAPI = async (data_list: any, doc_name: any, token: any) =>
   const params = {
     data_list: data_list,
     doc_name: doc_name,
+    update_orders: true
   };
 
   let response: any;

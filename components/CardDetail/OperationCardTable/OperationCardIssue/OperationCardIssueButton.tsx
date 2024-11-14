@@ -302,7 +302,7 @@ const OperationCardIssueButton = ({
         } else {
           if (
             operationCardDetailData?.operation_card_order_details?.length === 0 &&
-            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch')
+            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch' || mergedObjs?.item === 'Fancy')
           ) {
             let transformedDataList: any[] = [];
             // Filter the salesOrderList to include only selected orders
@@ -357,7 +357,7 @@ const OperationCardIssueButton = ({
             }
           } else if (
             operationCardDetailData?.operation_card_order_details?.length > 0 &&
-            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch')
+            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch' || mergedObjs?.item === 'Fancy')
           ) {
             let transformedDataList: any[] = [];
             // Extract all `soisd_item` from operationCardDetailData
@@ -880,6 +880,21 @@ const OperationCardIssueButton = ({
           )}
           {/* bunchSalesOrderList  */}
           {selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Bunch' && bunchOrdersWithItems?.length > 0 && (
+            <>
+              <ModalSalesTable
+                salesOrderList={bunchOrdersWithItems}
+                selectedSalesOrderData={selectedSalesOrderData}
+                setSelectedSalesOrderData={setSelectedSalesOrderData}
+                selectedCustomer={selectedCustomer}
+                setSelectedCustomer={setSelectedCustomer}
+                operationCardDetailData={operationCardDetailData}
+                showCheckbox={true}
+              />
+            </>
+          )}
+
+          {/* FancySalesOrderList  */}
+          {operationCardDetailData?.product === 'KA Chain' && selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Fancy' && bunchOrdersWithItems?.length > 0 && (
             <>
               <ModalSalesTable
                 salesOrderList={bunchOrdersWithItems}

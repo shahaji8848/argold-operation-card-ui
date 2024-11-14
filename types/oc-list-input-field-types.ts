@@ -11,5 +11,5 @@ export interface FieldTypes {
   show_zero_balance?: any;
   product_process: string;
   bom_code: string;
-  ord:string
+  ord: string
 }
