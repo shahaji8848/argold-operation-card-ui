@@ -11,7 +11,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
           <thead className="card-listing-head">
             <tr>
               {[
-                'Sr NO',
+                'Sr',
                 'parent melting lot',
                 'Refining Process Number',
                 'Melting lot',
