@@ -4,6 +4,10 @@ import style from '@/styles/report-list.module.css';
 import { useRouter } from 'next/navigation';
 import { CONSTANTS } from '@/services/config/api-config';
 import axios from 'axios';
+import POSTBulkConversion from '@/services/api/loss-period/loss-report-bulk-conversion';
+import { useSelector } from 'react-redux';
+import { get_access_token } from '@/store/slice/login-slice';
+import { toast } from 'react-toastify';
 
 const LossReportDetailTable = ({
   reportLossDetailData,
@@ -21,7 +25,7 @@ const LossReportDetailTable = ({
   const [lossReportValue, setLossReportValue] = useState('')
   const [selectedLossReport, setSelectedLossReport] = useState<string[]>([]);
   const router = useRouter();
-
+  const { token } = useSelector(get_access_token);
   const redirectToReportList = () => {
     router.push('/report/loss-report-list');
   };
@@ -90,26 +94,15 @@ const LossReportDetailTable = ({
     });
   }
 
-  const handleUnrecoverableLoss = () => {
+  const handleUnrecoverableLoss = async () => {
     // fire the post API and send the post data 
-    const apiUrl = `${CONSTANTS.API_BASE_URL}/${CONSTANTS.CUSTOM_API_PATH}/custom_app.custom_app.doctype.operation_card.operation_card_unrecoverable_loss.on_click_convert_to_unrecoverable_loss`;
+    const callBulkConversionalAPI: any = await POSTBulkConversion(lossReportValue, selectedLossReport, token);
 
-    axios.post(apiUrl, {
-      op_list: selectedLossReport,
-      loss_period: lossReportValue,
-    })
-      .then(response => {
-        console.log('Success:', response.data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-
-    // const postData = {
-    //   op_list: selectedLossReport,
-    //   loss_period: lossReportValue
-    // }
-
+    if (callBulkConversionalAPI?.status === 200) {
+      toast.success(callBulkConversionalAPI?.data?.message?.data?.success_msg);
+    } else {
+      toast.error(callBulkConversionalAPI?.data?.message?.error);
+    }
   }
 
   return (
