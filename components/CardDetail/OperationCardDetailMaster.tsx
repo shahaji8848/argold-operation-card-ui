@@ -72,6 +72,7 @@ const OperationCardDetailMaster = () => {
     handleSalesOrderHeaderCheckboxChange,
     handleSalesOrderDeleteSelectedItems,
     productCategoryAndMachineSizeCombination,
+    error,
   } = useOperationDetailCard();
 
   return (

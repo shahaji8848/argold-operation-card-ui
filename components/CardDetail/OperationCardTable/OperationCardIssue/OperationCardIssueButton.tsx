@@ -649,18 +649,18 @@ const OperationCardIssueButton = ({
   const singleOrdersWithItems = salesOrderList
     .map((order: any) => ({
       ...order,
-      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 0),
+      qty_size_list: order.qty_size_list?.filter((sizeItem: any) => sizeItem.is_bunch === 0),
     }))
-    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+    .filter((order: any) => order.qty_size_list?.length > 0); // Ensure at least one item is included
 
   // Log the filtered bunch orders with items
 
   const bunchOrdersWithItems = salesOrderList
     .map((order: any) => ({
       ...order,
-      qty_size_list: order.qty_size_list.filter((sizeItem: any) => sizeItem.is_bunch === 1),
+      qty_size_list: order.qty_size_list?.filter((sizeItem: any) => sizeItem.is_bunch === 1),
     }))
-    .filter((order: any) => order.qty_size_list.length > 0); // Ensure at least one item is included
+    .filter((order: any) => order.qty_size_list?.length > 0); // Ensure at least one item is included
 
   // Log the filtered bunch orders with items
   return (
