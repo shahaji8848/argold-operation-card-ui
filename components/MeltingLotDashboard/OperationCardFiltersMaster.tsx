@@ -19,7 +19,7 @@ const MeltingLotDashboardMaster = () => {
     handleProductBtnClicked,
     handlePageChange,
   } = useMeltingLot();
-  console.log('meltingLotList', meltingLotList);
+
   return (
     <div className="container-fluid">
       <div className="spacing-pd mb-3">
