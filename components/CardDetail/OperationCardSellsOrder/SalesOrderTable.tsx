@@ -107,27 +107,29 @@ const rowsBuilder = (
 
       {hasGPCItem(operationCardDetailData) && (
         <td className="text-center d-flex justify-content-center">
-          {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
-            return (
-              <>
-                <input
-                  type="number"
-                  className="input_fields px-2 py-1 rounded-2 text-center"
-                  style={{ width: '100%', maxWidth: '120px' }}
-                  value={qtyList?.ready_qty}
-                  onChange={(e: any) =>
-                    handleChangesInReadyQty(e.key, parseInt(e.target.value), rowData?.order_id, qtyList?.soisd_item)
-                  }
-                  onKeyDown={(e: any) => {
-                    if (e.key === 'Backspace') {
-                      // Clear the value of the input field
-                      handleChangesInReadyQty(e.key, e.target.value, rowData?.order_id, qtyList?.soisd_item);
+          <div className="d-flex flex-column">
+            {rowData?.qty_size_list?.map((qtyList: any, idx: any) => {
+              return (
+                <div key={idx} className="">
+                  <input
+                    type="number"
+                    className="input_fields px-2  rounded-2 text-center"
+                    style={{ width: '100%', maxWidth: '120px' }}
+                    value={qtyList?.ready_qty}
+                    onChange={(e: any) =>
+                      handleChangesInReadyQty(e.key, parseInt(e.target.value), rowData?.order_id, qtyList?.soisd_item)
                     }
-                  }}
-                />
-              </>
-            );
-          })}
+                    onKeyDown={(e: any) => {
+                      if (e.key === 'Backspace') {
+                        // Clear the value of the input field
+                        handleChangesInReadyQty(e.key, e.target.value, rowData?.order_id, qtyList?.soisd_item);
+                      }
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </td>
       )}
     </tr>
