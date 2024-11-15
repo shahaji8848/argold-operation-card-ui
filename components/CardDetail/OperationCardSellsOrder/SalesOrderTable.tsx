@@ -381,18 +381,19 @@ function SalesOrderTable({
                     {singleOrdersWithItems?.map((salesOrder: any) => {
                       return (
                         <>
-                          {rowsBuilder(
-                            operationCardDetailData,
-                            salesOrder,
-                            doGetAllOrders,
-                            // selectedItems,
-                            // handleCheckboxChange,
-                            selectedSingleOrderItems,
-                            (order_id: string) => handleSalesOrderCheckboxChange(order_id, false),
-                            handleChangesInReadyQty,
-                            handleCustomerChange,
-                            operationCardProductDept
-                          )}
+                          {salesOrder?.qty_size_list?.length > 0 &&
+                            rowsBuilder(
+                              operationCardDetailData,
+                              salesOrder,
+                              doGetAllOrders,
+                              // selectedItems,
+                              // handleCheckboxChange,
+                              selectedSingleOrderItems,
+                              (order_id: string) => handleSalesOrderCheckboxChange(order_id, false),
+                              handleChangesInReadyQty,
+                              handleCustomerChange,
+                              operationCardProductDept
+                            )}
                         </>
                       );
                     })}
@@ -441,18 +442,19 @@ function SalesOrderTable({
                     {bunchOrdersWithItems?.map((salesOrder: any) => {
                       return (
                         <>
-                          {rowsBuilder(
-                            operationCardDetailData,
-                            salesOrder,
-                            doGetAllOrders,
-                            // selectedItems,
-                            // handleCheckboxChange,
-                            selectedBunchOrderItems,
-                            (order_id: string) => handleSalesOrderCheckboxChange(order_id, true),
-                            handleChangesInReadyQty,
-                            handleCustomerChange,
-                            operationCardProductDept
-                          )}
+                          {salesOrder?.qty_size_list?.length > 0 &&
+                            rowsBuilder(
+                              operationCardDetailData,
+                              salesOrder,
+                              doGetAllOrders,
+                              // selectedItems,
+                              // handleCheckboxChange,
+                              selectedBunchOrderItems,
+                              (order_id: string) => handleSalesOrderCheckboxChange(order_id, true),
+                              handleChangesInReadyQty,
+                              handleCustomerChange,
+                              operationCardProductDept
+                            )}
                         </>
                       );
                     })}
