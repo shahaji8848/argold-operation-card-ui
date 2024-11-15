@@ -7,7 +7,7 @@ const UpdateSalesOrderAPI = async (data_list: any, doc_name: any, token: any) =>
     doc_name: doc_name,
     update_orders: true
   };
-
+  // remove updated
   let response: any;
 
   const config = {
