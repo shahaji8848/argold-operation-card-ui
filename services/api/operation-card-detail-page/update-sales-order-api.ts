@@ -1,12 +1,21 @@
 import { CONSTANTS } from '@/services/config/api-config';
 import axios from 'axios';
 
-const UpdateSalesOrderAPI = async (data_list: any, doc_name: any, token: any) => {
-  const params = {
-    data_list: data_list,
-    doc_name: doc_name,
-  };
-  // remove updated
+const UpdateSalesOrderAPI = async (data_list: any, doc_name: any, token: any, updated?: any) => {
+  let params;
+  if (updated) {
+    params = {
+      data_list: data_list,
+      doc_name: doc_name,
+    };
+  } else {
+    params = {
+      data_list: data_list,
+      doc_name: doc_name,
+      updated: updated,
+    };
+  }
+
   let response: any;
 
   const config = {

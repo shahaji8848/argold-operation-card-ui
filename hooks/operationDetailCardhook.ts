@@ -861,7 +861,7 @@ const useOperationDetailCard = () => {
       });
 
       try {
-        const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token);
+        const updatedData = await UpdateSalesOrderAPI(transformedDataList, operationCardDetailData?.name, token, true);
 
         if (updatedData?.status === 200) {
           toast.success('Sales order updated successfully');
