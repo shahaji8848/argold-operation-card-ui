@@ -2,6 +2,8 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import style from '@/styles/report-list.module.css';
 import { useRouter } from 'next/navigation';
+import { CONSTANTS } from '@/services/config/api-config';
+import axios from 'axios';
 
 const LossReportDetailTable = ({
   reportLossDetailData,
@@ -90,10 +92,23 @@ const LossReportDetailTable = ({
 
   const handleUnrecoverableLoss = () => {
     // fire the post API and send the post data 
-    const postData = {
+    const apiUrl = `${CONSTANTS.API_BASE_URL}/${CONSTANTS.CUSTOM_API_PATH}/custom_app.custom_app.doctype.operation_card.operation_card_unrecoverable_loss.on_click_convert_to_unrecoverable_loss`;
+
+    axios.post(apiUrl, {
       op_list: selectedLossReport,
-      loss_period: lossReportValue
-    }
+      loss_period: lossReportValue,
+    })
+      .then(response => {
+        console.log('Success:', response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+    // const postData = {
+    //   op_list: selectedLossReport,
+    //   loss_period: lossReportValue
+    // }
 
   }
 
