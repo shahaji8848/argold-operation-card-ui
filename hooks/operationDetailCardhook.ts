@@ -848,7 +848,7 @@ const useOperationDetailCard = () => {
               item_name: order.item_name,
               size: qtyItem.size,
               production_qty: qtyItem.production_qty,
-              ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
+              ready_qty: qtyItem.ready_qty,
               soisd_item: qtyItem.soisd_item,
               is_bunch: qtyItem.is_bunch,
               order_weight: qtyItem.order_weight,

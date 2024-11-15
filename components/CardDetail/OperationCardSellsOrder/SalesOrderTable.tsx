@@ -208,7 +208,7 @@ function SalesOrderTable({
       return prevData.map((item: any) => {
         const updatedQtySizeList = item?.qty_size_list?.map((qty: any) => {
           if (qty?.soisd_item === innerArray) {
-            return { ...qty, ready_qty: userValueStr, qty_change: 1 };
+            return { ...qty, ready_qty: Number(userValueStr), qty_change: 1 };
           }
           return qty;
         });
