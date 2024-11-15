@@ -25,7 +25,11 @@ const useMeltingLot = () => {
     purity: searchParams.get('purity') || '',
     design: searchParams.get('design') || '',
     page: searchParams.get('page') || '',
+    melting_plan: searchParams.get('melting_plan') || '',
+    melting_lot: searchParams.get('melting_lot') || '',
+    factory_design_name: searchParams.get('factory_design_name') || '',
   };
+  console.log(searchParams, searchParams.get('melting_plan'), searchParams.get('melting_lot'), 'SSSSSSSSSSSSSSSSSSSSSSS');
   const [filterOptions, setFilterOptions] = useState(initialFilterOptions);
 
   const constructUrl = (filterOptions: any) => {

@@ -832,7 +832,7 @@ const useOperationDetailCard = () => {
         if (value?.qty_change === 1 && Number(value?.ready_qty) !== Number(value?.production_qty)) {
           hasError = true;
           setError(true);
-          toast.error('Ready Quantity must exactly match the total Quantity for this order!');
+          toast.error('Ready Quantity must exactly match the total Quantity for this order!!');
         }
       });
     });

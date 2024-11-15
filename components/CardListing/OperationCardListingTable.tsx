@@ -3,6 +3,7 @@ import React from 'react';
 import style from '../../styles/operation-card-list.module.css';
 
 const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCheckboxInput }: any) => {
+  console.log(data, 'DATATA');
   const renderData = () => {
     if (data?.length !== 0) {
       return (
@@ -10,10 +11,12 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
           <thead className="card-listing-head">
             <tr>
               {[
+                'Sr',
                 'parent melting lot',
                 'Refining Process Number',
                 'Melting lot',
                 'purity',
+                'BOM Code',
                 'product',
                 'process',
                 'department',
@@ -28,6 +31,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                 'machine',
                 'laser powder type',
                 'tracking number',
+                'ord',
                 'description',
                 'balance',
                 'check',
@@ -48,6 +52,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
               data?.map((rowData: any, index: number) => {
                 return (
                   <tr key={index}>
+                    <td className="text-end">{index + 1}</td>
                     <td className="text-uppercase">
                       {rowData?.parent_melting_lot && rowData?.parent_melting_lot !== null ? rowData?.parent_melting_lot : '--'}
                     </td>
@@ -60,6 +65,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                     <td className="text-end">
                       {rowData?.product_purity && rowData?.product_purity !== 0 ? rowData?.product_purity : '--'}
                     </td>
+                    <td className="text-end">{rowData?.bom_code && rowData?.bom_code !== 0 ? rowData?.bom_code : '--'}</td>
                     <td>{rowData?.product && rowData?.product !== null ? rowData?.product : '--'}</td>
                     <td>
                       {rowData?.product_process && rowData?.product_process !== null
@@ -84,6 +90,7 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
                     <td className="">
                       {rowData?.tracking_number && rowData?.tracking_number !== '' ? rowData?.tracking_number : '--'}
                     </td>
+                    <td>{rowData?.ord ?? '--'}</td>
                     <td>{rowData?.description && rowData?.description !== '' ? rowData?.description : '--'}</td>
                     <td className="text-end">
                       {rowData?.balance_weight && rowData?.balance_weight !== 0
@@ -163,8 +170,12 @@ const OperationCardListingTable = ({ data, handleApprove, selectedRows, handleCh
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td className="bold text-center">Total</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_weight')}</td>
+              <td></td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_gross_weight')}</td>
               <td className="bold text-end">{CalculateTotal(data, 'balance_fine_weight')}</td>
               <td></td>

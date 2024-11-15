@@ -33,6 +33,14 @@ const OperationCardListingMaster = () => {
     filteredDepartments,
     departmentInput,
     dropdownRef,
+    processInput,
+    handleProcessChange,
+    onProcessFocusVisible,
+    handleProcessKeyDownEnter,
+    isProcessDropOpen,
+    handleProcessOptionClick,
+    processValue,
+    processRef,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
@@ -90,7 +98,6 @@ const OperationCardListingMaster = () => {
   const handleApplyFilters = () => {
     URLForFiltersHandler();
     const url = new URL(window.location.href);
-
     // Get the search parameters
     const searchParams = url.searchParams;
     // Convert the search parameters to a string
@@ -110,6 +117,8 @@ const OperationCardListingMaster = () => {
       operation_department: '',
       karigar: '',
       show_zero_balance: showZeroBalance ? '1' : '0', // Corrected value here
+      ord: '',
+      bom_code: '',
     };
 
     keyValuePairs.forEach((keyValuePair) => {
@@ -131,8 +140,7 @@ const OperationCardListingMaster = () => {
 
     // Trigger API call with the updated state
     const updatedURL: any = url.search.split('?').pop();
-    getOperationCardListFromAPI(updatedURL);
-
+    // getOperationCardListFromAPI(updatedURL);
     // URLForFiltersHandler();
   };
 
@@ -162,6 +170,8 @@ const OperationCardListingMaster = () => {
       operation_department: '',
       // product_process_department: '',
       karigar: '',
+      ord: '',
+      bom_code: '',
     };
 
     keyValuePairs.forEach((keyValuePair) => {
@@ -217,6 +227,14 @@ const OperationCardListingMaster = () => {
           filteredDepartments={filteredDepartments}
           departmentInput={departmentInput}
           dropdownRef={dropdownRef}
+          processInput={processInput}
+          handleProcessChange={handleProcessChange}
+          onProcessFocusVisible={onProcessFocusVisible}
+          handleProcessKeyDownEnter={handleProcessKeyDownEnter}
+          isProcessDropOpen={isProcessDropOpen}
+          handleProcessOptionClick={handleProcessOptionClick}
+          processValue={processValue}
+          processRef={processRef}
         />
         <div className="spacing-mt">
           <OperationCardListingTable
