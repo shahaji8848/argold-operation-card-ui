@@ -30,6 +30,7 @@ const useOperationCardList = () => {
     operation_department: '',
     karigar: '',
     bom_code: '',
+    ord:''
     // show_zero_balance: 0 || 1,
   });
 
@@ -222,6 +223,7 @@ const useOperationCardList = () => {
       operation_department: '',
       karigar: '',
       bom_code: '',
+      ord:''
       // show_zero_balance: false,
     });
     setDepartmentInput('');

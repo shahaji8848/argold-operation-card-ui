@@ -111,6 +111,7 @@ const OperationCardListingMaster = () => {
       karigar: '',
       show_zero_balance: showZeroBalance ? '1' : '0', // Corrected value here
       bom_code: '',
+      ord: ''
     };
 
     keyValuePairs.forEach((keyValuePair) => {
@@ -164,6 +165,7 @@ const OperationCardListingMaster = () => {
       // product_process_department: '',
       karigar: '',
       bom_code: '',
+      ord: ''
     };
 
     keyValuePairs.forEach((keyValuePair) => {

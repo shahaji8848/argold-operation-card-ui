@@ -48,6 +48,10 @@ const inputField = [
     name: 'bom_code',
     label: 'bom code',
   },
+  {
+    name: 'ord',
+    label: 'ord',
+  },
 ];
 
 export default inputField;
