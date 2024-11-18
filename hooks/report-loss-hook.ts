@@ -25,6 +25,7 @@ const useReportLoss = () => {
   const [selectedLossPeriodValue, setSelectedLossPeriodValue] = useState<string>('');
   const [factoryList, setFactoryList] = useState<any>([]);
   const [financialYearList, setFinancialYear] = useState<any>([]);
+  const [financialValue, setFinancialValue] = useState<any>('')
   const [perKgLossVatav, setPerKgLossVatav] = useState<any>([]);
   const disabledItems: any = {};
   const getFinancialYearList = async () => {
@@ -108,6 +109,12 @@ const useReportLoss = () => {
     // Update the URL with the modified query parameters
     const newUrl = `${currentUrl.pathname}?${queryParams.toString()}`;
     router.push(`${decodeURI(newUrl)}`);
+  };
+
+  const handleFinancialYearDetailValues = (financialYearValue: any) => {
+    getLossPeriodListAfterFinancialYear(financialYearValue);
+    setFinancialValue(financialYearValue)
+
   };
 
   const handleLossPeriodValuesChange = (lossPeriodValue: any) => {
@@ -348,8 +355,10 @@ const useReportLoss = () => {
     factoryList,
     financialYearList,
     handleFinancialYearValuesChange,
+    handleFinancialYearDetailValues,
     getFinancialYearValueFromURL,
     perKgLossVatav,
+    financialValue
   };
 };
 
