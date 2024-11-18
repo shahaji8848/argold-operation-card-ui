@@ -176,7 +176,6 @@ const OperationCardIssueButton = ({
         category_size_combination: selectedValue?.combination,
       });
 
-
       if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
         setCombinationId(combinationIdValue);
         setCombinationValueForNextMachineSize(nextMachineSize);
@@ -267,9 +266,10 @@ const OperationCardIssueButton = ({
       ...(selectedCustomer && { customer: selectedCustomer }),
       ...(modalDropdownFields.hasOwnProperty('category_size_combination') &&
         modalDropdownFields.hasOwnProperty('next_product_category') && {
-        next_product_category: combinationValueForNextProductCategory,
-      }),
-      ...((modalDropdownFields.hasOwnProperty('next_machine_size') && !modalDropdownFields?.next_machine_size) && { next_machine_size: combinationValueForNextMachineSize }),
+          next_product_category: combinationValueForNextProductCategory,
+        }),
+      ...(modalDropdownFields.hasOwnProperty('next_machine_size') &&
+        !modalDropdownFields?.next_machine_size && { next_machine_size: combinationValueForNextMachineSize }),
       ...(modalDropdownFields.hasOwnProperty('category_size_combination') && {
         category_size_combination: null,
         next_category_size_combination_id: combinationId,
@@ -277,9 +277,6 @@ const OperationCardIssueButton = ({
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
-
-    // console.log("submit values", mergedObjs, hasEmptyValue)
-    // await postSaveDesignInOP();
 
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
@@ -305,7 +302,6 @@ const OperationCardIssueButton = ({
             (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch' || mergedObjs?.item === 'Fancy')
           ) {
             let transformedDataList: any[] = [];
-            // Filter the salesOrderList to include only selected orders
 
             const filteredSalesOrderList = salesOrderList?.filter((order: any) =>
               selectedSalesOrderData.some((selectedOrder: any) => selectedOrder?.order_id === order?.order_id)
@@ -314,22 +310,41 @@ const OperationCardIssueButton = ({
             filteredSalesOrderList?.forEach((order: any) => {
               if (order.qty_size_list && order.qty_size_list.length > 0) {
                 order.qty_size_list.forEach((qtyItem: any) => {
-                  let newOrder = {
-                    order_id: order.order_id,
-                    sales_order: order.sales_order,
-                    customer: order.customer ?? '',
-                    item: order.item,
-                    item_name: order.item_name,
-                    size: qtyItem.size,
-                    production_qty: qtyItem.production_qty,
-                    ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
-                    soisd_item: qtyItem.soisd_item,
-                    is_bunch: qtyItem.is_bunch,
-                    order_weight: qtyItem.order_weight,
-                    estimate_bunch_weight: qtyItem.estimate_bunch_weight,
-                    market_design_name: qtyItem?.market_design_name,
-                  };
-                  transformedDataList.push(newOrder);
+                  if ((itemName === 'Bunch' || itemName === 'Fancy') && qtyItem?.is_bunch === 1) {
+                    let newOrder = {
+                      order_id: order.order_id,
+                      sales_order: order.sales_order,
+                      customer: order.customer ?? '',
+                      item: order.item,
+                      item_name: order.item_name,
+                      size: qtyItem.size,
+                      production_qty: qtyItem.production_qty,
+                      ready_qty: qtyItem.ready_qty,
+                      soisd_item: qtyItem.soisd_item,
+                      is_bunch: qtyItem.is_bunch,
+                      order_weight: qtyItem.order_weight,
+                      estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+                      market_design_name: qtyItem?.market_design_name,
+                    };
+                    transformedDataList.push(newOrder);
+                  } else if (itemName === 'Customer' && qtyItem?.is_bunch === 0) {
+                    let newOrder = {
+                      order_id: order.order_id,
+                      sales_order: order.sales_order,
+                      customer: order.customer ?? '',
+                      item: order.item,
+                      item_name: order.item_name,
+                      size: qtyItem.size,
+                      production_qty: qtyItem.production_qty,
+                      ready_qty: qtyItem.ready_qty,
+                      soisd_item: qtyItem.soisd_item,
+                      is_bunch: qtyItem.is_bunch,
+                      order_weight: qtyItem.order_weight,
+                      estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+                      market_design_name: qtyItem?.market_design_name,
+                    };
+                    transformedDataList.push(newOrder);
+                  }
                 });
               }
             });
@@ -894,19 +909,22 @@ const OperationCardIssueButton = ({
           )}
 
           {/* FancySalesOrderList  */}
-          {operationCardDetailData?.product === 'KA Chain' && selectedIssueBtnData?.item && selectedIssueBtnData?.item === 'Fancy' && bunchOrdersWithItems?.length > 0 && (
-            <>
-              <ModalSalesTable
-                salesOrderList={bunchOrdersWithItems}
-                selectedSalesOrderData={selectedSalesOrderData}
-                setSelectedSalesOrderData={setSelectedSalesOrderData}
-                selectedCustomer={selectedCustomer}
-                setSelectedCustomer={setSelectedCustomer}
-                operationCardDetailData={operationCardDetailData}
-                showCheckbox={true}
-              />
-            </>
-          )}
+          {operationCardDetailData?.product === 'KA Chain' &&
+            selectedIssueBtnData?.item &&
+            selectedIssueBtnData?.item === 'Fancy' &&
+            bunchOrdersWithItems?.length > 0 && (
+              <>
+                <ModalSalesTable
+                  salesOrderList={bunchOrdersWithItems}
+                  selectedSalesOrderData={selectedSalesOrderData}
+                  setSelectedSalesOrderData={setSelectedSalesOrderData}
+                  selectedCustomer={selectedCustomer}
+                  setSelectedCustomer={setSelectedCustomer}
+                  operationCardDetailData={operationCardDetailData}
+                  showCheckbox={true}
+                />
+              </>
+            )}
 
           {selectedIssueBtnData?.item && selectedIssueBtnData?.item_type === 'Gold Accessory' && meltingPlanReference === 1 && (
             <MPReferenceModal mpReferenceList={mpReferenceList} />
