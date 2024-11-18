@@ -63,6 +63,9 @@ const ModalSalesTable: any = ({
               <thead>
                 <tr className="table-text">
                   {showCheckbox && <th className="thead-dark text-center" scope="col"></th>}
+                  <td className="thead-dark text-center" scope="col">
+                    Order Date
+                  </td>
                   <th className="thead-dark text-center" scope="col">
                     Customer Name
                   </th>
@@ -115,6 +118,7 @@ const ModalSalesTable: any = ({
                               />
                             </td>
                           )}
+                          <td className="text-center">{orderData?.order_date === '' ? '--' : orderData.order_date}</td>
                           <td className="text-center">{orderData?.customer === '' ? '--' : orderData.customer}</td>
                           <td className="text-center">{orderData?.sales_order?.split('-')?.pop()}</td>
                           <td className="text-center">{orderData?.market_design_name}</td>
