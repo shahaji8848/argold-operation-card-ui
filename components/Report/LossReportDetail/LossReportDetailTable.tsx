@@ -2,8 +2,6 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import style from '@/styles/report-list.module.css';
 import { useRouter } from 'next/navigation';
-import { CONSTANTS } from '@/services/config/api-config';
-import axios from 'axios';
 import POSTBulkConversion from '@/services/api/loss-period/loss-report-bulk-conversion';
 import { useSelector } from 'react-redux';
 import { get_access_token } from '@/store/slice/login-slice';
