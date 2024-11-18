@@ -4,6 +4,7 @@ import inputField from '../../DataSet/operationCardListingField';
 import { useRouter } from 'next/navigation';
 import meltingStyle from '../../styles/melting-lot-data.module.css';
 import useOperationCardList from '@/hooks/operation-card-list-hook/operation-card-list-hook';
+import { filter } from 'mathjs';
 
 const OperationCardListingField = ({
   filtersData,
@@ -20,6 +21,7 @@ const OperationCardListingField = ({
   premittedProducts,
   handleDepartmentDropdown,
   departmentValue,
+  processValue,
   handleDepartmentChange,
   handleOptionClick,
   isDropdownOpen,
@@ -28,8 +30,17 @@ const OperationCardListingField = ({
   filteredDepartments,
   departmentInput,
   dropdownRef,
+  handleProcessOptionClick,
+  handleProcessChange,
+  processInput,
+  onProcessFocusVisible,
+  handleProcessKeyDownEnter,
+  processRef,
+  isProcessDropOpen,
+  isLoading,
 }: any) => {
   const focusRef = useRef<any>(null);
+  const focuusProcessRef = useRef<any>(null);
   const [searchField, setSearchField] = useState<string>('');
   const router = useRouter();
   const { departmentInput: newDepartmentInput } = useOperationCardList();
@@ -38,7 +49,7 @@ const OperationCardListingField = ({
       redirectToListPage();
     }
   };
-  console.log(departmentInput, newDepartmentInput, 'DEPARTMENT');
+
   const redirectToListPage = () => {
     if (searchField === '') {
       router.push('');
@@ -55,69 +66,102 @@ const OperationCardListingField = ({
   useEffect(() => {
     focusRef.current.focus();
   }, []);
-
+  console.log(processValue, 'PROCESS VALUE');
   return (
-    <div className="spacing-mt">
+    <div className="spacing-mt" style={{ paddingBottom: '7rem' }}>
       <div className="row">
-        {inputField.map((data: any, index: any) => (
-          <div className="col-md-3 mb-2" key={index}>
+        {inputField.map((data, index) => (
+          <div className="col-md-3 mb-2" key={data?.name || index}>
             <form>
-              <div className="">
-                <>
-                  <label className="w-100 dark-blue fw-bold text-capitalize fs-13">{data?.label}</label>
-                  {/* Handle department dropdown separately */}
-                  {data.label === 'department' ? (
-                    <div className="d-inline-block w-100">
-                      <div className={meltingStyle.custom_dropdown_wrapper} ref={dropdownRef}>
-                        <input
-                          type="text"
-                          className={`${meltingStyle.custom_dropdown_input}  form-control inputFields fs-13 rounded-2`}
-                          value={departmentInput}
-                          onChange={(e) => {
-                            // setSearchField(e.target.value); // Update search field state
-                            handleDepartmentChange(e, data.name);
-                          }}
-                          onFocus={(e) => onDepartmentFocusValue(e)}
-                          onKeyDown={handleKeyDownEnter}
-                          placeholder="search department"
-                          ref={data?.name === 'search' ? focusRef : null}
-                        />
-                        {isDropdownOpen && (
-                          <div className={`${meltingStyle.custom_dropdown_options}`}>
-                            {filteredDepartments?.map((list: any, idx: number) => (
-                              <div
-                                key={idx}
-                                className={`${meltingStyle.custom_dropdown_option} 
-                            
-                              `}
-                                onClick={() => handleOptionClick(list)} // Handle selection when a dropdown item is clicked
-                              >
-                                {list?.title}
-                              </div>
-                            ))}
-                            {filteredDepartments?.length === 0 && (
+              <div>
+                <label className="w-100 dark-blue fw-bold text-capitalize fs-13">{data?.label}</label>
+                {data?.label === 'department' ? (
+                  <div className="d-inline-block w-100">
+                    <div className={meltingStyle.custom_dropdown_wrapper} ref={dropdownRef}>
+                      <input
+                        type="text"
+                        className={`${meltingStyle.custom_dropdown_input} form-control inputFields fs-13 rounded-2`}
+                        value={departmentInput}
+                        onChange={(e) => handleDepartmentChange(e, data.name)}
+                        onFocus={onDepartmentFocusValue}
+                        onKeyDown={handleKeyDownEnter}
+                        placeholder="Search department"
+                        ref={data?.name === 'search' ? focusRef : null}
+                      />
+                      {isDropdownOpen &&
+                        (isLoading ? (
+                          'Loading'
+                        ) : (
+                          <div className={meltingStyle.custom_dropdown_options}>
+                            {departmentValue
+                              .filter(
+                                (department: any) => department?.title?.toLowerCase().includes(departmentInput.toLowerCase())
+                              )
+                              .map((list: any, idx: any) => (
+                                <div
+                                  key={idx}
+                                  className={meltingStyle.custom_dropdown_option}
+                                  onClick={() => handleOptionClick(list)}
+                                >
+                                  {list?.title}
+                                </div>
+                              ))}
+                            {departmentValue.length === 0 && (
                               <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
                             )}
                           </div>
-                        )}
-                      </div>
+                        ))}
                     </div>
-                  ) : (
-                    <input
-                      type="text"
-                      className="form-control inputFields fs-13 rounded-2"
-                      value={filtersData[data?.name]}
-                      onChange={(e) => {
-                        handleInputChange(e, data.name);
-                        if (data.name === 'product') {
-                          handleDepartmentDropdown(e.target.value); // Call handleProductChange when product input changes
-                        }
-                      }}
-                      onKeyDown={handleKeyDownEnter}
-                      ref={data?.name === 'search' ? focusRef : null}
-                    />
-                  )}
-                </>
+                  </div>
+                ) : data?.label === 'process' ? (
+                  <div className="d-inline-block w-100">
+                    <div className={meltingStyle.custom_dropdown_wrapper} ref={processRef}>
+                      <input
+                        type="text"
+                        className={`${meltingStyle.custom_dropdown_input} form-control inputFields fs-13 rounded-2`}
+                        value={processInput}
+                        onChange={(e) => handleProcessChange(e, data?.name)}
+                        onFocus={onProcessFocusVisible}
+                        onKeyDown={handleProcessKeyDownEnter}
+                        placeholder="Search Process"
+                        ref={data?.name === 'search' ? focusRef : null}
+                      />
+                      {isProcessDropOpen &&
+                        (isLoading ? (
+                          'Loading'
+                        ) : (
+                          <div className={meltingStyle.custom_dropdown_options}>
+                            {processValue
+                              ?.filter(
+                                (department: any) => department?.title?.toLowerCase().includes(processInput?.toLowerCase())
+                              )
+                              ?.map((list: any, idx: any) => (
+                                <div
+                                  key={idx}
+                                  className={meltingStyle.custom_dropdown_option}
+                                  onClick={() => handleProcessOptionClick(list)}
+                                >
+                                  {list?.title}
+                                </div>
+                              ))}
+                            {processValue.length === 0 && (
+                              <div className={`${meltingStyle.custom_dropdown_option} disabled`}>No options</div>
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                ) : (
+                  // Regular Input Field
+                  <input
+                    type="text"
+                    className="form-control inputFields fs-13 rounded-2"
+                    value={filtersData[data?.name]}
+                    onChange={(e) => handleInputChange(e, data.name)}
+                    onKeyDown={handleKeyDownEnter}
+                    ref={data?.name === 'search' ? focusRef : null}
+                  />
+                )}
               </div>
             </form>
           </div>
@@ -142,7 +186,7 @@ const OperationCardListingField = ({
               );
             })}
 
-          <Link href="" className="px-3 py-0 my-0 fs-14 " onClick={handleClearFilters}>
+          <Link href="" className="px-3 py-0 my-0 fs-14" onClick={handleClearFilters}>
             Clear Filter
           </Link>
 
