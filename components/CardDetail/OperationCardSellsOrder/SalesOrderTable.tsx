@@ -9,6 +9,7 @@ const hasGPCItem = (operationCardDetailData: any) => {
 
 const columnsBuilder = (operationCardDetailData: any, operationCardProductDept: any) => {
   let columnsList: string[] = [
+    'Order Date',
     'Customer Name',
     'Sales Order',
     'Order Weight',
@@ -48,6 +49,7 @@ const rowsBuilder = (
           checked={selectedItems.includes(rowData?.order_id)}
         />
       </td>
+      <td className="text-center">{rowData?.order_date ? rowData?.order_date : ''} </td>
       <td className="text-center">
         <input
           type="text"
