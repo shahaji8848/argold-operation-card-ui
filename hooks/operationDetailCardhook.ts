@@ -638,34 +638,64 @@ const useOperationDetailCard = () => {
     }
   };
 
+  // const getOperationCardDetailNextProductCategoryAPICallFunc = async () => {
+  //   if (operationCardDetailData?.melting_plan && operationCardDetailData?.melting_plan !== ' ') {
+  //     const getNextProductCategoryMeltingPlan = await GETProductProcessProductCategoryMeltingPlan(
+  //       operationCardDetailData?.melting_plan,
+  //       token
+  //     );
+  //     if (getNextProductCategoryMeltingPlan?.status === 200) {
+  //       setOperationCardNextProductCategory(
+  //         getNextProductCategoryMeltingPlan?.data?.message?.data?.map((product_category: any) => ({
+  //           name: product_category?.product_category,
+  //           value: product_category?.product_category,
+  //         }))
+  //       );
+  //     } else {
+  //       setOperationCardNextProductCategory([]);
+  //     }
+  //   } else {
+  //     const getNextProductCategory = await GETProductProcessProductCategory(operationCardDetailData?.product, token);
+  //     if (getNextProductCategory?.status === 200) {
+  //       setOperationCardNextProductCategory(
+  //         getNextProductCategory?.data?.data?.map((product_category: any) => ({
+  //           name: product_category?.name,
+  //           value: product_category?.name,
+  //         }))
+  //       );
+  //     } else {
+  //       setOperationCardNextProductCategory([]);
+  //     }
+  //   }
+  // };
+
   const getOperationCardDetailNextProductCategoryAPICallFunc = async () => {
-    if (operationCardDetailData?.melting_plan && operationCardDetailData?.melting_plan !== ' ') {
-      const getNextProductCategoryMeltingPlan = await GETProductProcessProductCategoryMeltingPlan(
-        operationCardDetailData?.melting_plan,
-        token
+    // if (operationCardDetailData?.melting_plan && operationCardDetailData?.melting_plan !== ' ') {
+    //   const getNextProductCategoryMeltingPlan = await GETProductProcessProductCategoryMeltingPlan(
+    //     operationCardDetailData?.melting_plan,
+    //     token
+    //   );
+    //   if (getNextProductCategoryMeltingPlan?.status === 200) {
+    //     setOperationCardNextProductCategory(
+    //       getNextProductCategoryMeltingPlan?.data?.message?.data?.map((product_category: any) => ({
+    //         name: product_category?.product_category,
+    //         value: product_category?.product_category,
+    //       }))
+    //     );
+    //   } else {
+    //     setOperationCardNextProductCategory([]);
+    //   }
+    // } else
+    const getNextProductCategory = await GETProductProcessProductCategory(operationCardDetailData?.product, token);
+    if (getNextProductCategory?.status === 200) {
+      setOperationCardNextProductCategory(
+        getNextProductCategory?.data?.data?.map((product_category: any) => ({
+          name: product_category?.name,
+          value: product_category?.name,
+        }))
       );
-      if (getNextProductCategoryMeltingPlan?.status === 200) {
-        setOperationCardNextProductCategory(
-          getNextProductCategoryMeltingPlan?.data?.message?.data?.map((product_category: any) => ({
-            name: product_category?.product_category,
-            value: product_category?.product_category,
-          }))
-        );
-      } else {
-        setOperationCardNextProductCategory([]);
-      }
     } else {
-      const getNextProductCategory = await GETProductProcessProductCategory(operationCardDetailData?.product, token);
-      if (getNextProductCategory?.status === 200) {
-        setOperationCardNextProductCategory(
-          getNextProductCategory?.data?.data?.map((product_category: any) => ({
-            name: product_category?.name,
-            value: product_category?.name,
-          }))
-        );
-      } else {
-        setOperationCardNextProductCategory([]);
-      }
+      setOperationCardNextProductCategory([]);
     }
   };
 

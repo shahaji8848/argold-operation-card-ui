@@ -51,7 +51,7 @@ const inputField = [
   {
     name: 'ord',
     label: 'ord',
-  }
+  },
 ];
 
 export default inputField;
