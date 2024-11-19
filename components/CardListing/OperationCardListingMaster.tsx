@@ -10,9 +10,7 @@ import { CONSTANTS } from '@/services/config/api-config';
 
 const OperationCardListingMaster = () => {
   const router = useRouter();
-  const redirectToHomepage = () => {
-    router.push('/');
-  };
+
   const {
     listData,
     filtersData,
@@ -20,6 +18,7 @@ const OperationCardListingMaster = () => {
     // handleApplyFilters,
     handleClearFilters,
     handleKeyDownEnter,
+    URLForFiltersHandler,
     constructUrl,
     handleButtonFilter,
     premittedProducts,
@@ -34,22 +33,21 @@ const OperationCardListingMaster = () => {
     filteredDepartments,
     departmentInput,
     dropdownRef,
-    isProcessDropOpen,
-    setIsProcessDropOpen,
-    handleProcessKeyDownEnter,
     processInput,
-    processValue,
-    filterProcess,
-    handleProcessOptionClick,
     handleProcessChange,
     onProcessFocusVisible,
-    isLoading,
+    handleProcessKeyDownEnter,
+    isProcessDropOpen,
+    handleProcessOptionClick,
+    processValue,
     processRef,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
   const [data, setData] = useState(filtersData);
   const [showZeroBalance, setShowZeroBalance] = useState(false);
+  const [selectAllCheckbox, setSelectAllCheckbox] = useState<any>(false);
+  const [selectedRows, setSelectedRows] = useState<any>([]);
   // const [listData, setListData] = useState<any>([]);
   const searchParams = useSearchParams();
   // const getOperationCardListFromAPI = async (url: string) => {
@@ -59,22 +57,47 @@ const OperationCardListingMaster = () => {
   //   } else {
   //     setListData([]);
   //   }
-  //   setFiltersClear(0);
+  //   // setFiltersClear(0);
   // };
   const handleCheckbox = () => {
     // Toggle the value
     setShowZeroBalance((prevShowZeroBalance) => !prevShowZeroBalance);
   };
-  const URLForFiltersHandler = () => {
-    console.log(filtersData, 'FIlTR DATA');
-    const getconstructedUrl: any = constructUrl(filtersData);
-    router.push(`${getconstructedUrl}`);
+  const handleSelectAllCheckbox: any = () => {
+    setSelectAllCheckbox((prevSelectAll: any) => {
+      const newSelectAll = !prevSelectAll;
+      if (newSelectAll) {
+        // Select all rows
+        setSelectedRows(listData?.length > 0 && listData?.map((row: any) => row?.name));
+      } else {
+        // Deselect all rows
+        setSelectedRows([]);
+      }
+      return newSelectAll;
+    });
   };
+
+  const handleCheckboxInput = (rowName: string) => {
+    setSelectedRows((prevSelectedRows: any) => {
+      if (prevSelectedRows?.includes(rowName)) {
+        // If the row is already selected, remove it from the array
+        const updatedRows = prevSelectedRows?.length > 0 && prevSelectedRows.filter((name: any) => name !== rowName);
+        // Deselect "Select All" if any individual checkbox is unchecked
+        setSelectAllCheckbox(updatedRows?.length === listData?.length);
+        return updatedRows;
+      } else {
+        // Otherwise, add the row to the array
+        const updatedRows = [...prevSelectedRows, rowName];
+        // Check "Select All" if all rows are selected
+        setSelectAllCheckbox(updatedRows?.length === listData?.length);
+        return updatedRows;
+      }
+    });
+  };
+
   const handleApplyFilters = () => {
-    console.log(filtersData, 'FIlTER DATA');
     URLForFiltersHandler();
     const url = new URL(window.location.href);
-
     // Get the search parameters
     const searchParams = url.searchParams;
     // Convert the search parameters to a string
@@ -94,6 +117,8 @@ const OperationCardListingMaster = () => {
       operation_department: '',
       karigar: '',
       show_zero_balance: showZeroBalance ? '1' : '0', // Corrected value here
+      ord: '',
+      bom_code: '',
     };
 
     keyValuePairs.forEach((keyValuePair) => {
@@ -109,13 +134,13 @@ const OperationCardListingMaster = () => {
       ...prevFiltersData,
       ...updatedFiltersData,
     }));
+
     // Set the value of show_zero_balance in the URL
     searchParams.set('show_zero_balance', showZeroBalance ? '1' : '0');
 
     // Trigger API call with the updated state
     const updatedURL: any = url.search.split('?').pop();
     // getOperationCardListFromAPI(updatedURL);
-
     // URLForFiltersHandler();
   };
 
@@ -145,6 +170,8 @@ const OperationCardListingMaster = () => {
   //     operation_department: '',
   //     // product_process_department: '',
   //     karigar: '',
+  //     ord: '',
+  //     bom_code: '',
   //   };
 
   //   keyValuePairs.forEach((keyValuePair) => {
@@ -155,15 +182,13 @@ const OperationCardListingMaster = () => {
   //     }
   //   });
 
-  //   // Update the state with the new values
   //   setData((prevFiltersData: any) => ({
   //     ...prevFiltersData,
   //     ...updatedFiltersData,
   //   }));
-  //   // getOperationCardListFromAPI(searchParamsString);
-  //   // URLForFiltersHandler();
-  // }, [searchParams]);
 
+  //   getOperationCardListFromAPI(searchParamsString);
+  // }, [searchParams]);
   return (
     <div className="container-fuild">
       {/* <div className="row spacing-pd mt-3">
@@ -187,7 +212,9 @@ const OperationCardListingMaster = () => {
           URLForFiltersHandler={URLForFiltersHandler}
           constructUrl={constructUrl}
           handleCheckbox={handleCheckbox}
+          handleSelectAllCheckbox={handleSelectAllCheckbox}
           showZeroBalance={showZeroBalance}
+          selectAllCheckbox={selectAllCheckbox}
           handleButtonFilter={handleButtonFilter}
           premittedProducts={premittedProducts}
           handleDepartmentDropdown={handleDepartmentDropdown}
@@ -200,20 +227,22 @@ const OperationCardListingMaster = () => {
           filteredDepartments={filteredDepartments}
           departmentInput={departmentInput}
           dropdownRef={dropdownRef}
-          isProcessDropOpen={isProcessDropOpen}
-          setIsProcessDropOpen={setIsProcessDropOpen}
-          handleProcessKeyDownEnter={handleProcessKeyDownEnter}
           processInput={processInput}
-          processValue={processValue}
-          filterProcess={filterProcess}
-          handleProcessOptionClick={handleProcessOptionClick}
           handleProcessChange={handleProcessChange}
           onProcessFocusVisible={onProcessFocusVisible}
+          handleProcessKeyDownEnter={handleProcessKeyDownEnter}
+          isProcessDropOpen={isProcessDropOpen}
+          handleProcessOptionClick={handleProcessOptionClick}
+          processValue={processValue}
           processRef={processRef}
-          isLoading={isLoading}
         />
         <div className="spacing-mt">
-          <OperationCardListingTable data={listData} handleApprove={handleApprove} />
+          <OperationCardListingTable
+            data={listData}
+            handleApprove={handleApprove}
+            handleCheckboxInput={handleCheckboxInput}
+            selectedRows={selectedRows}
+          />
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ const SingleViewSalesOrder = ({ salesOrderData, formatDate, groupOrdersByDesign,
   if (salesOrderData?.length === 0) {
     return (
       <div className="d-flex justify-content-center align-items-center">
-        <h3>No Single Orders Found</h3>
+        <h3>{`No ${title} Found`}</h3>
       </div>
     );
   }
