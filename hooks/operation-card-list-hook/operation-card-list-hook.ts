@@ -133,8 +133,9 @@ const useOperationCardList = () => {
     // setDepartmentValue([]); // Optionally clear the dropdown data or manage dropdown state
     setIsDropdownOpen(false);
     // // Update the URL
-    const updatedUrl = constructUrl({ ...filtersData, operation_department: selectedItem?.title });
+    router.push(constructUrl({ ...filtersData, operation_department: selectedItem?.title }));
     // await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
+    // URLForFiltersHandler();
   };
   const handleProcessOptionClick = async (selectedItem: any) => {
     setFiltersData((prevFiltersData) => ({
@@ -147,8 +148,10 @@ const useOperationCardList = () => {
     setIsProcessDropOpen(false);
     // // Update the URL
 
-    const updatedUrl = constructUrl({ ...filtersData, product_process: selectedItem?.title });
+    router.push(constructUrl({ ...filtersData, product_process: selectedItem?.title }));
     // await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
+    // Update the URL
+    // URLForFiltersHandler(); // Ensure the URL reflects the new filter state
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     if (fieldName === 'show_zero_balance') {
@@ -257,7 +260,7 @@ const useOperationCardList = () => {
         ...prevFiltersData,
         operation_department: departmentInput, // Use the current department input value
       }));
-      // URLForFiltersHandler();
+      URLForFiltersHandler();
     }
   };
 
@@ -269,7 +272,7 @@ const useOperationCardList = () => {
         ...prevFiltersData,
         product_process: processInput, // Use the current department input value
       }));
-      // URLForFiltersHandler();
+      URLForFiltersHandler();
     }
   };
 

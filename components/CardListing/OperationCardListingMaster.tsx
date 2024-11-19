@@ -66,12 +66,10 @@ const OperationCardListingMaster = () => {
     setShowZeroBalance((prevShowZeroBalance) => !prevShowZeroBalance);
   };
   const URLForFiltersHandler = () => {
-    console.log(filtersData, 'FIlTR DATA');
     const getconstructedUrl: any = constructUrl(filtersData);
     router.push(`${getconstructedUrl}`);
   };
   const handleApplyFilters = () => {
-    console.log(filtersData, 'FIlTER DATA');
     URLForFiltersHandler();
     const url = new URL(window.location.href);
 

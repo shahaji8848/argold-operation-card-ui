@@ -66,7 +66,7 @@ const OperationCardListingField = ({
   useEffect(() => {
     focusRef.current.focus();
   }, []);
-  console.log(processValue, 'PROCESS VALUE');
+
   return (
     <div className="spacing-mt" style={{ paddingBottom: '7rem' }}>
       <div className="row">
