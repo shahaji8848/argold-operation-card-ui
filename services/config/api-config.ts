@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 export const CONSTANTS = {
-  API_BASE_URL: process.env.NEXT_PUBLIC_API_URL,
+  // API_BASE_URL: process.env.NEXT_PUBLIC_API_URL,
+  API_BASE_URL: 'https://staging1-arg-manufacturing.8848digitalerp.com/',
   STANDARD_API_PATH: 'api/resource',
   CUSTOM_API_PATH: 'api/method',
 };
