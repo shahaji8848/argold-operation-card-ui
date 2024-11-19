@@ -1,8 +1,8 @@
-import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
-import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import Image from 'next/image';
 import Link from 'next/link';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import useMeltingLotSalesOrder from '@/hooks/meltingLotSalesOrderhook';
+import useOperationDetailCard from '@/hooks/operationDetailCardhook';
 import meltingStyles from '../../styles/melting-lot-data.module.css';
 
 const OperationCardTable = ({ meltingLotList }: any) => {
@@ -137,15 +137,13 @@ const OperationCardTable = ({ meltingLotList }: any) => {
               <table className="table table-bordered">
                 <thead className="card-listing-head">
                   <tr>
-                    {/* {meltingData?.columns?.map((column: any, colIndex: any) => (
-                      <th className="thead-dark text-center" scope="col" key={colIndex}>
-                        {column.replace(/_/g, ' ')}
-                      </th>
-                    ))} */}
                     {meltingData?.linked_operations &&
                       meltingData?.linked_operations.length > 0 &&
                       Object.keys(meltingData.linked_operations[0]).map((key, colIndex) =>
-                        key === 'type' || key === 'combination_name' || key === 'view_design_button' ? null : (
+                        key === 'type' ||
+                        key === 'combination_name' ||
+                        key === 'view_design_button' ||
+                        key === 'is_combination_order_added' ? null : (
                           <>
                             <th className="thead-dark text-center" scope="col" key={colIndex}>
                               {key.replace(/_/g, ' ')}
@@ -248,7 +246,9 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                         <td className="text-center">
                           {operation?.type !== 'OP Data' ? (
                             <button
-                              className={`btn btn-blue btn-py ${meltingStyles.edit_order_details_btn}`}
+                              className={`btn btn-blue btn-py ${
+                                operation?.is_combination_order_added === 1 ? 'bg-success' : 'bg-danger'
+                              }  ${meltingStyles.edit_order_details_btn}`}
                               onClick={handleMeltingLotShowOrder}
                             >
                               <Link
