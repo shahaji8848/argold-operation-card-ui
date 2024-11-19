@@ -196,7 +196,8 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                           (key, colIndex) =>
                             key !== 'combination_name' &&
                             key !== 'type' &&
-                            key !== 'view_design_button' && (
+                            key !== 'view_design_button' &&
+                            key !== 'is_combination_order_added' && (
                               <td key={colIndex} className="text-center">
                                 {operation[key] !== null && operation[key] !== undefined && operation[key] !== ''
                                   ? typeof operation[key] === 'number' && key === 'purity'
