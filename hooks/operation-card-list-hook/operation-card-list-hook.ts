@@ -31,7 +31,7 @@ const useOperationCardList = () => {
     karigar: '',
     bom_code: '',
     ord: '',
-    // show_zero_balance: 0 || 1,
+    show_zero_balance: 0,
   });
 
   const [departmentValue, setDepartmentValue] = useState<any>([]);
@@ -321,7 +321,7 @@ const useOperationCardList = () => {
       operation_department: '',
       karigar: '',
       bom_code: '',
-      // show_zero_balance: false,
+      show_zero_balance: '',
     };
     keyValuePairs.forEach((keyValuePair) => {
       const [key, value] = keyValuePair.split('=');
@@ -355,7 +355,7 @@ const useOperationCardList = () => {
       karigar: '',
       bom_code: '',
       ord: '',
-      // show_zero_balance: false,
+      show_zero_balance: 0,
     });
     setProcessInput('');
     setDepartmentInput('');
@@ -436,6 +436,19 @@ const useOperationCardList = () => {
     }
   };
 
+  const handleCheckbox = (event: any) => {
+    // Toggle the value
+    console.log(event.target.checked, 'hitttt');
+    const newValue = event.target.checked ? 1 : 0;
+    console.log(newValue, filtersData, 'FilterDATAT');
+    setFiltersData((prevFiltersData: any) => ({
+      ...prevFiltersData,
+      show_zero_balance: newValue,
+    }));
+    router.push(constructUrl({ ...filtersData, show_zero_balance: newValue }));
+    // URLForFiltersHandler();
+  };
+
   useEffect(() => {
     const product = searchParams.get('product');
     handleDepartmentDropdown(product);
@@ -480,6 +493,7 @@ const useOperationCardList = () => {
     handleProcessOptionClick,
     onProcessFocusVisible,
     isLoading,
+    handleCheckbox,
   };
 };
 

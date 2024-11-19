@@ -41,11 +41,12 @@ const OperationCardListingMaster = () => {
     handleProcessOptionClick,
     processValue,
     processRef,
+    handleCheckbox,
   } = useOperationCardList();
 
   const { token, username } = useSelector(get_access_token);
   const [data, setData] = useState(filtersData);
-  const [showZeroBalance, setShowZeroBalance] = useState(false);
+  // const [showZeroBalance, setShowZeroBalance] = useState(false);
   const [selectAllCheckbox, setSelectAllCheckbox] = useState<any>(false);
   const [selectedRows, setSelectedRows] = useState<any>([]);
   // const [listData, setListData] = useState<any>([]);
@@ -59,10 +60,7 @@ const OperationCardListingMaster = () => {
   //   }
   //   // setFiltersClear(0);
   // };
-  const handleCheckbox = () => {
-    // Toggle the value
-    setShowZeroBalance((prevShowZeroBalance) => !prevShowZeroBalance);
-  };
+
   const handleSelectAllCheckbox: any = () => {
     setSelectAllCheckbox((prevSelectAll: any) => {
       const newSelectAll = !prevSelectAll;
@@ -97,55 +95,55 @@ const OperationCardListingMaster = () => {
 
   const handleApplyFilters = () => {
     URLForFiltersHandler();
-    const url = new URL(window.location.href);
-    // Get the search parameters
-    const searchParams = url.searchParams;
-    // Convert the search parameters to a string
-    const searchParamsString = searchParams.toString();
+    //   const url = new URL(window.location.href);
+    //   // Get the search parameters
+    //   const searchParams = url.searchParams;
+    //   // Convert the search parameters to a string
+    //   const searchParamsString = searchParams.toString();
 
-    const keyValuePairs = searchParamsString?.split('&');
+    //   const keyValuePairs = searchParamsString?.split('&');
 
-    // Create an object to store the updated state
-    const updatedFiltersData: any = {
-      search: '',
-      name: '',
-      parent_melting_lot: '',
-      melting_lot: '',
-      product_purity: '',
-      product: '',
-      product_process: '',
-      operation_department: '',
-      karigar: '',
-      show_zero_balance: showZeroBalance ? '1' : '0', // Corrected value here
-      ord: '',
-      bom_code: '',
-    };
+    //   Create an object to store the updated state
+    //   const updatedFiltersData: any = {
+    //     search: '',
+    //     name: '',
+    //     parent_melting_lot: '',
+    //     melting_lot: '',
+    //     product_purity: '',
+    //     product: '',
+    //     product_process: '',
+    //     operation_department: '',
+    //     karigar: '',
+    //     show_zero_balance: showZeroBalance ? '1' : '0', // Corrected value here
+    //     ord: '',
+    //     bom_code: '',
+    //   };
 
-    keyValuePairs.forEach((keyValuePair) => {
-      const [key, value] = keyValuePair.split('=');
-      if (key in updatedFiltersData) {
-        // Replace '+' with space before updating the state
-        updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
-      }
-    });
+    //   keyValuePairs.forEach((keyValuePair) => {
+    //     const [key, value] = keyValuePair.split('=');
+    //     if (key in updatedFiltersData) {
+    //       // Replace '+' with space before updating the state
+    //       updatedFiltersData[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+    //     }
+    //   });
 
-    // Update the state with the new values
-    setData((prevFiltersData: any) => ({
-      ...prevFiltersData,
-      ...updatedFiltersData,
-    }));
+    //   // Update the state with the new values
+    //   setData((prevFiltersData: any) => ({
+    //     ...prevFiltersData,
+    //     ...updatedFiltersData,
+    //   }));
 
-    // Set the value of show_zero_balance in the URL
-    searchParams.set('show_zero_balance', showZeroBalance ? '1' : '0');
+    //   // Set the value of show_zero_balance in the URL
+    //   searchParams.set('show_zero_balance', showZeroBalance ? '1' : '0');
 
-    // Trigger API call with the updated state
-    const updatedURL: any = url.search.split('?').pop();
-    // getOperationCardListFromAPI(updatedURL);
-    // URLForFiltersHandler();
-  };
+    //   // Trigger API call with the updated state
+    //   const updatedURL: any = url.search.split('?').pop();
+    //   // getOperationCardListFromAPI(updatedURL);
+    //   // URLForFiltersHandler();
+    // };
 
-  const redirectToHome = () => {
-    router.push(`${CONSTANTS.API_BASE_URL}app`);
+    // const redirectToHome = () => {
+    //   router.push(`${CONSTANTS.API_BASE_URL}app`);
   };
 
   // useEffect(() => {
@@ -213,7 +211,7 @@ const OperationCardListingMaster = () => {
           constructUrl={constructUrl}
           handleCheckbox={handleCheckbox}
           handleSelectAllCheckbox={handleSelectAllCheckbox}
-          showZeroBalance={showZeroBalance}
+          // showZeroBalance={showZeroBalance}
           selectAllCheckbox={selectAllCheckbox}
           handleButtonFilter={handleButtonFilter}
           premittedProducts={premittedProducts}
