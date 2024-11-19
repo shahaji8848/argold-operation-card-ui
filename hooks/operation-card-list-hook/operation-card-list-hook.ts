@@ -31,7 +31,7 @@ const useOperationCardList = () => {
     karigar: '',
     bom_code: '',
     ord: '',
-    // show_zero_balance: 0 || 1,
+    show_zero_balance: 0,
   });
 
   const [departmentValue, setDepartmentValue] = useState<any>([]);
@@ -133,8 +133,9 @@ const useOperationCardList = () => {
     // setDepartmentValue([]); // Optionally clear the dropdown data or manage dropdown state
     setIsDropdownOpen(false);
     // // Update the URL
-    const updatedUrl = constructUrl({ ...filtersData, operation_department: selectedItem?.title });
+    router.push(constructUrl({ ...filtersData, operation_department: selectedItem?.title }));
     // await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
+    // URLForFiltersHandler();
   };
   const handleProcessOptionClick = async (selectedItem: any) => {
     setFiltersData((prevFiltersData) => ({
@@ -147,8 +148,10 @@ const useOperationCardList = () => {
     setIsProcessDropOpen(false);
     // // Update the URL
 
-    const updatedUrl = constructUrl({ ...filtersData, product_process: selectedItem?.title });
+    router.push(constructUrl({ ...filtersData, product_process: selectedItem?.title }));
     // await getOperationCardListFromAPI(updatedUrl); // Call the API with the new URL
+    // Update the URL
+    // URLForFiltersHandler(); // Ensure the URL reflects the new filter state
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     if (fieldName === 'show_zero_balance') {
@@ -257,7 +260,7 @@ const useOperationCardList = () => {
         ...prevFiltersData,
         operation_department: departmentInput, // Use the current department input value
       }));
-      // URLForFiltersHandler();
+      URLForFiltersHandler();
     }
   };
 
@@ -269,7 +272,7 @@ const useOperationCardList = () => {
         ...prevFiltersData,
         product_process: processInput, // Use the current department input value
       }));
-      // URLForFiltersHandler();
+      URLForFiltersHandler();
     }
   };
 
@@ -319,7 +322,7 @@ const useOperationCardList = () => {
       operation_department: '',
       karigar: '',
       bom_code: '',
-      // show_zero_balance: false,
+      show_zero_balance: '',
     };
     keyValuePairs.forEach((keyValuePair) => {
       const [key, value] = keyValuePair.split('=');
@@ -353,7 +356,7 @@ const useOperationCardList = () => {
       karigar: '',
       bom_code: '',
       ord: '',
-      // show_zero_balance: false,
+      show_zero_balance: 0,
     });
     setProcessInput('');
     setDepartmentInput('');
@@ -434,6 +437,19 @@ const useOperationCardList = () => {
     }
   };
 
+  const handleCheckbox = (event: any) => {
+    // Toggle the value
+    console.log(event.target.checked, 'hitttt');
+    const newValue = event.target.checked ? 1 : 0;
+    console.log(newValue, filtersData, 'FilterDATAT');
+    setFiltersData((prevFiltersData: any) => ({
+      ...prevFiltersData,
+      show_zero_balance: newValue,
+    }));
+    router.push(constructUrl({ ...filtersData, show_zero_balance: newValue }));
+    // URLForFiltersHandler();
+  };
+
   useEffect(() => {
     const product = searchParams.get('product');
     handleDepartmentDropdown(product);
@@ -478,6 +494,7 @@ const useOperationCardList = () => {
     handleProcessOptionClick,
     onProcessFocusVisible,
     isLoading,
+    handleCheckbox,
   };
 };
 

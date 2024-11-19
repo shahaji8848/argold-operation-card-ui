@@ -66,7 +66,7 @@ const OperationCardListingField = ({
   useEffect(() => {
     focusRef.current.focus();
   }, []);
-  console.log(processValue, 'PROCESS VALUE');
+
   return (
     <div className="spacing-mt" style={{ paddingBottom: '7rem' }}>
       <div className="row">
@@ -191,7 +191,12 @@ const OperationCardListingField = ({
           </Link>
 
           <label>
-            <input type="checkbox" checked={showZeroBalance} onChange={handleCheckbox} style={{ cursor: 'pointer' }} />
+            <input
+              type="checkbox"
+              checked={Number(filtersData?.show_zero_balance) === 1}
+              onChange={handleCheckbox}
+              style={{ cursor: 'pointer' }}
+            />
             <span className="ps-2">Show zero balance record</span>
           </label>
 
