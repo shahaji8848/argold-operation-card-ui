@@ -243,6 +243,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
                             '--'
                           )}
                         </td>
+                        {/* btn color changes based on orders availability */}
                         <td className="text-center">
                           {operation?.type !== 'OP Data' ? (
                             <button
