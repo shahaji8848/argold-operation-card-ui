@@ -122,14 +122,12 @@ const OperationCardTable = ({ meltingLotList }: any) => {
               <table className="table table-bordered">
                 <thead className="card-listing-head">
                   <tr>
-
-                    {meltingData?.linked_operations &&
                     {/* {meltingData?.columns?.map((column: any, colIndex: any) => (
                       <th className="thead-dark text-center" scope="col" key={colIndex}>
                         {column.replace(/_/g, ' ')}
                       </th>
                     ))} */}
-                  {meltingData?.linked_operations &&
+                    {meltingData?.linked_operations &&
                       meltingData?.linked_operations.length > 0 &&
                       Object.keys(meltingData.linked_operations[0]).map((key, colIndex) =>
                         key === 'type' ||
@@ -184,7 +182,7 @@ const OperationCardTable = ({ meltingLotList }: any) => {
 
                     meltingData?.linked_operations.map((operation: any, opIdx: any) => (
                       <tr key={opIdx}>
-                       {Object.keys(operation).map(
+                        {Object.keys(operation).map(
                           (key, colIndex) =>
                             key !== 'combination_name' &&
                             key !== 'type' &&
