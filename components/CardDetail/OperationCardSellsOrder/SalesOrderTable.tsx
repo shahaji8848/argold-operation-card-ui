@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
+import useCommon from '@/hooks/common';
 
 const hasGPCItem = (operationCardDetailData: any) => {
   const findGPCItem = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => issueItem?.item === 'GPC');
@@ -38,7 +39,8 @@ const rowsBuilder = (
   handleCheckboxChange: (order_id: string) => void,
   handleChangesInReadyQty: (key: any, changedValue: number, order_id: string, innerArray: any) => void,
   handleCustomerChange: (order_id: any, value: any) => void,
-  operationCardProductDept: any
+  operationCardProductDept: any,
+  formatDate: any
 ) => {
   return (
     <tr className="table-text" key={rowData?.order_id}>
@@ -48,6 +50,9 @@ const rowsBuilder = (
           onChange={() => handleCheckboxChange(rowData?.order_id)}
           checked={selectedItems.includes(rowData?.order_id)}
         />
+      </td>
+      <td>
+        <div className="text-center">{formatDate(rowData?.order_date)}</div>
       </td>
       <td className="text-center">{rowData?.order_date ? rowData?.order_date : ''} </td>
       <td className="text-center">
@@ -163,6 +168,7 @@ function SalesOrderTable({
     ...order,
     qty_size_list: order.qty_size_list?.filter((sizeItem: any) => sizeItem.is_bunch === 0),
   }));
+  const { formatDate } = useCommon();
   // .filter((order: any) => order.qty_size_list?.length > 0); // Ensure at least one item is included
   // Log the filtered bunch orders with items
 
@@ -396,7 +402,8 @@ function SalesOrderTable({
                               (order_id: string) => handleSalesOrderCheckboxChange(order_id, false),
                               handleChangesInReadyQty,
                               handleCustomerChange,
-                              operationCardProductDept
+                              operationCardProductDept,
+                              formatDate
                             )}
                         </>
                       );
@@ -457,7 +464,8 @@ function SalesOrderTable({
                               (order_id: string) => handleSalesOrderCheckboxChange(order_id, true),
                               handleChangesInReadyQty,
                               handleCustomerChange,
-                              operationCardProductDept
+                              operationCardProductDept,
+                              formatDate
                             )}
                         </>
                       );

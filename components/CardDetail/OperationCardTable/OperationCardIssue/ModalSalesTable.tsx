@@ -1,3 +1,4 @@
+import useCommon from '@/hooks/common';
 import { toast } from 'react-toastify';
 
 const ModalSalesTable: any = ({
@@ -11,6 +12,7 @@ const ModalSalesTable: any = ({
   showCheckbox,
 }: any) => {
   // Calculate totals for production qty and order weight
+  const { formatDate } = useCommon();
   const calculateTotals = () => {
     let totalProductionQty = 0;
     let totalOrderWeight = 0;
@@ -52,7 +54,6 @@ const ModalSalesTable: any = ({
 
   const { totalProductionQty, totalOrderWeight } = calculateTotals();
 
-  console.log({ salesOrderList });
   return (
     <>
       <div className="row mt-2">
@@ -118,6 +119,9 @@ const ModalSalesTable: any = ({
                               />
                             </td>
                           )}
+                          <td className="text-center">
+                            {orderData?.order_date === '' ? '--' : formatDate(orderData.order_date)}
+                          </td>
                           <td className="text-center">{orderData?.order_date === '' ? '--' : orderData.order_date}</td>
                           <td className="text-center">{orderData?.customer === '' ? '--' : orderData.customer}</td>
                           <td className="text-center">{orderData?.sales_order?.split('-')?.pop()}</td>
@@ -143,6 +147,8 @@ const ModalSalesTable: any = ({
                           <tr className="table-text" key={`total-${index}`}>
                             <td></td>
                             <td></td>
+                            <td></td>
+                            <td></td>
                             <td className="text-center">
                               <strong>Total</strong>
                             </td>
@@ -164,6 +170,8 @@ const ModalSalesTable: any = ({
                   <td className="text-center" colSpan={3}>
                     <strong>Total</strong>
                   </td>
+                  <td></td>
+                  <td></td>
                   <td className="text-center">
                     <strong>{totalProductionQty}</strong>
                   </td>
