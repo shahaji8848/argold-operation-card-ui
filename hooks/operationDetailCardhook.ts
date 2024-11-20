@@ -702,6 +702,7 @@ const useOperationDetailCard = () => {
   const getProductCategoryAndMachineSizeCombinationAPICallFunc = async () => {
     const getProductCategoryAndMachineSizeCombination = await GETProductCategoryAndMachineSizeCombination(
       operationCardDetailData?.melting_lot,
+      operationCardDetailData?.category_size_combination_id,
       token
     );
 

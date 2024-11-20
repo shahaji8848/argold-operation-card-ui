@@ -113,6 +113,7 @@ const OperationCardIssueButton = ({
   const [toneVlaueforNextProcess, setToneVlaueforNextProcess] = useState<any>([]);
   const [combinationValueForNextMachineSize, setCombinationValueForNextMachineSize] = useState<any>('');
   const [combinationValueForNextProductCategory, setCombinationValueForNextProductCategory] = useState<any>('');
+  const [combinationValueForNextDesign, setCombinationValueForNextDesign] = useState<any>('');
   const [combinationId, setCombinationId] = useState<any>('');
 
   // Below State is to create an object of dropdown values
@@ -163,10 +164,10 @@ const OperationCardIssueButton = ({
 
   // const { getMachineSizeBasedOnDesignValueAPICall }: any = useOperationDetailCard();
   const handleDropDownValuesChange = (labelValue: string, selectedValue: any) => {
-    // console.log("handle", labelValue, selectedValue)
     if (labelValue === 'category_size_combination' || labelValue === 'next_machine_size') {
       const nextMachineSize = selectedValue?.machine_size;
       const nextProductCategory = selectedValue.product_category;
+      const nextDesign = selectedValue?.design;
 
       // const nextProductCategory = selectedValue?.product_category ? selectedValue?.product_category : selectedValue?.name;
       const combinationIdValue = selectedValue?.category_size_combination_id;
@@ -176,11 +177,16 @@ const OperationCardIssueButton = ({
         category_size_combination: selectedValue?.combination,
       });
 
-
-      if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
+      if (
+        combinationIdValue !== undefined ||
+        nextMachineSize !== undefined ||
+        nextProductCategory !== undefined ||
+        nextDesign !== undefined
+      ) {
         setCombinationId(combinationIdValue);
         setCombinationValueForNextMachineSize(nextMachineSize);
         setCombinationValueForNextProductCategory(nextProductCategory);
+        setCombinationValueForNextDesign(nextDesign);
       }
     }
 
@@ -267,9 +273,14 @@ const OperationCardIssueButton = ({
       ...(selectedCustomer && { customer: selectedCustomer }),
       ...(modalDropdownFields.hasOwnProperty('category_size_combination') &&
         modalDropdownFields.hasOwnProperty('next_product_category') && {
-        next_product_category: combinationValueForNextProductCategory,
-      }),
-      ...((modalDropdownFields.hasOwnProperty('next_machine_size') && !modalDropdownFields?.next_machine_size) && { next_machine_size: combinationValueForNextMachineSize }),
+          next_product_category: combinationValueForNextProductCategory,
+        }),
+      ...(modalDropdownFields.hasOwnProperty('next_machine_size') &&
+        !modalDropdownFields?.next_machine_size && { next_machine_size: combinationValueForNextMachineSize }),
+
+      ...(modalDropdownFields.hasOwnProperty('next_design') &&
+        !modalDropdownFields?.next_design && { next_design: combinationValueForNextDesign }),
+
       ...(modalDropdownFields.hasOwnProperty('category_size_combination') && {
         category_size_combination: null,
         next_category_size_combination_id: combinationId,
@@ -277,9 +288,6 @@ const OperationCardIssueButton = ({
     };
 
     const hasEmptyValue = Object?.values(mergedObjs).some((value) => value === '' || value === undefined);
-
-    // console.log("submit values", mergedObjs, hasEmptyValue)
-    // await postSaveDesignInOP();
 
     if (!hasEmptyValue) {
       setDisableSubmitBtn((prev) => !prev);
@@ -489,6 +497,7 @@ const OperationCardIssueButton = ({
     setMachineSizeBasedOnDesignValue([]);
     setCombinationValueForNextMachineSize('');
     setCombinationValueForNextProductCategory('');
+    setCombinationValueForNextDesign('');
     setCombinationId('');
   };
 
