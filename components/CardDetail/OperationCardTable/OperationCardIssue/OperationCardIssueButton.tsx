@@ -786,6 +786,9 @@ const OperationCardIssueButton = ({
                                 (val?.label === 'next_product_category'
                                   ? combinationValueForNextProductCategory
                                   : initialValueForActiveField[val?.label]) ||
+                                (val?.label === 'next_design'
+                                  ? combinationValueForNextDesign
+                                  : initialValueForActiveField[val?.label]) ||
                                 (val?.label === 'next_category_size_combination_id'
                                   ? combinationId
                                   : initialValueForActiveField[val?.label]) ||
