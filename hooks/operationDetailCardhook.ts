@@ -713,6 +713,7 @@ const useOperationDetailCard = () => {
           value: combinationData?.combination,
           product_category: combinationData?.product_category,
           machine_size: combinationData?.machine_size,
+          design: combinationData?.design,
           category_size_combination_id: combinationData?.category_size_combination_id,
         }))
       );
