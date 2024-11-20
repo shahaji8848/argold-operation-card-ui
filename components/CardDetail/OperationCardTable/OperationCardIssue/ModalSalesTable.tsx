@@ -122,6 +122,7 @@ const ModalSalesTable: any = ({
                           <td className="text-center">
                             {orderData?.order_date === '' ? '--' : formatDate(orderData.order_date)}
                           </td>
+                          <td className="text-center">{orderData?.order_date === '' ? '--' : orderData.order_date}</td>
                           <td className="text-center">{orderData?.customer === '' ? '--' : orderData.customer}</td>
                           <td className="text-center">{orderData?.sales_order?.split('-')?.pop()}</td>
                           <td className="text-center">{orderData?.market_design_name}</td>

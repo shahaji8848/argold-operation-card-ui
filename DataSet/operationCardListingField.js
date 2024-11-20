@@ -46,7 +46,7 @@ const inputField = [
   },
   {
     name: 'bom_code',
-    label: 'bom code',
+    label: 'BOM Code',
   },
   {
     name: 'ord',

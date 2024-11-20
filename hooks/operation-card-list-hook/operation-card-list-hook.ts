@@ -69,7 +69,6 @@ const useOperationCardList = () => {
 
   const handleDepartmentChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     const value = e.target.value;
-
     // handleInputChange(e, fieldName);
     setDepartmentInput(value);
     // if (!value && !filtersData.product) {

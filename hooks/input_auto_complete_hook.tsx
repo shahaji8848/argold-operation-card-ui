@@ -40,7 +40,7 @@ const useInputAutoComplete = (listOfDropdownValues?: any, initialValue?: any, ha
 
   const handleSuggestionClickAutoComplete = (suggestion: any) => {
     setInputValueAutoComplete({
-      name: suggestion.name,
+      name: suggestion?.name,
       value: suggestion?.value,
     });
     setShowSuggestionsAutoComplete(false);

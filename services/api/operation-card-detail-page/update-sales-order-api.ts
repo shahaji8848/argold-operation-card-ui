@@ -1,6 +1,7 @@
 import { CONSTANTS } from '@/services/config/api-config';
 import axios from 'axios';
 
+
 const UpdateSalesOrderAPI = async (data_list: any, doc_name: any, token: any, updated?: any) => {
   let params;
   if (updated) {
@@ -15,6 +16,7 @@ const UpdateSalesOrderAPI = async (data_list: any, doc_name: any, token: any, up
       updated: updated,
     };
   }
+
 
   let response: any;
 
