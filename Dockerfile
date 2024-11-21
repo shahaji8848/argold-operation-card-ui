@@ -13,15 +13,11 @@ RUN npm install
 # Install 'sharp' dependency separately (if needed)
 RUN npm i sharp
 
-# Install PM2 globally
-RUN npm install -g pm2
-
 # Copy the rest of the application code
 COPY . .
 
 # Expose the port Next.js will run on
 EXPOSE 3000
 
-# Use PM2 to run the application with the 'dev' script and no-daemon flag to keep it running
-# Add a command to keep the container running
-CMD ["sh", "-c", "pm2-runtime start npm --name argold-operation-card-ui -- run dev -- --port 3000 && tail -f /dev/null"]
+# Run the Next.js application using npm (without PM2)
+CMD ["npm", "run", "dev", "--", "--port", "3000"]
