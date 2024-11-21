@@ -1,32 +1,26 @@
-# Stage 1: Build the application
-FROM node:20 AS build
+# Base image
+FROM node:20-alpine
 
-# Set the working directory in the container
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json (if present)
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Copy application code
 COPY . .
 
-# Build the React app
-RUN npm run build
+# Ensure the entry script is executable (if you have a custom entry script)
+RUN chmod +x ./docker-entrypoint.sh
 
-# Stage 2: Create the production image
-FROM nginx:alpine AS production
+# Expose the port the app runs on
+EXPOSE 3000
 
-# Copy the build output from the build stage to the nginx directory
-COPY --from=build /app/build /usr/share/nginx/html
+# Use an entrypoint script if needed
+ENTRYPOINT ["sh", "-c"]
 
-# Check the contents of the build directory
-RUN ls -alh /usr/share/nginx/html
-
-# Expose the port Nginx will run on
-EXPOSE 80
-
-# Start the Nginx server in the foreground
-CMD ["nginx", "-g", "daemon off;"]
+# Start the application
+CMD ["npm start"]
