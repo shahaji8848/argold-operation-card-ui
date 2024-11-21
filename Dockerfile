@@ -5,8 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 # Install dependencies
 RUN npm install
-# Install 'sharp' dependency separately (if needed)
-RUN npm install sharp
+RUN npm i sharp
 # Copy the rest of the application code
 COPY . .
 # Expose the port
