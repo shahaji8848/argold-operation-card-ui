@@ -183,11 +183,12 @@ const OperationCardIssueButton = ({
         nextProductCategory !== undefined ||
         nextDesign !== undefined
       ) {
-      if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
-        setCombinationId(combinationIdValue);
-        setCombinationValueForNextMachineSize(nextMachineSize);
-        setCombinationValueForNextProductCategory(nextProductCategory);
-        setCombinationValueForNextDesign(nextDesign);
+        if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
+          setCombinationId(combinationIdValue);
+          setCombinationValueForNextMachineSize(nextMachineSize);
+          setCombinationValueForNextProductCategory(nextProductCategory);
+          setCombinationValueForNextDesign(nextDesign);
+        }
       }
     }
 
@@ -615,10 +616,10 @@ const OperationCardIssueButton = ({
     });
 
     filterArray = filterArray.map((obj) => {
-      const updatedObj: any = { ...obj }; // Create a copy of the original object
+      const updatedObj: any = { ...obj };
       Object.keys(updatedObj).forEach((key) => {
         if (key.startsWith('show_')) {
-          const label = key.replace('show_', ''); // Remove "show_" from the key
+          const label = key.replace('show_', '');
           updatedObj[key] = obj[key];
           updatedObj['label'] = label; // Add the "label" key with the modified label value
         }
