@@ -16,8 +16,8 @@ RUN npm install sharp
 # Copy the rest of the application code
 COPY . .
 
-# Expose the port Next.js will run on
+# Expose the port
 EXPOSE 3000
 
-# Run the Next.js application using npm (development mode)
+# Run the application using npm (development mode)
 CMD ["npm", "run", "dev", "--", "--port", "3000"]
