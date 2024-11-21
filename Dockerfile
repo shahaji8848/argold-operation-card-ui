@@ -1,4 +1,4 @@
-# Use the official Node.js image as the base image
+# Use the official Node.js image as the base image for building the app
 FROM node:20 AS build
 
 # Set the working directory in the container
@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Install 'sharp' dependency separately (if needed)
-RUN npm i sharp
+RUN npm install sharp
 
 # Copy the rest of the application code
 COPY . .
@@ -19,5 +19,5 @@ COPY . .
 # Expose the port Next.js will run on
 EXPOSE 3000
 
-# Run the Next.js application using npm (without PM2)
+# Run the Next.js application using npm (development mode)
 CMD ["npm", "run", "dev", "--", "--port", "3000"]
