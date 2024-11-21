@@ -54,6 +54,7 @@ const rowsBuilder = (
       <td>
         <div className="text-center">{formatDate(rowData?.order_date)}</div>
       </td>
+      <td className="text-center">{rowData?.order_date ? rowData?.order_date : ''} </td>
       <td className="text-center">
         <input
           type="text"

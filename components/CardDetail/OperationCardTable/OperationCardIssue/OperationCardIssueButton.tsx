@@ -183,6 +183,7 @@ const OperationCardIssueButton = ({
         nextProductCategory !== undefined ||
         nextDesign !== undefined
       ) {
+      if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
         setCombinationId(combinationIdValue);
         setCombinationValueForNextMachineSize(nextMachineSize);
         setCombinationValueForNextProductCategory(nextProductCategory);
@@ -310,10 +311,9 @@ const OperationCardIssueButton = ({
         } else {
           if (
             operationCardDetailData?.operation_card_order_details?.length === 0 &&
-            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch')
+            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch' || mergedObjs?.item === 'Fancy')
           ) {
             let transformedDataList: any[] = [];
-            // Filter the salesOrderList to include only selected orders
 
             const filteredSalesOrderList = salesOrderList?.filter((order: any) =>
               selectedSalesOrderData.some((selectedOrder: any) => selectedOrder?.order_id === order?.order_id)
@@ -322,22 +322,41 @@ const OperationCardIssueButton = ({
             filteredSalesOrderList?.forEach((order: any) => {
               if (order.qty_size_list && order.qty_size_list.length > 0) {
                 order.qty_size_list.forEach((qtyItem: any) => {
-                  let newOrder = {
-                    order_id: order.order_id,
-                    sales_order: order.sales_order,
-                    customer: order.customer ?? '',
-                    item: order.item,
-                    item_name: order.item_name,
-                    size: qtyItem.size,
-                    production_qty: qtyItem.production_qty,
-                    ready_qty: qtyItem.ready_qty, // Ensure you are sending the correct ready_qty
-                    soisd_item: qtyItem.soisd_item,
-                    is_bunch: qtyItem.is_bunch,
-                    order_weight: qtyItem.order_weight,
-                    estimate_bunch_weight: qtyItem.estimate_bunch_weight,
-                    market_design_name: qtyItem?.market_design_name,
-                  };
-                  transformedDataList.push(newOrder);
+                  if ((itemName === 'Bunch' || itemName === 'Fancy') && qtyItem?.is_bunch === 1) {
+                    let newOrder = {
+                      order_id: order.order_id,
+                      sales_order: order.sales_order,
+                      customer: order.customer ?? '',
+                      item: order.item,
+                      item_name: order.item_name,
+                      size: qtyItem.size,
+                      production_qty: qtyItem.production_qty,
+                      ready_qty: qtyItem.ready_qty,
+                      soisd_item: qtyItem.soisd_item,
+                      is_bunch: qtyItem.is_bunch,
+                      order_weight: qtyItem.order_weight,
+                      estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+                      market_design_name: qtyItem?.market_design_name,
+                    };
+                    transformedDataList.push(newOrder);
+                  } else if (itemName === 'Customer' && qtyItem?.is_bunch === 0) {
+                    let newOrder = {
+                      order_id: order.order_id,
+                      sales_order: order.sales_order,
+                      customer: order.customer ?? '',
+                      item: order.item,
+                      item_name: order.item_name,
+                      size: qtyItem.size,
+                      production_qty: qtyItem.production_qty,
+                      ready_qty: qtyItem.ready_qty,
+                      soisd_item: qtyItem.soisd_item,
+                      is_bunch: qtyItem.is_bunch,
+                      order_weight: qtyItem.order_weight,
+                      estimate_bunch_weight: qtyItem.estimate_bunch_weight,
+                      market_design_name: qtyItem?.market_design_name,
+                    };
+                    transformedDataList.push(newOrder);
+                  }
                 });
               }
             });
@@ -365,7 +384,7 @@ const OperationCardIssueButton = ({
             }
           } else if (
             operationCardDetailData?.operation_card_order_details?.length > 0 &&
-            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch')
+            (mergedObjs?.item === 'Customer' || mergedObjs?.item === 'Bunch' || mergedObjs?.item === 'Fancy')
           ) {
             let transformedDataList: any[] = [];
             // Extract all `soisd_item` from operationCardDetailData
@@ -503,7 +522,14 @@ const OperationCardIssueButton = ({
 
   const [showMeltingLotSalesOrder, setShowMeltingLotSalesOrder] = useState<any>();
 
-  const handleShow = (value: any, add_melting_plan_reference_details: any, view_melting_lot_orders: any) => {
+  const [showCategorySizeCombination, setShowCategorySizeCombination] = useState<any>();
+
+  const handleShow = (
+    value: any,
+    add_melting_plan_reference_details: any,
+    view_melting_lot_orders: any,
+    show_category_size_combination: any
+  ) => {
     setShow(true);
     setItemName(value);
 
@@ -511,6 +537,9 @@ const OperationCardIssueButton = ({
 
     setMeltingPlanReference(add_melting_plan_reference_details);
     setShowMeltingLotSalesOrder(view_melting_lot_orders);
+    // setShowMeltingLotSalesOrder(show_melting_lot_orders);
+    setShowCategorySizeCombination(show_category_size_combination);
+
     // Find a specific item object in operationCardDetailData, with specific logic for "hook"
     const getSelectedItemObj: any = operationCardDetailData?.operation_card_issue_details?.find((issueItem: any) => {
       // Check if the value is "hook"
@@ -688,7 +717,14 @@ const OperationCardIssueButton = ({
                   <button
                     type="button"
                     className={`btn btn-blue btn-py  mt-1 px-3 ms-2`}
-                    onClick={() => handleShow(val.item, val?.add_melting_plan_reference_details, val?.view_melting_lot_orders)}
+                    onClick={() =>
+                      handleShow(
+                        val.item,
+                        val?.add_melting_plan_reference_details,
+                        val?.view_melting_lot_orders,
+                        val?.show_category_size_combination
+                      )
+                    }
                     key={i}
                   >
                     {val?.item}
@@ -887,6 +923,24 @@ const OperationCardIssueButton = ({
               />
             </>
           )}
+
+          {/* FancySalesOrderList  */}
+          {operationCardDetailData?.product === 'KA Chain' &&
+            selectedIssueBtnData?.item &&
+            selectedIssueBtnData?.item === 'Fancy' &&
+            bunchOrdersWithItems?.length > 0 && (
+              <>
+                <ModalSalesTable
+                  salesOrderList={bunchOrdersWithItems}
+                  selectedSalesOrderData={selectedSalesOrderData}
+                  setSelectedSalesOrderData={setSelectedSalesOrderData}
+                  selectedCustomer={selectedCustomer}
+                  setSelectedCustomer={setSelectedCustomer}
+                  operationCardDetailData={operationCardDetailData}
+                  showCheckbox={true}
+                />
+              </>
+            )}
 
           {selectedIssueBtnData?.item && selectedIssueBtnData?.item_type === 'Gold Accessory' && meltingPlanReference === 1 && (
             <MPReferenceModal mpReferenceList={mpReferenceList} />
