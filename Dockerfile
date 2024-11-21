@@ -1,4 +1,4 @@
-# Stage 1: Build the application
+# Stage 1: Build the React application
 FROM node:20 AS build
 
 # Set the working directory in the container
