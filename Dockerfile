@@ -1,4 +1,4 @@
-# Use the official Node.js image as the base image for building the app
+  GNU nano 6.2                                                  Dockerfile                                                           # Use the official Node.js image as the base image for building the app
 FROM node:20 AS build
 
 # Set the working directory in the container
