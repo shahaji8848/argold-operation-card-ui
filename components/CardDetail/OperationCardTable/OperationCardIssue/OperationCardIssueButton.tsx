@@ -183,11 +183,12 @@ const OperationCardIssueButton = ({
         nextProductCategory !== undefined ||
         nextDesign !== undefined
       ) {
-      if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
-        setCombinationId(combinationIdValue);
-        setCombinationValueForNextMachineSize(nextMachineSize);
-        setCombinationValueForNextProductCategory(nextProductCategory);
-        setCombinationValueForNextDesign(nextDesign);
+        if (combinationIdValue !== undefined || nextMachineSize !== undefined || nextProductCategory !== undefined) {
+          setCombinationId(combinationIdValue);
+          setCombinationValueForNextMachineSize(nextMachineSize);
+          setCombinationValueForNextProductCategory(nextProductCategory);
+          setCombinationValueForNextDesign(nextDesign);
+        }
       }
     }
 
