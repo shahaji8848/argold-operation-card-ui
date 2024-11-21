@@ -23,4 +23,5 @@ COPY . .
 EXPOSE 3000
 
 # Use PM2 to run the application with the 'dev' script and no-daemon flag to keep it running
-CMD ["pm2-runtime", "start", "npm", "--name", "argold-operation-card-ui", "--", "run", "dev", "--", "--port", "3000"]
+# Add a command to keep the container running
+CMD ["sh", "-c", "pm2-runtime start npm --name argold-operation-card-ui -- run dev -- --port 3000 && tail -f /dev/null"]
